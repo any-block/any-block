@@ -88,27 +88,49 @@ const abc_width = ABConvert.factory({
       // 如果是纯数字（整数或小数）则添加px单位，否则保持原样
       return /^\d*\.?\d+$/.test(trimmed) ? `${trimmed}px` : trimmed
     })
-    console.log(args)
+    // console.log(args) // 测试日志
     if(content.children.length!=1) return content
 
-    
-
-    // 检查容器是否包含需要处理的类名
-    if (!content.children[0].classList.contains('ab-col')) return content
-    
-    const sub_els =  content.children[0].children
-    if(sub_els.length==0) return content
-    for(let i=0;i<sub_els.length;i++){
-      if(args[i]){
-        const sub_el = sub_els[i] as HTMLElement
-        if(args[i].endsWith("%")) sub_el.style.flex = `0 1 ${args[i]}`
-        else if (args[i].endsWith('px')) {
-          sub_el.style.width = args[i]
-          sub_el.style.flex = `0 0 auto`
+    // 检查容器是否包含需要处理的类名, 根据不同的容器, 处理方式不同
+    switch(true){
+      case content.children[0].classList.contains('ab-col'): {
+        const sub_els = content.children[0].children
+        if(sub_els.length==0) return content
+        // 允许参数与分栏数量不一致，多的部分会被忽略 
+        for(let i=0;i<sub_els.length && i<args.length;i++){
+          const sub_el = sub_els[i] as HTMLElement
+          if(args[i].endsWith("%")) sub_el.style.flex = `0 1 ${args[i]}`
+          else if (args[i].endsWith('px')) {
+            sub_el.style.width = args[i]
+            sub_el.style.flex = `0 0 auto`
+          }
         }
+        return content
       }
+      case content.children[0].querySelector('table') !== null: {
+        const table = content.children[0].querySelector('table')
+        if (!table) return content
+        // 设置表格布局为fixed
+        table.style.tableLayout = 'fixed'
+        // TODO 目前无法处理百分比和像素混合的参数
+        // 检查是否所有的参数都是像素单位
+        const allPixels = args.every(arg => arg.endsWith('px'))
+        // 如果全是像素单位，使用fit-content；否则使用100%
+        table.style.width = allPixels ? 'fit-content' : '100%'
+        const rows = table.querySelectorAll('tr')
+        for(const row of rows) {
+          for(let i = 0; i < row.children.length && i < args.length; i++) {
+            const cell = row.children[i] as HTMLElement
+            cell.style.width = args[i]
+            cell.style.minWidth = args[i]
+            cell.style.maxWidth = args[i]
+          }
+        }
+        return content
+      }
+      default:
+        return content
     }
-    return content
   }
 })
 
@@ -216,7 +238,7 @@ const abc_addClass = ABConvert.factory({
 const abc_addDiv = ABConvert.factory({
   id: "addDiv",
   name: "增加div和class",
-  detail: "给当前块增��一个父类，需要给这个父类一个类名",
+  detail: "给当前块增加一个父类，需要给这个父类一个类名",
   match: /^addDiv\((.*)\)$/,
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
