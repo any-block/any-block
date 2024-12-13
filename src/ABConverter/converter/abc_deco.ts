@@ -69,6 +69,49 @@ const abc_fold = ABConvert.factory({
   }
 })
 
+  // 可以匹配如:
+  // width(25%,25%,50%)
+  // width(100px,200px) 
+  // width(100)
+  // width(10.5%,20.5px)
+const abc_width = ABConvert.factory({
+  id: "width",
+  name: "宽度控制",
+  match: /^width\(((?:\d*\.?\d+(?:%|px)?,\s*)*\d*\.?\d+(?:%|px)?)\)$/,
+  process_param: ABConvert_IOEnum.el,
+  process_return: ABConvert_IOEnum.el,
+  process: (el, header, content: HTMLElement): HTMLElement=>{
+    const matchs = header.match(/^width\(((?:\d*\.?\d+(?:%|px)?,\s*)*\d*\.?\d+(?:%|px)?)\)$/)
+    if (!matchs) return content
+    const args = matchs[1].split(",").map(arg => {
+      const trimmed = arg.trim()
+      // 如果是纯数字（整数或小数）则添加px单位，否则保持原样
+      return /^\d*\.?\d+$/.test(trimmed) ? `${trimmed}px` : trimmed
+    })
+    console.log(args)
+    if(content.children.length!=1) return content
+
+    
+
+    // 检查容器是否包含需要处理的类名
+    if (!content.children[0].classList.contains('ab-col')) return content
+    
+    const sub_els =  content.children[0].children
+    if(sub_els.length==0) return content
+    for(let i=0;i<sub_els.length;i++){
+      if(args[i]){
+        const sub_el = sub_els[i] as HTMLElement
+        if(args[i].endsWith("%")) sub_el.style.flex = `0 1 ${args[i]}`
+        else if (args[i].endsWith('px')) {
+          sub_el.style.width = args[i]
+          sub_el.style.flex = `0 0 auto`
+        }
+      }
+    }
+    return content
+  }
+})
+
 const abc_scroll = ABConvert.factory({
   id: "scroll",
   name: "滚动",
@@ -173,7 +216,7 @@ const abc_addClass = ABConvert.factory({
 const abc_addDiv = ABConvert.factory({
   id: "addDiv",
   name: "增加div和class",
-  detail: "给当前块增加一个父类，需要给这个父类一个类名",
+  detail: "给当前块增��一个父类，需要给这个父类一个类名",
   match: /^addDiv\((.*)\)$/,
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
