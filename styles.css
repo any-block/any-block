@@ -668,7 +668,7 @@ html[data-theme="dark"] #app {
 .ab-note .ab-items.ab-col {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0rem;
 }
 
 .ab-note .ab-items.ab-col .ab-items-item {

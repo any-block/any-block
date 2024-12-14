@@ -667,7 +667,7 @@ html[data-theme="dark"] #app {
     &.ab-col{
       display: flex; // Flexbox 布局
       flex-wrap: wrap; // 元素换行显示
-      gap: 1rem; // 间隙
+      gap: 0rem; // 间隙
       .ab-items-item {        
         flex: 1 0 calc(33.33% - 1rem); // 每个项目的宽度大约为容器的 33.33%，减去间隙的一半
         box-sizing: border-box; // 确保 padding 和 border 不影响元素的实际大小

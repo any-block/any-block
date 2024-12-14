@@ -171,7 +171,6 @@ const abc_overfold = ABConvert.factory({
       const args = matchs[1].split(",").map(arg => 
         /^\d*\.?\d+$/.test(arg.trim()) ? `${arg.trim()}%` : arg.trim()
       )
-  
       // 检查容器是否包含需要处理的类名, 根据不同的容器, 处理方式不同
       switch(true){
         // ab-col支持渲染混合单位参数
@@ -239,7 +238,7 @@ const abc_addClass = ABConvert.factory({
 const abc_addDiv = ABConvert.factory({
   id: "addDiv",
   name: "增加div和class",
-  detail: "给当前��增加一个父类，需要给这个父类一个类名",
+  detail: "给当前块增加一个父类，需要给这个父类一个类名",
   match: /^addDiv\((.*)\)$/,
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
