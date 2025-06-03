@@ -483,8 +483,8 @@ text3
 
 [list2pumlActivityDiagram]
 
-- start
 - lane l1:
+  - start
   - group g1:
     - if condition a:
       - a branch
@@ -510,7 +510,7 @@ text3
     - loop body
   - print('loop end')
 - lane l1:
-- end
+  - end
 
 ### python/缩进形式
 
@@ -519,8 +519,8 @@ text3
 [code2list|list2pumlActivityDiagram]
 
 \`\`\`python
-start
 lane l1:
+  start
   group g1:
     if condition a:
       a branch
@@ -553,7 +553,7 @@ lane l2:
   print('loop end')
 
 lane l1:
-end
+  end
 \`\`\`
 
 其中也可以用region注释在code2list的过程中表示缩进
@@ -831,10 +831,7 @@ ${n}
 `).filter(t=>t!=="").map(t=>k8+t).join(`
 `)+`
 `}function a2(e){let t=`@startuml
-`;const n=e.map(s=>new I8(s.content.trim(),s.level)),{result:r}=qi(n,0,-1),i=r.split(`
-`).filter(s=>s.startsWith("|")&&s.endsWith("|"));return i.length>0&&(t+=i.join(`
-`),t+=`
-`),t+=r,t+="@enduml",t}He.factory({id:"json2pumlJson",name:"json到可视化",process_param:ne.text,process_return:ne.el,process:(e,t,n)=>(n=`@startjson
+`;const n=e.map(i=>new I8(i.content.trim(),i.level)),{result:r}=qi(n,0,-1);return t+=r,t+="@enduml",t}He.factory({id:"json2pumlJson",name:"json到可视化",process_param:ne.text,process_return:ne.el,process:(e,t,n)=>(n=`@startjson
 `+n+`
 @endjson
 `,yo(n,e),e)});He.factory({id:"list2pumlWBS",name:"列表到puml工作分解结构",process_param:ne.text,process_return:ne.el,process:(e,t,n)=>{let r=Et.list2data(n);r=Et.data2strict(r);let i=`@startwbs
