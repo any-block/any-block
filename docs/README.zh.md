@@ -1,3 +1,49 @@
+---
+layout: OldLayout
+home: true
+title: AnyBlock
+icon: home
+heroText: AnyBlock
+heroStyle:
+  min-height: 600px
+# heroImage: /logo.png
+
+features:
+  - title: 轻语法, 格式通用
+    icon: bolt-lightning
+    details: 基本没有语法入侵。我认为好的插件不应该导致 —— 当你用了一段时间插件后，离开该插件会导致原来的内容变形，不可读或维护
+
+  - title: 多平台, 高通用
+    icon: bolt
+    details: 支持 Obsidian插件, Markdown-it插件, 在线App, Vuepress插件，支持markdown-it解析的博客
+
+  - title: 可扩展性强
+    icon: code
+    details: 方便二次开发
+
+  - title: 使用灵活
+    icon: shuffle
+    details: 选择范围灵活，六种选择方式
+
+  - title: 功能强大
+    icon: plug
+    details: 自带数十种丰富的处理器、丰富多样、功能强大
+
+  - title: 简单易用
+    icon: box-open
+    details: 开箱易用、无需配置，语法简单，可快速入门
+
+  - title: 文档丰富, 好用
+    icon: book
+    details: 每种示例都附上了对应的效果和源码
+    link: ./README.show.md
+
+  - title: 可在线体验
+    icon: flask-vial
+    details: 提供了在线App版本，允许在线体验、测试
+    link: https://any-block.github.io/any-block/
+---
+
 # README
 
 ![Obsidian plugin](https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LincZero/obsidian-any-block)

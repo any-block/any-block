@@ -21,8 +21,8 @@
 	"keywords": [],
 	"devDependencies": {
 		"@codemirror/language": "^6.3.2",
-    "@codemirror/state": "^6.3.2",
-    "@codemirror/view": "^6.3.2",
+		"@codemirror/state": "^6.3.2",
+		"@codemirror/view": "^6.3.2",
 		"@sveltejs/vite-plugin-svelte": "^2.0.2",
 		"@tsconfig/svelte": "^3.0.0",
 		"@types/node": "^16.11.6",

@@ -1,3 +1,49 @@
+---
+layout: OldLayout
+home: true
+title: AnyBlock
+icon: home
+heroText: AnyBlock
+heroStyle:
+  min-height: 600px
+# heroImage: /logo.png
+
+features:
+  - title: Light grammar, universal format
+    icon: bolt-lightning
+    details: Syntax-free intrusion
+
+  - title: Multi-platform, high versatility
+    icon: bolt
+    details: Supported Obsidian plugin, Markdown-it plugin, Online App, Vuepress plugin, Blogs that support Markdown-it parsing
+
+  - title: High scalability
+    icon: code
+    details: Facilitates further development
+
+  - title: Flexible usage
+    icon: shuffle
+    details: The selection range is flexible, with six different options available
+
+  - title: Powerful
+    icon: plug
+    details: Equipped with dozens of various processors, rich in variety and powerful in functionality
+
+  - title: Simple and easy to use
+    icon: box-open
+    details: Easy to open and use, no configuration required. Simple grammar, quick start possible
+
+  - title: Document is rich in content and easy to use
+    icon: book
+    details: Each example is accompanied by the corresponding effect and source code
+    link: ./README.show.md
+
+  - title: Available for online experience
+    icon: flask-vial
+    details: An online App version is provided, allowing for online experience and testing
+    link: https://any-block.github.io/any-block/
+---
+
 # README
 
 ![Obsidian plugin](https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LincZero/obsidian-any-block)
