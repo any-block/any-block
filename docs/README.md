@@ -1,11 +1,11 @@
 ---
-layout: OldLayout
+# layout: OldLayout
 home: true
 title: AnyBlock
 icon: home
 heroText: AnyBlock
 heroStyle:
-  min-height: 600px
+  min-height: 450px
 # heroImage: /logo.png
 
 features:
