@@ -4,9 +4,21 @@ home: true
 title: AnyBlock
 icon: home
 heroText: AnyBlock
+tagline: 一个markdown扩展的解析和渲染模块/插件
 heroStyle:
   min-height: 450px
 # heroImage: /logo.png
+
+actions:
+  - text: Introduce
+    icon: book
+    link: ./#readme
+  - text: Demo
+    icon: list
+    link: ./README.show.md  
+  - text: Online
+    icon: flask-vial
+    link: https://any-block.github.io/any-block/
 
 features:
   - title: 轻语法, 格式通用
@@ -52,7 +64,7 @@ features:
 
 ## AnyBlock是什么?
 
-- 一个markdown解析和渲染的模块/插件。(**Obsidian插件, Markdown-it插件, 在线App, Vuepress插件**)
+- 一个markdown扩展的解析和渲染模块/插件 (**Obsidian插件, Markdown-it插件, 在线App, Vuepress插件**)
 - 功能: 你可以通过许多方式灵活地创建一个“块”。它还提供了许多有用的功能，如“列表转表格”等
 - 功能 (详细): 你可以通过列表/标题/表格/引用块/代码块/Markdown-it的首尾`:::`等方式来快速选择一个片段，并将该片段转换为表格/标签页/目录/卡片/分栏/时间线/思维导图/plantuml图表/节点图等结果
 

@@ -4,9 +4,21 @@ home: true
 title: AnyBlock
 icon: home
 heroText: AnyBlock
+tagline: A parsing and rendering module/plugin for Markdown extensions
 heroStyle:
   min-height: 450px
 # heroImage: /logo.png
+
+actions:
+  - text: Introduce
+    icon: book
+    link: ./#readme
+  - text: Demo
+    icon: list
+    link: ./README.show.md  
+  - text: Online
+    icon: flask-vial
+    link: https://any-block.github.io/any-block/
 
 features:
   - title: Light grammar, universal format
@@ -52,7 +64,7 @@ features:
 
 ## What's AnyBlock?
 
-- A markdown parsing and rendering module/plugin. (**Obsidian plugin, Markdown-it plugin, Online App, Vuepress plugin**)
+- A parsing and rendering module/plugin for Markdown extensions (**Obsidian plugin, Markdown-it plugin, Online App, Vuepress plugin**)
 - Feature: You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table` and so on
 - Feature (detail): You can select a section by list/heading/table/quote/codeBlock/markdown-it-container(`:::`), and trun into table/tabs/dir/card/column/mindmap/markmap/mermaid/PlantUML/timeLine/jsonChart/nodeTree and more
 
