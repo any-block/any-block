@@ -12,7 +12,7 @@ heroStyle:
 actions:
   - text: Introduce
     icon: book
-    link: ./#readme
+    link: "#what-s-anyblock"
   - text: Demo
     icon: list
     link: ./README.show.md  
