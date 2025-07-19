@@ -1,3 +1,7 @@
+/**
+ * 该文件已废弃
+ */
+
 import {EditorView, Decoration} from "@codemirror/view"
 import type {Extension} from "@codemirror/state"
 

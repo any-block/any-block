@@ -9,16 +9,21 @@
  * 
  * 流程：
  * - 选择范围
+ * 
+ * TODO 封装为更通用的 Extension 或 ViewPlugin<(Anonymous class), undefined> 类型
  */
 
-import { EditorView, Decoration, type DecorationSet } from "@codemirror/view"
+import {
+  EditorView,
+  Decoration,         // 装饰
+  type DecorationSet  // 装饰集
+} from "@codemirror/view"
 import { StateField, StateEffect, EditorState, EditorSelection, Transaction, Range } from "@codemirror/state"
 import  { MarkdownView, type View, type Editor } from 'obsidian';
 
 import type AnyBlockPlugin from '../../main'
 import { ConfDecoration } from "../../config/ABSettingTab"
 import { autoMdSelector, type MdSelectorRangeSpec} from "./ABSelector_Md"
-import { ABDecorationManager } from "./ABDecorationManager"
 import { ABReplacer_Widget } from "./ABReplacer_Widget"
 import { abConvertEvent } from "@/ABConverter/ABConvertEvent"
 
@@ -89,6 +94,8 @@ export class ABStateManager {
 
   // 设置常用变量
   private constructor_init() {
+    // 从 obsidian 的 MarkdownView 中获取 codemirror 的 EditorView & EditorState
+    // 后续都用不到 obsidian 相关的东西了，只需要用 codemirror 的 api
     const view: MarkdownView|null = this.plugin_this.app.workspace.getActiveViewOfType(MarkdownView); // 未聚焦(active)会返回null
     if (!view) return false
     this.view = view
@@ -111,7 +118,7 @@ export class ABStateManager {
 
   /** --------------------------------- CM 函数 -------------------------- */
 
-  // 设置初始状态字段并派发
+  // 设置初始状态字段并派发。核心
   private setStateEffects() {
     let stateEffects: StateEffect<unknown>[] = []
   
@@ -140,7 +147,7 @@ export class ABStateManager {
 
   /** 一个类成员。StateField，该状态管理Decoration */
   private decorationField = StateField.define<DecorationSet>({
-    create: (editorState:unknown) => {return Decoration.none},
+    create: (editorState:EditorState) => {return Decoration.none},
     // create好像不用管，update无论如何都能触发的
     // 函数的根本作用，是为了修改decorationSet的范围，间接修改StateField的管理范围
     update: (decorationSet:DecorationSet, tr:Transaction)=>{
@@ -152,7 +159,7 @@ export class ABStateManager {
   /** --------------------------------- on更新事件 ------------------------- */
 
   // on update, to updateStateField
-  private onUpdate (decorationSet:DecorationSet, tr:Transaction){    
+  private onUpdate (decorationSet:DecorationSet, tr:Transaction): DecorationSet {    
     // 如果没有修改就不管了（点击编辑块的按钮除外）
     // if(tr.changes.empty) return decorationSet
 
@@ -207,7 +214,7 @@ export class ABStateManager {
    * @param decoration_mode 如何装饰 (源md or 下划线 or 渲染成ab块)
    * @param editor_mode 编辑器模式 (源码/实时/阅读)
    */
-  private onUpdate_refresh(decorationSet:DecorationSet, tr:Transaction, decoration_mode:ConfDecoration, editor_mode:Editor_mode){
+  private onUpdate_refresh(decorationSet:DecorationSet, tr:Transaction, decoration_mode:ConfDecoration, editor_mode:Editor_mode): DecorationSet {
     // #region 不装饰，则直接返回，不查了 (例如切换到源码模式时)
     if (decoration_mode == ConfDecoration.none) {
       // 装饰模式改变，则清空装饰集

@@ -1,5 +1,8 @@
-import {sanitizeHTMLToDom, type Editor, type EditorPosition} from 'obsidian';
-import {EditorView, WidgetType} from "@codemirror/view"
+import { sanitizeHTMLToDom, type Editor, type EditorPosition } from 'obsidian';
+import {
+  EditorView,
+  WidgetType  // 装饰器部件
+} from "@codemirror/view"
 
 import {ABConvertManager} from "@/ABConverter/ABConvertManager"
 import type {MdSelectorRangeSpec} from "./ABSelector_Md"
