@@ -3,6 +3,7 @@ import { ref, provide, computed, watch, onMounted, nextTick } from 'vue'
 import TabBar from './components/TabBar.vue'
 import MarkdownEditor from './components/MarkdownEditor.vue'
 import MarkdownViewer from './components/MarkdownViewer.vue'
+import MarkdownCodeMirror from './components/MarkdownCodeMirror.vue'
 
 import GoldenLayout from './components/goldenLayout/GoldenLayout.vue'
 import { prefinedLayouts } from './components/goldenLayout/predefined-layouts'
@@ -31,6 +32,10 @@ const mdData = ref<any>({
     
     <template #MdViewer>
       <MarkdownViewer :mdData="mdData"></MarkdownViewer>
+    </template>
+
+    <template #MdCodeMirror>
+      <MarkdownCodeMirror :mdData="mdData"></MarkdownCodeMirror>
     </template>
 
     <template #White>

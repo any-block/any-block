@@ -3,7 +3,13 @@
 export const preset_map = {
 //
 'Normal markdown': `\
-\`^\` 点击编辑区域上面的预设下拉框，可以切换其他demo
+> [!note]
+> App版使用说明
+> 
+> - \`^\` 点击编辑区域上面的预设下拉框，可以切换其他demo
+> - 这里有多个标签页，你可以在 MdEditor 或 MdCodeMirror 中编辑，
+>   然后在 MdViewer (markdown-it版插件渲染) 或
+>   MdCodeMirror (CodeMirror版插件渲染) 中查看效果
 
 this is ~~a~~ **MarkDown** *test*
 

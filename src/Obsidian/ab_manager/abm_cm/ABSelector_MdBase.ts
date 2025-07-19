@@ -1,9 +1,11 @@
-import {ABReg} from "@/ABConverter/ABReg"
+import { ABReg } from "../../../ABConverter/ABReg"
 import {
   registerMdSelector, 
   type MdSelectorSpecSimp,
   type MdSelectorRangeSpecSimp
 } from "./ABSelector_Md"
+
+export function init() {} // 有时是非必要的，仅于存在 Tree Shaking 时避免被优化
 
 /**
  * 这个不是选择器，只是将多个选择器的共同逻辑抽取出来进行复用
