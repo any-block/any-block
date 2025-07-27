@@ -12,7 +12,7 @@ import { ABReplacer_Widget } from "../abm_cm/ABReplacer_Widget";
 export class ABReplacer_CodeBlock{
   static processor(
     // plugin_this: AnyBlockPlugin,             // 使用bind方法被绑进来的
-    src: string,                                // 代码块内容。注意：如果是被列表嵌套的代码块，则内容每行前面都会有对应的缩进 (ob的锅)
+    src: string,                                // 代码块内容 (带代码块整体的缩进)
     blockEl: HTMLElement,                       // 代码块渲染的元素
     ctx: MarkdownPostProcessorContext,
   ) {
@@ -39,6 +39,12 @@ export class ABReplacer_CodeBlock{
       }
     }
     
+    // 代码块缩进处理 (由于 obsidian 是无缩进和嵌套的，他为了渲染结果正确故src保留了缩进。列表嵌套代码块时src默认是带缩进的，引用块更是无法嵌套代码块)
+    const src_without_indent: string = list_src.slice(1).map((line) =>
+      line.startsWith(header_indent_prefix) ? line.substring(header_indent_prefix.length) : line
+    ).join("\n")
+    const calc_margin: number = header_indent_prefix.replace(/\t/g, '    ').length; // TODO 粗略假设一个tab等于四空格，应该从配置中获取
+    root_div.setAttribute("style", "margin-left: " + calc_margin*0.5 + "rem;")
 
     // AnyBlock主体部分
     const dom_note = root_div.createDiv({
@@ -48,11 +54,7 @@ export class ABReplacer_CodeBlock{
       cls: ["ab-replaceEl"]
     })
     if (header != "") { // b1. 规范的AnyBlock
-      ABConvertManager.autoABConvert(dom_replaceEl, header,
-        list_src.slice(1).map((line) =>
-          line.startsWith(header_indent_prefix) ? line.substring(header_indent_prefix.length) : line
-        ).join("\n")
-      )
+      ABConvertManager.autoABConvert(dom_replaceEl, header, src_without_indent)
     }
     else { // b2. 非法内容，普通渲染处理 (还是说代码渲染会更好？主要是普通渲染便于对render接口进行调试，比较方便)
       // const mdrc: MarkdownRenderChild = new MarkdownRenderChild(dom_replaceEl); ctx.addChild(mdrc);
