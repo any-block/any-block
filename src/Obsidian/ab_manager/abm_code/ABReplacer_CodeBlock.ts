@@ -12,7 +12,7 @@ import { ABReplacer_Widget } from "../abm_cm/ABReplacer_Widget";
 export class ABReplacer_CodeBlock{
   static processor(
     // plugin_this: AnyBlockPlugin,             // 使用bind方法被绑进来的
-    src: string,                                // 代码块内容
+    src: string,                                // 代码块内容。注意：如果是被列表嵌套的代码块，则内容每行前面都会有对应的缩进 (ob的锅)
     blockEl: HTMLElement,                       // 代码块渲染的元素
     ctx: MarkdownPostProcessorContext,
   ) {
@@ -29,13 +29,16 @@ export class ABReplacer_CodeBlock{
     // }
 
     // 判断是否AnyBlock块
-    let header = ""
+    let header: string = ""
+    let header_indent_prefix: string = "" // 头部缩进前缀，后面的内容统一减掉这个前缀
     if (list_src.length) {
       const match = list_src[0].match(ABReg.reg_header_noprefix)
       if (match && match[5]) {
         header = match[5];
+        header_indent_prefix = match[1];
       }
     }
+    
 
     // AnyBlock主体部分
     const dom_note = root_div.createDiv({
@@ -45,7 +48,11 @@ export class ABReplacer_CodeBlock{
       cls: ["ab-replaceEl"]
     })
     if (header != "") { // b1. 规范的AnyBlock
-      ABConvertManager.autoABConvert(dom_replaceEl, header, list_src.slice(1).join("\n").trimStart())
+      ABConvertManager.autoABConvert(dom_replaceEl, header,
+        list_src.slice(1).map((line) =>
+          line.startsWith(header_indent_prefix) ? line.substring(header_indent_prefix.length) : line
+        ).join("\n")
+      )
     }
     else { // b2. 非法内容，普通渲染处理 (还是说代码渲染会更好？主要是普通渲染便于对render接口进行调试，比较方便)
       // const mdrc: MarkdownRenderChild = new MarkdownRenderChild(dom_replaceEl); ctx.addChild(mdrc);
