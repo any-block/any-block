@@ -1,7 +1,7 @@
 {
 	"id": "any-block-min",
 	"name": "AnyBlock Min",
-	"version": "3.3.1",
+	"version": "3.3.2",
 	"minAppVersion": "0.15.0",
 	"description": "AnyBlock min version. Remove some features and dependencies to reduce size and improve performance",
 	"author": "LincZero",
