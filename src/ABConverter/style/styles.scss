@@ -125,12 +125,13 @@ html[data-theme="dark"] #app {
   }
 }
 // 手机/触屏端 mobile
-@media (hover: none) and (pointer: coarse) {
-  .edit-block-button.ab-button-1 { // 编辑按钮恒显示，要覆盖edit-block-button默认行为
-    display: block !important;
-    z-index: 20;
-  }
-}
+// 弃用，使用另一个修复方法：移动端不给edit-block-button类
+// @media (hover: none) and (pointer: coarse) {
+//   .edit-block-button.ab-button-1 { // 编辑按钮恒显示，要覆盖edit-block-button默认行为
+//     display: block !important;
+//     z-index: 20;
+//   }
+// }
 
 /**
  * 替换内容
