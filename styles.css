@@ -104,6 +104,11 @@ html[data-theme=dark] #app {
   display: none;
 }
 
+@media (hover: none) and (pointer: coarse) {
+  .edit-block-button.ab-button-1 {
+    display: block !important;
+  }
+}
 /**
  * 替换内容
  * .ab-replace         // 整体 (外框、圆角)

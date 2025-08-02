@@ -253,7 +253,6 @@ export class ABStateManager {
     let list_decoration_change:Range<Decoration>[] = []   // 装饰集 - 有光标变动部分 -> 会导致刷新
     const cursorSpec = this.getCursorCh(tr)               // 光标位置 - 将来 (光标移动后的位置)
     const cursorSpec_last = this.getCursorCh()            // 光标位置 - 过去 (光标移动前的位置)
-    let cursorSepc_correct:number|null = null // 需要纠正的光标位置 (必须在应用完tr后再纠正，避免被覆盖)
     let is_current_cursor_in = false // 当前光标是否在ab块区域内
     for (let rangeSpec of list_rangeSpec){
       // (1) 判断光标与该范围项的关系
@@ -281,7 +280,7 @@ export class ABStateManager {
       else if (isCursonIn_last) {
         const decoration = Decoration.replace({
           widget: new ABReplacer_Widget(rangeSpec, this.editor),
-          // inclusive: true, block: false,
+          // inclusive: true, block: true, // 区别: 光标上下移动会跳过 block
         })
         list_decoration_change.push(decoration.range(rangeSpec.from_ch, rangeSpec.to_ch))
       }
@@ -289,7 +288,7 @@ export class ABStateManager {
       else {
         const decoration = Decoration.replace({
           widget: new ABReplacer_Widget(rangeSpec, this.editor),
-          // inclusive: true, block: false,
+          // inclusive: true, block: true, // 区别: 光标上下移动会跳过 block
         })
         list_decoration_nochange.push(decoration.range(rangeSpec.from_ch, rangeSpec.to_ch))
       }
