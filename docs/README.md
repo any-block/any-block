@@ -27,7 +27,7 @@ features:
 
   - title: Multi-platform, high versatility
     icon: bolt
-    details: Supported Obsidian plugin, Markdown-it plugin, CodeMirror plugin, Online App, Vuepress plugin, Blogs that support Markdown-it parsing
+    details: Supported Obsidian / Markdown-it / CodeMirror / Vuepress plugin, Online App, Blogs that support Markdown-it parsing. Supports computers, tablets and mobile devices
 
   - title: High scalability
     icon: code

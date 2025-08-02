@@ -16,7 +16,7 @@ const localeMap: { [key: string]: Partial<typeof en> } = {
 const locale = localeMap[getLanguage()];
 
 export function t(str: keyof typeof en): string {
-  console.log('locale', getLanguage())
+  // console.log('locale', getLanguage())
   return (locale && locale[str]) || en[str];
 }
 

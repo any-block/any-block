@@ -27,7 +27,7 @@ features:
 
   - title: 多平台, 高通用
     icon: bolt
-    details: 支持 Obsidian插件, Markdown-it插件, CodeMirror plugin, 在线App, Vuepress插件，支持markdown-it解析的博客
+    details: 支持 Obsidian / Markdown-it / CodeMirror / Vuepress 插件, 在线App, 支持markdown-it解析的博客框架。支持电脑、平板、手机端
 
   - title: 可扩展性强
     icon: code
