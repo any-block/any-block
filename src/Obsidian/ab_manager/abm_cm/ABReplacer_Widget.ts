@@ -41,6 +41,9 @@ export class ABReplacer_Widget extends WidgetType {
         cls: ["ab-button", "ab-button-1", "edit-block-button"], // cm-embed-block和edit-block-button是自带的js样式，用来悬浮显示的，不是我写的
         attr: {"aria-label": "Edit the block - "+this.rangeSpec.header},
       });
+      if (Platform.isMobileApp || Platform.isPhone || Platform.isTablet) {
+        dom_edit.classList.remove("edit-block-button"); // 移动端这里的编辑按钮有个独立逻辑，他会自动将你的编辑按钮替换掉
+      }
       dom_edit.empty(); dom_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_CODE2));
       dom_edit.onclick = ()=>{this.moveCursor()}
     }
@@ -103,6 +106,7 @@ export class ABReplacer_Widget extends WidgetType {
     }
   }
 
+  // 移动端似乎会强制替换掉edit-block-button，大小设置不生效。不过触控位置和z-index似乎可以正常工作
   static ICON_SIZE: string = (Platform.isMobileApp || Platform.isPhone || Platform.isTablet) ? '2em': '1.5em'
   static STR_ICON_CODE2 = `<svg xmlns="http://www.w3.org/2000/svg" stroke-linecap="round"
       stroke-linejoin="round" data-darkreader-inline-stroke="" stroke-width="2"
