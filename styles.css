@@ -107,6 +107,7 @@ html[data-theme=dark] #app {
 @media (hover: none) and (pointer: coarse) {
   .edit-block-button.ab-button-1 {
     display: block !important;
+    z-index: 20;
   }
 }
 /**
