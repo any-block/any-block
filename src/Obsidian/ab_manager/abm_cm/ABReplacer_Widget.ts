@@ -105,7 +105,7 @@ export class ABReplacer_Widget extends WidgetType {
 
   static STR_ICON_CODE2 = `<svg xmlns="http://www.w3.org/2000/svg" stroke-linecap="round"
       stroke-linejoin="round" data-darkreader-inline-stroke="" stroke-width="2"
-      viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" style="--darkreader-inline-stroke:currentColor;">
+      viewBox="0 0 24 24" width="1.5em" height="1.5em" fill="none" stroke="currentColor" style="--darkreader-inline-stroke:currentColor;">
     <path d="m18 16 4-4-4-4"></path>
     <path d="m6 8-4 4 4 4"></path>
     <path d="m14.5 4-5 16"></path>
@@ -113,7 +113,7 @@ export class ABReplacer_Widget extends WidgetType {
   // https://www.svgrepo.com/svg/18461/refresh, 原viewBox: 0 0 489.698 489.698, 原size 800
   static STR_ICON_REFRESH = `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
       xml:space="preserve"
-      viewBox="-80 -80 650 650" height="24" width="24" fill="currentColor" stroke="currentColor" style="--darkreader-inline-stroke:currentColor;">
+      viewBox="-80 -80 650 650" height="1.5em" width="1.5em" fill="currentColor" stroke="currentColor" style="--darkreader-inline-stroke:currentColor;">
     <g>
       <g>
         <path d="M468.999,227.774c-11.4,0-20.8,8.3-20.8,19.8c-1,74.9-44.2,142.6-110.3,178.9c-99.6,54.7-216,5.6-260.6-61l62.9,13.1
