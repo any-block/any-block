@@ -481,7 +481,7 @@ export class ListProcess{
     let list_newcontent:string[] = [] // 传入参数以列表项为单位，这个以行为单位
     // 每一个level里的content处理
     for (let item of list_itemInfo){
-      const str_indent = " ".repeat(item.level) // 缩进数
+      const str_indent = "  ".repeat(item.level) // 缩进数 (通常反转的话会先走listdata2strict，level是缩进符的数量。默认缩进两空格)
       let list_content = item.content.split("\n") // 一个列表项可能有多个行
       for (let i=0; i<list_content.length; i++) {
         if(i==0) list_newcontent.push(str_indent+"- "+list_content[i])
@@ -583,7 +583,7 @@ const abc_listdata2strict = ABConvert.factory({
   name: "listdata严格化",
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.list_stream,
-  detail: "将列表数据转化为更规范的列表数据。统一缩进符(2空格 4空格 tab混用)、禁止跳等级(h1直接就到h3)",
+  detail: "将列表数据转化为更规范的列表数据。统一缩进符(2空格 4空格 tab混用)为level 1、禁止跳等级(h1直接就到h3)",
   process: (el, header, content: List_ListItem): List_ListItem=>{
     return ListProcess.data2strict(content)
   }
