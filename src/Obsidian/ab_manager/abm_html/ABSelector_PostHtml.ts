@@ -123,7 +123,7 @@ export class ABSelector_PostHtml{
         if (!cache_item) {
           cache_map.push(cache_item)
           is_newContent = true
-          if (this.settings.is_debug) console.log(" !! 无缓存 -> 有修改, perform a global refresh (rebuildView): ", cache_item, ctx)
+          if (this.settings.is_debug) console.log(" !! No cache -> Changed, perform a global refresh (rebuildView): ", cache_item, ctx)
         }
         // b2. 有缓存
         else {
@@ -131,7 +131,7 @@ export class ABSelector_PostHtml{
           if (cache_item.content != mdSrc.content_all) {
             cache_item.content = mdSrc.content_all
             is_newContent = true
-            if (this.settings.is_debug) console.log(" !! 有缓存, 内容变 -> 有修改, perform a global refresh (rebuildView): ", cache_item, ctx)
+            if (this.settings.is_debug) console.log(" !! Have cache & Changed -> Changed, perform a global refresh (rebuildView): ", cache_item, ctx)
           }
           // b2.2. 内容不变 -> 无修改
           else {
