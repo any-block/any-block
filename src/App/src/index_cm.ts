@@ -77,7 +77,7 @@ ABCSetting.env = "app"
  * TODO 优化。这里没有用到旧装饰集和映射，像anyblock obsidian程序那边是用到的，可以减少渲染、加速程序。
  */
 function create_decorations(
-  state: EditorState, updateContent_all: (newContent: string) => void,
+  state: EditorState,
   tr?: Transaction
 ): DecorationSet {
   // ab范围集
@@ -89,7 +89,7 @@ function create_decorations(
     const decoration = Decoration.replace({
       widget: new ABReplacer_Widget(rangeSpec),
       inclusive: true,
-      block: true,
+      // block: true,
     })
     decorationRange.push(decoration.range(rangeSpec.from_ch, rangeSpec.to_ch))
   }
@@ -121,17 +121,15 @@ function create_decorations(
  * 
  * 使用：一个页面对应一个
  */
-export class EditableCodeblockCm {
+export class AnyBlock_CmPlugin {
   view: EditorView;
   state: EditorState;
   mdStr: string;
-  updateContent_all: (newContent: string) => void;
 
-  constructor(view: EditorView, mdStr: string, updateContent_all: (newContent: string) => void) {
+  constructor(view: EditorView, mdStr: string) {
     this.view = view
     this.state = view.state
     this.mdStr = mdStr
-    this.updateContent_all = updateContent_all
 
     this.init_stateField()
   }
@@ -155,7 +153,7 @@ export class EditableCodeblockCm {
       create: (editorState:EditorState) => Decoration.none,
       update: (decorationSet:DecorationSet, tr:Transaction) => {
         // 不要直接用 this.view.state，会延后，要用 tr.state
-        return create_decorations(tr.state, this.updateContent_all, tr)
+        return create_decorations(tr.state, tr)
       },
       provide: (f: StateField<DecorationSet>) => EditorView.decorations.from(f)
     });

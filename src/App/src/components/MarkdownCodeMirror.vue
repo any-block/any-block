@@ -11,7 +11,8 @@ import { defaultKeymap } from "@codemirror/commands"
 import { oneDark } from "@codemirror/theme-one-dark"
 import { StateField } from '@codemirror/state'
 
-import { EditableCodeblockCm } from "../index_cm"
+import { AnyBlock_CmPlugin } from "../index_cm"
+// import { AnyBlock_CmPlugin } from "../index_cm2"
 
 const props = defineProps<{
   mdData: any
@@ -39,10 +40,7 @@ function initEditor() {
   ref_editorView.value = view
 
   // 使用 EditableCodeblock 插件
-  const _editableCodeblockCm = new EditableCodeblockCm(view, props.mdData, (newStr: string) => {
-    console.log('保存3')
-    props.mdData.string = newStr
-  })
+  const _editableCodeblockCm = new AnyBlock_CmPlugin(view, props.mdData)
 }
 
 // cm -> str
@@ -83,5 +81,10 @@ onMounted(() => {
 .cm-editor {
   height: calc(100% - 10px);
   font-family: inherit;
+}
+
+// 处理 cm-widgetBuffer 问题
+.ab-replace {
+  margin: -1em 0 -0.95em 0;
 }
 </style>

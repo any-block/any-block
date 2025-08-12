@@ -49,7 +49,6 @@ this is ~~a~~ **MarkDown** *test*
     - e
     - f
 
-
 [mindmap]
 
 - a
@@ -58,7 +57,6 @@ this is ~~a~~ **MarkDown** *test*
   - d
     - e
     - f
-
 
 [markmap]
 
