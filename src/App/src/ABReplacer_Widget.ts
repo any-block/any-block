@@ -48,7 +48,7 @@ export class ABReplacer_Widget extends WidgetType {
       }
       const pos = {
         fromPos: fromPos,
-        toPos: fromPos + this.content_withPrefix_length // TODO 非动态，会有问题
+        toPos: fromPos + this.content_withPrefix_length
       }
       return pos
     }

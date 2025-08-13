@@ -15,7 +15,6 @@ import {
   StateField,
   Transaction,
 } from '@codemirror/state';
-import { syntaxTree } from '@codemirror/language';
 
 import { autoMdSelector, MdSelectorRangeSpec } from '../../Obsidian/ab_manager/abm_cm/ABSelector_Md';
 import { ABReplacer_Widget } from './ABReplacer_Widget';
@@ -45,7 +44,7 @@ export function create_decorations(
   const decorationRange: Range<Decoration>[] = []; // 装饰组，区分 type DecorationSet = RangeSet<Decoration>;
   for (let rangeSpec of list_rangeSpec) {
     const decoration = Decoration.replace({
-      widget: new ABReplacer_Widget(rangeSpec),
+      widget: new ABReplacer_Widget(rangeSpec, { cancelFlag: [], updateMode: '' }),
       inclusive: true,
       // block: true,
     })

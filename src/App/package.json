@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "noPro:build": "将 `./index_cm.ts` 中的 `[!code hl]` 行给注释/取消注释即可"
   },
   "author": "LincZero",
   "license": "GNU Affero General Public License v3.0",
