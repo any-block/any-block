@@ -60,6 +60,8 @@ ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HT
 ABCSetting.env = "app"
 // #endregion
 
+import "../../CodeMirror/src/converter/editableBlock" // [!code hl]
+
 import { create_decorations } from "./selector" // [!code hl]
 // import { create_decorations } from "./selector_old" // [!code hl]
 

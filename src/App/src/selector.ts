@@ -23,7 +23,7 @@ export function create_widget (
     selector: rangeSpec.selector,
     prefix: rangeSpec.parent_prefix,
   }
-  return new ABReplacer_Widget(rangeSpec_)
+  return new ABReplacer_Widget(rangeSpec_, customData)
 
   // if (rangeSpec.type != 'anyblock') return
   // const outerEditor_Cm = new OuterEditor_Cm(customData, state, oldView, rangeSpec.toPos - rangeSpec.fromPos)

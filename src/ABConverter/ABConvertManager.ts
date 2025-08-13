@@ -112,7 +112,7 @@ export class ABConvertManager {
    * @param selectorName 选择器名，空表示未知
    * @return 等于el，无用，后面可以删了
    */
-  public static autoABConvert(el:HTMLDivElement, header:string, content:string, selectorName:string = ""): void{
+  public static autoABConvert(el:HTMLDivElement, header:string, content:string, selectorName:string = "", ctx?: any): void{
     let prev_result: ABConvert_IOType = content               // 上次转换后的结果，初始必为string
     let prev_type: string = "string"                          // 上次转换后的结果的类型 (类型检测而来)
     let prev_type2: ABConvert_IOEnum = ABConvert_IOEnum.text  // 上次转换后的结果的类型 (接口声明而来)
@@ -125,8 +125,8 @@ export class ABConvertManager {
     {
       header = autoABAlias(header, selectorName, prev_result as string);
       let list_header = header.split("|")
-      prev_result = this.autoABConvert_runConvert(el, list_header, prev)
-      this.autoABConvert_last(el, header, selectorName, prev)
+      prev_result = this.autoABConvert_runConvert(el, list_header, prev, ctx)
+      this.autoABConvert_last(el, header, selectorName, prev, ctx)
     }
     if (false && ABCSetting.is_debug) {
       const endTime = performance.now();
@@ -143,7 +143,7 @@ export class ABConvertManager {
    * @param prev_type2  上次转换后的结果的类型 (接口声明而来, IOEnum类型)
    * @returns           递归转换后的结果
    */
-  private static autoABConvert_runConvert(el:HTMLDivElement, list_header:string[], prev:any):any{
+  private static autoABConvert_runConvert(el:HTMLDivElement, list_header:string[], prev:any, ctx?: any):any{
     // 循环header组，直到遍历完文本处理器或遇到渲染处理器
     for (let item_header of list_header){ // TODO 因为可能被插入新的“中间自动转换器”，要么for替换成递归，要么都在头部预处理时弄完
       for (let abReplaceProcessor of ABConvertManager.getInstance().list_abConvert){
@@ -168,7 +168,7 @@ export class ABConvertManager {
               alias = alias.replace(RegExp(`%${i}`), matchs[i]) /** @bug 按理应该用`(?<!\\)%${i}`，但ob不支持正则的向前查找 */
             }
           })()
-          prev.prev_result = this.autoABConvert_runConvert(el, alias.split("|"), prev)
+          prev.prev_result = this.autoABConvert_runConvert(el, alias.split("|"), prev, ctx)
         }
         // 若不是，使用process方法
         else if(abReplaceProcessor.process){
@@ -206,7 +206,7 @@ export class ABConvertManager {
           }
 
           // (2) 执行处理器
-          prev.prev_result = abReplaceProcessor.process(el, item_header, prev.prev_result)
+          prev.prev_result = abReplaceProcessor.process(el, item_header, prev.prev_result, ctx)
           prev.prev_type = typeof(prev.prev_result)
           prev.prev_type2 = abReplaceProcessor.process_return as ABConvert_IOEnum
           prev.prev_processor = abReplaceProcessor.process
@@ -232,7 +232,7 @@ export class ABConvertManager {
   /**
    * 子函数，后处理/尾处理，主要进行末尾追加指令
    */
-  private static autoABConvert_last (el:HTMLDivElement, header:string, selectorName:string, prev:any):any{
+  private static autoABConvert_last (el:HTMLDivElement, header:string, selectorName:string, prev:any, ctx?: any):any{
     // text内容，则给一个md渲染器
     if (prev.prev_type == "string" && prev.prev_type2 == ABConvert_IOEnum.text) {
       const subEl = document.createElement("div"); el.appendChild(subEl);

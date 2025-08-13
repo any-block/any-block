@@ -13,13 +13,16 @@ import  { ABConvertManager } from "../../ABConverter/ABConvertManager"
 import type { MdSelectorRangeSpec } from "../../Obsidian/ab_manager/abm_cm/ABSelector_Md"
 
 export class ABReplacer_Widget extends WidgetType {
-  rangeSpec: MdSelectorRangeSpec
   div: HTMLDivElement
+  content_withPrefix_length: number = 0
 
   // 构造函数
-  constructor(rangeSpec: MdSelectorRangeSpec){
+  constructor(
+    public rangeSpec: MdSelectorRangeSpec,
+    public customData: { cancelFlag: number[], updateMode: string }
+  ){
     super()
-    this.rangeSpec = rangeSpec
+    this.content_withPrefix_length = rangeSpec.to_ch - rangeSpec.from_ch
   }
 
   /**
@@ -33,9 +36,52 @@ export class ABReplacer_Widget extends WidgetType {
     this.div.setAttribute("type_header", this.rangeSpec.header)
     this.div.classList.add("ab-replace", "cm-embed-block") // , "show-indentation-guide"
 
+    // #region 可视化编辑部分
+
+    const getPos = (): {fromPos: number; toPos: number} => {
+      let fromPos: number
+      try {
+        fromPos = view.posAtDOM(this.div, 0)
+      } catch (e) {
+        console.error('get cursor pos failed:', this.div)
+        throw new Error(`get cursor pos failed: ${e}`)
+      }
+      const pos = {
+        fromPos: fromPos,
+        toPos: fromPos + this.content_withPrefix_length // TODO 非动态，会有问题
+      }
+      return pos
+    }
+
+    const save = (str_with_prefix: string, force_refresh: boolean = false) => {
+      const pos = getPos(); this.content_withPrefix_length = str_with_prefix.length
+
+      if (force_refresh) {
+        this.customData.updateMode = 'force'
+      }
+
+      const new_state = view.state
+      const transaction = new_state.update({
+        changes: {
+          from: pos.fromPos,
+          to: pos.toPos,
+          insert: str_with_prefix,
+        },
+        userEvent: "input",
+      })
+      view.dispatch(transaction)
+
+      return Promise.resolve()
+    }
+
+    // #endregion
+
     // AnyBlock主体部分，内容替换元素
     let dom_note = document.createElement("div"); this.div.appendChild(dom_note); dom_note.classList.add("ab-note", "drop-shadow");
-    ABConvertManager.autoABConvert(dom_note, this.rangeSpec.header, this.rangeSpec.content, this.rangeSpec.selector)
+    ABConvertManager.autoABConvert(dom_note, this.rangeSpec.header, this.rangeSpec.content, this.rangeSpec.selector, {
+      text: 'ctx test',
+      save
+    })
 
     // // 编辑按钮部分
     // if (this.global_editor){
