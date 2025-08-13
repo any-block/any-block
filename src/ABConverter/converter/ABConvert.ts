@@ -124,63 +124,6 @@ export class ABConvert {
       ABConvertManager.getInstance().list_abConvert.splice(index, 1)
     }
   }
-  
-  /** --------------------------------- 处理器容器管理 (旧) --------------- */
-
-  /*
-  /// 用户注册处理器
-  public static registerABProcessor(process: ABProcessorSpec| ABProcessorSpecSimp| ABProcessorSpecUser){
-    ABConvertManager.getInstance().list_abConvert.push(ABProcessorSpec.registerABProcessor_adapt(process));
-  }
-
-  public static registerABProcessor_adapt(process: ABProcessorSpec| ABProcessorSpecSimp| ABProcessorSpecUser): ABProcessorSpec{
-    if ('is_disable' in process) {    // 严格版 存储版
-      return process
-    }
-    else if ('process' in process) {  // 用户版 注册版
-      return this.registerABProcessor_adapt_simp(process)
-    }
-    else {                            // 别名版 无代码版
-      return this.registerABProcessor_adapt_user(process)
-    }
-  }
-
-  private static registerABProcessor_adapt_simp(sim: ABProcessorSpecSimp):ABProcessorSpec{
-    //type t_param = Parameters<typeof sim.process>
-    //type t_return = ReturnType<typeof sim.process>
-    const abProcessorSpec: ABProcessorSpec = {
-      id: sim.id,
-      name: sim.name,
-      match: sim.match??sim.id,
-      default: sim.default??(!sim.match||typeof(sim.match)=="string")?sim.id:null,
-      detail: sim.detail??"",
-      process_alias: sim.process_alias??"",
-      process_param: sim.process_param??null,
-      process_return: sim.process_return??null,
-      process: sim.process,
-      is_disable: false,
-      register_from: "内置",
-    }
-    return abProcessorSpec
-  }
-
-  private static registerABProcessor_adapt_user(sim: ABProcessorSpecUser):ABProcessorSpec{
-    const abProcessorSpec: ABProcessorSpec = {
-      id: sim.id,
-      name: sim.name,
-      match: /^\//.test(sim.match)?RegExp(sim.match):sim.match,
-      default: null,
-      detail: "",
-      process_alias: sim.process_alias,
-      process_param: null,
-      process_return: null,
-      process: ()=>{},
-      is_disable: false,
-      register_from: "用户",
-    }
-    return abProcessorSpec
-  }
-  */
 }
 
 /**

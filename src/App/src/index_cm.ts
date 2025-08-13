@@ -45,7 +45,7 @@ import "../../ABConverter/converter/abc_mermaid"  // 可选建议：非 min 环�
 import "../../ABConverter/converter/abc_markmap"  // 可选建议：1.3MB
 
 // pro
-import "../../CodeMirror/src/converter2/editableBlock"
+import "../../CodeMirror/src/converter/editableBlock"
 
 import { autoMdSelector, type MdSelectorRangeSpec} from "../../Obsidian/ab_manager/abm_cm/ABSelector_Md"
 import { ABReplacer_Widget } from './ABReplacer_Widget'
