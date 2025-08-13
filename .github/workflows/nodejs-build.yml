@@ -81,10 +81,10 @@ jobs:                         # 工作流
         node-version: '22'
         cache: pnpm
     - name: pro
-      working-directory: ./src/
+      # working-directory: ./src/
       run: |
         git clone --depth 1 https://${{ secrets.AnyBlockPro_Repo }}@github.com/any-block/any-block-pro.git
-        mv -r src/CodeMirror/ ./CodeMirror/
+        mv ./any-block-pro/src/CodeMirror/ ./src/CodeMirror/
       env:
         GH_TOKEN: ${{ secrets.AnyBlockPro_Repo }}
     - name: Build
