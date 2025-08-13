@@ -1,6 +1,5 @@
 // 新增 AB Widget 和 AB Selector
 
-import { RangeSpec_Codeblock, RangeSpec_Quote } from "../../CodeMirror/src/selector"
 import { EditorState, Transaction } from "@codemirror/state"
 import { Decoration, DecorationSet, EditorView, WidgetType } from "@codemirror/view"
 import { ABReplacer_Widget } from "./ABReplacer_Widget"

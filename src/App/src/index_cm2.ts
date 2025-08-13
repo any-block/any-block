@@ -45,9 +45,6 @@ import "../../ABConverter/converter/abc_plantuml" // 可选建议：
 import "../../ABConverter/converter/abc_mermaid"  // 可选建议：非 min 环境下 7.1MB
 import "../../ABConverter/converter/abc_markmap"  // 可选建议：1.3MB
 
-// pro
-import "../../CodeMirror/src/converter/editableBlock"
-
 import { autoMdSelector, type MdSelectorRangeSpec} from "../../Obsidian/ab_manager/abm_cm/ABSelector_Md"
 import { ABReplacer_Widget } from './ABReplacer_Widget'
 
@@ -63,7 +60,6 @@ ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HT
 ABCSetting.env = "app"
 // #endregion
 
-import { EB_SELECTORS } from "../../CodeMirror/src/selector" // [!code hl]
 import { create_decorations } from "./selector" // [!code hl]
 
 /**
