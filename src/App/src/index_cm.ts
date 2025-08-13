@@ -60,8 +60,8 @@ ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HT
 ABCSetting.env = "app"
 // #endregion
 
-// import { create_decorations } from "./selector" // [!code hl]
-import { create_decorations } from "./selector_old" // [!code hl]
+import { create_decorations } from "./selector" // [!code hl]
+// import { create_decorations } from "./selector_old" // [!code hl]
 
 /**
  * EditableCodeblock 的通用 CodeMirror 插件
@@ -107,8 +107,8 @@ export class AnyBlock_CmPlugin {
       create: (editorState:EditorState) => Decoration.none,
       update: (decorationSet:DecorationSet, tr:Transaction) => {
         // 不要直接用 this.view.state，会延后，要用 tr.state
-        // return create_decorations(this.customData, this.view, tr, decorationSet) // [!code hl]
-        return create_decorations(tr.state, tr) // [!code hl]
+        return create_decorations(this.customData, this.view, tr, decorationSet) // [!code hl]
+        // return create_decorations(tr.state, tr) // [!code hl]
       },
       provide: (f: StateField<DecorationSet>) => EditorView.decorations.from(f)
     });
