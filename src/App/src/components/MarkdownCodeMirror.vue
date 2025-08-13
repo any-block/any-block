@@ -11,8 +11,7 @@ import { defaultKeymap } from "@codemirror/commands"
 import { oneDark } from "@codemirror/theme-one-dark"
 import { StateField } from '@codemirror/state'
 
-import { AnyBlock_CmPlugin } from "../index_cm_old"
-// import { AnyBlock_CmPlugin } from "../index_cm2"
+import { AnyBlock_CmPlugin } from "../index_cm"
 
 const props = defineProps<{
   mdData: any
