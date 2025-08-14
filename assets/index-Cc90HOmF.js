@@ -465,6 +465,32 @@ text3
 所以obsidian中的实现本质上需要通过 \`mdit2code\` 处理器，将markdown-it-container块转换为代码块，将 \`@\` 转换为标题，以此支持mdit的嵌套
 
 :::
+
+tab的嵌套有点特殊，区分不开 \`@tab\` 符号，得改写为其他方式，如使用标题选择器：
+
+````anyblock
+[tab]
+
+# 1
+
+[tab]
+
+## 1.1
+
+1.1
+
+[tab]
+
+### 1.1.1
+
+1.1.1
+
+### 1.1.2
+
+## 1.2
+
+# 2
+````
 `,plantuml:`
 ## pumlMindmap (puml思维导图)
 
