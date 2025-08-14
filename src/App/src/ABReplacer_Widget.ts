@@ -11,6 +11,7 @@ import {
 
 import  { ABConvertManager } from "../../ABConverter/ABConvertManager"
 import type { MdSelectorRangeSpec } from "../../Obsidian/ab_manager/abm_cm/ABSelector_Md"
+import { RangeSpec_AnyBlock } from "../../CodeMirror/src/selector" // [!code hl]
 
 export class ABReplacer_Widget extends WidgetType {
   div: HTMLDivElement
@@ -18,11 +19,11 @@ export class ABReplacer_Widget extends WidgetType {
 
   // 构造函数
   constructor(
-    public rangeSpec: MdSelectorRangeSpec,
+    public rangeSpec: RangeSpec_AnyBlock,
     public customData: { cancelFlag: number[], updateMode: string }
   ){
     super()
-    this.content_withPrefix_length = rangeSpec.to_ch - rangeSpec.from_ch
+    this.content_withPrefix_length = rangeSpec.toPos - rangeSpec.fromPos
   }
 
   /**
@@ -78,7 +79,7 @@ export class ABReplacer_Widget extends WidgetType {
 
     // AnyBlock主体部分，内容替换元素
     let dom_note = document.createElement("div"); this.div.appendChild(dom_note); dom_note.classList.add("ab-note", "drop-shadow");
-    ABConvertManager.autoABConvert(dom_note, this.rangeSpec.header, this.rangeSpec.content, this.rangeSpec.selector, {
+    ABConvertManager.autoABConvert(dom_note, this.rangeSpec.header, this.rangeSpec.text_content, this.rangeSpec.selector, {
       save,
       rangeSpec: this.rangeSpec,
     })

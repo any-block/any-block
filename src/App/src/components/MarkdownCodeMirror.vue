@@ -77,9 +77,13 @@ onMounted(() => {
 </style>
 
 <style lang="scss">
+// .app-codemirror > .cm-editor
 .cm-editor {
   height: calc(100% - 10px);
   font-family: inherit;
+  .cm-scroller {
+    padding-right: 15px;
+  }
 }
 
 // 处理 cm-widgetBuffer 问题

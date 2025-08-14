@@ -827,8 +827,7 @@ html[data-theme=dark] #app {
   height: 8px;
   top: calc(50% - 4px);
   left: -6px;
-  -webkit-clip-path: polygon(100% 0, 100% 100%, 13.4% 50%);
-          clip-path: polygon(100% 0, 100% 100%, 13.4% 50%);
+  clip-path: polygon(100% 0, 100% 100%, 13.4% 50%);
   background-color: currentColor;
 }
 .ab-note .ab-nodes .ab-nodes-children .ab-nodes-bracket2 {
