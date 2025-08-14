@@ -20,7 +20,7 @@ export class ABReplacer_Widget extends WidgetType {
   // 构造函数
   constructor(
     public rangeSpec: RangeSpec_AnyBlock,
-    public customData: { cancelFlag: number[], updateMode: string }
+    public customData: { cancelFlag: number[], updateMode: string|number }
   ){
     super()
     this.content_withPrefix_length = rangeSpec.toPos - rangeSpec.fromPos
@@ -58,7 +58,7 @@ export class ABReplacer_Widget extends WidgetType {
       const pos = getPos(); this.content_withPrefix_length = str_with_prefix.length
 
       if (force_refresh) {
-        this.customData.updateMode = 'force'
+        this.customData.updateMode = pos.fromPos // 原 'force'
       }
 
       const new_state = view.state

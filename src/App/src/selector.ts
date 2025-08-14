@@ -7,7 +7,7 @@ import { MdSelectorRangeSpec } from "../../Obsidian/ab_manager/abm_cm/ABSelector
 import { create_decorations as create_decorations2, RangeSpec_AnyBlock } from '../../CodeMirror/src/selector'
 
 export function create_widget (
-  customData: { cancelFlag: number[], updateMode: string },
+  customData: { cancelFlag: number[], updateMode: string|number },
   state: EditorState, oldView: EditorView,
   rangeSpec: RangeSpec_AnyBlock,
   // rangeSpec: RangeSpec_Codeblock | RangeSpec_Quote | RangeSpec_AnyBlock,
@@ -31,7 +31,7 @@ export function create_widget (
 }
 
 export function create_decorations(
-  customData: { cancelFlag: number[], updateMode: string }, oldView: EditorView,
+  customData: { cancelFlag: number[], updateMode: string|number }, oldView: EditorView,
   tr: Transaction, // TODO tr和decorationSet 可以改为可选，如果忽略，则完全重建
   decorationSet: DecorationSet = Decoration.none,
 ): DecorationSet {
