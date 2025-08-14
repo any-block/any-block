@@ -10,8 +10,9 @@ import { prefinedLayouts } from './components/goldenLayout/predefined-layouts'
 const GLayoutRootRef = ref(null); // Golden-Layout
 provide("LAYOUT", GLayoutRootRef);
 
-// md数据
-import { preset_map } from "./utils/preset_map.js"
+// 预设md demo数据 - 加载默认项
+import { preset_map as preset_map_ } from "./utils/preset_map.js"
+const preset_map: Record<string, string> = preset_map_
 const mdData = ref<any>({
   mdPreset: 'Normal markdown', // default
   string: '# ' + 'Normal markdown' + '\n\n' + preset_map['Normal markdown']

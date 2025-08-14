@@ -5,8 +5,9 @@ const props = defineProps<{
   mdData: any
 }>()
 
-// 准备预设数据
-import { preset_map } from "../utils/preset_map.js"
+// 预设md demo数据
+import { preset_map as preset_map_ } from "../utils/preset_map.js"
+const preset_map: Record<string, string> = preset_map_
 // let preset_map2 = {} // 这里可以放一些其他例子
 // preset_map2 = preset_map
 // 这里可以补充各种处理器的用例
