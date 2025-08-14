@@ -85,6 +85,7 @@ jobs:                         # 工作流
       run: |
         git clone --depth 1 https://${{ secrets.AnyBlockPro_Repo }}@github.com/any-block/any-block-pro.git
         mv ./any-block-pro/src/CodeMirror/ ./src/CodeMirror/
+        mv ./any-block-pro/src/Pro/ ./src/Pro/
       env:
         GH_TOKEN: ${{ secrets.AnyBlockPro_Repo }}
     - name: Build
