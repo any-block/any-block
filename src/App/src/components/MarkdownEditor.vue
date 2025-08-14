@@ -1,23 +1,40 @@
 <script setup lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue'
 
 const props = defineProps<{
   mdData: any
 }>()
 
-// 预设md demo数据
+// #region 预设md demo数
+
+// 旧版本，提前准备好键值对
 import { preset_map as preset_map_ } from "../utils/preset_map.js"
-const preset_map: Record<string, string> = preset_map_
-// let preset_map2 = {} // 这里可以放一些其他例子
-// preset_map2 = preset_map
-// 这里可以补充各种处理器的用例
-// (不过我设计上目前把alias和demo都分离出来了，而不耦合在用例中。好处是alias和demo都可以是考虑结合多个处理器的情况)
-// import {ABConvertManager} from "../../../ABConverter/ABConvertManager"
-// for (let item of ABConvertManager.getInstance().list_abConvert){
-//   if (item.hasOwnProperty('demo')) {
-//     preset[item.id] = item.demo
-//   }
-// }
+const preset_map2: Record<string, string> = preset_map_
+
+// 服务端版本
+let preset_map: Record<string, string> = import.meta.glob(
+  '../../../../docs/demo/**/*.md',
+  { 
+    as: 'raw', 
+    eager: true,
+    import: 'default'
+  }
+) as Record<string, string>;
+// 文件名处理（移除路径前缀）
+Object.entries(preset_map).forEach(([path, content]) => {
+  const filename = path.split('/').pop()!;
+  delete preset_map[path];
+  preset_map[filename] = content;
+});
+
+preset_map = { ...preset_map2, ...preset_map }
+
+// // 客户端版本 (略，未完成)
+
+// #endregion
+
+// 初始化默认值
+props.mdData.mdPreset = 'Normal markdown'
+props.mdData.string = '# ' + 'Normal markdown' + '\n\n' + preset_map['Normal markdown']
 
 // 事件
 function onSelect(event: any) {

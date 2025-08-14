@@ -11,11 +11,9 @@ const GLayoutRootRef = ref(null); // Golden-Layout
 provide("LAYOUT", GLayoutRootRef);
 
 // 预设md demo数据 - 加载默认项
-import { preset_map as preset_map_ } from "./utils/preset_map.js"
-const preset_map: Record<string, string> = preset_map_
 const mdData = ref<any>({
-  mdPreset: 'Normal markdown', // default
-  string: '# ' + 'Normal markdown' + '\n\n' + preset_map['Normal markdown']
+  mdPreset: 'index', // default
+  string: '若无demo，请加载MdEditor标签页，或在该标签页的下拉框切换其他demo'
 })
 </script>
 
