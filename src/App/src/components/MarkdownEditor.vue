@@ -32,7 +32,7 @@ Object.entries(preset_map).forEach(([path, content]) => {
 
 // #endregion
 
-onSelect(null, 'index') // 初始化默认值
+onSelect(null, 'README') // 初始化默认值
 // 事件
 function onSelect(event: any, key?: string) {
   if (!key) key = event.target.value

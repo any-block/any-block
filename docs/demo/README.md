@@ -1,9 +1,13 @@
-# Normal markdown
+# AnyBlock Online Demo
+
+> [!note]
+> 此页及所属文件夹内文件，仅用于anyblock的在线demo。
+> 如果你是从文档中误进入这里，可跳转到 https://any-block.github.io/any-block/ 更好地查看 (可查看对应源码及交互)
 
 > [!note]
 > App版使用说明
 > 
-> - `^` 点击编辑区域上面的预设下拉框，可以切换其他demo
+> - `^` 点击编辑区域 (MdEditor标签页) 上面的预设下拉框，可以切换其他demo
 > - 这里有多个标签页，你可以在 MdEditor 或 MdCodeMirror 中编辑，
 >   然后在 MdViewer (markdown-it版插件渲染) 或
 >   MdCodeMirror (CodeMirror版插件渲染) 中查看效果
