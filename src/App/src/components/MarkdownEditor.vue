@@ -7,8 +7,9 @@ const props = defineProps<{
 // #region 预设md demo数
 
 // 旧版本，提前准备好键值对
-import { preset_map as preset_map_ } from "../utils/preset_map.js"
-const preset_map2: Record<string, string> = preset_map_
+// import { preset_map as preset_map_ } from "../utils/preset_map.js"
+// const preset_map2: Record<string, string> = preset_map_
+// preset_map = { ...preset_map2, ...preset_map }
 
 // 服务端版本
 let preset_map: Record<string, string> = import.meta.glob(
@@ -21,26 +22,22 @@ let preset_map: Record<string, string> = import.meta.glob(
 ) as Record<string, string>;
 // 文件名处理（移除路径前缀）
 Object.entries(preset_map).forEach(([path, content]) => {
-  const filename = path.split('/').pop()!;
+  const filename = path.split('/').pop()!.replace(/\.md$/, '');
   delete preset_map[path];
   preset_map[filename] = content;
 });
 
-preset_map = { ...preset_map2, ...preset_map }
-
-// // 客户端版本 (略，未完成)
+// // 客户端版本
+// // TODO 如果未来demo多了，是要改用客户端版本，并按需加载的
 
 // #endregion
 
-// 初始化默认值
-props.mdData.mdPreset = 'Normal markdown'
-props.mdData.string = '# ' + 'Normal markdown' + '\n\n' + preset_map['Normal markdown']
-
+onSelect(null, 'index') // 初始化默认值
 // 事件
-function onSelect(event: any) {
-  const key = event.target.value
+function onSelect(event: any, key?: string) {
+  if (!key) key = event.target.value
   props.mdData.mdPreset = key
-  props.mdData.string = '# ' + key + '\n\n' + preset_map[key]
+  props.mdData.string = preset_map[key] // '# ' + key + '\n\n' + 
 }
 </script>
 

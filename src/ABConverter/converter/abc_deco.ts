@@ -513,8 +513,6 @@ const abc_strictTable = ABConvert.factory({
     const origi_table: HTMLTableElement | null = content.querySelector('table'); if (!origi_table) return content; // 注意table不一定是content直系儿子
     let { tableMap, origi_rowCount, origi_colCount } = table2tableMap(origi_table)
 
-    tableMapPrint(tableMap)
-
     // 2. 自定义处理，填充末尾缺失格
     for (let i = 0; i < origi_rowCount; i++) {
       for (let j = 0; j < origi_colCount; j++) {
@@ -530,8 +528,6 @@ const abc_strictTable = ABConvert.factory({
         }
       }
     }
-
-    tableMapPrint(tableMap)
 
     // 3. tableMap 2 table
     const trans_table = tableMap2table(tableMap, origi_rowCount, origi_colCount)
