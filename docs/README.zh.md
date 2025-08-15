@@ -100,61 +100,61 @@ features:
 
 `多叉表格`/`跨行表格`
 
-![](./docs/assets/list2table3.png)
+![](../docs/assets/list2table3.png)
 
-![](./docs/assets/list2table32.png)
+![](../docs/assets/list2table32.png)
 
 `列表格`/`树型表格`
 
-![](./docs/assets/list2lt3.png)
+![](../docs/assets/list2lt3.png)
 
 优化列表
 
 本质是 "列表格" 的基础上增加仿列表样式
 
-![](./docs/assets/listtable_likelist.png)
+![](../docs/assets/listtable_likelist.png)
 
 目录树
 
 本质是"列表格"的基础上增加仿目录样式
 
-![](./docs/assets/list2dt3.png)
+![](../docs/assets/list2dt3.png)
 
 ascii 目录树
 
-![](./docs/assets/list2astreeH3.png)
+![](../docs/assets/list2astreeH3.png)
 
 WBS (Work Breakdown Structure, 工作分解结构)
 
-![](./docs/assets/list2pumlWBS3.png)
+![](../docs/assets/list2pumlWBS3.png)
 
 时间线
 
-![](./docs/assets/list2timeline3.png)
+![](../docs/assets/list2timeline3.png)
 
 标签页和卡片
 
-![](./docs/assets/tabs-and-card3.png)
+![](../docs/assets/tabs-and-card3.png)
 
 mermaid流程图
 
-![](./docs/assets/list2mermaid3.png)
+![](../docs/assets/list2mermaid3.png)
 
 plantuml 思维导图
 
-![](./docs/assets/list2pumlMindmap3.png)
+![](../docs/assets/list2pumlMindmap3.png)
 
 转节点树图，AnyBlock版思维导图
 
-![](./docs/assets/list2node.png)
+![](../docs/assets/list2node.png)
 
 markmap 思维导图
 
-![](./docs/assets/list2markmap3.png)
+![](../docs/assets/list2markmap3.png)
 
 mermaid 思维导图
 
-![](./docs/assets/list2mindmap3.png)
+![](../docs/assets/list2mindmap3.png)
 
 上面只是插件的**其中的几种**处理器。实际上**还支持非常多的处理器和功能**，处理器间还能随意串行组合，并且除了列表选择器外还支持标题、代码块、引用块等诸多选择器。更多的功能参见[更多文档](https://linczero.github.io/MdNote_Public/%E4%BA%A7%E5%93%81%E6%96%87%E6%A1%A3/AnyBlock/)
 
@@ -169,31 +169,31 @@ Here are some of the more common processors:
 - list2timeline
 - title2list + list2somthing
 
-![](./assets/list2table.png)
+![](../docs/assets/list2table.png)
 
-![](./assets/list2tableT.png)
+![](../docs/assets/list2tableT.png)
 
-![](./assets/list2lt.gif)
+![](../docs/assets/list2lt.gif)
  
-![](./assets/list2tab.gif)
+![](../docs/assets/list2tab.gif)
  
-![](./assets/list2mermaid.png)
+![](../docs/assets/list2mermaid.png)
 
-![](./assets/list2mindmap.png)
+![](../docs/assets/list2mindmap.png)
 
-![](./assets/titleSelector.png)
+![](../docs/assets/titleSelector.png)
 
-![](./assets/addTitle.png)
+![](../docs/assets/addTitle.png)
 
-![](./assets/scroll.gif)
+![](../docs/assets/scroll.gif)
  
-![](./assets/overfold.png)
+![](../docs/assets/overfold.png)
 
-![](./assets/flod.gif)
+![](../docs/assets/flod.gif)
 
-![](./assets/heimu.gif)
+![](../docs/assets/heimu.gif)
 
-![](./assets/userProcessor.png)
+![](../docs/assets/userProcessor.png)
 
 ## Star History
 

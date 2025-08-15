@@ -99,61 +99,61 @@ features:
 
 `multiWay table`/`multiCross table`/`Cross table`
 
-![](./docs/assets/list2table3.png)
+![](../docs/assets/list2table3.png)
 
-![](./docs/assets/list2table32.png)
+![](../docs/assets/list2table32.png)
 
 `ListTable`/`TreeTable`/`TreeGrid`
 
-![](./docs/assets/list2lt3.png)
+![](../docs/assets/list2lt3.png)
 
 Optimized list
 
 The essence is "listtable" based on the addition of a mock list style
 
-![](./docs/assets/listtable_likelist.png)
+![](../docs/assets/listtable_likelist.png)
 
 Dir Tree
 
 The essence is "listtable" based on the addition of imitation directory style
 
-![](./docs/assets/list2dt3.png)
+![](../docs/assets/list2dt3.png)
 
 ASCII Dir Tree
 
-![](./docs/assets/list2astreeH3.png)
+![](../docs/assets/list2astreeH3.png)
 
 WBS (Work Breakdown Structure)
 
-![](./docs/assets/list2pumlWBS3.png)
+![](../docs/assets/list2pumlWBS3.png)
 
 timeline
 
-![](./docs/assets/list2timeline3.png)
+![](../docs/assets/list2timeline3.png)
 
 tabs & card 
 
-![](./docs/assets/tabs-and-card3.png)
+![](../docs/assets/tabs-and-card3.png)
 
 mermaid flow
 
-![](./docs/assets/list2mermaid3.png)
+![](../docs/assets/list2mermaid3.png)
 
 plantuml mindmap
 
-![](./docs/assets/list2pumlMindmap3.png)
+![](../docs/assets/list2pumlMindmap3.png)
 
 nodes (ab mindmap)
 
-![](./docs/assets/list2node.png)
+![](../docs/assets/list2node.png)
 
 markmap mindmap
 
-![](./docs/assets/list2markmap3.png)
+![](../docs/assets/list2markmap3.png)
 
 mermaid mindmap
 
-![](./docs/assets/list2mindmap3.png)
+![](../docs/assets/list2mindmap3.png)
 
 The above only shows **a few of** the processors of the plugin. In fact, it **supports a wide variety of processors and functions**. The processors can be freely combined in series, and in addition to the list selector, it also supports many other selectors such as headings, code blocks, and quote blocks. For more functions, please refer to the more detailed [documentation](https://linczero.github.io/MdNote_Public/%E4%BA%A7%E5%93%81%E6%96%87%E6%A1%A3/AnyBlock/)
 
@@ -168,31 +168,31 @@ Here are some of the more common processors:
 - list2timeline
 - title2list + list2somthing
 
-![](./assets/list2table.png)
+![](../docs/assets/list2table.png)
 
-![](./assets/list2tableT.png)
+![](../docs/assets/list2tableT.png)
 
-![](./assets/list2lt.gif)
+![](../docs/assets/list2lt.gif)
  
-![](./assets/list2tab.gif)
+![](../docs/assets/list2tab.gif)
  
-![](./assets/list2mermaid.png)
+![](../docs/assets/list2mermaid.png)
 
-![](./assets/list2mindmap.png)
+![](../docs/assets/list2mindmap.png)
 
-![](./assets/titleSelector.png)
+![](../docs/assets/titleSelector.png)
 
-![](./assets/addTitle.png)
+![](../docs/assets/addTitle.png)
 
-![](./assets/scroll.gif)
+![](../docs/assets/scroll.gif)
  
-![](./assets/overfold.png)
+![](../docs/assets/overfold.png)
 
-![](./assets/flod.gif)
+![](../docs/assets/flod.gif)
 
-![](./assets/heimu.gif)
+![](../docs/assets/heimu.gif)
 
-![](./assets/userProcessor.png)
+![](../docs/assets/userProcessor.png)
 
 ## Star History
 
