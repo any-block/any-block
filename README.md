@@ -11,42 +11,43 @@
 - Feature: You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table` and so on
 - Feature (detail): You can select a section by list/heading/table/quote/codeBlock/markdown-it-container(`:::`), and trun into table/tabs/dir/card/column/mindmap/markmap/mermaid/PlantUML/timeLine/jsonChart/nodeTree and more
 
-## More Links
+## Document / More Links
 
-- Related links：**tutorial**、use skill、contribution、secondary development、online use. Documentation is **multilingual** (zh/en), don't worry.
-- [Online Wiki - github.io](https://lincdocs.github.io/AnyBlock/)
-- [Online Effects warrior/Tutorial - github.io](https://lincdocs.github.io/AnyBlock/README.show.html), You can learn how to use it by switching between tabs.
-- [Online Interaction - github.io](https://any-block.github.io/any-block/). You can write experiences here and learn usage through templates
+- Related links：**tutorial**、use skill、contribution、secondary development、online use
+- [Effects warrior/**Tutorial**](https://lincdocs.github.io/AnyBlock/README.show.html), You can learn how to use it by switching between tabs.
+- [Online Interaction/Demo](https://any-block.github.io/any-block/). You can write experiences here and learn usage through templates
+- [Wiki](https://lincdocs.github.io/AnyBlock/)
+- Install and use
+  - [Install and use in Obsidian](https://lincdocs.github.io/AnyBlock/docs/en/04.%20InstallAndUse_Obsidian.html)
+  - [Install and use in Vuepress/Markdown-it](https://lincdocs.github.io/AnyBlock/docs/en/04.%20InstallAndUse_VuePress.html)
 - Alternate site links：When the website link to this article fails, try replacing `linczero.github.io` with `linczero-github-io.pages.dev` in the url
 - [A Min-sized version of anyblock](https://github.com/any-block/obsidian-any-block-min), you can download it manually or use the BRAT plugin to download/update the obsidian plugin automatically
 
 ## Lightspot
 
-This is a **【Syntax free, Extensible、Powerful and flexible、Multi-platform】** Markdown block extension analysis and rendering module/plugin.
-
 - Syntax free
-    - No new syntax、Syntax-free intrusion
-	- This also leads to no excessive reliance on plugins. I think a good plugin should not cause - when you have used the plugin for a period of time, leaving it will cause the original content to deform, become unreadable or maintainable
+  - No new syntax、Syntax-free intrusion
+  - This also leads to no excessive reliance on plugins. I think a good plugin should not cause - when you have used the plugin for a period of time, leaving it will cause the original content to deform, become unreadable or maintainable
 - Extensible
-    - Facilitate secondary development
+  - Facilitate secondary development
 - Flexible and powerful
-    - Selector (Flexible)：The selection range is flexible, with six selection methods, making it simple and easy to use
-	- Processor (Powerful)：Rich and diverse, powerful in function and highly scalable
+  - Selector (Flexible)：The selection range is flexible, with six selection methods, making it simple and easy to use
+  - Processor (Powerful)：Rich and diverse, powerful in function and highly scalable
 - Multi-platform, strong universality
-    - It can use: **Obsidian plugin, Markdown-it plugin, Online App, Vuepress plugin**
-	- Blogs such as vuepress/vitepress that support markdown-it parsing
+  - It can use: **Obsidian plugin, Markdown-it plugin, Online App, Vuepress plugin**
+  - Blogs such as vuepress/vitepress that support markdown-it parsing
 
-## Effects warrior
+## Effects warrior / Grammar
 
 `multiWay table`/`multiCross table`/`Cross table`
 
-![](./docs/assets/Pasted%20image%2020240808202548.png)
+![](./docs/assets/list2table3.png)
 
-![](./docs/assets/Pasted%20image%2020240808203055.png)
+![](./docs/assets/list2table32.png)
 
 `ListTable`/`TreeTable`/`TreeGrid`
 
-![](./docs/assets/Pasted%20image%2020240808203143.png)
+![](./docs/assets/list2lt3.png)
 
 Optimized list
 
@@ -58,31 +59,31 @@ Dir Tree
 
 The essence is "listtable" based on the addition of imitation directory style
 
-![](./docs/assets/Pasted%20image%2020240808203216.png)
+![](./docs/assets/list2dt3.png)
 
 ASCII Dir Tree
 
-![](./docs/assets/Pasted%20image%2020240808203232.png)
+![](./docs/assets/list2astreeH3.png)
 
 WBS (Work Breakdown Structure)
 
-![](./docs/assets/Pasted%20image%2020240808203252.png)
+![](./docs/assets/list2pumlWBS3.png)
 
 timeline
 
-![](./docs/assets/Pasted%20image%2020240808203455.png)
+![](./docs/assets/list2timeline3.png)
 
 tabs & card 
 
-![](./docs/assets/tag%20and%20card.png)
+![](./docs/assets/tabs-and-card3.png)
 
 mermaid flow
 
-![](./docs/assets/Pasted%20image%2020240808203517.png)
+![](./docs/assets/list2mermaid3.png)
 
 plantuml mindmap
 
-![](./docs/assets/Pasted%20image%2020240808203534.png)
+![](./docs/assets/list2pumlMindmap3.png)
 
 nodes (ab mindmap)
 
@@ -90,13 +91,13 @@ nodes (ab mindmap)
 
 markmap mindmap
 
-![](./docs/assets/Pasted%20image%2020240808203605.png)
+![](./docs/assets/list2markmap3.png)
 
 mermaid mindmap
 
-![](./docs/assets/Pasted%20image%2020240808203621.png)
+![](./docs/assets/list2mindmap3.png)
 
-[more……](https://linczero.github.io/MdNote_Public/%E4%BA%A7%E5%93%81%E6%96%87%E6%A1%A3/AnyBlock/)
+The above only shows **a few of** the processors of the plugin. In fact, it **supports a wide variety of processors and functions**. The processors can be freely combined in series, and in addition to the list selector, it also supports many other selectors such as headings, code blocks, and quote blocks. For more functions, please refer to the more detailed [documentation](https://linczero.github.io/MdNote_Public/%E4%BA%A7%E5%93%81%E6%96%87%E6%A1%A3/AnyBlock/)
 
 ## Effects warrior - old
 
