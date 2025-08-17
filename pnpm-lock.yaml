@@ -72,6 +72,9 @@ importers:
       '@codemirror/view':
         specifier: ^6.36.7
         version: 6.38.1
+      '@retronav/ixora':
+        specifier: ^0.3.3
+        version: 0.3.3
       codemirror:
         specifier: ^6.0.2
         version: 6.0.2
@@ -238,8 +241,14 @@ importers:
   src/Pro:
     dependencies:
       '@editableblock/cm':
-        specifier: 1.0.1-beta3
-        version: 1.0.1-beta3
+        specifier: 1.0.1-beta4
+        version: 1.0.1-beta4
+      '@editableblock/core':
+        specifier: 1.0.1-beta4
+        version: 1.0.1-beta4
+      prismjs:
+        specifier: ^1.30.0
+        version: 1.30.0
 
   src/Vuepress:
     dependencies:
@@ -384,8 +393,11 @@ packages:
     resolution: {integrity: sha512-UJnjoFsmxfKUdNYdWgOB0mWUypuLvAfQPH1+pyvRJs6euowbFkFC6P13w1l8mJyi3vxYMxc9kld5jZEGRQs6bw==}
     engines: {node: '>=18'}
 
-  '@editableblock/cm@1.0.1-beta3':
-    resolution: {integrity: sha512-UcKeZjSrlNT145FxHjabqQLC3faO8Fj6ZU+hcvV9WiAe2BRtJF6dMnRd6tDy15VODMqG0blL9Ovoude1jh9uHA==}
+  '@editableblock/cm@1.0.1-beta4':
+    resolution: {integrity: sha512-aw+jCMqi96ryVqzPCvGGOLaVANykkdWELlfryz5Ct2O4aFfU0FmlzE9WGUh3YKajLg+QtubKM7jVVcQnKJFUow==}
+
+  '@editableblock/core@1.0.1-beta4':
+    resolution: {integrity: sha512-w6/I3SIYX2HFTV62qov0UDWf34HEFnajipNwn91GGYOJLA7WDNnuBs/SPeOk3usXiI+UZzycg2DVUg+EfQrBGg==}
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -3301,7 +3313,7 @@ snapshots:
 
   '@csstools/css-tokenizer@3.0.3': {}
 
-  '@editableblock/cm@1.0.1-beta3':
+  '@editableblock/cm@1.0.1-beta4':
     dependencies:
       '@codemirror/commands': 6.8.1
       '@codemirror/lang-markdown': 6.3.3
@@ -3311,6 +3323,8 @@ snapshots:
       '@codemirror/view': 6.38.1
       '@retronav/ixora': 0.3.3
       codemirror: 6.0.2
+
+  '@editableblock/core@1.0.1-beta4': {}
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
