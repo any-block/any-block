@@ -27,7 +27,6 @@ import {
   EditorState,
   Extension,
 } from '@codemirror/state'
-
 import {
   highlightActiveLine,
   highlightSpecialChars,
@@ -106,7 +105,7 @@ function initEditor() {
       // markdown(),       // markdown 语言支持
       // oneDark,          // 黑暗主题
 
-      lineNumbers(), // 显示行号      
+      lineNumbers(), // 显示行号
       extension_update, // 监听更新
       // editableCodeBlock_viewPlugin,
     ],
@@ -200,47 +199,4 @@ onMounted(() => {
 // .app-codemirror .ͼ1 .cm-blockquote-border {
 //   border: none !important;
 // }
-
-/** 一些markdown样式校正，不知道为什么，默认的行为有很多很怪 */
-ul {
-  margin: 0;
-  padding-left: 20px;
-  list-style-type: disc;
-}
-table {
-  display: table;
-  width: 100%;
-  border-collapse: collapse;
-}
-th, td {
-  border: solid 1px currentColor;
-  padding: 0 4px;
-}
-pre {
-  background-color: #0D1117;
-  padding: 1em;
-}
-blockquote {
-  background-color: #204E8A44; /** 半透明以区分嵌套 */
-  margin: 16px 0;
-  padding: 1em;
-}
-img {
-  max-width: 100%;
-}
-h2 {
-  color: #ffc078;
-}
-p {
-  display: block;
-}
-strong {
-  color: red;
-}
-em {
-  color: yellow;
-}
-s {
-  color: gray;
-}
 </style>
