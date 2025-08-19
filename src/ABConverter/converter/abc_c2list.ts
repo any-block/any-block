@@ -321,68 +321,71 @@ export class C2ListProcess{
     div: HTMLDivElement,
     modeT: boolean
   ){
-    // GeneratorTab，原svelte代码
-    {
-      const tab = document.createElement("div"); div.appendChild(tab); tab.classList.add("ab-tab-root");
-      if (modeT) tab.setAttribute("modeT", "true")
-      const nav = document.createElement("div"); tab.appendChild(nav); nav.classList.add("ab-tab-nav");
-      const content = document.createElement("div"); tab.appendChild(content); content.classList.add("ab-tab-content")
-      let current_dom:HTMLElement|null = null
-      for (let i=0; i<list_itemInfo.length; i++){
-        const itemInfo = list_itemInfo[i]
-        if (!current_dom){            // 找开始标志
-          if (itemInfo.level==0){
-            const nav_item = document.createElement("button"); nav.appendChild(nav_item); nav_item.classList.add("ab-tab-nav-item");
-              nav_item.textContent = itemInfo.content.slice(0,20); nav_item.setAttribute("is_activate", i==0?"true":"false");
-            current_dom = document.createElement("div"); content.appendChild(current_dom); current_dom.classList.add("ab-tab-content-item");
-              current_dom.setAttribute("style", i==0?"display:block":"display:none"); current_dom.setAttribute("is_activate", i==0?"true":"false");
+    const tab = document.createElement("div"); div.appendChild(tab); tab.classList.add("ab-tab-root");
+    if (modeT) tab.setAttribute("modeT", "true")
+    const nav = document.createElement("div"); tab.appendChild(nav); nav.classList.add("ab-tab-nav");
+    const content = document.createElement("div"); tab.appendChild(content); content.classList.add("ab-tab-content")
+    let current_dom:HTMLElement|null = null
+    for (let i=0; i<list_itemInfo.length; i++){
+      const item = list_itemInfo[i]
+      // b1. item标题，顺便创建空内容
+      if (item.level==0) {
+        const nav_item = document.createElement("button"); nav.appendChild(nav_item); nav_item.classList.add("ab-tab-nav-item");
+          nav_item.textContent = item.content.slice(0,20); nav_item.setAttribute("is_activate", i==0?"true":"false");
+        current_dom = document.createElement("div"); content.appendChild(current_dom); current_dom.classList.add("ab-tab-content-item");
+          current_dom.setAttribute("style", i==0?"display:block":"display:none"); current_dom.setAttribute("is_activate", i==0?"true":"false");
+      }
+      // b2. item内容，在空内容的基础上填充
+      else if (current_dom) {
+        ABConvertManager.getInstance().m_renderMarkdownFn(item.content, current_dom)
+        current_dom = null
+      }
+      // b3. item内容之前没有item标题，不合法，跳过
+      else {
+        continue
+      }
+    }
+
+    // 动态部分
+    // 元素全部创建完再来绑按钮事件，不然会有问题
+    const lis:NodeListOf<HTMLButtonElement> = tab.querySelectorAll(":scope>.ab-tab-nav>.ab-tab-nav-item")
+    const contents = tab.querySelectorAll(":scope>.ab-tab-content>.ab-tab-content-item")
+    if (lis.length!=contents.length) console.warn("ab-tab-nav-item和ab-tab-content-item的数量不一致")
+    for (let i=0; i<lis.length; i++){
+      // 1. 二选一，常规绑定
+      // ob选用
+      if (ABCSetting.env == "obsidian" || ABCSetting.env == "obsidian-min") {
+        lis[i].onclick = ()=>{
+          for (let j=0; j<contents.length; j++){
+            lis[j].setAttribute("is_activate", "false")
+            contents[j].setAttribute("is_activate", "false")
+            contents[j].setAttribute("style", "display:none")
           }
-        }
-        else{                         // 找结束，不需要找标志，因为传过来的是二层一叉树
-          ABConvertManager.getInstance().m_renderMarkdownFn(itemInfo.content, current_dom)
-          current_dom = null
+          lis[i].setAttribute("is_activate", "true")
+          contents[i].setAttribute("is_activate", "true")
+          contents[i].setAttribute("style", "display:block")
         }
       }
-      // 元素全部创建完再来绑按钮事件，不然有可能有问题
-      const lis:NodeListOf<HTMLButtonElement> = tab.querySelectorAll(":scope>.ab-tab-nav>.ab-tab-nav-item")
-      const contents = tab.querySelectorAll(":scope>.ab-tab-content>.ab-tab-content-item")
-      if (lis.length!=contents.length) console.warn("ab-tab-nav-item和ab-tab-content-item的数量不一致")
-      for (let i=0; i<lis.length; i++){
-        // 1. 二选一，常规绑定
-        // ob选用
-        if (ABCSetting.env == "obsidian" || ABCSetting.env == "obsidian-min") {
-          lis[i].onclick = ()=>{
-            for (let j=0; j<contents.length; j++){
-              lis[j].setAttribute("is_activate", "false")
-              contents[j].setAttribute("is_activate", "false")
-              contents[j].setAttribute("style", "display:none")
-            }
-            lis[i].setAttribute("is_activate", "true")
-            contents[i].setAttribute("is_activate", "true")
-            contents[i].setAttribute("style", "display:block")
+      // 2. 二选一，嵌入内联onclick
+      // mdit (vuepress、app) 选用
+      else {
+        lis[i].setAttribute("onclick",`
+          const i = ${i}
+          const tab_current = this
+          const tab_nav = this.parentNode
+          const tab_root = tab_nav.parentNode
+          const tab_content = tab_root.querySelector(":scope>.ab-tab-content")
+          const tab_nav_items = tab_nav.querySelectorAll(":scope>.ab-tab-nav-item")
+          const tab_content_items = tab_content.querySelectorAll(":scope>.ab-tab-content-item")
+          for (let j=0; j<tab_content_items.length; j++){
+            tab_nav_items[j].setAttribute("is_activate", "false")
+            tab_content_items[j].setAttribute("is_activate", "false")
+            tab_content_items[j].setAttribute("style", "display:none")
           }
-        }
-        // 2. 二选一，嵌入内联onclick
-        // mdit (vuepress、app) 选用
-        else {
-          lis[i].setAttribute("onclick",`
-            const i = ${i}
-            const tab_current = this
-            const tab_nav = this.parentNode
-            const tab_root = tab_nav.parentNode
-            const tab_content = tab_root.querySelector(":scope>.ab-tab-content")
-            const tab_nav_items = tab_nav.querySelectorAll(":scope>.ab-tab-nav-item")
-            const tab_content_items = tab_content.querySelectorAll(":scope>.ab-tab-content-item")
-            for (let j=0; j<tab_content_items.length; j++){
-              tab_nav_items[j].setAttribute("is_activate", "false")
-              tab_content_items[j].setAttribute("is_activate", "false")
-              tab_content_items[j].setAttribute("style", "display:none")
-            }
-            tab_current.setAttribute("is_activate", "true")
-            tab_content_items[i].setAttribute("is_activate", "true")
-            tab_content_items[i].setAttribute("style", "display:block")
-          `)
-        }
+          tab_current.setAttribute("is_activate", "true")
+          tab_content_items[i].setAttribute("is_activate", "true")
+          tab_content_items[i].setAttribute("style", "display:block")
+        `)
       }
     }
 
@@ -394,14 +397,20 @@ export class C2ListProcess{
     const el_items = document.createElement("div"); el.appendChild(el_items); el_items.classList.add("ab-items")
     let el_item:HTMLElement|null = null;
     for (const item of c2listdata) {
+      // b1. item标题
       if (item.level == 0) {
         el_item = document.createElement("div"); el_items.appendChild(el_item); el_item.classList.add("ab-items-item")
         const el_title = document.createElement("div"); el_item.appendChild(el_title); el_title.classList.add("ab-items-title")
         ABConvertManager.getInstance().m_renderMarkdownFn(item.content, el_title)
-      } else {
-        if (!el_item) continue;
+      }
+      // b2. item内容
+      else if (el_item) {
         const el_content = document.createElement("div"); el_item.appendChild(el_content); el_content.classList.add("ab-items-content")
         ABConvertManager.getInstance().m_renderMarkdownFn(item.content, el_content)
+      }
+      // b3. item内容之前没有item标题，不合法，跳过
+      else {
+        continue
       }
     }
     return el
