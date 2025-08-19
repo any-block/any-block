@@ -193,9 +193,10 @@ onMounted(() => {
 .ͼ1 .cm-blockquote {
   color: currentColor !important;
 }
-// .app-codemirror .ͼ1 .cm-codeblock {
-//   background: none !important;
-// }
+.app-codemirror .ͼ1 .cm-codeblock {
+  // background: none !important;
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
 // .app-codemirror .ͼ1 .cm-blockquote-border {
 //   border: none !important;
 // }

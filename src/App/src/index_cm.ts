@@ -60,8 +60,8 @@ ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HT
 ABCSetting.env = "app"
 // #endregion
 
-import "../../Pro/src/editableBlock" // [!code hl]
-import "../../Pro/src/style.css" // [!code hl]
+import "../../Pro/src/" // [!code hl] 加载所有默认插件，也可按需加载
+import "../../Pro/src/styles/style.css" // [!code hl]
 
 import { create_decorations } from "./selector" // [!code hl]
 // import { create_decorations } from "./selector_old" // [!code hl]

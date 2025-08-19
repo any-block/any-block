@@ -8,7 +8,7 @@ import {C2ListProcess, type List_C2ListItem} from "./abc_c2list"
 import {ABCSetting, ABReg} from "../ABReg"
 
 /// 按mdit-tabs的标准转化为二列列表数据
-function mditTabs2listdata(content:string, reg: RegExp): List_C2ListItem {
+export function mditTabs2listdata(content:string, reg: RegExp): List_C2ListItem {
   const list_line = content.split("\n")
   let content_item: string = ""
   const list_c2listItem: List_C2ListItem = []
@@ -109,7 +109,7 @@ ${content}
  * 1. 根据标签分栏 (手动分栏)
  * 2. 指定分栏个数 (自动分栏)
  */
-const abc_midt_co = ABConvert.factory({
+const abc_midt_col = ABConvert.factory({
   id: "mditCol",
   name: "mdit分栏",
   process_param: ABConvert_IOEnum.text,

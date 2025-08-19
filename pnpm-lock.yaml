@@ -72,6 +72,9 @@ importers:
       '@codemirror/view':
         specifier: ^6.38.1
         version: 6.38.1
+      '@editableblock/cm':
+        specifier: 1.0.1-beta5
+        version: 1.0.1-beta5
       '@retronav/ixora':
         specifier: ^0.3.3
         version: 0.3.3
