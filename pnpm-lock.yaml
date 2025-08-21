@@ -241,14 +241,14 @@ importers:
   src/Pro:
     dependencies:
       '@editableblock/cm':
-        specifier: 1.0.1-beta6
-        version: 1.0.1-beta6
+        specifier: 1.0.1-beta8
+        version: 1.0.1-beta8
       '@editableblock/core':
-        specifier: 1.0.1-beta6
-        version: 1.0.1-beta6
+        specifier: 1.0.1-beta8
+        version: 1.0.1-beta8
       '@editableblock/textarea':
-        specifier: 1.0.1-beta6
-        version: 1.0.1-beta6
+        specifier: 1.0.1-beta8
+        version: 1.0.1-beta8
       prismjs:
         specifier: ^1.30.0
         version: 1.30.0
@@ -396,14 +396,14 @@ packages:
     resolution: {integrity: sha512-UJnjoFsmxfKUdNYdWgOB0mWUypuLvAfQPH1+pyvRJs6euowbFkFC6P13w1l8mJyi3vxYMxc9kld5jZEGRQs6bw==}
     engines: {node: '>=18'}
 
-  '@editableblock/cm@1.0.1-beta6':
-    resolution: {integrity: sha512-peBue3ZLeHo2bjQfks5TUpl20CD18/5D/LYF2nfkXma+tOUklGIChMLF8bjzpWfn6mQUxm8Zwaxa+Dq+gSnxxA==}
+  '@editableblock/cm@1.0.1-beta8':
+    resolution: {integrity: sha512-ue51ETgzFCyDDDiTb6mdkfqkrKx8XCMswViMQU0xUJEXNuTpDX3vRwASu26Mg4qIbOCeumC5TvL6aQNT0yfH1Q==}
 
-  '@editableblock/core@1.0.1-beta6':
-    resolution: {integrity: sha512-8DbjQb1MoQ3fJeLOzZK1hpyaVdSX3cH85HnzABHjnP4CIT5EceFfdlDy56EWSYKBT6fx7WJdn1LjhkDG5O0Nsg==}
+  '@editableblock/core@1.0.1-beta8':
+    resolution: {integrity: sha512-1QwpGii7kRO8te0+aO8+AjpAXx69hQ8GmFGhe+74sO2yI0b2bGlXDi8qHjwkcCUHhvHiy48/KtJ5m+SjBdsLsA==}
 
-  '@editableblock/textarea@1.0.1-beta6':
-    resolution: {integrity: sha512-rEKbK+E7fl05zUugCkvgFX7tlC2s9aIQLDlFp26LV9fkrkuJs+gIpIzYbkhX2YrqHpf9+S6+/X7cnj7qhkJEnQ==}
+  '@editableblock/textarea@1.0.1-beta8':
+    resolution: {integrity: sha512-l3ovbnCNsAQiplxXwzuCUTn2Rx+Y4IDad+ephvGbOv4Wy1bsma1eLgcBXwdDWvt6785wwFqscCLR8s/6+WirlQ==}
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -3319,7 +3319,7 @@ snapshots:
 
   '@csstools/css-tokenizer@3.0.3': {}
 
-  '@editableblock/cm@1.0.1-beta6':
+  '@editableblock/cm@1.0.1-beta8':
     dependencies:
       '@codemirror/commands': 6.8.1
       '@codemirror/lang-markdown': 6.3.3
@@ -3330,9 +3330,9 @@ snapshots:
       '@retronav/ixora': 0.3.3
       codemirror: 6.0.2
 
-  '@editableblock/core@1.0.1-beta6': {}
+  '@editableblock/core@1.0.1-beta8': {}
 
-  '@editableblock/textarea@1.0.1-beta6': {}
+  '@editableblock/textarea@1.0.1-beta8': {}
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
