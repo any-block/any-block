@@ -331,12 +331,16 @@ export class C2ListProcess{
       // b1. item标题，顺便创建空内容
       if (item.level==0) {
         const nav_item = document.createElement("button"); nav.appendChild(nav_item); nav_item.classList.add("ab-tab-nav-item");
-          nav_item.textContent = item.content.slice(0,20); nav_item.setAttribute("is_activate", i==0?"true":"false");
+          nav_item.setAttribute("is_activate", i==0?"true":"false");
+          nav_item.setAttribute("data_index", i.toString()); // data_index 用于方便从数组中删除
+          nav_item.textContent = item.content.slice(0,20);
+
         current_dom = document.createElement("div"); content.appendChild(current_dom); current_dom.classList.add("ab-tab-content-item");
           current_dom.setAttribute("style", i==0?"display:block":"display:none"); current_dom.setAttribute("is_activate", i==0?"true":"false");
       }
       // b2. item内容，在空内容的基础上填充
       else if (current_dom) {
+        current_dom.setAttribute("data_index", i.toString()); // data_index 用于方便从数组中删除
         ABConvertManager.getInstance().m_renderMarkdownFn(item.content, current_dom)
         current_dom = null
       }
