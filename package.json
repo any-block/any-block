@@ -27,16 +27,7 @@
 		"markdown-it plugin"
 	],
 	"devDependencies": {
-		"@codemirror/language": "^6.11.3",
-		"@types/node": "^16.18.126",
-		"@typescript-eslint/eslint-plugin": "5.29.0",
-		"@typescript-eslint/parser": "5.29.0",
-		"builtin-modules": "3.3.0",
-		"copyfiles": "^2.4.1",
-		"esbuild": "^0.14.54",
-		"tslib": "^2.8.1",
-		"typescript": "^5.9.2",
-		"vite": "^4.5.14"
+		"copyfiles": "^2.4.1"
 	},
 	"packageManager": "pnpm@10.10.0",
 	"engines": {
