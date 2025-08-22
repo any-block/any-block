@@ -91,6 +91,7 @@ onMounted(()=>{
   }
   p {
     display: block;
+    margin: 0;
   }
   strong {
     color: red;
