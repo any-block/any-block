@@ -152,12 +152,22 @@ onMounted(() => {
 </style>
 
 <style lang="scss">
-// .app-codemirror > .cm-editor
-.cm-editor {
+// .app-codemirror > .cm-editor。用 `>` 不影响嵌套cm块
+.app-codemirror>.cm-editor {
   height: calc(100% - 10px);
   font-family: inherit;
-  .cm-scroller {
+  >.cm-scroller {
+    box-sizing: border-box;
     padding-right: 15px;
+    >.cm-content {
+      max-width: calc(100% - 40px); // 减左测gutters 40。TODO WARNING 假设的cm-gutters宽度不一定对
+      word-break: break-all;
+      min-width: 0;
+      >.cm-line {
+        white-space: pre-wrap; // 允许换行
+        word-break: break-all; // 强制换行
+      }
+    }
   }
 }
 

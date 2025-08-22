@@ -15,7 +15,7 @@ const props = defineProps<{
 let preset_map: Record<string, string> = import.meta.glob(
   '../../../../docs/demo/**/*.md',
   { 
-    as: 'raw', 
+    query: '?raw',
     eager: true,
     import: 'default'
   }
