@@ -23,16 +23,18 @@
     "copy_abc_style": "copyfiles --flat ../../src/ABConverter/style/styles.css ./"
   },
   "keywords": [
-		"anyblock", "any-block",
-		"markdown", "markdown-it"
-	],
+    "anyblock",
+    "any-block",
+    "markdown",
+    "markdown-it"
+  ],
   "author": "LincZero",
   "license": "GNU Affero General Public License v3.0",
   "peerDependencies": {
     "markdown-it": "^14.1.0"
   },
   "dependencies": {
-    "jsdom": "^26.0.0",
+    "jsdom": "^26.1.0",
     "markdown-it": "^14.1.0",
     "plantuml-encoder": "^1.4.0"
   },
@@ -47,8 +49,8 @@
     "rollup": "4.40.1",
     "rollup-plugin-dts": "6.2.1",
     "rollup-plugin-esbuild": "6.2.1",
-    "tsup": "^8.2.4",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.5"
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "vite": "^5.4.19"
   }
 }

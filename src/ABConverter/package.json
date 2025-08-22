@@ -9,7 +9,7 @@
   "author": "LincZero",
   "license": "GNU Affero General Public License v3.0",
   "dependencies": {
-    "markmap-lib": "^0.17.0",
+    "markmap-lib": "^0.17.2",
     "plantuml-encoder": "^1.4.0"
   },
   "devDependencies": {

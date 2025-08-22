@@ -36,9 +36,9 @@
     "@types/markdown-it-container": "^2.0.10",
     "@types/plantuml-encoder": "^1.4.2",
     "markdown-it-container": "^4.0.0",
-    "rollup": "^4.40.0",
-    "tsup": "^8.2.4",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.5"
+    "rollup": "^4.47.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "vite": "^5.4.19"
   }
 }

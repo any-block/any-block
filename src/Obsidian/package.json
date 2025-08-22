@@ -16,29 +16,28 @@
 		"build2": "pnpm copy_abc_style && npx svelte-check && vite build --mode=production",
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
 		"bumpversion": "node version-bump.mjs && git add manifest.json versions.json",
-    	"copy_abc_style": "copyfiles --flat ../../src/ABConverter/style/styles.css ../../"
+		"copy_abc_style": "copyfiles --flat ../../src/ABConverter/style/styles.css ../../"
 	},
 	"keywords": [],
 	"devDependencies": {
-		"@codemirror/language": "^6.3.2",
-		"@codemirror/state": "^6.3.2",
-		"@codemirror/view": "^6.3.2",
-		"@sveltejs/vite-plugin-svelte": "^2.0.2",
+		"@codemirror/language": "^6.11.3",
+		"@codemirror/state": "^6.5.2",
+		"@codemirror/view": "^6.38.1",
+		"@sveltejs/vite-plugin-svelte": "^2.5.3",
 		"@tsconfig/svelte": "^3.0.0",
-		"@types/node": "^16.11.6",
+		"@types/node": "^16.18.126",
 		"@typescript-eslint/eslint-plugin": "5.29.0",
 		"@typescript-eslint/parser": "5.29.0",
 		"builtin-modules": "3.3.0",
 		"copyfiles": "^2.4.1",
-		"esbuild": "^0.14.47",
-		"esbuild-svelte": "^0.7.3",
+		"esbuild": "^0.14.54",
+		"esbuild-svelte": "^0.7.4",
 		"obsidian": "latest",
-		"svelte": "^3.55.1",
 		"tslib": "2.4.0",
 		"typescript": "4.7.4",
-		"vite": "^4.1.1"
+		"vite": "^4.5.14"
 	},
 	"dependencies": {
-		"html-to-md": "^0.8.3"
+		"html-to-md": "^0.8.8"
 	}
 }
