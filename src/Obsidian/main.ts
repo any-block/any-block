@@ -10,15 +10,13 @@
 import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownView, type MarkdownPostProcessorContext } from 'obsidian'
 
 // 转换器模块
-import { ABConvertManager } from "@/ABConverter/index"
+import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager } from "./ab_manager/abm_cm/ABStateManager"
 import { ABSelector_PostHtml } from "./ab_manager/abm_html/ABSelector_PostHtml"
 import type { ABSettingInterface } from "./config/ABSettingTab"
 import { ABSettingTab, AB_SETTINGS } from "./config/ABSettingTab"
-import { ABCSetting } from "@/ABConverter/ABReg"
-
 
 export default class AnyBlockPlugin extends Plugin {
   settings: ABSettingInterface

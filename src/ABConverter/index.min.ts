@@ -22,3 +22,4 @@ export {} from "./converter/abc_mermaid"  // 可选建议：新版无额外依�
 // 定义环境条件
 import { ABCSetting } from "./ABReg"
 ABCSetting.env = "obsidian-min"
+export { ABCSetting } from "./ABReg"

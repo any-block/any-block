@@ -22,3 +22,4 @@ export {} from "./converter/abc_markmap"  // 可选建议：1.3MB
 // 定义环境条件
 import { ABCSetting } from "./ABReg"
 ABCSetting.env = "obsidian"
+export { ABCSetting } from "./ABReg"

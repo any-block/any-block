@@ -10,7 +10,8 @@
 import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownView, type MarkdownPostProcessorContext } from 'obsidian'
 
 // 转换器模块
-import { ABConvertManager, ABCSetting } from "@/ABConverter/index.min" // [!code hl] min
+import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
+import { } from "@/Pro/src/index" // [!code hl] pro版
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager } from "./ab_manager/abm_cm/ABStateManager"
@@ -57,7 +58,7 @@ export default class AnyBlockPlugin extends Plugin {
        * @param sourcePath - The normalized path of this markdown file, used to resolve relative internal links
        * @param component - A parent component to manage the lifecycle of the rendered child components.
        * @public
-       */
+       */      
       MarkdownRenderer.render(this.app, markdown, el, this.app.workspace.getActiveViewOfType(MarkdownView)?.file?.path??"", mdrc)
     })
 

@@ -23,7 +23,7 @@ esbuild.build({
 	banner: {
 		js: banner,
 	},
-	entryPoints: ['./main.min.ts'], // [!code] min
+	entryPoints: ['./main.pro.ts'], // [!code] pro
 	bundle: true,
 	external: [
 		'obsidian',
@@ -47,5 +47,5 @@ esbuild.build({
 	sourcemap: prod ? false : 'inline',
 	treeShaking: true,
 	// outdir: '../../',
-	outfile: '../../dist-min/main.js', // [!code] min
+	outfile: '../../dist-pro/main.js', // [!code] pro
 }).catch(() => process.exit(1));

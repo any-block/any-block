@@ -225,6 +225,9 @@ importers:
       '@editableblock/textarea':
         specifier: 1.0.1-beta15
         version: 1.0.1-beta15
+      '@types/prismjs':
+        specifier: ^1.26.5
+        version: 1.26.5
       prismjs:
         specifier: ^1.30.0
         version: 1.30.0
@@ -1502,6 +1505,9 @@ packages:
 
   '@types/plantuml-encoder@1.4.2':
     resolution: {integrity: sha512-R60SYlcXyTXQebyVwcarGSJUucuwYY5wetBWAOnRt3k52flBXgt4R1KrxaZ4xpk5MpVo9titpVBBhgl/A9JWRQ==}
+
+  '@types/prismjs@1.26.5':
+    resolution: {integrity: sha512-AUZTa7hQ2KY5L7AmtSiqxlhWxb4ina0yd8hNbl4TWuqnv/pFP0nDMb3YrfSBf4hJVGLh2YEIBfKaBW/9UEl6IQ==}
 
   '@types/tern@0.23.9':
     resolution: {integrity: sha512-ypzHFE/wBzh+BlH6rrBgS5I/Z7RD21pGhZ2rltb/+ZrVM1awdZwjx7hE5XfuYgHWk9uvV5HLZN3SloevCAp3Bw==}
@@ -4383,6 +4389,8 @@ snapshots:
   '@types/plantuml-encoder@1.4.2':
     dependencies:
       '@types/node': 16.18.126
+
+  '@types/prismjs@1.26.5': {}
 
   '@types/tern@0.23.9':
     dependencies:
