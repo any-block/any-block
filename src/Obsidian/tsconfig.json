@@ -1,14 +1,12 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "types": ["svelte", "node"],
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["../../src/*"]
     },
     // "inlineSourceMap": true, // 否则svelete文件报错：[svelte-preprocess] Encountered type error
-    "inlineSources": true,
+    // "inlineSources": true,
     "module": "ESNext",
     "target": "ES6",
     "allowJs": true,
