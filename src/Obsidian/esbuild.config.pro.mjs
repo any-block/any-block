@@ -49,3 +49,13 @@ esbuild.build({
 	// outdir: '../../',
 	outfile: '../../dist-pro/main.js', // [!code] pro
 }).catch(() => process.exit(1));
+
+// css // [!code] pro
+await esbuild.build({
+    entryPoints: ["./pro.css"],
+    outfile: "../../dist-pro/styles.css",
+    watch: !prod,
+    bundle: true,
+    allowOverwrite: true,
+    minify: false,
+});
