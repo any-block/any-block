@@ -239,7 +239,7 @@ async function render_mermaidText(mermaidText: string, div: HTMLElement) {
   // 0. 四选一。使用obsidian的loadMermaid引入依赖
   // 优点：无需自带mermaid依赖
   // full-ob和min-ob选用
-  if ((ABCSetting.env == "obsidian" || ABCSetting.env == "obsidian-min") && ABCSetting.mermaid) {
+  if ((ABCSetting.env.startsWith("obsidian")) && ABCSetting.mermaid) {
     ABCSetting.mermaid.then(async mermaid => {
       const { svg } = await mermaid.render("ab-mermaid-"+getID(), mermaidText)
       div.innerHTML = svg
@@ -251,7 +251,7 @@ async function render_mermaidText(mermaidText: string, div: HTMLElement) {
   // - 缺点: abc模块要内置mermaid，旧版插件使用是因为当时的obsidian内置的mermaid版本太老了
   // - 选用：目前的ob环境中用是最好。vuepress-mdit中则有另一个bug，DOMPurify丢失：https://github.com/mermaid-js/mermaid/issues/5204
   // - 补充：废弃函数：mermaid.mermaidAPI.renderAsync("ab-mermaid-"+getID(), mermaidText, (svgCode:string)=>{ div.innerHTML = svgCode })
-  // if (ABCSetting.env == "obsidian") {
+  // if (ABCSetting.env == "obsidian" || ABCSetting.env == "obsidian-pro") {
   //   await init_mermaid()
   //   const { svg } = await mermaid?.render("ab-mermaid-"+getID(), mermaidText)
   //   div.innerHTML = svg
@@ -319,7 +319,7 @@ async function render_mermaidText(mermaidText: string, div: HTMLElement) {
   if (mermaid != null) return // 已经初始化过
     
   // 二选一。mdit/min环境直接不执行这部分
-  if  (ABCSetting.env !== 'obsidian') return
+  if  (ABCSetting.env.startsWith("obsidian")) return
 
   // 二选一。这里是obsidian版本。
   // 依赖和主题明暗检测也是ob才需要的

@@ -74,7 +74,7 @@ const abc_fold = ABConvert.factory({
     const listTable_btn = sub_el.querySelector(".ab-table-fold")
     if (isListTable && listTable_btn) {
       // 二选一。仅ob环境，mdit环境不支持
-      if (ABCSetting.env == "obsidian" || ABCSetting.env == "obsidian-min") {
+      if (ABCSetting.env.startsWith("obsidian")) {
         // 1. 回溯原折叠
         fn_fold()
         sub_button.textContent = "折叠/展开"

@@ -60,7 +60,7 @@ function list2markmap(markdown: string, div: HTMLDivElement) {
 	// 渲染
 	// 1. 四选一。纯动态/手动渲染 (优缺点见abc_mermaid的相似方法)
 	// ob 选用
-	if (ABCSetting.env == "obsidian" || ABCSetting.env == "obsidian-min") {
+	if (ABCSetting.env.startsWith("obsidian")) {
 		// 1. 新Ob使用，现在Ob的刷新按钮统一放在了外面
 		let height_adapt = 30 + markdown.split("\n").length*15; // 1. 仅大致估算px: 30 + (0~50)行 * 15 = [30~780]。2. 如果要准确估计，得自己解析一遍，麻烦。3. 并且后面会有个事件覆盖掉这个大致高度，所以这里不重要。4. 另外采用"偏小"策略，视觉效果好一些
 		if (height_adapt>1000) height_adapt = 1000;

@@ -218,7 +218,7 @@ export class DirProcess{
         const targetEl: HTMLElement = tr.querySelector(':scope>td:first-child') ?? tr // 优先使用第一列作为可点击区域
         // 1. 二选一，正常绑定方法
         // 当前ob使用
-        if (ABCSetting.env == "obsidian" || ABCSetting.env == "obsidian-min") {
+        if (ABCSetting.env.startsWith("obsidian")) {
           targetEl.onclick = ()=>{
             const tr_level = Number(tr.getAttribute("tr_level"))
             if (isNaN(tr_level)) return
@@ -272,7 +272,7 @@ export class DirProcess{
       btn.setAttribute("is_fold", "false"); btn.innerHTML = svgStr_fold;
       // 1. 二选一，正常绑定方法
       // 当前ob使用
-      if (ABCSetting.env == "obsidian" || ABCSetting.env == "obsidian-min") {
+      if (ABCSetting.env.startsWith("obsidian")) {
         btn.onclick = ()=>{
           const l_tr = table.querySelectorAll("tr");
           for (let i=0; i<l_tr.length; i++) {

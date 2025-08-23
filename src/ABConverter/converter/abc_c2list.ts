@@ -358,7 +358,7 @@ export class C2ListProcess{
     for (let i=0; i<lis.length; i++){
       // 1. 二选一，常规绑定
       // ob选用
-      if (ABCSetting.env == "obsidian" || ABCSetting.env == "obsidian-min") {
+      if (ABCSetting.env.startsWith("obsidian")) {
         lis[i].onclick = ()=>{
           for (let j=0; j<contents.length; j++){
             lis[j].setAttribute("is_activate", "false")
