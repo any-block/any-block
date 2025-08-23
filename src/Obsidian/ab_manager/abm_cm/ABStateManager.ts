@@ -393,7 +393,9 @@ export class ABStateManager {
      * 再editor_dom = editor_dom?.getElementsByClassName("workspace-tabs mod-top mod-active")[0];
      * 用document的话不知道为什么总是有属性is-live-preview的，总是认为是实时模式 
      */
-    let editor_dom: Element | undefined = this.plugin_this.app.workspace.getActiveViewOfType(MarkdownView)?.containerEl
+    const t: 'source' | 'preview' = this.view.getMode() // 但判断不出是不是实时
+    // let editor_dom: Element | undefined = this.plugin_this.app.workspace.getActiveViewOfType(MarkdownView)?.containerEl // 弃用，当前活动窗口不一定是创建时的那个窗口
+    let editor_dom: Element = this.view.containerEl
     if (!editor_dom) { // The current cursor is focused on a non-Markdown window.
       return Editor_mode.NONE; 
     }
