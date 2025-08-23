@@ -1,0 +1,15 @@
+{
+	"id": "any-block-pro",
+	"name": "AnyBlock Pro",
+	"version": "3.3.2",
+	"minAppVersion": "0.15.0",
+	"description": "AnyBlock Pro version. More processor types, and some processors support visual editing.",
+	"author": "LincZero",
+	"authorUrl": "https://github.com/LincZero",
+	"repo": "https://github.com/any-block/obsidian-any-block-min",
+	"fundingUrl": {
+		"Support Page": "https://github.com/LincZero#thank-you-very-much-for-your-support",
+		"中国大陆备用链接": "https://linczero-github-io.pages.dev/assets/pay_all2-xciK7i0b.png"
+	},
+	"isDesktopOnly": false
+}

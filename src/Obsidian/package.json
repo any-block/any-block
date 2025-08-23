@@ -11,11 +11,12 @@
 		"ob:dev2": "vite build --watch --mode=development",
 		"build": "pnpm copy_abc_style && tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
 		"build-min": "pnpm copy_abc_style && tsc -noEmit -skipLibCheck && node esbuild.config.min.mjs production",
-		"build-pro": "pnpm copy_abc_style && tsc -noEmit -skipLibCheck && node esbuild.config.pro.mjs production",
+		"build-pro": "pnpm copy_abc_style2 && tsc -noEmit -skipLibCheck && node esbuild.config.pro.mjs production",
+		"copy_abc_style": "copyfiles --flat ../../src/ABConverter/style/styles.css ../../",
+		"copy_abc_style2": "copyfiles --flat ../../src/ABConverter/style/styles.css ../../dist-pro/ && copyfiles --flat ../../src/Pro/src//styles/style.css ../../dist-pro/",
 		"build2": "pnpm copy_abc_style && npx svelte-check && vite build --mode=production",
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
-		"bumpversion": "node version-bump.mjs && git add manifest.json versions.json",
-		"copy_abc_style": "copyfiles --flat ../../src/ABConverter/style/styles.css ../../"
+		"bumpversion": "node version-bump.mjs && git add manifest.json versions.json"
 	},
 	"keywords": [],
 	"devDependencies": {

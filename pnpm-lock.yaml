@@ -231,6 +231,10 @@ importers:
       prismjs:
         specifier: ^1.30.0
         version: 1.30.0
+    devDependencies:
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
 
   src/Vuepress:
     dependencies:
