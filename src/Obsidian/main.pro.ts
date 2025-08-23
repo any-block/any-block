@@ -11,17 +11,17 @@ import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownVie
 
 // 转换器模块
 import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
-// 动态加载 Pro 版模块，避免编译器静态检测 @/Pro/src/index 是否存在
-let loadProModule: (() => Promise<void>) | undefined;
-if (process.env.NODE_ENV !== "production") {
-  loadProModule = async () => {
-    try {
-      await import("@/Pro/src/index");
-    } catch (e) {
-      // 忽略未找到模块的错误
-    }
-  };
-}
+// TODO 完善动态加载，避免编译器静态检测 @/Pro/src/index 是否存在。目前手动注释开关 // [!code hl]
+// let loadProModule: (() => Promise<void>) | undefined;
+// if (process.env.NODE_ENV !== "production") {
+//   loadProModule = async () => {
+//     try {
+//       await import("@/Pro/src/index");
+//     } catch (e) {
+//       // 忽略未找到模块的错误
+//     }
+//   };
+// }
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager } from "./ab_manager/abm_cm/ABStateManager"
