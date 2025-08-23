@@ -67,6 +67,14 @@ export class ABStateManager {
   // get state(): any {return this.view.getState()}
   // get mdText(): string {return this.editor.getValue()}
 
+  customData: {
+    cancelFlag: number[],
+    updateMode: string
+  } = {
+    cancelFlag: [],
+    updateMode: '',
+  }
+
   /** --------------------------------- 特殊函数 -------------------------- */
 
   constructor(plugin_this: AnyBlockPlugin){
@@ -279,7 +287,7 @@ export class ABStateManager {
       // 该ab区域显示为渲染的ab块 - 变化
       else if (isCursonIn_last) {
         const decoration = Decoration.replace({
-          widget: new ABReplacer_Widget(rangeSpec, this.editor),
+          widget: new ABReplacer_Widget(rangeSpec, this.editor, this.customData),
           // inclusive: true, block: true, // 区别: 光标上下移动会跳过 block
         })
         list_decoration_change.push(decoration.range(rangeSpec.from_ch, rangeSpec.to_ch))
@@ -287,7 +295,7 @@ export class ABStateManager {
       // 该ab区域显示为渲染的ab块 - 不变化
       else {
         const decoration = Decoration.replace({
-          widget: new ABReplacer_Widget(rangeSpec, this.editor),
+          widget: new ABReplacer_Widget(rangeSpec, this.editor, this.customData),
           // inclusive: true, block: true, // 区别: 光标上下移动会跳过 block
         })
         list_decoration_nochange.push(decoration.range(rangeSpec.from_ch, rangeSpec.to_ch))

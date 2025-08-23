@@ -7,15 +7,20 @@ import {
 import {ABConvertManager} from "@/ABConverter/ABConvertManager"
 import type {MdSelectorRangeSpec} from "./ABSelector_Md"
 import { abConvertEvent } from '@/ABConverter/ABConvertEvent';
+import { ABCSetting } from '@/ABConverter';
 
 export class ABReplacer_Widget extends WidgetType {
   rangeSpec: MdSelectorRangeSpec
   global_editor: Editor|null
   div: HTMLDivElement
+  content_withPrefix_length: number = 0
 
   // 构造函数
-  constructor(rangeSpec: MdSelectorRangeSpec, editor: Editor|null){
+  constructor(rangeSpec: MdSelectorRangeSpec, editor: Editor|null,
+    public customData: { cancelFlag: number[], updateMode: string|number }
+  ){
     super()
+    this.content_withPrefix_length = rangeSpec.to_ch - rangeSpec.from_ch
     this.rangeSpec = rangeSpec
     this.global_editor = editor
   }
@@ -31,9 +36,62 @@ export class ABReplacer_Widget extends WidgetType {
     this.div.setAttribute("type_header", this.rangeSpec.header)
     this.div.addClasses(["ab-replace", "cm-embed-block"]) // , "show-indentation-guide"
 
+    // #region 可视化编辑部分
+
+    const getPos = (): {fromPos: number; toPos: number} => {
+      let fromPos: number
+      try {
+        fromPos = view.posAtDOM(this.div, 0)
+      } catch (e) {
+        console.error('get cursor pos failed:', this.div)
+        throw new Error(`get cursor pos failed: ${e}`)
+      }
+      const pos = {
+        fromPos: fromPos,
+        toPos: fromPos + this.content_withPrefix_length
+      }
+      return pos
+    }
+
+    const save = (str_with_prefix: string, force_refresh: boolean = false) => {
+      const pos = getPos(); this.content_withPrefix_length = str_with_prefix.length
+
+      if (force_refresh) {
+        this.customData.updateMode = pos.fromPos // 原 'force'
+      }
+
+      const new_state = view.state
+      const transaction = new_state.update({
+        changes: {
+          from: pos.fromPos,
+          to: pos.toPos,
+          insert: str_with_prefix,
+        },
+        userEvent: "input",
+      })
+      view.dispatch(transaction)
+
+      return Promise.resolve()
+    }
+
+    // #endregion
+
     // AnyBlock主体部分，内容替换元素
     let dom_note = document.createElement("div"); this.div.appendChild(dom_note); dom_note.classList.add("ab-note", "drop-shadow");
-    ABConvertManager.autoABConvert(dom_note, this.rangeSpec.header, this.rangeSpec.content, this.rangeSpec.selector)
+    ABConvertManager.autoABConvert(dom_note, this.rangeSpec.header, this.rangeSpec.content, this.rangeSpec.selector,
+      (ABCSetting.env != 'obsidian-pro') ? undefined : {
+        save,
+        rangeSpec: {
+          type: 'anyblock',
+          text_content: this.rangeSpec.content,
+          fromPos: this.rangeSpec.from_ch,
+          toPos: this.rangeSpec.to_ch,
+          header: this.rangeSpec.header,
+          selector: this.rangeSpec.selector,
+          parent_prefix: this.rangeSpec.prefix,
+        },
+      }
+    );
 
     // 编辑按钮部分
     if (this.global_editor){

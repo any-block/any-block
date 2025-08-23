@@ -11,7 +11,9 @@ import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownVie
 
 // 转换器模块
 import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
+ABCSetting.env = "obsidian-pro"
 // TODO 完善动态加载，避免编译器静态检测 @/Pro/src/index 是否存在。目前手动注释开关 // [!code hl]
+// import "@/Pro/src/index" // [!code hl]
 // let loadProModule: (() => Promise<void>) | undefined;
 // if (process.env.NODE_ENV !== "production") {
 //   loadProModule = async () => {

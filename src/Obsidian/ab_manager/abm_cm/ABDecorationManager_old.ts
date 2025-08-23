@@ -29,6 +29,14 @@ export class ABDecorationManager{
   isBlock: boolean
   r_this: ABStateManager
 
+  customData: {
+    cancelFlag: number[],
+    updateMode: string
+  } = {
+    cancelFlag: [],
+    updateMode: '',
+  }
+
   // 构造函数
   constructor(r_this: ABStateManager, rangeSpec: MdSelectorRangeSpec, cursorSpec:CursorSpec){
     this.rangeSpec = rangeSpec
@@ -56,7 +64,7 @@ export class ABDecorationManager{
     }
     else{ // text:string, item:SpecKeyword, editor:Editor
       return Decoration.replace({widget: new ABReplacer_Widget(
-        this.rangeSpec, this.r_this.editor
+        this.rangeSpec, this.r_this.editor, this.customData
       )})
     }
   }
