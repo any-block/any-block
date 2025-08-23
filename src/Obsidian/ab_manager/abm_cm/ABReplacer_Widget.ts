@@ -89,7 +89,10 @@ export class ABReplacer_Widget extends WidgetType {
           header: this.rangeSpec.header,
           selector: this.rangeSpec.selector,
           parent_prefix: this.rangeSpec.prefix,
-        },
+        },      
+        setting: {},
+        ctx: ABCSetting.global_ctx,
+        app: ABCSetting.global_app,
       }
     );
 

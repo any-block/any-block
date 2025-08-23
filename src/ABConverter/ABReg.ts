@@ -62,11 +62,13 @@ export const ABReg = {
 export const ABCSetting: {
   is_debug: boolean,
   env: "obsidian"|"obsidian-min"|"obsidian-pro"|"app"|"vuepress",
+  global_app: any,
   global_ctx: any,
   mermaid?: Promise<any>,
 } = {
   is_debug: false,
   env: "obsidian",
+  global_app: null,
   global_ctx: null, // MarkdownPostProcessorContext类型, obsidian专用
   mermaid: undefined, // obsidian专用，表示使用哪种方式渲染mermaid
 }

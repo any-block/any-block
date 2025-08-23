@@ -21,7 +21,8 @@ import { ABSettingTab, AB_SETTINGS } from "./config/ABSettingTab"
 export default class AnyBlockPlugin extends Plugin {
   settings: ABSettingInterface
 
-	async onload() {
+  async onload() {
+    ABCSetting.global_app = this.app
     await this.loadSettings();
     this.addSettingTab(new ABSettingTab(this.app, this));
 

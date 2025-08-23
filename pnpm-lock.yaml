@@ -222,6 +222,9 @@ importers:
       '@editableblock/core':
         specifier: 1.0.1-beta15
         version: 1.0.1-beta15
+      '@editableblock/obsidian':
+        specifier: 1.0.1-beta15
+        version: 1.0.1-beta15
       '@editableblock/textarea':
         specifier: 1.0.1-beta15
         version: 1.0.1-beta15
@@ -381,6 +384,9 @@ packages:
 
   '@editableblock/core@1.0.1-beta15':
     resolution: {integrity: sha512-uJMxjJsq1yrZ/q6vJ+C4fVxHD9KrfZiMPhD+n4ufbA++c0kMW1SBFusQaAZD+lQhxSDOppXFeb4qOuQiSv8Nbg==}
+
+  '@editableblock/obsidian@1.0.1-beta15':
+    resolution: {integrity: sha512-riDpNEC9Zb1E3df7GNhBXhScW6835fTokGvmUoCi5GFFnW4S+ysRodsxrO+TEfmLN0UuSiPOyvYGHGgUb+NwgQ==}
 
   '@editableblock/textarea@1.0.1-beta15':
     resolution: {integrity: sha512-7A9xUBrx4DAD+Fv5Yvbp3X/4SwRuoV2U27/85semrL+VvacMYENMFEpAOoeIq4+tkWW+mVfpqq9iflBvg5+xiw==}
@@ -3600,6 +3606,8 @@ snapshots:
       codemirror: 6.0.2
 
   '@editableblock/core@1.0.1-beta15': {}
+
+  '@editableblock/obsidian@1.0.1-beta15': {}
 
   '@editableblock/textarea@1.0.1-beta15': {}
 
