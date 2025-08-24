@@ -223,6 +223,7 @@ export class ABStateManager {
    * @param editor_mode 编辑器模式 (源码/实时/阅读)
    */
   private onUpdate_refresh(decorationSet:DecorationSet, tr:Transaction, decoration_mode:ConfDecoration, editor_mode:Editor_mode): DecorationSet {
+    const updateMode = this.customData.updateMode; this.customData.updateMode = '' // 仅生效这一次
     // #region 不装饰，则直接返回，不查了 (例如切换到源码模式时)
     if (decoration_mode == ConfDecoration.none) {
       // 装饰模式改变，则清空装饰集
@@ -278,6 +279,27 @@ export class ABStateManager {
       }
 
       // (2) 给当前范围项创建一个装饰类，并添加到装饰集
+
+      // 先检查特殊光标 - ESC局部源码模式的虚拟光标
+      if (this.customData.cancelFlag.includes(rangeSpec.from_ch)) {
+        // 光标在内
+        if (isCursorIn) {
+          const decoration = Decoration.mark({
+            class: "cm-line-yellow",
+            inclusive: true, // 区别: PosAtDom() 时有区别，false的话pos结果有波动，true则获取结果包含两侧符号，更稳定。且 img.cm-widgetBuffer 可能消失
+          // block: true, // 区别: 光标上下移动会跳过 block，但这个也能自行监听且感觉更合适
+          })
+          list_decoration_change.push(decoration.range(rangeSpec.from_ch, rangeSpec.to_ch))
+          continue
+        }
+        // 光标在外。删除对应的ESC区域
+        else {
+          if (this.customData.cancelFlag.includes(rangeSpec.from_ch)) {
+            this.customData.cancelFlag = this.customData.cancelFlag.filter(item => item !== rangeSpec.from_ch)
+          }
+        }
+      }
+
       // 该ab区域显示为下划线装饰
       if (isCursorIn) {
         is_current_cursor_in = true
@@ -298,7 +320,12 @@ export class ABStateManager {
           widget: new ABReplacer_Widget(rangeSpec, this.editor, this.customData),
           // inclusive: true, block: true, // 区别: 光标上下移动会跳过 block
         })
-        list_decoration_nochange.push(decoration.range(rangeSpec.from_ch, rangeSpec.to_ch))
+        // 强制为变化集，用于手动触发某个位置的块的更新
+        if (typeof updateMode == 'number' && updateMode >= rangeSpec.from_ch && updateMode <= rangeSpec.to_ch) {
+          list_decoration_change.push(decoration.range(rangeSpec.from_ch, rangeSpec.to_ch))
+        } else {
+          list_decoration_nochange.push(decoration.range(rangeSpec.from_ch, rangeSpec.to_ch))
+        }
       }
     }
     // #endregion
@@ -393,7 +420,7 @@ export class ABStateManager {
      * 再editor_dom = editor_dom?.getElementsByClassName("workspace-tabs mod-top mod-active")[0];
      * 用document的话不知道为什么总是有属性is-live-preview的，总是认为是实时模式 
      */
-    const t: 'source' | 'preview' = this.view.getMode() // 但判断不出是不是实时
+    // const t: 'source' | 'preview' = this.view.getMode() // 但判断不出是不是实时
     // let editor_dom: Element | undefined = this.plugin_this.app.workspace.getActiveViewOfType(MarkdownView)?.containerEl // 弃用，当前活动窗口不一定是创建时的那个窗口
     let editor_dom: Element = this.view.containerEl
     if (!editor_dom) { // The current cursor is focused on a non-Markdown window.
