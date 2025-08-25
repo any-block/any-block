@@ -1,4 +1,4 @@
-import { Platform, sanitizeHTMLToDom, type Editor, type EditorPosition } from 'obsidian';
+import { type MarkdownPostProcessorContext, Platform, sanitizeHTMLToDom, type Editor, type EditorPosition } from 'obsidian';
 import {
   EditorView,
   WidgetType  // 装饰器部件
@@ -40,6 +40,15 @@ export class ABReplacer_Widget extends WidgetType {
 
     const getPos = (): {fromPos: number; toPos: number}|null => {
       let fromPos: number
+
+      // TODO 有个可能发生的bug: ctx 他不一定是实时编辑根部的那个ctx，view也是
+      // try {
+      //   const t = (ABCSetting.global_ctx as MarkdownPostProcessorContext).getSectionInfo(this.div)
+      //   console.log('getSectionInfo', t, this.div, ABCSetting.global_ctx)
+      // } catch (e) {
+      //   console.warn('getSectionInfo failed:', e)
+      // }
+
       try {
         fromPos = view.posAtDOM(this.div, 0)
       } catch (e) {

@@ -223,8 +223,8 @@ importers:
         specifier: 1.0.1-beta28
         version: 1.0.1-beta28
       '@editableblock/obsidian':
-        specifier: 1.0.1-beta32
-        version: 1.0.1-beta32(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)
+        specifier: 1.0.1-beta33
+        version: 1.0.1-beta33(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)
       '@editableblock/textarea':
         specifier: 1.0.1-beta28
         version: 1.0.1-beta28
@@ -385,8 +385,8 @@ packages:
   '@editableblock/core@1.0.1-beta28':
     resolution: {integrity: sha512-RWShYvtLFLVcdEX3OJWPrcDeBgzFX64gs5Sur02wrvUlM9Q8jK9PZWZ0EFW5NCFZk8lCFSMz4ACUQ9imI338Sg==}
 
-  '@editableblock/obsidian@1.0.1-beta32':
-    resolution: {integrity: sha512-fdGVHSVq3rscfZWzSfc+/Oid4Uq5p80MrrwGWpSHMHC95L6XKUlxbQ41AYHVsYKPGLjzT0TScmcTAsnssE7fYg==}
+  '@editableblock/obsidian@1.0.1-beta33':
+    resolution: {integrity: sha512-c6cI5bXsqGUvd/yAPD+coVOHMTxdGxVcHUGRZLi4xiMlcmYNWljB6hXU2CZ1mBRmw13dQIUQ3FjZX9pHuO39xw==}
 
   '@editableblock/textarea@1.0.1-beta28':
     resolution: {integrity: sha512-3g+8Qeq1Zh3YwQTrGg7xn46BvEgm7gBmWhDJqXHHkxhkHRdZX2DTyG4wHPtuNg6IflCNRw7gm7jB6ObJFZWJXw==}
@@ -3712,7 +3712,7 @@ snapshots:
 
   '@editableblock/core@1.0.1-beta28': {}
 
-  '@editableblock/obsidian@1.0.1-beta32(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)':
+  '@editableblock/obsidian@1.0.1-beta33(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)':
     dependencies:
       obsidian: 1.8.7(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)
     transitivePeerDependencies:

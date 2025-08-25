@@ -556,16 +556,17 @@ const abc_strictTable = ABConvert.factory({
  * - 这两个不是纯粹的位置描述：table_rowCount、table_colCount。他们有可能大于rowIndex、colIndex的取值
  *   行数的值应该等于单元格中(rowIndex+rowSpan)最大的值
  */
-type type_tableCell = {
+export type type_tableCell = {
   html: HTMLTableCellElement,
+  text?: string, // 给可视化编辑版本用的
   rowSpan: number,
   colSpan: number,
   rowIndex: number,
   colIndex: number,
 }
-type TableMap = (type_tableCell|null|"<"|"^")[][]
+export type TableMap = (type_tableCell|null|"<"|"^")[][]
 
-function table2tableMap(
+export function table2tableMap(
   origi_table: HTMLTableElement, useMergeFlag: boolean = false
 ): {tableMap: TableMap, origi_rowCount: number, origi_colCount: number} {
   // 解析tableMap的行列数 (支持rowspan和colspan)
@@ -700,7 +701,7 @@ function table2tableMap(
   }
 }
 
-function tableMap2table(tableMap: TableMap, origi_rowCount: number, origi_colCount: number): HTMLTableElement {
+export function tableMap2table(tableMap: TableMap, origi_rowCount: number, origi_colCount: number): HTMLTableElement {
   // 新表格
   const trans_table = document.createElement('table');
   // const trans_header = document.createElement('thead'); trans_table.appendChild(trans_header); // 转置不支持表头
@@ -725,6 +726,7 @@ function tableMap2table(tableMap: TableMap, origi_rowCount: number, origi_colCou
   return trans_table
 }
 
+// 简易打印，调试用
 function tableMapPrint(tableMap: TableMap) {
   let content: string = ''
   for (let i = 0; i < tableMap.length; i++) {
@@ -739,4 +741,30 @@ function tableMapPrint(tableMap: TableMap) {
     content += row + '\n'
   }
   console.log('tableMap\n' + content)
+}
+
+// 打印为md表格形式
+// TODO 无对齐、至少两行
+export function tableMap2md(tableMap: TableMap, showLineCount: boolean = false): string {
+  let content: string = ''
+  for (let i = 0; i < tableMap.length; i++) { // 行
+    let row = '' // 这一行的内容
+    if (i == 1) { // 插入表格标识
+      if (showLineCount) row += '  '
+      row = "|---".repeat(tableMap[i].length) + "|\n"
+    }
+    if (showLineCount) row += i + ' '
+    row += "|"
+    for (let j = 0; j < tableMap[i].length; j++) { // 列
+      const cell = tableMap[i][j]
+      if (cell === null) row += " . |"
+      else if (cell === "<") row += " < |"
+      else if (cell === "^") row += " ^ |"
+      else {
+        row += cell.text ? ` ${cell.text} |` : ` ${cell.html.textContent?.trim() || ""} |`
+      }
+    }
+    content += row + '\n'
+  }
+  return content
 }
