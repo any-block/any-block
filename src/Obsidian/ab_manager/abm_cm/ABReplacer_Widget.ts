@@ -15,6 +15,12 @@ export class ABReplacer_Widget extends WidgetType {
   div: HTMLDivElement
   content_withPrefix_length: number = 0
 
+  // 缓存上一次动态获取的pos。主要是失焦那一下getPos会失败，可以使用最后oninput getPos的结果
+  // oninput策略时，一些情况下可以忽略这个失焦的保存，但一些环境不行，如包含表格数据的保存。
+  //   此时拥有旧数据的Widget类会重复触发toDOM，导致渲染出错误的结果
+  // TODO WARNING onchange策略这里会有bug
+  lastFromPos: number|null = null
+
   // 构造函数
   constructor(rangeSpec: MdSelectorRangeSpec, editor: Editor|null,
     public customData: { cancelFlag: number[], updateMode: string|number }
@@ -52,7 +58,8 @@ export class ABReplacer_Widget extends WidgetType {
       try {
         fromPos = view.posAtDOM(this.div, 0)
       } catch (e) {
-        console.warn('get cursor pos failed:', this.div) // 似乎是脱离eb块后 (并多次触发?) 会存在这种情况，如果这种情况可以跳过不管
+        // 似乎是脱离eb块后 (并多次触发?) 会存在这种情况，有表格会加重这种情况
+        console.warn('get cursor pos failed:', this.div)
         return null
       }
       const pos = {
@@ -63,8 +70,17 @@ export class ABReplacer_Widget extends WidgetType {
     }
 
     const save = (str_with_prefix: string, force_refresh: boolean = false) => {
-      const pos = getPos(); this.content_withPrefix_length = str_with_prefix.length
-      if (!pos) return Promise.resolve()
+      let pos = getPos(); 
+      if (!pos) {
+        if (this.lastFromPos == null) return Promise.resolve()
+        else pos = {
+          fromPos: this.lastFromPos,
+          toPos: this.lastFromPos + this.content_withPrefix_length
+        }
+      } else {
+        this.lastFromPos = pos.fromPos
+      }
+      this.content_withPrefix_length = str_with_prefix.length
 
       if (force_refresh) {
         this.customData.updateMode = pos.fromPos // 原 'force'

@@ -751,7 +751,7 @@ export function tableMap2md(tableMap: TableMap, showLineCount: boolean = false):
     let row = '' // 这一行的内容
     if (i == 1) { // 插入表格标识
       if (showLineCount) row += '  '
-      row = "|暂时不合法".repeat(tableMap[i].length) + "|\n"
+      row = "|---".repeat(tableMap[i].length) + "|\n" // 若引起ob内部表格事件导致有问题，改为 "|暂时不合法"
     }
     if (showLineCount) row += i + ' '
     row += "|"
