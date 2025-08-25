@@ -1193,3 +1193,10 @@ table.ab-table-fc {
 :is(.markdown-preview-view,.markdown-rendered).is-readable-line-width:not(.matrix) .ab-note :is(.markdown-rendered) {
   width: auto !important;
 }
+
+/**************** PRO *************************/
+
+table td, table th {
+  div>p:first-child, div>ul:first-child { margin-top: 2px; }
+  div>p:last-child, div>ul:last-child { margin-bottom: 2px; }
+}

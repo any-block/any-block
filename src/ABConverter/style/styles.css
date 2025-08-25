@@ -1166,3 +1166,11 @@ table.ab-table-fc th[col_index="0"], table.ab-table-fc td[col_index="0"] {
 :is(.markdown-preview-view, .markdown-rendered).is-readable-line-width:not(.matrix) .ab-note :is(.markdown-rendered) {
   width: auto !important;
 }
+
+/**************** PRO *************************/
+table td div > p:first-child, table td div > ul:first-child, table th div > p:first-child, table th div > ul:first-child {
+  margin-top: 2px;
+}
+table td div > p:last-child, table td div > ul:last-child, table th div > p:last-child, table th div > ul:last-child {
+  margin-bottom: 2px;
+}

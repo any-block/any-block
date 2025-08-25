@@ -751,7 +751,7 @@ export function tableMap2md(tableMap: TableMap, showLineCount: boolean = false):
     let row = '' // 这一行的内容
     if (i == 1) { // 插入表格标识
       if (showLineCount) row += '  '
-      row = "|---".repeat(tableMap[i].length) + "|\n"
+      row = "|暂时不合法".repeat(tableMap[i].length) + "|\n"
     }
     if (showLineCount) row += i + ' '
     row += "|"
@@ -761,7 +761,7 @@ export function tableMap2md(tableMap: TableMap, showLineCount: boolean = false):
       else if (cell === "<") row += " < |"
       else if (cell === "^") row += " ^ |"
       else {
-        row += cell.text ? ` ${cell.text} |` : ` ${cell.html.textContent?.trim() || ""} |`
+        row += cell.text ? ` ${cell.text.replace(/\n/g, '<br>')} |` : ` ${cell.html.textContent?.trim() || ""} |`
       }
     }
     content += row + '\n'
