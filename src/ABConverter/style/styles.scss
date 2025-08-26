@@ -1200,3 +1200,11 @@ table td, table th {
   div>p:first-child, div>ul:first-child { margin-top: 2px; }
   div>p:last-child, div>ul:last-child { margin-bottom: 2px; }
 }
+// .markdown-rendered>p { // 后来发现是 div > h1+\n+p+\n+p 这种情况引起的
+//   line-height: 1; // 有时无margin也会有个很奇怪间隔，很奇怪
+// }
+.markdown-rendered tbody > tr {
+  > td .markdown-rendered, > th .markdown-rendered {
+    white-space: normal;
+  }
+}

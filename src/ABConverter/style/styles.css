@@ -1174,3 +1174,7 @@ table td div > p:first-child, table td div > ul:first-child, table th div > p:fi
 table td div > p:last-child, table td div > ul:last-child, table th div > p:last-child, table th div > ul:last-child {
   margin-bottom: 2px;
 }
+
+.markdown-rendered tbody > tr > td .markdown-rendered, .markdown-rendered tbody > tr > th .markdown-rendered {
+  white-space: normal;
+}
