@@ -13,17 +13,7 @@ import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownVie
 import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
 ABCSetting.env = "obsidian-pro"
 // TODO 完善动态加载，避免编译器静态检测 @/Pro/src/index 是否存在。目前手动注释开关 // [!code hl]
-// import "@/Pro/src/index" // [!code hl]
-// let loadProModule: (() => Promise<void>) | undefined;
-// if (process.env.NODE_ENV !== "production") {
-//   loadProModule = async () => {
-//     try {
-//       await import("@/Pro/src/index");
-//     } catch (e) {
-//       // 忽略未找到模块的错误
-//     }
-//   };
-// }
+// import "@/Pro/src/index.ob" // [!code hl]
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager } from "./ab_manager/abm_cm/ABStateManager"
