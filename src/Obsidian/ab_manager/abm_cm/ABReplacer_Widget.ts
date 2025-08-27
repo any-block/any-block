@@ -15,7 +15,7 @@ export class ABReplacer_Widget extends WidgetType {
   div: HTMLDivElement
   content_withPrefix_length: number = 0
 
-  // 缓存上一次动态获取的pos。主要是失焦那一下getPos会失败，可以使用最后oninput getPos的结果
+  // 缓存上一次动态获取的pos。主要是obsidian环境失焦那一下getPos会失败，可以使用最后oninput getPos的结果
   // oninput策略时，一些情况下可以忽略这个失焦的保存，但一些环境不行，如包含表格数据的保存。
   //   此时拥有旧数据的Widget类会重复触发toDOM，导致渲染出错误的结果
   // TODO WARNING onchange策略这里会有bug

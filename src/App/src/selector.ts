@@ -4,7 +4,7 @@ import { EditorState, Transaction } from "@codemirror/state"
 import { Decoration, DecorationSet, EditorView, WidgetType } from "@codemirror/view"
 import { ABReplacer_Widget } from "./ABReplacer_Widget"
 import { MdSelectorRangeSpec } from "../../Obsidian/ab_manager/abm_cm/ABSelector_Md"
-import { create_decorations as create_decorations2, RangeSpec_AnyBlock } from '../../CodeMirror/src/selector'
+import { create_decorations as create_decorations2, type RangeSpec_AnyBlock } from '../../CodeMirror/src/'
 
 export function create_widget (
   customData: { cancelFlag: number[], updateMode: string|number },

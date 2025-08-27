@@ -1,3 +1,5 @@
+// 在非pro版环境下使用
+
 import {
   EditorView,
   Decoration,         // 装饰

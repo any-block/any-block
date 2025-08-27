@@ -10,7 +10,6 @@ import {
 } from "@codemirror/view"
 
 import  { ABConvertManager } from "../../ABConverter/ABConvertManager"
-import type { MdSelectorRangeSpec } from "../../Obsidian/ab_manager/abm_cm/ABSelector_Md"
 import { RangeSpec_AnyBlock } from "../../CodeMirror/src/selector" // [!code hl]
 
 export class ABReplacer_Widget extends WidgetType {

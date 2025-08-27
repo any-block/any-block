@@ -13,7 +13,7 @@ import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownVie
 import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
 ABCSetting.env = "obsidian-pro"
 // TODO 完善动态加载，避免编译器静态检测 @/Pro/src/index 是否存在。目前手动注释开关 // [!code hl]
-// import "@/Pro/src/index.ob" // [!code hl]
+// import "@/Pro/src/index.ob" // [!code hl] obsidian-pro
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager } from "./ab_manager/abm_cm/ABStateManager"
