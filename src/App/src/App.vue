@@ -47,7 +47,8 @@ const mdData = ref<any>({
 <style src="golden-layout/dist/css/goldenlayout-base.css"></style>
 <style src="golden-layout/dist/css/themes/goldenlayout-dark-theme.css"></style>
 
-<style>
+<style lang="scss">
+@use "./callout";
 @import "../../ABConverter/style/styles.css";
 
 html, body, #app {

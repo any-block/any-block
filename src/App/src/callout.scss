@@ -1,0 +1,181 @@
+/** anyblock 非 obsidian 环境下的 callout 块样式
+ * take from https://github.com/ebullient/markdown-it-obsidian-callouts/blob/main/style/index.scss
+ * 并做了一点限制: 仅限anyblock渲染的callout结构
+ */
+
+/**
+ * This css file is generated.
+ * Make changes to `scss` version.
+ */
+/**
+ * Color about
+ */
+:root {
+  --bold-modifier: 200;
+  --line-height-tight: 1.3;
+  --callout-border-width: 0px;
+  --callout-border-opacity: 0.25;
+  --callout-padding: 12px 12px 12px 24px;
+  --callout-radius: 4px;
+  --callout-title-color: inherit;
+  --callout-title-padding: 0;
+  --callout-title-size: inherit;
+  --callout-title-weight: 600;
+  --callout-content-padding: 0;
+  --callout-content-background: transparent;
+
+  --callout-blend-mode: var(darken); // (in light)
+  --callout-info: 8, 109, 221; // blue
+  --callout-todo: 8, 109, 221;
+  --callout-default: 8, 109, 221;
+  --callout-bug: 233, 49, 71; // red
+  --callout-error: 233, 49, 71;
+  --callout-fail: 233, 49, 71;
+  --callout-success: 8, 185, 78; // green
+  --callout-example: 120, 82, 238; // purple
+  --callout-important: 0, 191, 188; // cyan
+  --callout-summary: 0, 191, 188;
+  --callout-tip: 0, 191, 188;
+  --callout-question: 236, 117, 0; // orange
+  --callout-warning: 236, 117, 0;
+  --callout-quote: 158, 158, 158;
+  --callout-collapse-icon: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMiIgZD0ibTkgMThsNi02bC02LTYiLz48L3N2Zz4=");
+}
+// use obsidian color, and override the default color
+.theme-light {
+  --callout-blend-mode: var(darken);
+}
+.theme-dark {
+  --callout-blend-mode: var(lighten);
+}
+// use vuepress color, and override the default color
+html[data-theme="light"] #app {
+  --callout-blend-mode: var(darken);
+}
+html[data-theme="dark"] #app {
+  --callout-blend-mode: var(lighten);
+}
+
+/**
+ * Obsidian callout about
+ *
+ * The following style is exactly the same as in obsidian
+ */
+.ab-replace {
+&[type_header="info-e"],
+&[type_header="note-e"],
+&[type_header="warning-e"],
+&[type_header="tip-e"],
+&[type_header="caution-e"],
+&[type_header="error-e"],
+&[type_header="important-e"] {
+.callout{
+  --callout-color: var(--callout-default);
+  --callout-icon: lucide-pencil;
+
+  overflow: hidden;
+  border-style: solid;
+  border-color: rgba(var(--callout-color), var(--callout-border-opacity));
+  border-width: var(--callout-border-width);
+  border-radius: var(--callout-radius);
+  margin: 1em 0;
+  mix-blend-mode: var(--callout-blend-mode);
+  background-color: rgba(var(--callout-color), 0.1);
+  padding: var(--callout-padding);
+  @at-root details#{&} {
+    .callout-title {
+      margin: 0;
+      cursor: pointer;
+
+      .callout-fold {
+        background-color: rgb(var(--callout-color));
+        mask-image: var(--callout-collapse-icon);
+        mask-size: 100%;
+        -webkit-mask-image: var(--callout-collapse-icon);
+        -webkit-mask-size: 100%;
+        height: 24px;
+        width: 24px;
+        transition: 100ms ease-in-out;
+      }
+    }
+  }
+  @at-root details[close]#{&} {
+    > .callout-title > .callout-fold {
+      transform: rotate(-90deg);
+    }
+  }
+  @at-root details[open]#{&} {
+    > .callout-title > .callout-fold {
+      transform: rotate(90deg);
+    }
+  }
+
+  .callout-title {
+    padding: var(--callout-title-padding);
+    display: flex;
+    gap: 4px;
+    font-size: var(--callout-title-size);
+    color: rgb(var(--callout-color));
+    line-height: var(--line-height-tight);
+    align-items: flex-start;
+
+    .callout-icon {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+    }
+
+    .callout-title-inner {
+      --font-weight: var(--callout-title-weight);
+      font-weight: var(--font-weight);
+      color: var(--callout-title-color);
+
+      b,
+      strong {
+        --font-weight: calc(var(--callout-title-weight) + var(--bold-modifier));
+        font-weight: var(--font-weight);
+      }
+    }
+  }
+
+  .callout-content {
+    overflow-x: auto;
+    padding: var(--callout-content-padding);
+    background-color: var(--callout-content-background);
+  }
+
+  &[data-callout="todo"] {
+    --callout-color: var(--callout-todo);
+    --callout-icon: lucide-check-circle-2;
+  }
+  &[data-callout="success"], &[data-callout="check"], &[data-callout="done"] {
+    --callout-color: var(--callout-success);
+    --callout-icon: lucide-check;
+  }
+  &[data-callout="warning"], &[data-callout="caution"], &[data-callout="attention"] {
+    --callout-color: var(--callout-warning);
+    --callout-icon: lucide-alert-triangle;
+  }
+  &[data-callout="danger"], &[data-callout="error"] {
+    --callout-color: var(--callout-error);
+    --callout-icon: lucide-zap;
+  }
+  &[data-callout="tip"], &[data-callout="hint"] {
+    --callout-color: var(--callout-tip);
+    --callout-icon: lucide-flame;
+  }
+  &[data-callout="example"] {
+    --callout-color: var(--callout-example);
+    --callout-icon: lucide-list;
+  }
+  &[data-callout="abstract"], &[data-callout="summary"], &[data-callout="tldr"] {
+    --callout-color: var(--callout-summary);
+    --callout-icon: lucide-clipboard-list;
+  }
+  &[data-callout="quote"], &[data-callout="cite"] {
+    --callout-color: var(--callout-quote);
+    --callout-icon: quote-glyph;
+  }
+}
+}
+}
