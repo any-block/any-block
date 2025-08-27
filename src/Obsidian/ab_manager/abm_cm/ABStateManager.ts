@@ -186,6 +186,23 @@ export class ABStateManager {
       decoration_mode = this.plugin_this.settings.decoration_render
     }
 
+    // 1.2 排除非装饰 (如源码模式) 的情况
+    if (decoration_mode == ConfDecoration.none) {
+      // 装饰模式改变，则清空装饰集
+      if (decoration_mode != this.prev_decoration_mode) {
+        decorationSet = decorationSet.update({
+          filter: (from:number, to:number, value:unknown)=>{ return false }
+        })
+      }
+      // 装饰模式不改变，不管
+      else {}
+
+      this.is_prev_cursor_in = true
+      this.prev_decoration_mode = decoration_mode
+      this.prev_editor_mode = editor_mode
+      return decorationSet
+    }
+
     // 2. 解析、并装饰调整匹配项（删增改），包起来准备防抖（未防抖）
     // let refreshStrong = this.onUpdate_refresh.bind(this)
     return this.onUpdate_refresh(decorationSet, tr, decoration_mode, editor_mode)
@@ -251,23 +268,6 @@ export class ABStateManager {
    */
   private onUpdate_refresh(decorationSet:DecorationSet, tr:Transaction, decoration_mode:ConfDecoration, editor_mode:Editor_mode): DecorationSet {
     const updateMode = this.customData.updateMode; this.customData.updateMode = '' // 仅生效这一次
-    // #region 不装饰，则直接返回，不查了 (例如切换到源码模式时)
-    if (decoration_mode == ConfDecoration.none) {
-      // 装饰模式改变，则清空装饰集
-      if (decoration_mode != this.prev_decoration_mode) {
-        decorationSet = decorationSet.update({
-          filter: (from:number, to:number, value:unknown)=>{ return false }
-        })
-      }
-      // 装饰模式不改变，不管
-      else {}
-
-      this.is_prev_cursor_in = true
-      this.prev_decoration_mode = decoration_mode
-      this.prev_editor_mode = editor_mode
-      return decorationSet
-    }
-    // #endregion
 
     // #region 得到映射装饰集 (范围映射 旧装饰集 得到)
     // const old_decorationSet = decorationSet

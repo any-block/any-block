@@ -41,6 +41,8 @@ export class ABReplacer_Widget extends WidgetType {
     this.div = document.createElement("div");
     this.div.setAttribute("type_header", this.rangeSpec.header)
     this.div.addClasses(["ab-replace", "cm-embed-block"]) // , "show-indentation-guide"
+    // 特殊 - callout选择器要用css消除外部的引用块样式、取消动态缩进
+    if (this.rangeSpec.selector == 'callout') this.div.setAttribute("selector", "callout")
 
     // #region 可视化编辑部分
 
