@@ -117,18 +117,15 @@ Author: LincZero
 
 使用 `<` 和 `^` 来表示表格的合并。**简单快捷、书写性好、兼容性好、无插件状态下显示的可理解性高**
 
+> 我认为这种语法设计算是比较优的，无插件状态下可理解性最强的。
+> 语法不生效的情况下，查看者大概率能知道你想表达的意思，这就足够了
+> 
+> 目前采用相同语法设计的除 AnyBlock 的 exTable 外还有：
+> Obsidian Sheets Extended, repo: [obsidan-advanced-table-xt](https://github.com/NicoNekoru/obsidan-advanced-table-xt) 和 Obsidian Basic Extened (前者的分支)
+
 示例：
 
-```md
-[exTable]
-
-| 1   | 2   | a   |
-| --- | --- | --- |
-| 3   | <   | b   |
-| ^   | <   | c   |
-```
-
-效果：
+:::mditABDemo
 
 [exTable]
 
@@ -136,6 +133,8 @@ Author: LincZero
 | --- | --- | --- |
 | 3   | <   | b   |
 | ^   | <   | c   |
+
+:::
 
 你可以不安装就能在线体验，以判断该扩展是否适合你: https://any-block.github.io/any-block/ (左上下拉框切换到 "扩展表格" 选项，即可查看对应的demo)
 
