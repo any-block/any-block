@@ -13,6 +13,8 @@ Author: LincZero
 - 直接html语法
 - vuepress插件 / 其他框架的插件
 - markdown渲染引擎：markdown-it插件 / 非markdown-it体系的扩展（如remark）
+- codemirror渲染引擎
+- 非md语法的渲染引擎
 
 ## (1) html方案
 
@@ -110,7 +112,7 @@ Author: LincZero
 > obsidian的Sheets Extended，仓库 [obsidan-advanced-table-xt](https://github.com/NicoNekoru/obsidan-advanced-table-xt)。以及obsidian/markdown-it通用插件的 [any-block](https://github.com/any-block/any-block) 的 exTable 处理器。均使用了设计更加合理的语法，这两的语法差不多，通用的
 > 
 > 其中 obsidian sheets extended 更适用于只使用 obsidian 的用户，由于他们的语法相似，下面只介绍 AnyBlock 的 exTable
-<!--  -->
+
 ## (3) AnyBlock 的 exTable
 
 使用了前文提到markdown-it-table-extend的语法改良方案，提高了兼容性
@@ -297,3 +299,132 @@ Author: LincZero
   - 缺点是对用户的写作规范性有要求 (不过原来的写法也有写作规范性要求，要求还更高)
 - 二是自动判断
   - 无论被覆盖内容是什么，都能做到自动判断该格被 `colspan/rowspan` 属性覆盖
+
+## (6) 非Markdown方案 (md超集)
+
+如果你不想使用 md 超集，该节内容也值得一看，可以参考其语法设计等
+
+[table]
+
+- .md
+  - CommonMark
+    - https://spec.commonmark.org/0.31.2/
+  - GFM
+    (Github Flavored Markdown, Github风格Md)
+    - https://github.github.com/gfm/ 或 https://gfm.docschina.org/zh-hans/ (19年标准)
+  - OFM
+    (Obsidian Flavored Markdown, Obsidian风格Md)
+    - https://help.obsidian.md/obsidian-flavored-markdown
+  - Kramdown
+    - https://kramdown.gettalong.org/
+      有点像md + markdown-it-attrs 风格
+- 非.md的类md
+  - .mdx
+    - https://mdxjs.com/
+      将 markdown 和 JSX 语法完美地融合在一起
+  - .adoc
+    - https://asciidoc.org/
+      Github支持识别渲染，全命 AsciiDoc
+  - .rst
+    - reStructuredText
+  - .qd
+    - quarkdown
+  - .qmd
+    - Quarto
+  - .mdz
+    - https://www.bilibili.com/video/BV1PZ7hzdEUD
+- Json类
+  - .ipynb
+- LaTeX类
+  - .tex
+    - LaTeX
+  - .typ
+    - Typst
+- 富文本
+  - .docx
+- 不知道
+  - .org
+
+### Kramdown (.md)
+
+这个和 md + markdown-it-attrs 是很像的，可以看前面的 Markdown-it-attrs 一节和 Kramdown 官网
+
+此处不再赘述，感觉不如 md + markdown-it-attrs 灵活
+
+### AsciiDoc (.adoc)
+
+这个github自身支持这种形式的渲染，如果完全针对于在github上的文档可以用这个
+
+(反正我不建议，我个人肯定不希望看文档时有那么多奇怪的格式。
+特别是不向下兼容的格式、以及看源码难以推测其想要表示的内容的格式)
+
+介绍三个代表性的表格扩展语法:
+
+参考: [AsciiDoc 表格教學](https://roulesophy.github.io/AsciiDoc-%E8%A1%A8%E6%A0%BC%E6%95%99%E5%AD%B8/)
+
+**多行内容**
+
+```md
+|===
+|header 1 |header 2 |header 3
+|info 1 a|info 2
+
+* item 1
+* item 2
+|info 3
+|info 4 |info 5 |info 6
+|===
+```
+
+**嵌套表格**
+
+```md
+[cols=",,"]
+|===
+|info 1
+a|info 2
+[cols=","]
+!===
+!inside 1 !inside 2
+!inside 3 !inside 4
+!===
+|info 3
+|info 4 |info 5 |info 6
+|===
+```
+
+**合并单元格**
+
+|Example | 	說明 |
+|--------|-------|
+|2+ 	   | 這個儲存格佔了兩欄 |
+|.2+ 	   | 這個儲存格佔了兩列 |
+|2.3+ 	 | 這個儲存格佔了兩欄和三列 |
+
+```md
+[cols=",,,"]
+|===
+|info 1 |info 2 |info 3 |info 4
+.3+|info 5 |info 6 2.2+|info 7          
+|info 8
+2+|info 9 |info 10
+|===
+
+或
+
+[cols=",,,"]
+|===
+   |info 1    |info 2      |info 3    |info 4
+.3+|info 5    |info 6  2.2+|info 7          
+              |info 8
+            2+|info 9                 |info 10
+|===
+```
+
+### mdxjs (.mdx)
+
+这个没什么好说的，本质上是 "Markdown + 组件"。组件你想写啥都行，写个合并表格自然不在话下
+
+- 优点是强大，功能性无所不能
+- 缺点是对环境要求更高，一个简单的md解析和渲染库无法满足其解析渲染要求，还需要一些额外的环境。
+  这对于通用性和标准铺设来说是灾难性的，仅适合在特定场景中使用
