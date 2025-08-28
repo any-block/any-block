@@ -163,7 +163,13 @@ Author: LincZero
 
 ## (5) Markdown-it-attrs
 
-见: https://github.com/arve0/markdown-it-attrs
+见:
+
+- [markdwon-it-attrs](https://github.com/arve0/markdown-it-attrs)
+- Mr.Hope 大佬自己维护的版本
+  - 据本人所说做了额外优化，codecov和性能上优得多，更新频率也更高些 (可能会解决原版中我下面所说的缺陷?)
+  - 网站: https://mdit-plugins.github.io/attrs.html
+  - repo: https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/attrs
 
 这同样是一个高通用性、高灵活性的 markdown-it 插件
 
