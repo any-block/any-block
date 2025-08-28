@@ -16,17 +16,16 @@ Author: LincZero
 - codemirror渲染引擎
 - 非md语法的渲染引擎
 
-## (1) html方案
+## (1) html方案 + 在线编辑导出
 
-不过手写html……并不推荐
+不过手写html……并不推荐，写起来很费劲
 
-想编辑输入些，可以用一些在线网页（可以自行搜索，不少），如 https://www.tablesgenerator.com/html_tables 。网站可以可视化编辑 (excel)，且能合并单元格，并输出markdown/html等。有的还可以把html黏贴回去继续编辑。
+通常需要配合工具便捷输入。可以用一些在线网页（可以自行搜索，不少），如 https://www.tablesgenerator.com/html_tables 。网站可以可视化编辑 (excel)，且能合并单元格，并输出markdown/html等。有的还可以把html黏贴回去继续编辑。
 
-选用：
+选用建议：
 
-适合写得不频繁且不维护的。
-
-一般不是很推荐，除非环境受限，不能用太复杂的markdown框架。或历史遗留问题很多东西不能换，不能换用框架/框架不能使用扩展
+- 适合写得不频繁且不维护的。
+- 一般不是很推荐，除非环境受限，不能用markdown框架扩展。或历史遗留问题很多东西不能换，不能换用框架/框架不能使用扩展
 
 ## (2) markdown-it-multimd-table / obsidian-table-extend
 
@@ -304,6 +303,7 @@ Author: LincZero
 
 如果你不想使用 md 超集，该节内容也值得一看，可以参考其语法设计等
 
+
 [table]
 
 - .md
@@ -321,18 +321,29 @@ Author: LincZero
 - 非.md的类md
   - .mdx
     - https://mdxjs.com/
-      将 markdown 和 JSX 语法完美地融合在一起
+      md + 组件，追求功能性。将 markdown 和 JSX 语法完美地融合在一起
   - .adoc
     - https://asciidoc.org/
-      Github支持识别渲染，全命 AsciiDoc
+    - Github支持识别渲染，全名 AsciiDoc
   - .rst
-    - reStructuredText
+    - reStructuredText，常用于Python社区
+    - Github支持识别渲染
   - .qd
     - quarkdown
   - .qmd
     - Quarto
   - .mdz
     - https://www.bilibili.com/video/BV1PZ7hzdEUD
+  - MediaWiki
+    - [语法-整理](https://dapeng.li/learning/mediawiki/)
+    - [语法](https://www.mediawiki.org/wiki/Help:Formatting/zh)
+    - [语法-表格](https://www.mediawiki.org/wiki/Help:Tables)
+    - Github支持识别渲染
+  - Wikipedia
+    - Wikipedia 的 Pipe 语法
+    - 语法和功能性都很接近html，只比html简化一点。所以得到了强大的功能和难写的语法
+    - [语法](https://zh.wikipedia.org/wiki/Help:%E7%9B%AE%E5%BD%95)
+      [语法-表格](https://zh.wikipedia.org/wiki/Help:%E8%A1%A8%E6%A0%BC)
 - Json类
   - .ipynb
 - LaTeX类
@@ -342,8 +353,30 @@ Author: LincZero
     - Typst
 - 富文本
   - .docx
-- 不知道
+- 不知道 (未验证)
   - .org
+    - Org-mode，主要用于Emacs用户，支持笔记和任务管理
+      Github可能支持渲染?
+  - .textile
+    - 轻量标记语言
+  - 其他
+    - .rdoc .pod .creole .mediawiki
+
+### (Github支持的)
+
+在Github仓库中编辑Wiki可以看到 Github 所支持的格式:
+
+- AsciiDoc
+- Creole
+- Markdown
+- MediaWiki
+- Org-mode
+- Pod
+- RDoc
+- Textile
+- reStructuredText
+
+![alt text](wiki-edit-mode-dropdown.webp)
 
 ### Kramdown (.md)
 
@@ -428,3 +461,66 @@ a|info 2
 - 优点是强大，功能性无所不能
 - 缺点是对环境要求更高，一个简单的md解析和渲染库无法满足其解析渲染要求，还需要一些额外的环境。
   这对于通用性和标准铺设来说是灾难性的，仅适合在特定场景中使用
+
+### Wikipedia Pipe / MediaWiki
+
+参考: https://zh.wikipedia.org/wiki/Help:%E8%A1%A8%E6%A0%BC#Pipe%E8%AF%AD%E6%B3%95%E6%95%99%E7%A8%8B
+
+Wikipedia (维基百科) 的和MediaWiki这两差不多，表格都是这种 `{|...|}` 的形式，这里介绍 Wikipedia 的:
+
+举例一些语法:
+
+**合并单元格**
+
+```md
+{| class="wikitable"
+|-
+! 栏目一 !! 栏目二 !! 栏目三
+|-
+| rowspan="2" | A
+| colspan="2" style="text-align: center" | B
+|-
+| C
+| D
+|-
+| colspan="2" style="text-align: center" | E
+| F
+|- 
+| rowspan="3" | G
+| H
+| I
+|- 
+| J
+| K
+|-
+| colspan="2" style="text-align: center" | L
+|}
+```
+
+将有这样的效果：
+
+[exTable]
+
+|栏目一 |	栏目二 | 栏目三 |
+|------|--------|-------|
+| A    | B      | <     |
+| ^    | C      | D     |
+| E    | <      | F     |
+| G    | H      | I     |
+| ^    | J      | K     |
+| ^    | L      | <     |
+
+**嵌套表格**
+
+```md
+{| class="wikitable"
+| 原有
+|
+{| style="background: blue; color: white" class="wikitable"
+| 插入
+|-
+| 表格
+|}
+| 表格
+|}
+```
