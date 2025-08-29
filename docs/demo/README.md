@@ -1,8 +1,11 @@
 # AnyBlock Online Demo
 
-> [!note]
+> [!warning]
 > 此页及所属文件夹内文件，仅用于anyblock的在线demo。
-> 如果你是从文档中误进入这里，可跳转到 https://any-block.github.io/any-block/ 更好地查看 (可查看对应源码及交互)
+> 如果你是从文档中误进入这里，请跳转到 https://any-block.github.io/any-block/ 更好地查看! (可查看对应源码及在线交互)
+> 
+> The files in this page and the associated folder are only for the online demo of AnyBlock.
+> If you have mistakenly entered here from a document, please jump to https://any-block.github.io/any-block/ for a better view! (You can view the corresponding source code and interact online.)
 
 > [!note]
 > App版使用说明
