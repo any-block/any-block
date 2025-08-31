@@ -217,17 +217,17 @@ importers:
   src/Pro:
     dependencies:
       '@editableblock/cm':
-        specifier: 1.0.1-beta34
-        version: 1.0.1-beta34
+        specifier: 1.0.1-beta35
+        version: 1.0.1-beta35
       '@editableblock/core':
-        specifier: 1.0.1-beta34
-        version: 1.0.1-beta34
+        specifier: 1.0.1-beta35
+        version: 1.0.1-beta35
       '@editableblock/obsidian':
-        specifier: 1.0.1-beta34
-        version: 1.0.1-beta34(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)
+        specifier: 1.0.1-beta35
+        version: 1.0.1-beta35(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)
       '@editableblock/textarea':
-        specifier: 1.0.1-beta34
-        version: 1.0.1-beta34
+        specifier: 1.0.1-beta35
+        version: 1.0.1-beta35
       '@types/prismjs':
         specifier: ^1.26.5
         version: 1.26.5
@@ -379,17 +379,17 @@ packages:
     resolution: {integrity: sha512-UJnjoFsmxfKUdNYdWgOB0mWUypuLvAfQPH1+pyvRJs6euowbFkFC6P13w1l8mJyi3vxYMxc9kld5jZEGRQs6bw==}
     engines: {node: '>=18'}
 
-  '@editableblock/cm@1.0.1-beta34':
-    resolution: {integrity: sha512-YZ1eV2D+Xrsk+hU6qyguUoPA1RH2Nm8qxHGAlKrILB7Vbv14g5Mv1u9xZgY5YpzfC47gseLF41+iwS/MdZuIIA==}
+  '@editableblock/cm@1.0.1-beta35':
+    resolution: {integrity: sha512-9X3b/NBKLdrM7h0IPnKi5WsYPGWo6ayn7cxx6un1KYiHIE+FtLeX0h9iBNZR2Otkudv2Qv8OG6324ZAMKEkn2g==}
 
-  '@editableblock/core@1.0.1-beta34':
-    resolution: {integrity: sha512-LhJpX19zlYY3+9mypTQhEmAag/i+SJvHm4NGEsU2hddUx+0jEpTnws8qre5g6RkJxDbGw5/nGT+bLn7Gs9/2oA==}
+  '@editableblock/core@1.0.1-beta35':
+    resolution: {integrity: sha512-LsoThhPgZp+q7LIadvityXMP6WgcTckvZuv/yHQ+EtJ4Rh8GQYe7pigJUiGs2jlmvUhx2lTAyfplHd3iAQG4kg==}
 
-  '@editableblock/obsidian@1.0.1-beta34':
-    resolution: {integrity: sha512-U57aJ2btlcSeQe9ppQsf84X3irM3yqeVhu5WW3kUGyqDirkL+++Q3PZik6Qv71VOeg5jg6Ps6uqZpQZVEEr5FA==}
+  '@editableblock/obsidian@1.0.1-beta35':
+    resolution: {integrity: sha512-oA342BUKK3pxKURgzywusHYqKcaEwq+zeqz0g4zEOCTnxa+JfKujwmmjmo7r7o0jwzpnE3TEbPrHqcs7L/DFsQ==}
 
-  '@editableblock/textarea@1.0.1-beta34':
-    resolution: {integrity: sha512-a2WvgwP+hUY00lOaCBlq5V1ZJTyrySFpxN4QP92GHMJxox9mOx37iYJ0DhybOx4UayGvxXlE7R7nKBSWuoysvQ==}
+  '@editableblock/textarea@1.0.1-beta35':
+    resolution: {integrity: sha512-4X4FT6lIjz1pXW4+A9HPEg7ZpkBxXjRiMTDdhgVs+nnkJgT7vAMLSBRqsFvI9hqSZedgguRnX946sOxegSwO5w==}
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -3699,7 +3699,7 @@ snapshots:
 
   '@csstools/css-tokenizer@3.0.3': {}
 
-  '@editableblock/cm@1.0.1-beta34':
+  '@editableblock/cm@1.0.1-beta35':
     dependencies:
       '@codemirror/commands': 6.8.1
       '@codemirror/lang-markdown': 6.3.4
@@ -3710,16 +3710,16 @@ snapshots:
       '@retronav/ixora': 0.3.3
       codemirror: 6.0.2
 
-  '@editableblock/core@1.0.1-beta34': {}
+  '@editableblock/core@1.0.1-beta35': {}
 
-  '@editableblock/obsidian@1.0.1-beta34(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)':
+  '@editableblock/obsidian@1.0.1-beta35(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)':
     dependencies:
       obsidian: 1.8.7(@codemirror/state@6.5.2)(@codemirror/view@6.38.1)
     transitivePeerDependencies:
       - '@codemirror/state'
       - '@codemirror/view'
 
-  '@editableblock/textarea@1.0.1-beta34': {}
+  '@editableblock/textarea@1.0.1-beta35': {}
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
