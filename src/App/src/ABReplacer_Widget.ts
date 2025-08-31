@@ -35,16 +35,19 @@ export class ABReplacer_Widget extends WidgetType {
     this.div = document.createElement("div");
     this.div.setAttribute("type_header", this.rangeSpec.header)
     this.div.classList.add("ab-replace", "cm-embed-block") // , "show-indentation-guide"
+    // const id = `${Date.now()}`
+    // console.log('id ---- ', id)
+    // this.div.setAttribute("id", id) // 用于唯一标识
 
     // #region 可视化编辑部分
 
-    const getPos = (): {fromPos: number; toPos: number} => {
+    const getPos = (): {fromPos: number; toPos: number}|null => {
       let fromPos: number
       try {
         fromPos = view.posAtDOM(this.div, 0)
       } catch (e) {
-        console.error('get cursor pos failed:', this.div)
-        throw new Error(`get cursor pos failed: ${e}`)
+        console.warn('get cursor pos failed:', this.div)
+        return null
       }
       const pos = {
         fromPos: fromPos,
@@ -55,6 +58,7 @@ export class ABReplacer_Widget extends WidgetType {
 
     const save = (str_with_prefix: string, force_refresh: boolean = false) => {
       const pos = getPos(); this.content_withPrefix_length = str_with_prefix.length
+      if (!pos) return Promise.resolve()
 
       if (force_refresh) {
         this.customData.updateMode = pos.fromPos // 原 'force'
