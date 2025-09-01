@@ -22,7 +22,7 @@ const abc_faq = ABConvert.factory({
     let mode_qa:string = ""
     let last_content:string = ""
     for (let line of list_content){
-      const m_line = line.match(/^([a-zA-Z])(: |：)(.*)/)
+      const m_line = line.match(/^([\S]+)(:|：)(.*)/) // 这里可以和 `code(chat)` 的 chat-view-qq 微信格式保持一致，可以互相转换
       if (!m_line){ // 不匹配
         if (mode_qa) {
           last_content = last_content + "\n" + line
