@@ -4,10 +4,10 @@ import {
   WidgetType  // 装饰器部件
 } from "@codemirror/view"
 
+import { ABCSetting } from '@/ABConverter';
 import {ABConvertManager} from "@/ABConverter/ABConvertManager"
 import type {MdSelectorRangeSpec} from "./ABSelector_Md"
 import { abConvertEvent } from '@/ABConverter/ABConvertEvent';
-import { ABCSetting } from '@/ABConverter';
 
 export class ABReplacer_Widget extends WidgetType {
   rangeSpec: MdSelectorRangeSpec
@@ -41,6 +41,11 @@ export class ABReplacer_Widget extends WidgetType {
     this.div = document.createElement("div");
     this.div.setAttribute("type_header", this.rangeSpec.header)
     this.div.addClasses(["ab-replace", "cm-embed-block"]) // , "show-indentation-guide"
+    if (ABCSetting.is_debug) { // 调试模式经常需要观测块更新频率
+      const id = `${Date.now()}`.replace(/(\d{3})$/, '.$1');
+      this.div.setAttribute("id", id)
+      const el_id = document.createElement('div'); this.div.appendChild(el_id); el_id.className = 'ab-id' ;el_id.textContent = id;
+    }
     // 特殊 - callout选择器要用css消除外部的引用块样式、取消动态缩进
     if (this.rangeSpec.selector == 'callout') this.div.setAttribute("selector", "callout")
 

@@ -113,6 +113,7 @@ html[data-theme=dark] #app {
 /**
  * 替换内容
  * .ab-replace         // 整体 (外框、圆角)
+ *   &>.ab-note        // id (仅调试模式用)
  *   &>.ab-note        // 内容
  *     &>.ab-replaceEl // 内容 (感觉冗余了)
  *   &>.ab-button      // 操作控件 (刷新/编辑/下拉框)
@@ -121,6 +122,15 @@ html[data-theme=dark] #app {
   /*background-color: #272e3a;*/
   position: relative;
   border-radius: 4px;
+}
+.ab-replace > .ab-id {
+  display: inline-block;
+  height: 18px;
+  width: auto;
+  background: var(--ab-tab-root-bd-color);
+  color: var(--ab-tab-root-tx-color);
+  border-radius: 8px;
+  padding: 0 8px;
 }
 .ab-replace > .ab-note {
   position: relative;

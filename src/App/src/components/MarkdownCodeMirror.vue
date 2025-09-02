@@ -148,8 +148,8 @@ onMounted(() => {
 import { ABContextMenu, root_menu_raw, root_menu } from '../../../Pro/src/contextmenu' // [!code hl] obsidian pro
 onMounted(() => {
   const myMenu = new ABContextMenu()
-  myMenu.append_data(root_menu_raw)
   myMenu.append_data(root_menu)
+  myMenu.append_data(root_menu_raw)
   myMenu.attach(ref_container.value)
 })
 </script>

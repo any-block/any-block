@@ -9,6 +9,7 @@ import {
   WidgetType  // 装饰器部件
 } from "@codemirror/view"
 
+import { ABCSetting } from "../../ABConverter"
 import  { ABConvertManager } from "../../ABConverter/ABConvertManager"
 import { RangeSpec_AnyBlock } from "../../CodeMirror/src/selector" // [!code hl]
 
@@ -35,9 +36,11 @@ export class ABReplacer_Widget extends WidgetType {
     this.div = document.createElement("div");
     this.div.setAttribute("type_header", this.rangeSpec.header)
     this.div.classList.add("ab-replace", "cm-embed-block") // , "show-indentation-guide"
-    // const id = `${Date.now()}`
-    // console.log('id ---- ', id)
-    // this.div.setAttribute("id", id) // 用于唯一标识
+    if (ABCSetting.is_debug) { // 调试模式经常需要观测块更新频率
+      const id = `${Date.now()}`.replace(/(\d{3})$/, '.$1');
+      this.div.setAttribute("id", id)
+      const el_id = document.createElement('div'); this.div.appendChild(el_id); el_id.className = 'ab-id' ;el_id.textContent = id;
+    }
 
     // #region 可视化编辑部分
 
