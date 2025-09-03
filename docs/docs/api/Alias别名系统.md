@@ -17,7 +17,8 @@
 ```js
 // 允许带参数的部分 (这部分的遍历会更耗时间。为了性能考虑，单独拿出来)
 const ABAlias_json_withSub: ABAlias_json_item[] = [
-  { regex: /\|::: 140lne\|(info|note|warn|warning|error)\s?(.*?)\|/, replacement: "|add([!$1] $2)|addQuote|" },
+  { regex: /\|(note|warning|caution|attention|error|info|danger|tip|hint|example|abstract|summary|tldr|quote|cite|todo|success|check|done|important|question|help|faq|failure|fail|missing|bug)([+-]?)(\s.*)?\|/, replacement: "|add([!$1]$2$3)|addQuote|" },
+  { regex: /\|(callout|alert) ([^+-\s]+)([+-]?)\s?(.*)\|/, replacement: "|add([!$2]$3 $4)|addQuote|" }, // 注意避免和原上/上面的callout语法冲突，以及自身递归
 ]
 
 // mdit块
@@ -27,6 +28,7 @@ const ABAlias_json_mdit: ABAlias_json_item[] = [
   {regex: "|::: 140lne|abDemo|", replacement: "|mditABDemo|"},
   {regex: /\|::: 140lne\|(2?col|分栏)\|/, replacement: "|mditCol|"},
   {regex: /\|::: 140lne\|(2?card|卡片)\|/, replacement: "|mditCard|"},
+  {regex: /\|:::_140lne\|(2?chat|聊天)\|/, replacement: "|mditChat|code(chat)|"},
 ]
 
 // 标题块

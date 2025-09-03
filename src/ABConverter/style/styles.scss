@@ -152,13 +152,18 @@ html[data-theme="dark"] #app {
   border-radius: 4px;
 
   &>.ab-id {
+    position: absolute;
+    top: 0;
+    left: 0;
     display: inline-block;
     height: 18px;
     width: auto;
-    background: var(--ab-tab-root-bd-color);
+    background: var(--ab-tab-root-bg-color);
     color: var(--ab-tab-root-tx-color);
     border-radius: 8px;
     padding: 0 8px;
+    z-index: 10;
+    opacity: 0.8;
   }
 
   &>.ab-note{
