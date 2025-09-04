@@ -13,7 +13,7 @@ import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownVie
 import { ABConvertManager, ABCSetting } from "@/ABConverter/index.min" // [!code hl] min
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
-import { ABStateManager } from "./ab_manager/abm_cm/ABStateManager"
+import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
 import { ABSelector_PostHtml } from "./ab_manager/abm_html/ABSelector_PostHtml"
 import type { ABSettingInterface } from "./config/ABSettingTab"
 import { ABSettingTab, AB_SETTINGS } from "./config/ABSettingTab"
@@ -101,6 +101,8 @@ export default class AnyBlockPlugin extends Plugin {
     // 钩子组3 - 渲染模式 后处理器
     const htmlProcessor = ABSelector_PostHtml.processor.bind(this)
     this.registerMarkdownPostProcessor(htmlProcessor);
+
+    console.log('>>> Loading plugin AnyBlock Min');
   }
 
   async loadSettings() {
@@ -117,5 +119,7 @@ export default class AnyBlockPlugin extends Plugin {
 	}
 
   onunload() {
+    console.log('<<< Unloading plugin AnyBlock Min');
+    if (global_timer !== null) { window.clearInterval(global_timer); }
   }
 }

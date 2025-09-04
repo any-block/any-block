@@ -37,7 +37,7 @@ enum Editor_mode{
   PREVIEW,      // 阅读模式
 }
 
-let global_timer: number|null = null // 定时器，单例
+export let global_timer: number|null = null // 定时器，单例
 
 /**
  * 状态管理器
@@ -94,7 +94,7 @@ export class ABStateManager {
       if (plugin_this.settings.enhance_refresh_time > 0) {
         if (plugin_this.settings.enhance_refresh_time < 500) plugin_this.settings.enhance_refresh_time = 500 // limit min time
         global_timer = window.setInterval(() => {
-          if (plugin_this.settings.is_debug) console.log("    auto refresh event:", this.initialFileName)
+          if (plugin_this.settings.is_debug) console.log(`    auto refresh event (${global_timer}): ${this.initialFileName}`)
           abConvertEvent(document, true)
         }, plugin_this.settings.enhance_refresh_time)
       }
