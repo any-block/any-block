@@ -21,6 +21,7 @@
 :root {
   --ab-tab-root-bg-color: #0d1117;
   --ab-tab-root-bd-color: #34343f;
+  --ab-tab-root-hv-color: #363639;
   --ab-tab-root-tx-color: #9e9e9e;
   --ab-bright-color: orange;
   --pre-background-color: #1b1b1b;
@@ -41,6 +42,10 @@
   --ab-table-border-color: var(--table-border-color);
 }
 
+.theme-light {
+  --ab-tab-root-hv-color: #d7d7d7;
+}
+
 html[data-theme=light] #app,
 html[data-theme=dark] #app {
   --ab-tab-root-bg-color: var(--vp-c-bg);
@@ -59,6 +64,7 @@ html[data-theme=light] #app {
   --color-blue: #086ddd;
   --color-purple: #7852ee;
   --color-pink: #d53984;
+  --ab-tab-root-hv-color: #d7d7d7;
 }
 
 html[data-theme=dark] #app {
@@ -107,6 +113,7 @@ html[data-theme=dark] #app {
 /**
  * 替换内容
  * .ab-replace         // 整体 (外框、圆角)
+ *   &>.ab-note        // id (仅调试模式用)
  *   &>.ab-note        // 内容
  *     &>.ab-replaceEl // 内容 (感觉冗余了)
  *   &>.ab-button      // 操作控件 (刷新/编辑/下拉框)
@@ -115,6 +122,20 @@ html[data-theme=dark] #app {
   /*background-color: #272e3a;*/
   position: relative;
   border-radius: 4px;
+}
+.ab-replace > .ab-id {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  height: 18px;
+  width: auto;
+  background: var(--ab-tab-root-bg-color);
+  color: var(--ab-tab-root-tx-color);
+  border-radius: 8px;
+  padding: 0 8px;
+  z-index: 10;
+  opacity: 0.8;
 }
 .ab-replace > .ab-note {
   position: relative;
@@ -1165,4 +1186,16 @@ table.ab-table-fc th[col_index="0"], table.ab-table-fc td[col_index="0"] {
 
 :is(.markdown-preview-view, .markdown-rendered).is-readable-line-width:not(.matrix) .ab-note :is(.markdown-rendered) {
   width: auto !important;
+}
+
+/**************** PRO *************************/
+table td div > p:first-child, table td div > ul:first-child, table th div > p:first-child, table th div > ul:first-child {
+  margin-top: 2px;
+}
+table td div > p:last-child, table td div > ul:last-child, table th div > p:last-child, table th div > ul:last-child {
+  margin-bottom: 2px;
+}
+
+.markdown-rendered tbody > tr > td .markdown-rendered, .markdown-rendered tbody > tr > th .markdown-rendered {
+  white-space: normal;
 }

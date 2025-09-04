@@ -13,6 +13,7 @@ node_modules
 main.js
 main-min.js
 styles.css
+main.css
 
 # Exclude sourcemaps
 *.map

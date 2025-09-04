@@ -197,18 +197,19 @@ export class ABStateManager {
       // 装饰模式不改变，不管
       else {}
 
-      this.is_prev_cursor_in = true
-      this.prev_decoration_mode = decoration_mode
-      this.prev_editor_mode = editor_mode
+      this.is_prev_cursor_in = true; // 返回前操作1
+      this.prev_decoration_mode = decoration_mode; this.prev_editor_mode = editor_mode; // 返回前操作2
       return decorationSet
     }
 
     // 2. 解析、并装饰调整匹配项（删增改），包起来准备防抖（未防抖）
-    // let refreshStrong = this.onUpdate_refresh.bind(this)
-    return this.onUpdate_refresh(decorationSet, tr, decoration_mode, editor_mode)
+    // // let refreshStrong = this.onUpdate_refresh.bind(this)
+    const new_decorationSet = this.onUpdate_refresh(decorationSet, tr, decoration_mode, editor_mode)
+    this.prev_decoration_mode = decoration_mode; this.prev_editor_mode = editor_mode; // 返回前操作2
+    return new_decorationSet
 
-    // // [!code hl] obsidian-pro
-    // // TODO 没有排除源码模式的情况
+    // [!code hl] obsidian-pro
+    // TODO 没有排除源码模式的情况
     // const create_widget = (
     //   customData: { cancelFlag: number[], updateMode: string|number },
     //   state: EditorState, oldView: EditorView,
@@ -228,9 +229,11 @@ export class ABStateManager {
     //   }
     //   return new ABReplacer_Widget(rangeSpec_, this.editor, customData)
     // }
-    // return create_decorations(this.customData, this.editorView, tr, decorationSet, 
+    // const new_decorationSet = create_decorations(this.customData, this.editorView, tr, decorationSet, 
     //   create_widget
     // )
+    // this.prev_decoration_mode = decoration_mode; this.prev_editor_mode = editor_mode; // 返回前操作2
+    // return new_decorationSet
   }
 
   /**
@@ -364,6 +367,7 @@ export class ABStateManager {
       && decoration_mode == this.prev_decoration_mode
       && editor_mode == this.prev_editor_mode
     ){
+      this.is_prev_cursor_in = is_current_cursor_in; // 返回前操作1
       return decorationSet
     }
     // #endregion
@@ -431,9 +435,7 @@ export class ABStateManager {
     }*/
     // #endregion
 
-    this.is_prev_cursor_in = is_current_cursor_in
-    this.prev_decoration_mode = decoration_mode
-    this.prev_editor_mode = editor_mode
+    this.is_prev_cursor_in = is_current_cursor_in; // 返回前操作1
     return decorationSet
   }
 
