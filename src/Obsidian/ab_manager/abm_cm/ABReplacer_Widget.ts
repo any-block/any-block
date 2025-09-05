@@ -4,10 +4,10 @@ import {
   WidgetType  // 装饰器部件
 } from "@codemirror/view"
 
-import { ABCSetting } from '@/ABConverter';
+import { ABCSetting } from '@/ABConverter/ABReg'
 import {ABConvertManager} from "@/ABConverter/ABConvertManager"
 import type {MdSelectorRangeSpec} from "./ABSelector_Md"
-import { abConvertEvent } from '@/ABConverter/ABConvertEvent';
+import { abConvertEvent } from '@/ABConverter/ABConvertEvent'
 
 export class ABReplacer_Widget extends WidgetType {
   rangeSpec: MdSelectorRangeSpec
