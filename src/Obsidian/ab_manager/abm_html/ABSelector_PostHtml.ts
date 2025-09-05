@@ -84,11 +84,16 @@ export class ABSelector_PostHtml{
          * 
          * 理论上这里 "判断方式一" 就足以胜任工作，但这里稍有不慎很容易触发无限刷新，又冗余用其他方法多判断了几次
          */
-        // 判断方式一：直接判断el的祖先节点
+        // 判断方式一：直接判断el的祖先节点。主要判断自引用判断 (`![](#^)`)
         const ppEl = el.parentElement?.parentElement?.parentElement
-        if (!ppEl) {
-          // is_newContent = false; is_subContent = true; return // 弃用。首次渲染时 el.parentElement 为 null，会导致误判
+        if (!ppEl) { // 弃用。几乎没用，首次渲染时 el.parentElement 为 null，即 el 是游离状态，不在目标位置
+          // is_newContent = false; is_subContent = true; return
         } else if (ppEl.classList.contains("markdown-embed-content")) { // 阅读模式: ppEl.classList.contains("markdown-reading-view")) 实时: 未知
+          is_newContent = false; is_subContent = true; return
+        }
+        // 判断方式2.1：判断局部内容是否等于全内容。主要判断自引用判断 (`![](#^)`)
+        // 哪怕误判，这种整个文章只有一个片段的情况也不会是包含anyblock的片段
+        if (mdSrc.from_line == 0 && mdSrc.to_line == mdSrc.to_line_all) {
           is_newContent = false; is_subContent = true; return
         }
         // 判断方式二：内容与窗口的文件名是否一致 (切换页面时 (aIncludeB -> b)，有可能检测有问题，要用另一判断方式)
