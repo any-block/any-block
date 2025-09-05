@@ -92,10 +92,12 @@ export class ListProcess{
     // 列表文本转列表数据
     let list_itemInfo:List_ListItem = []
 
+    let m_line_cache = null // 缓存上次列表行的信息，以便非列表行 (内换行) 去除缩进前缀
     const list_text = text.split("\n")
     for (let line of list_text) {                                             // 每行
-      const m_line = line.match(ABReg.reg_list_noprefix)
+      const m_line = line.match(ABReg.reg_list_noprefix) // 是否为列表行
       if (m_line) {
+        m_line_cache = m_line
         let list_inline: string[] = m_line[4].split(ABReg.inline_split) // 内联分行
         /** @bug  制表符长度是1而非4 */
         let level_inline: number = m_line[1].length
@@ -111,8 +113,14 @@ export class ListProcess{
       else{                                                                   // 内换行
         let itemInfo = list_itemInfo.pop()
         if(itemInfo){
+          // 如果有开头有 m_line_cache[1].length+2 个空白字符 (tab/space) (+2是 `- ` 的长度)，则去除这些数量的空格字符
+          if (m_line_cache && /^\s*$/.test(line.slice(0, m_line_cache[1].length+2))) {
+            line = line.slice(m_line_cache[1].length+2)
+          } else {
+            line = line.trim()
+          }
           list_itemInfo.push({
-            content: itemInfo.content+"\n"+line.trim(),
+            content: itemInfo.content+"\n" + line,
             level: itemInfo.level
           })
         }
