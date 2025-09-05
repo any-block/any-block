@@ -163,8 +163,8 @@ export class ABSelector_PostHtml{
       if (!is_subContent && is_newContent) {
         // 性能优化：如果不包含ab块，那就不强制刷新，以免影响正常页面
         if (cache_item && (
-          /\n((\s|>\s|-\s|\*\s|\+\s)*)(%%)?(\[((?!toc)(?!TOC)[0-9a-zA-Z\u4e00-\u9fa5].*)\]):?(%%)?\s*\n/.test(cache_item.content) ||
-          /\n((\s|>\s|-\s|\*\s|\+\s)*)(:::)\s?(\S*)\n/.test(cache_item.content)
+          /((\s|>\s|-\s|\*\s|\+\s)*)(%%)?(\[((?!toc)(?!TOC)[0-9a-zA-Z\u4e00-\u9fa5].*)\]):?(%%)?\s*\n/.test(cache_item.content) ||
+          /((\s|>\s|-\s|\*\s|\+\s)*)(:::)\s?(\S*)\n/.test(cache_item.content)
         )) {
           const leaf = this.app.workspace.getActiveViewOfType(MarkdownView)?.leaf; if (!leaf) { return }
           // const el = leaf.containerEl.querySelector(".markdown-source-view") as HTMLElement;
@@ -179,6 +179,11 @@ export class ABSelector_PostHtml{
           // @ts-expect-error WorkspaceLeaf have not rebuildView
           leaf.rebuildView()
           return
+        } else {
+          // if (this.settings.is_debug) console.log(" but no anyblock content, no rebuildView", cache_item, 
+          //   /((\s|>\s|-\s|\*\s|\+\s)*)(%%)?(\[((?!toc)(?!TOC)[0-9a-zA-Z\u4e00-\u9fa5].*)\]):?(%%)?\s*\n/.test((cache_item as any).content),
+          //   /((\s|>\s|-\s|\*\s|\+\s)*)(:::)\s?(\S*)\n/.test((cache_item as any).content)
+          // )
         }
       }
 
