@@ -71,10 +71,7 @@ export class ABSelector_PostHtml{
       // 判断核心：使用cache_map
       let is_newContent:boolean = false // 是否内容变更，若是则需要强制刷新。注意，经过后面多次判断后值才是对的
       let is_subContent:boolean = false // 是否是 `![[]]`/`![[#]]` 引起的子页面内容，后者极难检测
-      let cache_item = { // 默认不存cache_map，也不触发强制刷新
-        name: ctx.sourcePath,
-        content: mdSrc.content_all
-      };
+      let cache_item = null             // 上次缓存的该文件的内容
       ;(()=>{
         /**
          * 判断是否引用显示，若是则禁用强制渲染
@@ -90,7 +87,7 @@ export class ABSelector_PostHtml{
         // 判断方式一：直接判断el的祖先节点
         const ppEl = el.parentElement?.parentElement?.parentElement
         if (!ppEl) {
-          is_newContent = false; is_subContent = true; return
+          // is_newContent = false; is_subContent = true; return // 弃用。首次渲染时 el.parentElement 为 null，会导致误判
         } else if (ppEl.classList.contains("markdown-embed-content")) { // 阅读模式: ppEl.classList.contains("markdown-reading-view")) 实时: 未知
           is_newContent = false; is_subContent = true; return
         }
@@ -121,6 +118,7 @@ export class ABSelector_PostHtml{
         }
         // b1. 无缓存 -> 有修改
         if (!cache_item) {
+          cache_item = { name: ctx.sourcePath, content: mdSrc.content_all }
           cache_map.push(cache_item)
           is_newContent = true
           if (this.settings.is_debug) console.log(" !! No cache -> Changed, perform a global refresh (rebuildView): ", cache_item, ctx)
@@ -159,9 +157,10 @@ export class ABSelector_PostHtml{
       // TODO 这里存在改进的空间，如果这里触发了实际上会渲染 n+m 次，n是受影响的div，m是全文的div。前者这里可以弄个flag来消除掉，没必要进行
       if (!is_subContent && is_newContent) {
         // 性能优化：如果不包含ab块，那就不强制刷新，以免影响正常页面
-        if (/\n((\s|>\s|-\s|\*\s|\+\s)*)(%%)?(\[((?!toc)(?!TOC)[0-9a-zA-Z\u4e00-\u9fa5].*)\]):?(%%)?\s*\n/.test(cache_item.content) ||
+        if (cache_item && (
+          /\n((\s|>\s|-\s|\*\s|\+\s)*)(%%)?(\[((?!toc)(?!TOC)[0-9a-zA-Z\u4e00-\u9fa5].*)\]):?(%%)?\s*\n/.test(cache_item.content) ||
           /\n((\s|>\s|-\s|\*\s|\+\s)*)(:::)\s?(\S*)\n/.test(cache_item.content)
-        ) {
+        )) {
           const leaf = this.app.workspace.getActiveViewOfType(MarkdownView)?.leaf; if (!leaf) { return }
           // const el = leaf.containerEl.querySelector(".markdown-source-view") as HTMLElement;
           // if (!el) {
