@@ -30,3 +30,17 @@ pnpm app:build    # app版本的构建，也可以 cd src/App 后运行 pnpm run
 
 pnpm mdit:build   # markdown-it版本的构建 (已上传npm)
 ```
+
+### For Developer
+
+常用命令
+
+```bash
+pnpm -r exec pnpm version 1.0.1 # 同步相同版本号
+
+pnpm -r publish --access public
+# -r：递归执行命令（所有子项目）
+# --access public：确保公共包可被访问（私有包可不添加）
+#  --tag beta: 若为beta版本
+# 如没登录需要先 npm adduser
+```
