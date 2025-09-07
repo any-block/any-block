@@ -48,4 +48,5 @@ esbuild.build({
 	treeShaking: true,
 	// outdir: '../../',
 	outfile: '../../main.js',
+	minify: false, // 压缩，参考 1.9MB->995.8KB
 }).catch(() => process.exit(1));

@@ -48,6 +48,7 @@ esbuild.build({
 	treeShaking: true,
 	// outdir: '../../',
 	outfile: '../../dist-pro/main.js', // [!code] pro
+	minify: true, // 压缩，参考 2.5->1.3MB
 }).catch(() => process.exit(1));
 
 // css // [!code] pro
@@ -57,5 +58,5 @@ await esbuild.build({
     watch: !prod,
     bundle: true,
     allowOverwrite: true,
-    minify: false,
+    minify: false, // 压缩
 });
