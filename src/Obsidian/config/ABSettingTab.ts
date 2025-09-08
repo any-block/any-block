@@ -42,6 +42,7 @@ export interface ABSettingInterface {
   is_debug: boolean,                // 是否开启调试打印
   enhance_refresh_time: number,     // 刷新增强的刷新时间 (ms) (<1000为关闭，最快1s)
   inline_split: string,             // 正则里的内联分隔符
+  license_key: string               // pro版许可证密钥
 }
 export enum ConfSelect{
   no = "no",
@@ -88,6 +89,7 @@ export const AB_SETTINGS: ABSettingInterface = {
   is_debug: false,
   enhance_refresh_time: 2000,
   inline_split: "/\\| |,  |， |\\.  |。 |:  |： /",
+  license_key: "eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHBpcnkiOjE3NTk5MzA4MDYwOTcsInRpZXIiOiJwcm8ifQ==.e7jggys0LBESQU5CPbQwIId0iyZZJZoyx2FHc7JPC6BsncUHL+oYORUYceqYeKjmnQIt+FcgqCeE44930sSUmKJVamxqJKB//zZL/RPnyYbqS1aujzZlNmTWx8MRkr4A4V8+0esQIXBHpZS3Ye5gtwWVg/YuLcHq+cPsh9rxWOEmljauclSmCI4zm0o+pMEoY2NbntPv5DBUZ7k7rh7/a4WGUekb2mu9BmQuK+IzqpdjqDrFs6cn50KjqD122U9Wic7rPk1IqH2TMUjOyo8UIFjbs8RsCy//F6rcY5KJ/kDVjyqBMYaDvwZpbY8qzO1xPWc/GBaezk5SVeQrpek7jQ==",
 }
 
 /** 设置值面板 */
