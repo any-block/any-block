@@ -92,6 +92,10 @@ export const AB_SETTINGS: ABSettingInterface = {
   license_key: "eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHBpcnkiOjE3NTk5MzA4MDYwOTcsInRpZXIiOiJwcm8ifQ==.e7jggys0LBESQU5CPbQwIId0iyZZJZoyx2FHc7JPC6BsncUHL+oYORUYceqYeKjmnQIt+FcgqCeE44930sSUmKJVamxqJKB//zZL/RPnyYbqS1aujzZlNmTWx8MRkr4A4V8+0esQIXBHpZS3Ye5gtwWVg/YuLcHq+cPsh9rxWOEmljauclSmCI4zm0o+pMEoY2NbntPv5DBUZ7k7rh7/a4WGUekb2mu9BmQuK+IzqpdjqDrFs6cn50KjqD122U9Wic7rPk1IqH2TMUjOyo8UIFjbs8RsCy//F6rcY5KJ/kDVjyqBMYaDvwZpbY8qzO1xPWc/GBaezk5SVeQrpek7jQ==",
 }
 
+export const expiry = { // 仅用于显示，无其他用处
+  expiry: -1
+}
+
 /** 设置值面板 */
 export class ABSettingTab extends PluginSettingTab {
 	plugin: AnyBlockPlugin
@@ -238,7 +242,7 @@ export class ABSettingTab extends PluginSettingTab {
           }).open()
         })
       })
-      containerEl.createEl('hr', {cls: "bright-color"})
+    containerEl.createEl('hr', {cls: "bright-color"})
 
     // 转换器的管理
     new Setting(containerEl).setName('').setHeading();
@@ -248,6 +252,33 @@ export class ABSettingTab extends PluginSettingTab {
     const div = containerEl.createEl("div");
     ABConvertManager.autoABConvert(div, "info_converter", "", "null_content") // this.processorPanel = ABConvertManager.getInstance().generateConvertInfoTable(containerEl)
     this.processorPanel = div
+
+    // pro
+    if (ABCSetting.env === 'obsidian-pro') {
+      containerEl.createEl('hr', {cls: "bright-color"})
+      new Setting(containerEl).setName("License").setHeading()
+      // new Setting(containerEl)
+      //   .setName("Serial number")
+      //   .addText(text => text
+      //     .setDisabled(true)
+      //     .setValue("TODO                                 ")
+      //   )
+      new Setting(containerEl)
+        .setName("License key")
+        .addTextArea(text => text
+          .setValue(settings.license_key)
+          .onChange(async (value) => {
+            settings.license_key = value
+            await this.plugin.saveSettings()
+          })
+        )
+      new Setting(containerEl)
+        .setName("License Expiry")
+        .addText(text => text
+          .setDisabled(true)
+          .setValue(expiry.expiry > 0 ? new Date(expiry.expiry).toLocaleDateString() : "No license")
+        )
+    }
 	}
 }
 

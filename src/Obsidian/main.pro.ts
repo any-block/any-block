@@ -20,7 +20,7 @@ import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock
 import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
 import { ABSelector_PostHtml } from "./ab_manager/abm_html/ABSelector_PostHtml"
 import type { ABSettingInterface } from "./config/ABSettingTab"
-import { ABSettingTab, AB_SETTINGS } from "./config/ABSettingTab"
+import { ABSettingTab, AB_SETTINGS, expiry } from "./config/ABSettingTab"
 
 export default class AnyBlockPlugin extends Plugin {
   settings: ABSettingInterface
@@ -117,12 +117,12 @@ export default class AnyBlockPlugin extends Plugin {
     if (!data) {
       this.saveData(this.settings);
     }
-    // onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
+    // expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
   }
 
   async saveSettings() {
     await this.saveData(this.settings)
-    // onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
+    // expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
   }
 
   onunload() {
