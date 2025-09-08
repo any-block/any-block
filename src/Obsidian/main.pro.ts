@@ -14,6 +14,7 @@ import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
 ABCSetting.env = "obsidian-pro"
 // TODO 完善动态加载，避免编译器静态检测 @/Pro/src/index 是否存在。目前手动注释开关 // [!code hl]
 // import "@/Pro/src/index.ob" // [!code hl] obsidian-pro
+// import { onUpdateLicense } from "@/Pro/src/index.ob" // [!code hl] obsidian-pro
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
@@ -110,16 +111,19 @@ export default class AnyBlockPlugin extends Plugin {
 
   async loadSettings() {
     const data = await this.loadData() // 如果没有配置文件则为null
-		this.settings = Object.assign({}, AB_SETTINGS, data); // 合并默认值和配置文件的值
+    this.settings = Object.assign({}, AB_SETTINGS, data); // 合并默认值和配置文件的值
 
     // 如果没有配置文件则生成一个默认值的配置文件
     if (!data) {
       this.saveData(this.settings);
     }
-	}
-	async saveSettings() {
-		await this.saveData(this.settings);
-	}
+    // onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
+  }
+
+  async saveSettings() {
+    await this.saveData(this.settings)
+    // onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
+  }
 
   onunload() {
     console.log('<<< Unloading plugin AnyBlock Pro');
