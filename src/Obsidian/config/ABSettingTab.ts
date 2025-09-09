@@ -206,6 +206,16 @@ export class ABSettingTab extends PluginSettingTab {
         })
       })*/
 
+    // 转换器的管理
+    ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("Convertor manager")})
+    ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
+    new Setting(ab_tab_content_item).setName(t("Convertor manager")).setHeading();
+    ab_tab_content_item.createEl('p', {text: t("Convertor manager2")});
+    ab_tab_content_item.createEl('p', {text: t("Convertor manager3")});
+    const div = ab_tab_content_item.createEl("div");
+    ABConvertManager.autoABConvert(div, "info_converter", "", "null_content") // this.processorPanel = ABConvertManager.getInstance().generateConvertInfoTable(containerEl)
+    this.processorPanel = div
+
     // 别名系统的管理
     ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("AliasSystem manager")})
     ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
@@ -256,16 +266,6 @@ export class ABSettingTab extends PluginSettingTab {
         })
       })
     ab_tab_content_item.createEl('hr', {cls: "bright-color"})
-
-    // 转换器的管理
-    ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("Convertor manager")})
-    ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
-    new Setting(ab_tab_content_item).setName(t("Convertor manager")).setHeading();
-    ab_tab_content_item.createEl('p', {text: t("Convertor manager2")});
-    ab_tab_content_item.createEl('p', {text: t("Convertor manager3")});
-    const div = ab_tab_content_item.createEl("div");
-    ABConvertManager.autoABConvert(div, "info_converter", "", "null_content") // this.processorPanel = ABConvertManager.getInstance().generateConvertInfoTable(containerEl)
-    this.processorPanel = div
 
     // pro
     if (ABCSetting.env === 'obsidian-pro') {
