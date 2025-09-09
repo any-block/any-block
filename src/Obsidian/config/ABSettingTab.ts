@@ -265,7 +265,6 @@ export class ABSettingTab extends PluginSettingTab {
           }).open()
         })
       })
-    ab_tab_content_item.createEl('hr', {cls: "bright-color"})
 
     // pro
     if (ABCSetting.env === 'obsidian-pro') {

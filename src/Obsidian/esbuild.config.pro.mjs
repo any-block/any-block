@@ -1,8 +1,13 @@
 import esbuild from "esbuild";
 import process from "process";
 import builtins from 'builtin-modules'
-// import esbuildSvelte from "esbuild-svelte";		// 可能会报错，需要将`??`改成一般的三元运算符
+// import esbuildSvelte from "esbuild-svelte";    // 可能会报错，需要将`??`改成一般的三元运算符
 // import sveltePreprocess from "svelte-preprocess";
+
+import path from 'path'
+import fs from 'fs'
+import pkg from 'javascript-obfuscator';
+const { obfuscate } = pkg;
 
 const banner =
 `/*
@@ -13,42 +18,42 @@ if you want to view the source, please visit the github repository of this plugi
 
 const prod = (process.argv[2] === 'production');
 
-esbuild.build({
-	plugins: [
-		// esbuildSvelte({
-		// 	compilerOptions: { css: true },
-		// 	preprocess: sveltePreprocess(),
-		// })
-	],
-	banner: {
-		js: banner,
-	},
-	entryPoints: ['./main.pro.ts'], // [!code] pro
-	bundle: true,
-	external: [
-		'obsidian',
-		'electron',
-		'@codemirror/autocomplete',
-		'@codemirror/collab',
-		'@codemirror/commands',
-		'@codemirror/language',
-		'@codemirror/lint',
-		// '@codemirror/search',
-		'@codemirror/state',
-		'@codemirror/view',
-		'@lezer/common',
-		'@lezer/highlight',
-		'@lezer/lr',
-		...builtins],
-	format: 'cjs',
-	watch: !prod,
-	target: 'es2018',
-	logLevel: "info",
-	sourcemap: prod ? false : 'inline',
-	treeShaking: true,
-	// outdir: '../../',
-	outfile: '../../dist-pro/main.js', // [!code] pro
-	minify: true, // 压缩，参考 2.5->1.3MB
+await esbuild.build({
+  plugins: [
+    // esbuildSvelte({
+    //   compilerOptions: { css: true },
+    //   preprocess: sveltePreprocess(),
+    // })
+  ],
+  banner: {
+    js: banner,
+  },
+  entryPoints: ['./main.pro.ts'], // [!code] pro
+  bundle: true,
+  external: [
+    'obsidian',
+    'electron',
+    '@codemirror/autocomplete',
+    '@codemirror/collab',
+    '@codemirror/commands',
+    '@codemirror/language',
+    '@codemirror/lint',
+    // '@codemirror/search',
+    '@codemirror/state',
+    '@codemirror/view',
+    '@lezer/common',
+    '@lezer/highlight',
+    '@lezer/lr',
+    ...builtins],
+  format: 'cjs',
+  watch: !prod,
+  target: 'es2018',
+  logLevel: "info",
+  sourcemap: prod ? false : 'inline',
+  treeShaking: true,
+  // outdir: '../../',
+  outfile: '../../dist-pro/main.js', // [!code] pro
+  minify: true, // 压缩，参考 2.5->1.3MB
 }).catch(() => process.exit(1));
 
 // css // [!code] pro
@@ -60,3 +65,52 @@ await esbuild.build({
     allowOverwrite: true,
     minify: false, // 压缩
 });
+
+// 生产环境下才执行代码混淆
+// 混淆开得很小，更注重性能和体积而非防护
+if (prod) {
+  console.log('doing obfuscate...');
+
+  // 读取生成的文件
+  const jsFilePath = path.resolve('../../dist-pro/main.js');
+  const code = fs.readFileSync(jsFilePath, 'utf-8');
+  
+  // 应用混淆
+  const obfuscatedCode = obfuscate(code, {
+  // 性能与混淆平衡类
+  controlFlowFlatteningThreshold: 0,        // 控制流扁平化阈值(0-1)，越高混淆越强但性能影响越大 (~0.75)
+  stringArrayThreshold: 0,                  // 字符串数组提取阈值(0-1)，越高提取越多字符串 (0.25~0.5)
+  // 文件大小相关
+  compact: true,                            // 压缩代码，移除多余空格和注释
+  deadCodeInjection: false,                 // 关闭: 注入死代码，增加分析难度，但会增加文件体积
+  deadCodeInjectionThreshold: 0.4,          // 死代码注入阈值(0-1)，越高注入越多
+  unicodeEscapeSequence: false,             // 关闭: 不使用Unicode转义序列，避免文件变大
+  // 字符串相关 (通常会导致文件变大)
+  stringArray: false,                       // 关闭: 13.9->7.3MB。将所有字符串提取到数组中，通过索引引用
+  // stringArrayEncoding: ['rc4'],          // 关闭: 编译报错所以关闭。字符串数组编码方式
+  // stringArrayIndexShift: true,              // 字符串数组索引混淆，访问时索引会被修改
+  // stringArrayWrappersCount: 2,              // 字符串数组包装层数
+  // stringArrayWrappersChainedCalls: true,    // 字符串数组访问使用链式调用
+  // stringArrayWrappersParametersMaxCount: 4, // 字符串数组包装函数的最大参数数量
+  // stringArrayWrappersType: 'function',      // 字符串数组包装类型，使用函数包装
+  splitStrings: false,                      // 关闭: 非必要。分割字符串为多个部分再拼接
+  // splitStringsChunkLength: 10,              // 分割后每段字符串的长度
+  // 其他
+  controlFlowFlattening: false,             // 控制流扁平化，使代码执行路径更难分析
+  // debugProtection: true,                    // 防止调试，在开发者工具打开时使浏览器无响应
+  // debugProtectionInterval: 4000,            // 调试保护检查的时间间隔(毫秒)
+  disableConsoleOutput: false,              // 关闭: 非必要。禁止console输出，防止通过控制台分析程序
+  // log: false,                               // 不输出混淆日志
+  numbersToExpressions: false,              // 关闭: 非必要。将数字转换为数学表达式，增加理解难度
+  renameGlobals: false,                     // 关闭：是否重命名全局变量和函数(谨慎使用，可能破坏功能)
+  // selfDefending: true,                      // 自我保护模式，防止格式化和美化代码
+  // simplify: true,                           // 简化代码，移除不必要的分支
+  // 其他
+  transformObjectKeys: true,                // Core。转换对象键名，增加分析难度
+  // identifierNamesGenerator: 'hexadecimal',  // 标识符名称生成方式，此处使用十六进制
+  // 考虑添加reservedNames: []选项来保护特定标识符不被混淆
+  }).getObfuscatedCode();
+  
+  // 写回文件
+  fs.writeFileSync(jsFilePath, obfuscatedCode);
+}
