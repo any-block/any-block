@@ -139,18 +139,29 @@ export class ABSettingTab extends PluginSettingTab {
     let settings = this.plugin.settings
     // new Setting(containerEl).setName('AnyBlock').setHeading();
 		const div_url = containerEl.createEl('div');
-    div_url.empty(); div_url.appendChild(sanitizeHTMLToDom(t("see website for detail")));
-    containerEl.createEl('hr', {cls: "bright-color"})
+      div_url.empty(); div_url.appendChild(sanitizeHTMLToDom(t("see website for detail")));
+      div_url.style.marginBottom = "1em";
+
+    // 标签页
+    const el_note = containerEl.createEl('div', {cls: 'ab-note'})
+    const el_tab = el_note.createEl('div', {cls: 'ab-tab-root'})
+    const el_tab_nav = el_tab.createEl('div', {cls: 'ab-tab-nav'})
+    const el_tab_content = el_tab.createEl('div', {cls: 'ab-tab-content'})
+    let ab_tab_nav_item: HTMLElement
+    let ab_tab_content_item: HTMLElement
 
     // 选择器管理
-    new Setting(containerEl).setName(t("Selector manager")).setHeading();
-    containerEl.createEl('p', {text: t("Selector manager2")})
-    this.selectorPanel = generateSelectorInfoTable(containerEl)
-    containerEl.createEl('hr', {cls: "bright-color"})
+    ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("Selector manager")})
+    ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
+    new Setting(ab_tab_content_item).setName(t("Selector manager")).setHeading();
+    ab_tab_content_item.createEl('p', {text: t("Selector manager2")})
+    this.selectorPanel = generateSelectorInfoTable(ab_tab_content_item)
 
     // 装饰管理器
-    /*containerEl.createEl('h2', {text: '装饰管理器'});
-    new Setting(containerEl)
+    /*ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("Selector managerN")})
+    ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
+    ab_tab_content_item.createEl('h2', {text: '装饰管理器'});
+    new Setting(ab_tab_content_item)
       .setName('源码模式中启用')
       .setDesc('推荐：不启用')
 			.addDropdown((component)=>{
@@ -165,7 +176,7 @@ export class ABSettingTab extends PluginSettingTab {
           await this.plugin.saveSettings();    
         })
       })
-    new Setting(containerEl)
+    new Setting(ab_tab_content_item)
       .setName('实时模式中启用')
       .setDesc('推荐：启用块装饰/线装饰')
 			.addDropdown((component)=>{
@@ -180,7 +191,7 @@ export class ABSettingTab extends PluginSettingTab {
           await this.plugin.saveSettings(); 
         })
       })
-    new Setting(containerEl)
+    new Setting(ab_tab_content_item)
       .setName('渲染模式中启用')
       .setDesc('推荐：启用块装饰')
 			.addDropdown((component)=>{
@@ -196,10 +207,12 @@ export class ABSettingTab extends PluginSettingTab {
       })*/
 
     // 别名系统的管理
-    new Setting(containerEl).setName(t("AliasSystem manager")).setHeading();
-    containerEl.createEl('p', {text: t("AliasSystem manager2")});
-    containerEl.createEl('p', {text: t("AliasSystem manager3")});
-    new Setting(containerEl)
+    ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("AliasSystem manager")})
+    ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
+    new Setting(ab_tab_content_item).setName(t("AliasSystem manager")).setHeading();
+    ab_tab_content_item.createEl('p', {text: t("AliasSystem manager2")});
+    ab_tab_content_item.createEl('p', {text: t("AliasSystem manager3")});
+    new Setting(ab_tab_content_item)
       .setName(t("AliasSystem manager4"))
       .addButton(component => {
         component
@@ -222,7 +235,7 @@ export class ABSettingTab extends PluginSettingTab {
           }).open()
         })
       })
-    new Setting(containerEl)
+    new Setting(ab_tab_content_item)
       .setName(t("AliasSystem manager5"))
       .addButton(component => {
         component
@@ -236,35 +249,38 @@ export class ABSettingTab extends PluginSettingTab {
             await this.plugin.saveSettings();
             // 3. 刷新处理器的图表
             this.processorPanel.remove()
-            const div = containerEl.createEl("div");
+            const div = ab_tab_content_item.createEl("div");
             ABConvertManager.autoABConvert(div, "info_converter", "", "null_content")
             this.processorPanel = div
           }).open()
         })
       })
-    containerEl.createEl('hr', {cls: "bright-color"})
+    ab_tab_content_item.createEl('hr', {cls: "bright-color"})
 
     // 转换器的管理
-    new Setting(containerEl).setName('').setHeading();
-    containerEl.createEl('p', {text: t("Convertor manager")});
-    containerEl.createEl('p', {text: t("Convertor manager2")});
-    containerEl.createEl('p', {text: t("Convertor manager3")});
-    const div = containerEl.createEl("div");
+    ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("Convertor manager")})
+    ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
+    new Setting(ab_tab_content_item).setName(t("Convertor manager")).setHeading();
+    ab_tab_content_item.createEl('p', {text: t("Convertor manager2")});
+    ab_tab_content_item.createEl('p', {text: t("Convertor manager3")});
+    const div = ab_tab_content_item.createEl("div");
     ABConvertManager.autoABConvert(div, "info_converter", "", "null_content") // this.processorPanel = ABConvertManager.getInstance().generateConvertInfoTable(containerEl)
     this.processorPanel = div
 
     // pro
     if (ABCSetting.env === 'obsidian-pro') {
-      containerEl.createEl('hr', {cls: "bright-color"})
-      new Setting(containerEl).setName("License").setHeading()
-      // new Setting(containerEl)
+      ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("License")})
+      ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
+      new Setting(ab_tab_content_item).setName(t("License")).setHeading()
+      ab_tab_content_item.createEl('p', {text: t("License2")})
+      // new Setting(ab_tab_content_item)
       //   .setName("Serial number")
       //   .addText(text => text
       //     .setDisabled(true)
       //     .setValue("TODO                                 ")
       //   )
-      new Setting(containerEl)
-        .setName("License key")
+      new Setting(ab_tab_content_item)
+        .setName(t("License key"))
         .addTextArea(text => text
           .setValue(settings.license_key)
           .onChange(async (value) => {
@@ -272,12 +288,41 @@ export class ABSettingTab extends PluginSettingTab {
             await this.plugin.saveSettings()
           })
         )
-      new Setting(containerEl)
-        .setName("License Expiry")
+      new Setting(ab_tab_content_item)
+        .setName(t("License Expiry"))
         .addText(text => text
           .setDisabled(true)
           .setValue(expiry.expiry > 0 ? new Date(expiry.expiry).toLocaleDateString() : "No license")
         )
+    }
+
+    // 标签页 - 动态部分
+    const lis:NodeListOf<HTMLButtonElement> = el_tab.querySelectorAll(":scope>.ab-tab-nav>.ab-tab-nav-item")
+    const contents = el_tab.querySelectorAll(":scope>.ab-tab-content>.ab-tab-content-item")
+    if (lis.length!=contents.length) console.warn("ab-tab-nav-item和ab-tab-content-item的数量不一致2")
+    for (let i=0; i<lis.length; i++){
+      // init
+      if (i==0) {
+        lis[i].setAttribute("is_activate", "true")
+        contents[i].setAttribute("is_activate", "true")
+        contents[i].setAttribute("style", "display:block")
+      } else {
+        lis[i].setAttribute("is_activate", "false")
+        contents[i].setAttribute("is_activate", "false")
+        contents[i].setAttribute("style", "display:none")
+      }
+
+      // onclick
+      lis[i].onclick = ()=>{
+        for (let j=0; j<contents.length; j++){
+          lis[j].setAttribute("is_activate", "false")
+          contents[j].setAttribute("is_activate", "false")
+          contents[j].setAttribute("style", "display:none")
+        }
+        lis[i].setAttribute("is_activate", "true")
+        contents[i].setAttribute("is_activate", "true")
+        contents[i].setAttribute("style", "display:block")
+      }
     }
 	}
 }

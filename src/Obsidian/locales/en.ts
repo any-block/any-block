@@ -4,7 +4,7 @@ export default {
     <a href="https://lincdocs.github.io/AnyBlock/README.show.html">website</a>
     /
     <a href="https://github.com/LincZero/obsidian-any-block">github</a>
-    for more details`,
+    for more details | Author: <a href="https://github.com/LincZero">LincZero</a>`,
 
   'Selector manager': 'Selector manager',
   'Selector manager2': 'This section is for query only and cannot be edited',
@@ -34,6 +34,11 @@ export default {
   'Custom processor7': 'Using `/` including it indicates a regular expression',
   'Custom processor8': 'Processor replacement',
   'Custom processor9': 'Using `/` including it indicates a regular expression',
+
+  'License': 'License',
+  'License2': 'This is a license for the Pro version.',
+  'License key': 'License key',
+  'License Expiry': 'License Expiry',
 
   // General
   'Submit': 'Submit',

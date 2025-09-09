@@ -216,7 +216,7 @@ html[data-theme="dark"] #app {
   }
 }
 
-.ab-note{
+.ab-note {
   // 修复重渲染问题
   .markdown-rendered table { // 重渲染的表格宽度过宽的问题 (这里好像是Sp主题引起的)
     min-width: 0;
@@ -231,7 +231,7 @@ html[data-theme="dark"] #app {
     display: table;
     width: 100%;
   }
-  table[modeT="true"]{  // 表格转置
+  table[modeT="true"] {  // 表格转置
     tr { display: block; float: left; }
     th, td { display: block; }
   }
@@ -250,7 +250,7 @@ html[data-theme="dark"] #app {
   }
 
   // 标签栏
-  .ab-tab-root{
+  .ab-tab-root {
     .ab-tab-nav {
       // height: 40px;
       box-sizing: border-box;
@@ -274,7 +274,7 @@ html[data-theme="dark"] #app {
           background-color: var(--ab-tab-root-bd-color);
           color: var(--ab-tab-root-tx-color);
         }
-        &[is_activate="true"]{
+        &[is_activate="true"] {
           background-color: var(--ab-tab-root-bg-color);
           color: var(--ab-tab-root-tx-color);
         }
@@ -321,7 +321,7 @@ html[data-theme="dark"] #app {
   }
 
   // 通用表格
-  table.ab-table{
+  table.ab-table {
     // 使空格内容更紧凑 -  去除单元格之间的间距
     border-collapse: collapse;
     td,th{
@@ -370,7 +370,7 @@ html[data-theme="dark"] #app {
       //     content: none;
       //   }
       // }
-      td[col_index="0"]{ // :first-child {
+      td[col_index="0"] { // :first-child {
         padding-right: 8px;
         padding-left: 20px;
         position: relative;

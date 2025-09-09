@@ -4,12 +4,12 @@ export default {
     <a href="https://lincdocs.github.io/AnyBlock/README.show.html">website</a>
     /
     <a href="https://github.com/LincZero/obsidian-any-block">github</a>
-    文档以获取更多细节`,
+    文档以获取更多细节 | 作者: <a href="https://github.com/LincZero">LincZero</a>`,
   
   'Selector manager': '选择器的管理',
   'Selector manager2': '这一部分仅供查询不可编辑',
 
-  'AliasSystem manager': 'Alias system manager',
+  'AliasSystem manager': '别名管理器',
   'AliasSystem manager2': '这部分内容可以使用 `[info_alias]` 处理器在主页面中查看',
   'AliasSystem manager3': '这部分也可以打开插件文件夹中的 `data.json` 文件修改',
   'AliasSystem manager4': '添加新的注册指令',
@@ -34,6 +34,11 @@ export default {
   'Custom processor7': '用 `/` 包括起来则表示正则',
   'Custom processor8': '注册器替换为',
   'Custom processor9': '用 `/` 包括起来则表示正则',
+
+  'License': '许可证',
+  'License2': '这是Pro版的许可证',
+  'License key': '许可证密钥',
+  'License Expiry': '许可证到期时间',
 
   // General
   'Submit': '提交',
