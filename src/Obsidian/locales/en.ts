@@ -36,7 +36,7 @@ export default {
   'Custom processor9': 'Using `/` including it indicates a regular expression',
 
   'License': 'License',
-  'License2': 'This is a license for the Pro version.',
+  'License2': 'This is a license for the Pro version. The display of expiration time needs to be updated by reopening the settings panel.',
   'License key': 'License key',
   'License Expiry': 'License Expiry',
 

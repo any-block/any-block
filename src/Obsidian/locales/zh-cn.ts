@@ -36,7 +36,7 @@ export default {
   'Custom processor9': '用 `/` 包括起来则表示正则',
 
   'License': '许可证',
-  'License2': '这是Pro版的许可证',
+  'License2': '这是Pro版的许可证，到期时间的显示需要重新打开设置面板来更新',
   'License key': '许可证密钥',
   'License Expiry': '许可证到期时间',
 
