@@ -26,6 +26,7 @@ esbuild.build({
 	entryPoints: ['./main.ts'],
 	bundle: true,
 	external: [
+		'./main.pro.ts',
 		'obsidian',
 		'electron',
 		'@codemirror/autocomplete',
