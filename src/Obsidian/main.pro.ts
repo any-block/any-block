@@ -13,8 +13,9 @@ import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownVie
 import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
 ABCSetting.env = "obsidian-pro"
 // TODO 完善动态加载，避免编译器静态检测 @/Pro/src/index 是否存在。目前手动注释开关 // [!code hl]
-// import "@/Pro/src/index.ob" // [!code hl] obsidian-pro
-// import { onUpdateLicense } from "@/Pro/src/index.ob" // [!code hl] obsidian-pro
+import "@/Pro/src/index.ob" // [!code hl] obsidian-pro
+import { onUpdateLicense } from "@/Pro/src/index.ob" // [!code hl] obsidian-pro
+// const onUpdateLicense: () => Promise<number> = () => Promise.resolve(-1) // [!code hl] obsidian-pro
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
@@ -117,12 +118,12 @@ export default class AnyBlockPlugin extends Plugin {
     if (!data) {
       this.saveData(this.settings);
     }
-    // expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
+    expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
   }
 
   async saveSettings() {
     await this.saveData(this.settings)
-    // expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
+    expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
   }
 
   onunload() {
