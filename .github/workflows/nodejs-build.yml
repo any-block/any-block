@@ -66,6 +66,44 @@ jobs:                         # 工作流
           main.js
           styles.css
 
+  build-obsidian-pro:         # 作业 - ob pro构建部分
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10.10.0
+    - name: env use node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: pnpm
+    - name: pro
+      # working-directory: ./src/
+      run: |
+        git clone --depth 1 https://${{ secrets.AnyBlockPro_Repo }}@github.com/any-block/any-block-pro.git
+        mv ./any-block-pro/src/CodeMirror/ ./src/CodeMirror/
+        mv ./any-block-pro/src/Pro/ ./src/Pro/
+      env:
+        GH_TOKEN: ${{ secrets.AnyBlockPro_Repo }}
+    - name: pnpm ob:build-pro
+      run: |                  # [!code] pro
+        pnpm install --frozen-lockfile
+        pnpm ob:build-pro
+        mv dist-pro/main.js main.js
+        mv dist-pro/manifest.json manifest.json
+    - name: upload build artifact
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifact-pro
+        path: |
+          manifest.json
+          main.js
+          styles.css
+
   build-app:                  # 作业 - app构建部分
     runs-on: ubuntu-latest
     steps:
