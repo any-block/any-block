@@ -12,6 +12,8 @@ author: LincZero
 
 ### 标题选择器/mdit选择器 + tabs + timeline
 
+标题选择器：
+
 :::mditABDemo
 
 [tabs]
@@ -34,6 +36,8 @@ author: LincZero
 3
 
 :::
+
+或mdit选择器: (效果同上，仅写法上有区别)
 
 ```md
 :::tabs
@@ -64,7 +68,7 @@ author: LincZero
 
 :::mditABDemo
 
-[list2lt|addClass(ab-table-timeline ab-table-fc)|fold]
+[list2lt|addClass(ab-table-timeline ab-table-fc)]
 
 - month1 | df
   - day1 | 
@@ -101,7 +105,8 @@ author: LincZero
 
 ### timeline + obsidian的easy timeline插件
 
-(注意: 这里仅会在装有 `easy timeline` 插件的 Obsidian 环境中生效)
+(注意: 这里仅会在装有 `easy timeline` 插件的 Obsidian 环境中正确生效，
+否则渲染为一般的 mermaid timeline)
 
 :::mditABDemo
 
