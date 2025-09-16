@@ -71,8 +71,8 @@ export default class AnyBlockPlugin extends Plugin {
     })
 
     // 钩子组1 - 代码块
-    this.registerMarkdownCodeBlockProcessor("ab", ABReplacer_CodeBlock.processor);
-    this.registerMarkdownCodeBlockProcessor("anyblock", ABReplacer_CodeBlock.processor);
+    this.registerMarkdownCodeBlockProcessor("ab", ABReplacer_CodeBlock.processor)
+    this.registerMarkdownCodeBlockProcessor("anyblock", ABReplacer_CodeBlock.processor)
     
     // 钩子组2 - 非渲染模式 cm扩展 - StateField
     {
@@ -100,9 +100,9 @@ export default class AnyBlockPlugin extends Plugin {
 
     // 钩子组3 - 渲染模式 后处理器
     const htmlProcessor = ABSelector_PostHtml.processor.bind(this)
-    this.registerMarkdownPostProcessor(htmlProcessor);
+    this.registerMarkdownPostProcessor(htmlProcessor)
 
-    console.log('>>> Loading plugin AnyBlock');
+    console.log('>>> Loading plugin AnyBlock')
   }
 
   async loadSettings() {
@@ -111,15 +111,15 @@ export default class AnyBlockPlugin extends Plugin {
 
     // 如果没有配置文件则生成一个默认值的配置文件
     if (!data) {
-      this.saveData(this.settings);
+      this.saveData(this.settings)
     }
 	}
 	async saveSettings() {
-		await this.saveData(this.settings);
+		await this.saveData(this.settings)
 	}
 
   onunload() {
-    console.log('<<< Unloading plugin AnyBlock');
-    if (global_timer !== null) { window.clearInterval(global_timer); }
+    console.log('<<< Unloading plugin AnyBlock')
+    if (global_timer !== null) { window.clearInterval(global_timer) }
   }
 }

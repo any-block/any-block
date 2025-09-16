@@ -5,6 +5,9 @@
  * - 代码块"ab" (代码块)
  * - cm (实时模式)
  * - 接管渲染后 (渲染/阅读模式)
+ * 
+ * 这里会依赖部分pro的资源，为避免编译器静态检测 @/Pro/xxx 是否存在导致非pro环境报错，
+ * 注意要确保 tsconfig.json 将该文件排除
  */
 
 import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownView, type MarkdownPostProcessorContext } from 'obsidian'
@@ -12,10 +15,11 @@ import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownVie
 // 转换器模块
 import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
 ABCSetting.env = "obsidian-pro"
-// TODO 完善动态加载，避免编译器静态检测 @/Pro/src/index 是否存在。目前手动注释开关 // [!code hl]
 import "@/Pro/src/index.ob" // [!code hl] obsidian-pro
-import { onUpdateLicense } from "@/Pro/src/index.ob" // [!code hl] obsidian-pro
-// const onUpdateLicense: () => Promise<number> = () => Promise.resolve(-1) // [!code hl] obsidian-pro
+
+import { onUpdateLicense } from "@/Pro/src/index.ob" // [!code hl] obsidian-pro 许可证模块
+// const onUpdateLicense: () => Promise<number> = () => Promise.resolve(-1) // [!code hl] obsidian-pro 许可证模块 降级版
+import { registerABContextMenu } from "@/Pro/src/contextmenu/index.ob" // [!code hl] obsidian-pro 菜单
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
@@ -30,6 +34,8 @@ export default class AnyBlockPlugin extends Plugin {
     ABCSetting.global_app = this.app
     await this.loadSettings();
     this.addSettingTab(new ABSettingTab(this.app, this));
+
+    registerABContextMenu(this.app, this) // [!code hl] obsidian-pro
 
     // 适配 - 将ob的渲染行为传入回调函数 (目的是将转换器和Obsidian相解耦合)
     ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HTMLElement, ctx?: MarkdownPostProcessorContext): void => {
@@ -105,18 +111,18 @@ export default class AnyBlockPlugin extends Plugin {
 
     // 钩子组3 - 渲染模式 后处理器
     const htmlProcessor = ABSelector_PostHtml.processor.bind(this)
-    this.registerMarkdownPostProcessor(htmlProcessor);
+    this.registerMarkdownPostProcessor(htmlProcessor)
 
-    console.log('>>> Loading plugin AnyBlock Pro');
+    console.log('>>> Loading plugin AnyBlock Pro')
   }
 
   async loadSettings() {
     const data = await this.loadData() // 如果没有配置文件则为null
-    this.settings = Object.assign({}, AB_SETTINGS, data); // 合并默认值和配置文件的值
+    this.settings = Object.assign({}, AB_SETTINGS, data) // 合并默认值和配置文件的值
 
     // 如果没有配置文件则生成一个默认值的配置文件
     if (!data) {
-      this.saveData(this.settings);
+      this.saveData(this.settings)
     }
     expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
   }
@@ -127,7 +133,7 @@ export default class AnyBlockPlugin extends Plugin {
   }
 
   onunload() {
-    console.log('<<< Unloading plugin AnyBlock Pro');
-    if (global_timer !== null) { window.clearInterval(global_timer); }
+    console.log('<<< Unloading plugin AnyBlock Pro')
+    if (global_timer !== null) { window.clearInterval(global_timer) }
   }
 }
