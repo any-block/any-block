@@ -67,12 +67,13 @@ export class ABSelector_PostHtml{
       const is_start = (mdSrc.from_line == 0 || mdSrc.content_all.split("\n").slice(0, mdSrc.from_line).join("\n").trim() == "") // 片段为md的开头 (且非cache的情况)
       const is_end = (mdSrc.to_line == mdSrc.to_line_all)   // 片段是否为md的结尾
 
-      // 一些基本信息 - 是否存在内容更新、是否是 ![[wiki]] 的子页面
+      // #region 一些基本信息 - 是否存在内容更新、是否是 ![[wiki]] 的子页面
       // 判断核心：使用cache_map
       let is_newContent:boolean = false // 是否内容变更，若是则需要强制刷新。注意，经过后面多次判断后值才是对的
       let is_subContent:boolean = false // 是否是 `![[]]`/`![[#]]` 引起的子页面内容，后者极难检测
       let cache_item = null             // 上次缓存的该文件的内容
-      ;(()=>{
+      // 引用判断
+      {
         /**
          * 判断是否引用显示，若是则禁用强制渲染
          * 
@@ -89,30 +90,42 @@ export class ABSelector_PostHtml{
         if (!ppEl) { // 弃用。几乎没用，首次渲染时 el.parentElement 为 null，即 el 是游离状态，不在目标位置
           // is_newContent = false; is_subContent = true; return
         } else if (ppEl.classList.contains("markdown-embed-content")) { // 阅读模式: ppEl.classList.contains("markdown-reading-view")) 实时: 未知
-          is_newContent = false; is_subContent = true; return
+          is_subContent = true; return
         }
         // 判断方式2.1：判断局部内容是否等于全内容。主要判断自引用判断 (`![](#^)`)
         // 哪怕误判，这种整个文章只有一个片段的情况也不会是包含anyblock的片段
         if (mdSrc.from_line == 0 && mdSrc.to_line == mdSrc.to_line_all) {
-          is_newContent = false; is_subContent = true; return
+          is_subContent = true; return
         }
         // 判断方式二：内容与窗口的文件名是否一致 (切换页面时 (aIncludeB -> b)，有可能检测有问题，要用另一判断方式)
         const view: MarkdownView|null = this.app.workspace.getActiveViewOfType(MarkdownView); // 未聚焦(active)会返回null，非聚焦于md区返回null (也包括canvas、excalidraw)
         const path = view?.file?.path
+        const basename = view?.file?.basename
+        // 非自引用的引用子页面
         if (path && path !== ctx.sourcePath) {
-          if (this.settings.is_debug) console.log(` !! Cache check: [${path}] use ![[${ctx.sourcePath}]] `)
-          is_newContent = false; is_subContent = true; return // 注意，极难检测是否 `[[#]]`，不存cache_map，也不触发强制刷新
+          if (this.settings.is_debug) console.log(` !! Check SubPage: [${basename}] quote ![[${ctx.sourcePath}]] and no self-quote`)
+          is_subContent = true; return // 注意，极难检测是否 `[[#]]`，不存cache_map，也不触发强制刷新
         }
         // 判断方式三：是否是实时模式下显示阅读模式内容
         const containerEl = view?.containerEl // .workspace-leaf-content
         // - containerEl 为空时，不强制刷新。可能是其他面板或者是 canvas (`getActiveViewOfType(MarkdownView)` 获取到的canvas等页面为空)
-        // - data-mode 为 source 等时，不强制刷新。仅为 preview 时强制刷新
         // - data-type 为 excalidraw 等时，不强制刷新。仅为 markdown 时强制刷新
-        if (!containerEl || containerEl.getAttribute('data-mode') != 'preview' || containerEl.getAttribute('data-type') != 'markdown') {
-          if (this.settings.is_debug) console.log(` !! Cache check: [${path}] use ![[${ctx.sourcePath}]] in no readmode`, containerEl)
-          is_newContent = false; is_subContent = true; return // 注意，极难检测是否 `[[file#title]]`，不存cache_map，也不触发强制刷新
+        // - data-mode 为 source 等时，不强制刷新。仅为 preview 时强制刷新
+        // 注意，极难检测是否 `[[file#title]]`，不存cache_map，也不触发强制刷新
+        if (!containerEl) {
+          if (this.settings.is_debug) console.log(` !! Check subPage, [${basename}] quote ![[${ctx.sourcePath}]] in canvas or other`)
+          is_subContent = true; return
+        } else if (containerEl.getAttribute('data-type') != 'markdown') {
+          if (this.settings.is_debug) console.log(` !! Check subPage, [${basename}] quote ![[${ctx.sourcePath}]] in excalidraw or other`)
+          is_subContent = true; return
+        } else if (containerEl.getAttribute('data-mode') != 'preview') {
+          if (this.settings.is_debug) console.log(` !! Check subPage, [${basename}] quote ![[${ctx.sourcePath}]] in no readmode`)
+          is_subContent = true; return
         }
-        
+        // 判断方式四：极难去判断阅读模式下的自引用标题/块的情况。TODO fix bug: 这种情况会导致阅读模式的无限刷新
+      }
+      // 缓存判断
+      if (!is_subContent) { // 如果是子内容，则不要去更新缓存的内容
         // 先查缓存
         for (let item of cache_map) {
           if (item.name == ctx.sourcePath) {
@@ -123,38 +136,39 @@ export class ABSelector_PostHtml{
         }
         // b1. 无缓存 -> 有修改
         if (!cache_item) {
+          if (this.settings.is_debug) console.log(` !! Check cache, noCache -> hasCache, null -> ${mdSrc.content_all.length}`)
           cache_item = { name: ctx.sourcePath, content: mdSrc.content_all }
           cache_map.push(cache_item)
           is_newContent = true
-          if (this.settings.is_debug) console.log(" !! No cache -> Changed, perform a global refresh (rebuildView): ", cache_item, ctx)
         }
         // b2. 有缓存
         else {
           // b2.1. 内容变 -> 有修改
           if (cache_item.content != mdSrc.content_all) {
+            if (this.settings.is_debug) console.log(` !! Check cache, hasCache -> ChangeCache, ${cache_item.content.length} -> ${mdSrc.content_all.length}`)
             cache_item.content = mdSrc.content_all
             is_newContent = true
-            if (this.settings.is_debug) console.log(" !! Have cache & Changed -> Changed, perform a global refresh (rebuildView): ", cache_item, ctx)
           }
           // b2.2. 内容不变 -> 无修改
           else {
             is_newContent = false
           }
         }
-      })();
+      }
+      // #endregion
 
-      // 若内容修改了或处于开头位置，清空页缓存
-      if (is_newContent || is_start) {
-        selected_els = []
-        selected_mdSrc = null
-      }
-      if (this.settings.is_debug) {
-        console.log(` -- ABPosthtmlManager.processor, called by 'ReadMode'. `+
-          "[current] " + `[${mdSrc.from_line},${mdSrc.to_line})/${mdSrc.to_line_all}. `+
-            `${is_start?"is_start ":""}${is_end?"is_end ":""}`+
-          "[last] " + `${(selected_mdSrc && selected_mdSrc.header)?"in ABBlock: "+selected_mdSrc.header+". ":""}`
-        );
-      }
+      // 若内容修改了或处于开头位置，清空页缓存 (以前写的逻辑，但我忘了为什么要这样做了。感觉逻辑不对，注释掉)
+      // if (is_newContent || is_start) {
+      //   selected_els = []
+      //   selected_mdSrc = null
+      // }
+      // if (this.settings.is_debug) {
+      //   console.log(` -- ABPosthtmlManager.processor, called by 'ReadMode'. `+
+      //     "[current] " + `[${mdSrc.from_line},${mdSrc.to_line})/${mdSrc.to_line_all}. `+
+      //       `${is_start?"is_start ":""}${is_end?"is_end ":""}`+
+      //     "[last] " + `${(selected_mdSrc && selected_mdSrc.header)?"in ABBlock: "+selected_mdSrc.header+". ":""}`
+      //   )
+      // }
 
       // 若缓存变更，强制重新刷新
       // 如果没有这个，如果从阅读模式切换回实时模式，并只修改一部分内容再切换回阅读模式，那么 `ABPosthtmlManager.processor, called by 'ReadMode'` 只会识别到那些有改动的块，其他不再走这里
@@ -178,6 +192,7 @@ export class ABSelector_PostHtml{
           // }
           // @ts-expect-error WorkspaceLeaf have not rebuildView
           leaf.rebuildView()
+          if (this.settings.is_debug) console.log(" !! RebuildView: executed")
           return
         } else {
           // if (this.settings.is_debug) console.log(" but no anyblock content, no rebuildView", cache_item, 
