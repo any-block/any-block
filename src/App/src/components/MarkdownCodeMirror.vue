@@ -145,7 +145,8 @@ onMounted(() => {
 })
 
 // 菜单
-import { ABContextMenu, root_menu_raw, root_menu } from '../../../Pro/src/contextmenu' // [!code hl] obsidian pro
+import { ABContextMenu, root_menu_raw } from '../../../Pro/src/contextmenu' // [!code hl] obsidian pro
+import { root_menu } from '../../../ABConverter/demo'
 onMounted(() => {
   const myMenu = new ABContextMenu()
   myMenu.append_data(root_menu)
