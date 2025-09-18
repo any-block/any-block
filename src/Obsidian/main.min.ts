@@ -7,7 +7,11 @@
  * - 接管渲染后 (渲染/阅读模式)
  */
 
-import { MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownView, type MarkdownPostProcessorContext } from 'obsidian'
+import {
+  MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownView,
+  setIcon,
+  type MarkdownPostProcessorContext
+} from 'obsidian'
 
 // 转换器模块
 import { ABConvertManager, ABCSetting } from "@/ABConverter/index.min" // [!code hl] min
@@ -23,8 +27,22 @@ export default class AnyBlockPlugin extends Plugin {
 
   async onload() {
     ABCSetting.global_app = this.app
-    await this.loadSettings();
-    this.addSettingTab(new ABSettingTab(this.app, this));
+    await this.loadSettings()
+    this.addSettingTab(new ABSettingTab(this.app, this))
+
+    // 右下角状态栏 - 刷新按钮
+    {
+      const statusBtn = this.addStatusBarItem().createEl('div', {
+        cls: 'ab-rebuildview-btn'
+      })
+      setIcon(statusBtn, 'refresh-cw')
+      statusBtn.setAttribute('aria-label', 'Rebuild View');
+      statusBtn.onclick = () => {
+        const leaf = this.app.workspace.getActiveViewOfType(MarkdownView)?.leaf; if (!leaf) { return }
+        // @ts-expect-error
+        leaf.rebuildView()
+      }
+    }
 
     // 适配 - 将ob的渲染行为传入回调函数 (目的是将转换器和Obsidian相解耦合)
     ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HTMLElement, ctx?: MarkdownPostProcessorContext): void => {
