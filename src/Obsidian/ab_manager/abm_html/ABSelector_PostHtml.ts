@@ -157,18 +157,18 @@ export class ABSelector_PostHtml{
       }
       // #endregion
 
-      // 若内容修改了或处于开头位置，清空页缓存 (以前写的逻辑，但我忘了为什么要这样做了。感觉逻辑不对，注释掉)
-      // if (is_newContent || is_start) {
-      //   selected_els = []
-      //   selected_mdSrc = null
-      // }
-      // if (this.settings.is_debug) {
-      //   console.log(` -- ABPosthtmlManager.processor, called by 'ReadMode'. `+
-      //     "[current] " + `[${mdSrc.from_line},${mdSrc.to_line})/${mdSrc.to_line_all}. `+
-      //       `${is_start?"is_start ":""}${is_end?"is_end ":""}`+
-      //     "[last] " + `${(selected_mdSrc && selected_mdSrc.header)?"in ABBlock: "+selected_mdSrc.header+". ":""}`
-      //   )
-      // }
+      // 若内容修改了或处于开头位置，清空页缓存 (光标缓存)
+      if (is_newContent || is_start) {
+        selected_els = []
+        selected_mdSrc = null
+      }
+      if (this.settings.is_debug) {
+        console.log(` -- ABPosthtmlManager.processor, called by 'ReadMode'. `+
+          "[current] " + `[${mdSrc.from_line},${mdSrc.to_line})/${mdSrc.to_line_all}. `+
+            `${is_start?"is_start ":""}${is_end?"is_end ":""}`+
+          "[last] " + `${(selected_mdSrc && selected_mdSrc.header)?"in ABBlock: "+selected_mdSrc.header+". ":""}`
+        )
+      }
 
       // 若缓存变更，强制重新刷新
       // 如果没有这个，如果从阅读模式切换回实时模式，并只修改一部分内容再切换回阅读模式，那么 `ABPosthtmlManager.processor, called by 'ReadMode'` 只会识别到那些有改动的块，其他不再走这里
