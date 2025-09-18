@@ -62,7 +62,7 @@ export class ABSelector_PostHtml{
 
     // b2. html渲染模式的逐个切割块调用（需要跨切割块寻找）
     //     Obsidian后处理机制：一个文档会被切割成成div stream，这是一个div数组，每个数组元素会在这里走一遍。即分步渲染，有益于性能优化
-    else{
+    else {
       // 一些基本信息
       const is_start = (mdSrc.from_line == 0 || mdSrc.content_all.split("\n").slice(0, mdSrc.from_line).join("\n").trim() == "") // 片段为md的开头 (且非cache的情况)
       const is_end = (mdSrc.to_line == mdSrc.to_line_all)   // 片段是否为md的结尾
@@ -73,7 +73,7 @@ export class ABSelector_PostHtml{
       let is_subContent:boolean = false // 是否是 `![[]]`/`![[#]]` 引起的子页面内容，后者极难检测
       let cache_item = null             // 上次缓存的该文件的内容
       // 引用判断
-      {
+      ;(() => {
         /**
          * 判断是否引用显示，若是则禁用强制渲染
          * 
@@ -123,7 +123,7 @@ export class ABSelector_PostHtml{
           is_subContent = true; return
         }
         // 判断方式四：极难去判断阅读模式下的自引用标题/块的情况。TODO fix bug: 这种情况会导致阅读模式的无限刷新
-      }
+      })();
       // 缓存判断
       if (!is_subContent) { // 如果是子内容，则不要去更新缓存的内容
         // 先查缓存
