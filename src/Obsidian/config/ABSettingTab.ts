@@ -319,6 +319,16 @@ export class ABSettingTab extends PluginSettingTab {
           .setDisabled(true)
           .setValue(expiry.expiry > 0 ? new Date(expiry.expiry).toLocaleDateString() : "No license")
         )
+      new Setting(ab_tab_content_item)
+        .setName("Debug")
+        .addToggle(toggle => toggle
+          .setValue(settings.is_debug)
+          .onChange(async (value) => {
+            settings.is_debug = value
+            ABCSetting.is_debug = value
+            await this.plugin.saveSettings()
+          })
+        )
     }
     // #endregion
 
