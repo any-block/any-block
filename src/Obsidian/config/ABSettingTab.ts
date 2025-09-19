@@ -218,7 +218,7 @@ export class ABSettingTab extends PluginSettingTab {
     ab_tab_content_item.createEl('p', {text: t("Convertor manager2")});
     ab_tab_content_item.createEl('p', {text: t("Convertor manager3")});
     const div = ab_tab_content_item.createEl("div");
-    ABConvertManager.autoABConvert(div, "info_converter", "", "null_content") // this.processorPanel = ABConvertManager.getInstance().generateConvertInfoTable(containerEl)
+    ABConvertManager.autoABConvert(div, "info_converter", "", "unknown") // this.processorPanel = ABConvertManager.getInstance().generateConvertInfoTable(containerEl)
     this.processorPanel = div
     // #endregion
 
@@ -282,13 +282,29 @@ export class ABSettingTab extends PluginSettingTab {
       new Setting(ab_tab_content_item).setName("编辑器菜单").setHeading()
       ab_tab_content_item.createEl('p', {text: `你可以在这里编辑扩展的编辑器右键菜单，加入自定义要黏贴的预设文本。
 编辑器菜单是一个独立功能的通用模块，你可以把他当作另一个独立功能的插件来使用`})
+      ab_tab_content_item.createEl('p', {text: `这一部分在非Pro版仅供查询不可编辑`})
 
-      // 将demo (注意: 不支持callback为函数)
-      const textarea = ab_tab_content_item.createEl('textarea')
-      textarea.style.width = "100%"
-      textarea.style.height = "600px"
-      textarea.style.resize = "vertical"
-      textarea.textContent = JSON.stringify(root_menu_demo, null, 2)
+      // demo (注意: 不支持callback为函数)
+      // const textarea = ab_tab_content_item.createEl('textarea')
+      // textarea.style.width = "100%"
+      // textarea.style.height = "600px"
+      // textarea.style.resize = "vertical"
+      // textarea.textContent = JSON.stringify(root_menu_demo, null, 2)
+
+      // demo2
+      const div = ab_tab_content_item.createEl('div')
+      ABConvertManager.autoABConvert(div, "json-e", `\`\`\`json\n${JSON.stringify(root_menu_demo, null, 2)}\n\`\`\``, "unknown", {
+        save: (str_with_prefix: string, force_refresh: boolean = false) => {
+          // 去除代码块
+          const match = /^(```+|~~~+)(.*)\n([\s\S]*?)\n(\1)$/gm.exec(str_with_prefix)
+          let content2 = str_with_prefix
+          if (match) {
+            content2 = match[3]
+          }
+
+          Object.assign(root_menu_demo, JSON.parse(content2)) // 以json方式拷贝
+        }
+      })
     }
     // #endregion
 
