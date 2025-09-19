@@ -211,6 +211,7 @@ export class DirProcess{
     }
 
     // 折叠列表格 事件绑定
+    // TODO fix bug，这里的父子是伪的，无嵌套的。展开折叠有bug: 如level2折叠, level1折叠再展开, 不会保留level2的折叠状态
     {
       const l_tr:NodeListOf<HTMLElement> = tbody.querySelectorAll("tr")
       for (let i=0; i<l_tr.length; i++){
@@ -229,7 +230,8 @@ export class DirProcess{
               const tr2 = l_tr[j]
               const tr_level2 = Number(tr2.getAttribute("tr_level"))
               if (isNaN(tr_level2)) break
-              if (tr_level2<=tr_level) break
+              if (tr_level2 <= tr_level) break // 影响所有后代级
+              // if (tr_level2 != tr_level+1) break // 影响下一级的 (话说这里可能有列表规范性问题?)
               (tr_isfold == "true") ? tr2.style.display = "" : tr2.style.display = "none"
               flag_do_fold = true
             }
@@ -253,7 +255,8 @@ export class DirProcess{
               const tr2 = l_tr[j]
               const tr_level2 = Number(tr2.getAttribute("tr_level"))
               if (isNaN(tr_level2)) break
-              if (tr_level2<=tr_level) break
+              if (tr_level2 <= tr_level) break // 影响所有后代级
+              // if (tr_level2 != tr_level+1) break // 影响下一级的 (话说这里可能有列表规范性问题?)
               (tr_isfold == "true") ? tr2.style.display = "" : tr2.style.display = "none"
               flag_do_fold = true
             }
@@ -263,7 +266,7 @@ export class DirProcess{
       }
     }
 
-    // 折叠全列表格
+    // 折叠/展开所有项
     {
       // 折叠全列表格 事件绑定 // TODO，可以简化、复用。tr.onclick(这里加上可空传参)
       const btn = document.createElement("button"); div2.appendChild(btn); btn.classList.add("ab-table-fold");
@@ -273,33 +276,17 @@ export class DirProcess{
       // 1. 二选一，正常绑定方法
       // 当前ob使用
       if (ABCSetting.env.startsWith("obsidian")) {
-        btn.onclick = ()=>{
-          const l_tr = table.querySelectorAll("tr");
-          for (let i=0; i<l_tr.length; i++) {
-            const tr = l_tr[i]
-            ;(()=>{
-              const tr_level = Number(tr.getAttribute("tr_level"))
-              if (isNaN(tr_level)) return
-              const tr_isfold = btn.getAttribute("is_fold"); // [!code] tr->btn
-              if (!tr_isfold) return
-              let flag_do_fold = false  // 防止折叠最小层
-              for (let j=i+1; j<l_tr.length; j++){
-                const tr2 = l_tr[j]
-                const tr_level2 = Number(tr2.getAttribute("tr_level"))
-                if (isNaN(tr_level2)) break
-                if (tr_level2<=tr_level) break
-                (tr_isfold == "true") ? tr2.style.display = "" : tr2.style.display = "none"
-                flag_do_fold = true
-              }
-              if (flag_do_fold) tr.setAttribute("is_fold", tr_isfold=="true"?"false":"true")
-            })()
-          }
+        btn.onclick = ()=>{          
           const is_all_fold = btn.getAttribute("is_fold")
           if (is_all_fold=="true") {
             btn.setAttribute("is_fold", "false"); btn.innerHTML = svgStr_fold;
+            const btn_subs = table.querySelectorAll("tr[is_fold='true']>td:first-child");
+              btn_subs.forEach((btn_sub) => { (btn_sub as HTMLElement).click() }) // 注意setAttr版本无断言
           }
           else {
             btn.setAttribute("is_fold", "true"); btn.innerHTML = svgStr_unfold;
+            const btn_subs = table.querySelectorAll("tr[is_fold='false']>td:first-child");
+              btn_subs.forEach((btn_sub) => { (btn_sub as HTMLElement).click() }) // 注意setAttr版本无断言
           }
         }
       }
@@ -313,34 +300,17 @@ export class DirProcess{
           const table = btn.parentNode?.querySelector("table");
           if (!table) return;
           
-          const l_tr = table.querySelectorAll("tr");
-          for (let i=0; i<l_tr.length; i++) {
-            const tr = l_tr[i]
-            ;(()=>{
-              const tr_level = Number(tr.getAttribute("tr_level"))
-              if (isNaN(tr_level)) return
-              const tr_isfold = btn.getAttribute("is_fold"); // [!code] tr->btn
-              if (!tr_isfold) return
-              let flag_do_fold = false  // 防止折叠最小层
-              for (let j=i+1; j<l_tr.length; j++){
-                const tr2 = l_tr[j]
-                const tr_level2 = Number(tr2.getAttribute("tr_level"))
-                if (isNaN(tr_level2)) break
-                if (tr_level2<=tr_level) break
-                (tr_isfold == "true") ? tr2.style.display = "" : tr2.style.display = "none"
-                flag_do_fold = true
-              }
-              if (flag_do_fold) tr.setAttribute("is_fold", tr_isfold=="true"?"false":"true")
-            })()
-          }
           const is_all_fold = btn.getAttribute("is_fold")
           if (is_all_fold=="true") {
             btn.setAttribute("is_fold", "false"); btn.innerHTML = svgStr_fold;
+            const btn_subs = table.querySelectorAll("tr[is_fold='true']>td:first-child");
+              btn_subs.forEach((btn_sub) => { btn_sub.click() }) // 注意setAttr版本无断言
           }
           else {
             btn.setAttribute("is_fold", "true"); btn.innerHTML = svgStr_unfold;
-          }
-          `
+            const btn_subs = table.querySelectorAll("tr[is_fold='false']>td:first-child");
+              btn_subs.forEach((btn_sub) => { btn_sub.click() }) // 注意setAttr版本无断言
+          }`
         )
       }
     }
