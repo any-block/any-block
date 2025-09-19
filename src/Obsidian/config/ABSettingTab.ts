@@ -56,6 +56,7 @@ export enum ConfDecoration{
   block = "block"
 }
 
+const LICENSE_KEY_DEFAULT = "eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHBpcnkiOjE3NTk5MzA4MDYwOTcsInRpZXIiOiJwcm8ifQ==.e7jggys0LBESQU5CPbQwIId0iyZZJZoyx2FHc7JPC6BsncUHL+oYORUYceqYeKjmnQIt+FcgqCeE44930sSUmKJVamxqJKB//zZL/RPnyYbqS1aujzZlNmTWx8MRkr4A4V8+0esQIXBHpZS3Ye5gtwWVg/YuLcHq+cPsh9rxWOEmljauclSmCI4zm0o+pMEoY2NbntPv5DBUZ7k7rh7/a4WGUekb2mu9BmQuK+IzqpdjqDrFs6cn50KjqD122U9Wic7rPk1IqH2TMUjOyo8UIFjbs8RsCy//F6rcY5KJ/kDVjyqBMYaDvwZpbY8qzO1xPWc/GBaezk5SVeQrpek7jQ=="
 /** 配置文件 - 默认值 */
 export const AB_SETTINGS: ABSettingInterface = {
   select_list: ConfSelect.ifhead,
@@ -90,7 +91,7 @@ export const AB_SETTINGS: ABSettingInterface = {
   is_debug: false,
   enhance_refresh_time: 2000,
   inline_split: "/\\| |,  |， |\\.  |。 |:  |： /",
-  license_key: "eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHBpcnkiOjE3NTk5MzA4MDYwOTcsInRpZXIiOiJwcm8ifQ==.e7jggys0LBESQU5CPbQwIId0iyZZJZoyx2FHc7JPC6BsncUHL+oYORUYceqYeKjmnQIt+FcgqCeE44930sSUmKJVamxqJKB//zZL/RPnyYbqS1aujzZlNmTWx8MRkr4A4V8+0esQIXBHpZS3Ye5gtwWVg/YuLcHq+cPsh9rxWOEmljauclSmCI4zm0o+pMEoY2NbntPv5DBUZ7k7rh7/a4WGUekb2mu9BmQuK+IzqpdjqDrFs6cn50KjqD122U9Wic7rPk1IqH2TMUjOyo8UIFjbs8RsCy//F6rcY5KJ/kDVjyqBMYaDvwZpbY8qzO1xPWc/GBaezk5SVeQrpek7jQ==",
+  license_key: LICENSE_KEY_DEFAULT,
 }
 
 /** 非配置文件 - 当前值/默认值 */
@@ -282,7 +283,7 @@ export class ABSettingTab extends PluginSettingTab {
       new Setting(ab_tab_content_item).setName("编辑器菜单").setHeading()
       ab_tab_content_item.createEl('p', {text: `你可以在这里编辑扩展的编辑器右键菜单，加入自定义要黏贴的预设文本。
 编辑器菜单是一个独立功能的通用模块，你可以把他当作另一个独立功能的插件来使用`})
-      ab_tab_content_item.createEl('p', {text: `这一部分在非Pro版仅供查询不可编辑`})
+      ab_tab_content_item.createEl('p', {text: `! 仅测试用。目前这一部分在非Pro版仅供查询不可编辑，且目前不写配置文件，设置后重启就不生效了`})
 
       // demo (注意: 不支持callback为函数)
       // const textarea = ab_tab_content_item.createEl('textarea')
