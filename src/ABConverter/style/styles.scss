@@ -179,10 +179,13 @@ html[data-theme="dark"] #app {
       right: 4px;
     }
     &.ab-button-2 {
-      right: 40px;
+      right: 40px; // +36
     }
     &.ab-button-3 {
       right: 76px;
+    }
+    &.ab-button-4 {
+      right: 112px;
     }
     &.ab-button-select {
       >* {

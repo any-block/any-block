@@ -12,9 +12,9 @@ export type ContextMenuItem = {
 }
 export type ContextMenuItems = ContextMenuItem[]
 
-const root_menu_convert: ContextMenuItems = [
-  { label: '未检测到选中文本 (未开发)' },
-]
+// const root_menu_convert: ContextMenuItems = [
+//   { label: '未检测到选中文本 (未开发)' },
+// ]
 
 export const root_menu_demo: ContextMenuItems = [
   // 分类注意项: 与程序中的分类不同，这里的分类是为了方便用户查找。
