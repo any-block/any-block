@@ -265,10 +265,11 @@ function findABBlock_recurve(targetEl: HTMLElement){
 
     // #region b1. mdit选择器 (p的判断较吃资源，mdit选择器不进行递归判断)
     if (contentEl instanceof HTMLParagraphElement) {
+      // 1. 头部判断
       const m_headtail = contentEl.getText().match(ABReg.reg_mdit_head_noprefix)
       if (!m_headtail || !m_headtail[3] || !m_headtail[4]) continue
 
-      // 头部正确，开始寻找尾部
+      // 2. 头部正确，开始寻找尾部
       let end_index = 0;
       for(let j=i+1; j<targetEl.children.length; j++) {
         const contentEl2 = targetEl.children[j] as HTMLDivElement
@@ -278,14 +279,24 @@ function findABBlock_recurve(targetEl: HTMLElement){
       }
       if (end_index == 0) continue
 
-      // 找到尾部了。渲染，元素替换
+      // 3. 找到尾部了。收集中间元素 (包括头尾)
+      let contentHtml = "" // 要渲染的内容 不包括头尾
+      const elementsToReplace: HTMLElement[] = [] // 要隐藏的元素 包括头尾
+      for(let k=i; k<=end_index; k++) {
+        const el = targetEl.children[k] as HTMLElement
+        elementsToReplace.push(el)
+        if (k>i && k<end_index) {
+          contentHtml += el.outerHTML
+        }
+      }
       i = end_index
+
+      // 4. 用新渲染元素替换
       const newEl = document.createElement("div")
       newEl.addClass("ab-re-rendered")
-
-      contentEl.parentNode?.insertBefore(newEl, contentEl.nextSibling)
-      ABConvertManager.autoABConvert(newEl, m_headtail[4], html2md(xxx), "postHtml")
-      xxx.hide()
+      contentEl.parentNode?.insertBefore(newEl, contentEl)
+      elementsToReplace.forEach(el => el.hide())
+      ABConvertManager.autoABConvert(newEl, m_headtail[4], html2md(contentHtml), "postHtml")
       continue
     }
     // #endregion
