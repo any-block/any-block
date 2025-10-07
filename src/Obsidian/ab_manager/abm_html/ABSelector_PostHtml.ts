@@ -240,6 +240,7 @@ export class ABSelector_PostHtml{
  * 特点
  *  1. 递归调用
  * 
+ * TODO 这里有些乱，不好管理，也许可以用 tokens 流的方式来重构这里的代码
  * @param targetEl 这里的el要符合规则：
  *   子元素包含 (p|ul|ol|pre|table)[]
  *   如果是callout这种，则应该要提取到callout-content级别，以满足以上规则
@@ -259,24 +260,50 @@ function findABBlock_recurve(targetEl: HTMLElement){
   */
 
   // 遍历Elements
-  for(let i=0; i<targetEl.children.length; i++){  // start form 0，因为可以递归，该层不一定需要header
-    // 1. 寻找正体 (列表/代码块/引用块/表格)
+  for(let i=0; i<targetEl.children.length; i++) {  // start form 0，因为可以递归，该层不一定需要header
     const contentEl = targetEl.children[i] as HTMLDivElement
+
+    // #region b1. mdit选择器 (p的判断较吃资源，mdit选择器不进行递归判断)
+    if (contentEl instanceof HTMLParagraphElement) {
+      const m_headtail = contentEl.getText().match(ABReg.reg_mdit_head_noprefix)
+      if (!m_headtail || !m_headtail[3] || !m_headtail[4]) continue
+
+      // 头部正确，开始寻找尾部
+      let end_index = 0;
+      for(let j=i+1; j<targetEl.children.length; j++) {
+        const contentEl2 = targetEl.children[j] as HTMLDivElement
+        if (!(contentEl2 instanceof HTMLParagraphElement)) continue
+        if (contentEl2.getText() != m_headtail[3]) continue
+        end_index = j; break
+      }
+      if (end_index == 0) continue
+
+      // 找到尾部了。渲染，元素替换
+      i = end_index
+      const newEl = document.createElement("div")
+      newEl.addClass("ab-re-rendered")
+
+      contentEl.parentNode?.insertBefore(newEl, contentEl.nextSibling)
+      ABConvertManager.autoABConvert(newEl, m_headtail[4], html2md(xxx), "postHtml")
+      xxx.hide()
+      continue
+    }
+    // #endregion
+
+    // #region b2. header选择器
+    if (contentEl instanceof HTMLHeadingElement) {
+      // TODO
+      continue
+    }
+    // #endregion
+
+    // #region b3. p(header) + 正体元素的形式 (ul/quote/pre/table等选择器)
+    // 1. 寻找正体 (列表/代码块/引用块/表格)
     if (!(contentEl instanceof HTMLUListElement
       || contentEl instanceof HTMLQuoteElement
       || contentEl instanceof HTMLPreElement
       || contentEl instanceof HTMLTableElement
     )) continue
-
-    // TODO 头部选择器不是一个块，要特殊处理
-    // || contentEl instanceof HTMLHeadingElement
-
-    // TODO 首尾选择器不是一个块，要特殊处理
-    // if (subEl instanceof HTMLParagraphElement){
-    //   const m_headtail = subEl.getText().match(ABReg.reg_headtail)
-    //   if (!m_headtail) return
-    //   
-    // }
     
     // 2. 寻找头部 (查看正体的上面是不是AB选择头)
     const headerEl = i==0?null:targetEl.children[i-1] as HTMLElement|null
@@ -303,6 +330,7 @@ function findABBlock_recurve(targetEl: HTMLElement){
     ABConvertManager.autoABConvert(newEl, header_str, html2md(contentEl.innerHTML), "postHtml")
     contentEl.hide()
     headerEl.hide()
+    // #endregion
   }
 }
 
@@ -342,6 +370,7 @@ let selected_mdSrc: HTMLSelectorRangeSpec|null = null;  // 已经选中的范围
  * - 取消：将selected缓存清空
  * 
  * TODO 阅读模式没有嵌套判断，在 quote/callout/list 内的 AnyBlock 不被识别
+ * TODO 这里有些乱，不好管理，也许可以用 tokens 流的方式来重构这里的代码
  * 
  * @param sub_index 位于空div内的第几个元素，仅当为0时才应该被添加到selected_mdSrc.content中，无论为几都添加到selected_els中
  */
