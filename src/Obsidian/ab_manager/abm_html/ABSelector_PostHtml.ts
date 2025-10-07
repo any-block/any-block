@@ -296,7 +296,7 @@ function findABBlock_recurve(targetEl: HTMLElement){
       newEl.addClass("ab-re-rendered")
       contentEl.parentNode?.insertBefore(newEl, contentEl)
       elementsToReplace.forEach(el => el.hide())
-      ABConvertManager.autoABConvert(newEl, m_headtail[4], html2md(contentHtml), "postHtml")
+      ABConvertManager.autoABConvert(newEl, m_headtail[4], html2md(contentHtml), "mdit")
       continue
     }
     // #endregion
@@ -304,6 +304,7 @@ function findABBlock_recurve(targetEl: HTMLElement){
     // #region b2. header选择器
     if (contentEl instanceof HTMLHeadingElement) {
       // TODO
+      const selector_name = "heading"
       continue
     }
     // #endregion
@@ -332,6 +333,13 @@ function findABBlock_recurve(targetEl: HTMLElement){
       continue
     }
     const header_str = header_match[5]
+
+    // 选择器名
+    let selector_name = "postHtml"
+    if (contentEl instanceof HTMLUListElement) selector_name = "list"
+    else if (contentEl instanceof HTMLQuoteElement) selector_name = "quote"
+    else if (contentEl instanceof HTMLPreElement) selector_name = "code"
+    else if (contentEl instanceof HTMLTableElement) selector_name = "table"
 
     // 3. 渲染，元素替换
     //const newEl = targetEl.createDiv({cls: "ab-re-rendered"})
