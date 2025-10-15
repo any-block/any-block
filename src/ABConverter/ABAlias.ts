@@ -160,7 +160,10 @@ const ABAlias_json_title: ABAlias_json_item[] = [
 
 // 列表块
 const ABAlias_json_list: ABAlias_json_item[] = [
+  // 特殊
   {regex: "|listXinline|", replacement: "|list2listdata|listdata2strict|listdata2list|"},
+  {regex: "|list2task|", replacement: "|list2listdata|listdata2task|listdata2list|"},
+  {regex: "|task2", replacement: "|list2listdata|listdata2task|listdata2list|list2"},
 
   // list - list&title
   {regex: /\|list_140lne\|2?(timeline|时间线)\|/, replacement: "|list2timeline|"},

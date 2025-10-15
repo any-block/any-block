@@ -442,6 +442,22 @@ export class ListProcess{
     return list_itemInfo2
   }
 
+  // 修复任务列表转列表结构后，任务项丢失
+  static data2taskData(
+    list_itemInfo: List_ListItem
+  ) {
+    for (let item of list_itemInfo) {
+      item.content = item.content.split('\n').map(line => {
+        const match = line.match(/\[.\] /)
+        if (match) {
+          return '- ' + line
+        }
+        return line
+      }).join('\n')
+    }
+    return list_itemInfo
+  }
+
   /** 二层树转多层一叉树 
    * example:
    * - 1
@@ -594,6 +610,17 @@ const abc_listdata2strict = ABConvert.factory({
   detail: "将列表数据转化为更规范的列表数据。统一缩进符(2空格 4空格 tab混用)为level 1、禁止跳等级(h1直接就到h3)",
   process: (el, header, content: List_ListItem): List_ListItem=>{
     return ListProcess.data2strict(content)
+  }
+})
+
+const abc_listdata2task = ABConvert.factory({
+  id: "listdata2task",
+  name: "listdata支持任务列表",
+  process_param: ABConvert_IOEnum.list_stream,
+  process_return: ABConvert_IOEnum.list_stream,
+  detail: "当列表中存在任务列表项时，令此列表项支持任务项",
+  process: (el, header, content: List_ListItem): List_ListItem=>{
+    return ListProcess.data2taskData(content)
   }
 })
 
