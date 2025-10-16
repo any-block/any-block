@@ -26,4 +26,5 @@ export async function jsdom_init() {
   global.HTMLUListElement = dom.window.HTMLUListElement
   global.HTMLScriptElement = dom.window.HTMLScriptElement
   dom.window.scrollTo = ()=>{} // @warn 若缺少该行，编译警告：Error: Not implemented: window.scrollTo
+  global.MutationObserver = dom.window.MutationObserver
 }
