@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-any-block",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "description": "You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table`. (obsidian/markdown-it/vuepress plugin/app)",
   "types": "@types/index_mdit.d.ts",
   "type": "module",
