@@ -157,6 +157,12 @@ mermaid mindmap
 
 The above only shows **a few of** the processors of the plugin. In fact, it **supports a wide variety of processors and functions**. The processors can be freely combined in series, and in addition to the list selector, it also supports many other selectors such as headings, code blocks, and quote blocks. For more functions, please refer to the more detailed [documentation](https://linczero.github.io/MdNote_Public/%E4%BA%A7%E5%93%81%E6%96%87%E6%A1%A3/AnyBlock/)
 
+## Visual editing - AnyMenu
+
+It is recommended to use together with another plugin [AnyMenu](https://github.com/any-menu/any-menu/) developed by the author of AnyBlock, which can reduce the learning cost and quickly generate templates.
+
+![](./assets/anymenu.png)
+
 ## Effects warrior - old
 
 Here are some of the more common processors:

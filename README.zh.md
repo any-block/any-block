@@ -100,6 +100,12 @@ mermaid 思维导图
 
 上面只是插件的**其中的几种**处理器。实际上**还支持非常多的处理器和功能**，处理器间还能随意串行组合，并且除了列表选择器外还支持标题、代码块、引用块等诸多选择器。更多的功能参见[更多文档](https://linczero.github.io/MdNote_Public/%E4%BA%A7%E5%93%81%E6%96%87%E6%A1%A3/AnyBlock/)
 
+## 可视化编辑 - AnyMenu
+
+推荐与 AnyBlock 作者正在开发的另一插件 [AnyMenu](https://github.com/any-menu/any-menu/) 一同使用，可以降低学习成本与快速生成模板:
+
+![](./docs/assets/anymenu.png)
+
 ## 旧效果展示
 
 Here are some of the more common processors:
