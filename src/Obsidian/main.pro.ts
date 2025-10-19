@@ -23,7 +23,6 @@ import "@/Pro/src/index.ob" // [!code hl] obsidian-pro
 
 import { onUpdateLicense } from "@/Pro/src/index.ob" // [!code hl] obsidian-pro 许可证模块
 // const onUpdateLicense: () => Promise<number> = () => Promise.resolve(-1) // [!code hl] obsidian-pro 许可证模块 降级版
-import { registerABContextMenu } from "@/Pro/src/contextmenu/index.ob" // [!code hl] obsidian-pro 菜单
 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
@@ -38,8 +37,6 @@ export default class AnyBlockPlugin extends Plugin {
     ABCSetting.global_app = this.app
     await this.loadSettings();
     this.addSettingTab(new ABSettingTab(this.app, this))
-
-    registerABContextMenu(this) // [!code hl] obsidian-pro
 
     // 右下角状态栏 - 刷新按钮
     {
