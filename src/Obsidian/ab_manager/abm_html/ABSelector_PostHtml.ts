@@ -109,7 +109,7 @@ export class ABSelector_PostHtml{
         // 判断方式三：是否是实时模式下显示阅读模式内容
         const containerEl = view?.containerEl // .workspace-leaf-content
         // - containerEl 为空时，不强制刷新。可能是其他面板或者是 canvas (`getActiveViewOfType(MarkdownView)` 获取到的canvas等页面为空)
-        // - data-type 为 excalidraw 等时，不强制刷新。仅为 markdown 时强制刷新
+        // - data-type 为 excalidraw、thino_view 等时，不强制刷新。仅为 markdown 时强制刷新
         // - data-mode 为 source 等时，不强制刷新。仅为 preview 时强制刷新
         // 注意，极难检测是否 `[[file#title]]`，不存cache_map，也不触发强制刷新
         if (!containerEl) {

@@ -111,6 +111,16 @@ export class ABStateManager {
     this.view = view
     this.initialFileName = this.view.file?.basename
     this.editor = this.view.editor
+    if (!this.editor) {
+      // console.warn("can't get Obsidian Editor, maybe in embedded editor env")
+      // 此时 view 中没有 editor 属性
+      return false
+    }
+
+    if (this.editor.hasOwnProperty('cm') == false) {
+      // console.warn("can't get CodeMirror EditorView, maybe in embedded editor env")
+      return false
+    }
     // @ts-expect-error Editor without cm
     this.editorView = this.editor.cm
     this.editorState = this.editorView.state
