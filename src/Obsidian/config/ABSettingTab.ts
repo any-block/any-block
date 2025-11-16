@@ -134,16 +134,18 @@ export class ABSettingTab extends PluginSettingTab {
     for (let item of plugin.settings.user_processor){
       ABConvert.factory(item)
     }
-	}
+  }
 
-	display(): void {
-		const {containerEl} = this;
+  display(): void {
+    const {containerEl} = this;
     containerEl.empty();
     let settings = this.plugin.settings
     // new Setting(containerEl).setName('AnyBlock').setHeading();
-		const div_url = containerEl.createEl('div');
-      div_url.empty(); div_url.appendChild(sanitizeHTMLToDom(t("see website for detail")));
-      div_url.style.marginBottom = "1em";
+
+    // 弃用，移至 MiniDocs
+    // const div_url = containerEl.createEl('div');
+    //   div_url.empty(); div_url.appendChild(sanitizeHTMLToDom(t("see website for detail")));
+    //   div_url.style.marginBottom = "1em";
 
     // #region 标签页 (设置项框架)
     const el_note = containerEl.createEl('div', {cls: 'ab-note'})
@@ -152,6 +154,19 @@ export class ABSettingTab extends PluginSettingTab {
     const el_tab_content = el_tab.createEl('div', {cls: 'ab-tab-content'})
     let ab_tab_nav_item: HTMLElement
     let ab_tab_content_item: HTMLElement
+    let ab_tab_div_html: HTMLElement
+    // #endregion
+
+    // #region Mini docs
+    ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("Mini docs")})
+    ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
+    new Setting(ab_tab_content_item).setName(t("Mini docs")).setHeading();
+    ab_tab_div_html = ab_tab_content_item.createEl('div');
+      ab_tab_div_html.appendChild(sanitizeHTMLToDom(t("see website for detail")));
+
+    new Setting(ab_tab_content_item).setName(t("Mini docs menu")).setHeading();
+    ab_tab_div_html = ab_tab_content_item.createEl('div');
+      ab_tab_div_html.appendChild(sanitizeHTMLToDom(t("Mini docs menu2")));
     // #endregion
 
     // #region 选择器管理
@@ -281,6 +296,7 @@ export class ABSettingTab extends PluginSettingTab {
       ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: "编辑器菜单"})
       ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
       new Setting(ab_tab_content_item).setName("编辑器菜单").setHeading()
+      ab_tab_content_item.createEl('p', {text: `(!将弃用，请使用同作者开发的 AnyMenu 插件)`})
       ab_tab_content_item.createEl('p', {text: `你可以在这里编辑扩展的编辑器右键菜单，加入自定义要黏贴的预设文本。
 编辑器菜单是一个独立功能的通用模块，你可以把他当作另一个独立功能的插件来使用`})
       ab_tab_content_item.createEl('p', {text: `! 仅测试用。目前这一部分在非Pro版仅供查询不可编辑，且目前不写配置文件，设置后重启就不生效了`})
@@ -338,6 +354,7 @@ export class ABSettingTab extends PluginSettingTab {
         )
       new Setting(ab_tab_content_item)
         .setName("Debug")
+        .setDesc("Only for developer use")
         .addToggle(toggle => toggle
           .setValue(settings.is_debug)
           .onChange(async (value) => {

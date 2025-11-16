@@ -1,21 +1,26 @@
 export default {
   // setting.ts
+  'Mini docs': `Mini docs`,
   'see website for detail': `See 
     <a href="https://lincdocs.github.io/AnyBlock/README.show.html">website</a>
     /
     <a href="https://github.com/LincZero/obsidian-any-block">github</a>
     for more details | Author: <a href="https://github.com/LincZero">LincZero</a>`,
+  'Mini docs menu': `How to visualize the creation of AnyBlock?`,
+  'Mini docs menu2': `It is recommended to use
+    <a href="https://github.com/any-menu/any-menu">AnyMenu</a>
+    plugin (developed by the same author) to quickly enter AnyBlock templates using the menu panel or search box.`,
 
-  'Selector manager': 'Selector manager',
+  'Selector manager': 'Selector',
   'Selector manager2': 'This section is for query only and cannot be edited',
 
-  'AliasSystem manager': 'Alias system manager',
+  'AliasSystem manager': 'Alias system',
   'AliasSystem manager2': 'It can be viewed in the main page using the `[info_alias]` processor',
   'AliasSystem manager3': 'This section can also be modified by opening the `data.json` file in the plugin folder',
   'AliasSystem manager4': 'Add a new registration instruction',
   'AliasSystem manager5': 'Add a new registration instructionAdd a new registration instruction (old, will not be used)',
 
-  'Convertor manager': 'Convertor manager',
+  'Convertor manager': 'Convertor',
   'Convertor manager2': 'It can be viewed in the main page using the `[info_converter]` processor',
   'Convertor manager3': 'This section is for query only and cannot be edited',
 
