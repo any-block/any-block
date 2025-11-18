@@ -43,6 +43,7 @@ import {} from "./ABConverter/converter/abc_list"
 import {} from "./ABConverter/converter/abc_table"
 import {} from "./ABConverter/converter/abc_deco"
 import {} from "./ABConverter/converter/abc_ex"
+import {} from "./ABConverter/converter/abc_echarts"
 import {} from "./ABConverter/converter/abc_mermaid" // 可选建议：非 min 环境下 7.1MB
 import {} from "./ABConverter/converter/abc_markmap" // 可选建议：1.3MB
 

@@ -15,6 +15,7 @@ export {} from "./converter/abc_dir_tree"
 export {} from "./converter/abc_deco"
 export {} from "./converter/abc_ex"
 export {} from "./converter/abc_mdit_container"
+export {} from "./converter/abc_echarts"
 export {} from "./converter/abc_plantuml" // 可选建议：156.3KB。由于在线渲染，相对下面两个没那么高
 export {} from "./converter/abc_mermaid"  // 可选建议：新版无额外依赖，旧版非 min 环境下 7.1MB
 export {} from "./converter/abc_markmap"  // 可选建议：1.3MB
