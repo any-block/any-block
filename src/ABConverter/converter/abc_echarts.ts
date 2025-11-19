@@ -69,7 +69,7 @@ leaves: {
 
     // json -> script string
     const data_str = JSON.stringify(radial_data)
-    const script_str = `\
+    const script_str = `\`\`\`echarts
 const option = {
   tooltip: {
     trigger: 'item',
@@ -92,7 +92,8 @@ const option = {
   ],
 }
 
-// const height = 600`
+// const height = 600
+\`\`\``
     return script_str
   }
 })
@@ -111,7 +112,7 @@ const abc_list2echarts_sunburst = ABConvert.factory({
 
     // json -> script string
     const data_str = JSON.stringify(radial_array)
-    const script_str = `\
+    const script_str = `\`\`\`echarts
 const option = {
   series: [
     {
@@ -123,7 +124,8 @@ const option = {
       }
     },
   ],
-}`
+}
+\`\`\``
     return script_str
   }
 })
