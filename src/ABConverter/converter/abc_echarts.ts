@@ -97,13 +97,52 @@ const option = {
   }
 })
 
+const abc_list2echarts_sunburst = ABConvert.factory({
+  id: "list2echarts_sunburst",
+  name: "ECharts旭日图",
+  match: /list2echarts_sunburst(.*)/,
+  detail: "将列表转换为放ECharts旭日图 (平均分配)",
+  process_param: ABConvert_IOEnum.text,
+  process_return: ABConvert_IOEnum.text,
+  process: (el, header, content: string): string=>{
+    let list_data: List_ListItem = ListProcess.list2data(content, false)
+    list_data = ListProcess.data2strict(list_data)
+    let radial_array: RadialNode[] = list2radial_array(list_data, true)
+
+    // json -> script string
+    const data_str = JSON.stringify(radial_array)
+    const script_str = `\
+const option = {
+  series: [
+    {
+      type: 'sunburst',
+      data: ${data_str},
+      radius: [0, '90%'],
+      label: {
+        rotate: 'radial'
+      }
+    },
+  ],
+}`
+    return script_str
+  }
+})
+
 // 树节点类型
 type RadialNode = {
   name: string,
-  // value?: number, // 目前不支持这个属性
+  value?: number,
   children?: RadialNode[]
 }
-function list2radial_array(data: List_ListItem): RadialNode[] {
+/**
+ * 
+ * @param data 
+ * @param leafValue
+ *   若为true，则标记叶子节点，并给叶子节点添加 value:1 属性
+ *   默认不要给非叶子节点添加 value 属性，可能会影响如旭日图的父节点大小分配
+ * @returns 
+ */
+function list2radial_array(data: List_ListItem, leafValue: boolean = false): RadialNode[] {
   let nodes: RadialNode[] = []        // 节点树
   let prev_nodes: RadialNode[] = []   // 缓存每个level的最新节点
 
@@ -112,7 +151,10 @@ function list2radial_array(data: List_ListItem): RadialNode[] {
     // 当前节点
     const item = data[index]
     const current_key: string = item.content
-    const current_value: RadialNode = { name: current_key }
+    const current_value: RadialNode = {
+      name: current_key,
+      ...(leafValue ? { value: 1 } : {})
+    }
     prev_nodes[item.level] = current_value
 
     // 放入节点树的对应位置中
@@ -121,6 +163,9 @@ function list2radial_array(data: List_ListItem): RadialNode[] {
       if (typeof lastItem != "object" || Array.isArray(lastItem)) {
         console.error(`list数据不合规，父节点的value值不是{}类型`)
         return nodes
+      }
+      if (leafValue) { // 非叶子节点需删除value属性
+        delete lastItem.value
       }
       if (!lastItem.hasOwnProperty("children")) {
         lastItem.children = [current_value]
