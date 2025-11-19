@@ -90,20 +90,27 @@ const ABAlias_json_list: ABAlias_json_item[] = [
 
 // 代码块
 const ABAlias_json_code: ABAlias_json_item[] = [
-  {regex: "|code 140lne|X|", replacement: "|Xcode|"},
+  {regex: "|code_140lne|X|", replacement: "|xCode|"},
+  {regex: "|code_140lne|x|", replacement: "|xCode|"},
+  {regex: "|code2list|", replacement: "|xCode|region2indent|addList|"},
+  {regex: "|echarts|", replacement: "|xCode|code(echarts)|"}, // 配合 any-block/obsidian-charts 使用
+  {regex: "|list2code|", replacement: "|xList|code(js)|"},
 ]
 
 // 引用块
 const ABAlias_json_quote: ABAlias_json_item[] = [
-  {regex: "|quote 140lne|X|", replacement: "|Xquote|"},
+  // {regex: "|quote_140lne|X|", replacement: "|xQuote|"},
+  // {regex: "|quote_140lne|x|", replacement: "|xQuote|"},
 ]
 
 // 表格块
 const ABAlias_json_table: ABAlias_json_item[] = [
 ]
 
-// 通用，一般是装饰处理器
+// 通用，一般是装饰处理器 (易误选，通常最后才执行)
 const ABAlias_json_general: ABAlias_json_item[] = [
+  {regex: "|echarts|", replacement: "|xCode|code(echarts)|"}, // 配合 any-block/obsidian-charts 使用
+
   {regex: "|黑幕|", replacement: "|add_class(ab-deco-heimu)|"},
   {regex: "|折叠|", replacement: "|fold|"},
   {regex: "|滚动|", replacement: "|scroll|"},
