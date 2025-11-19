@@ -12,11 +12,11 @@ import {ABConvertManager} from "../ABConvertManager"
 import {ABReg} from "../ABReg"
 import { type List_ListItem, ListProcess } from "./abc_list"
 
-const abc_list2echarts_radial = ABConvert.factory({
-  id: "list2echarts_radial",
-  name: "放射线树图",
-  match: "list2echarts_radial",
-  detail: "将列表转换为放射线树图",
+const abc_list2echarts_tree = ABConvert.factory({
+  id: "list2echarts_tree",
+  name: "ECharts树图",
+  match: /list2echarts_tree(.*)/,
+  detail: "将列表转换为放ECharts树图，可选附加参数: `_tb` 或 `_radial` 或 `_polyline` 等",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -24,6 +24,48 @@ const abc_list2echarts_radial = ABConvert.factory({
     list_data = ListProcess.data2strict(list_data)
     let radial_array: RadialNode[] = list2radial_array(list_data)
     let radial_data: RadialNode = array2data(radial_array) as RadialNode
+
+    // type attachment, 根据类型附加一些不同的信息
+    let attachment: string = ""
+    const match = header.match(/list2echarts_tree(.*)/);
+    if (match) {
+      // edgeShape
+      if (match[1].trim().toLowerCase() === '_polyline') {
+        attachment += `edgeShape: 'polyline',`
+      }
+
+      // orient
+      if (match[1].trim().toLowerCase() === '_tb') {
+        attachment += `orient: 'TB',`
+      } else if (match[1].trim().toLowerCase() === '_lr') {
+        attachment += `orient: 'LR',`
+      } else if (match[1].trim().toLowerCase() === '_bt') {
+        attachment += `orient: 'BT',`
+      } else if (match[1].trim().toLowerCase() === '_rl') {
+        attachment += `orient: 'RL',`
+      }
+
+      // 方向
+      if (match[1].trim().toLowerCase() === '_radial') {
+        attachment += `\
+layout: 'radial',
+symbol: 'emptyCircle',`
+      } else {
+        attachment += `\
+label: {
+  position: 'left', // 展开则显示在左侧
+  verticalAlign: 'middle',
+  align: 'right',
+},
+leaves: {
+  label: {
+    position: 'right', // 折叠后则显示在右侧
+    verticalAlign: 'middle',
+    align: 'left'
+  }
+},`
+      }
+    }
 
     // json -> script string
     const data_str = JSON.stringify(radial_data)
@@ -37,10 +79,9 @@ const option = {
     {
       type: 'tree',
       data: [${data_str}],
-      top: '18%',
-      bottom: '14%',
-      layout: 'radial',
-      symbol: 'emptyCircle',
+      ${attachment}
+      top: '10%',
+      bottom: '10%',
       symbolSize: 7,
       initialTreeDepth: 3,
       animationDurationUpdate: 750,
@@ -51,8 +92,7 @@ const option = {
   ],
 }
 
-// const height = 600
-`
+// const height = 600`
     return script_str
   }
 })
