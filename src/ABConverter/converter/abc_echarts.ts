@@ -7,7 +7,7 @@
  * 或 vuepress 生态系统中的 echarts 插件使用
  */
 
-import { compareAsc, format } from "date-fns"
+import { DateTime, Duration } from 'luxon';
 
 import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
 import { type List_ListItem, ListProcess } from "./abc_list"
@@ -251,37 +251,53 @@ function c2listdata2gantt_array(data: List_C2ListItem): {
         end: 0,
         duration: 0,
       }
+      const start_time_str: string = content_array[0].trim();
+      node.start = start_time_str;
+      const end_time_str: string = content_array[1] ? content_array[1].trim() : "P1D"
+      node.end = end_time_str;
+      // const mid_time_str: string|null = content_array[2] ? content_array[2].trim() : null // 暂不支持，以后再说
 
-      const start_time: string = content_array[0].trim();
+      // 格式解析
       if (!time_mode) {
-        if (/^\d+$/.test(start_time)) {
+        if (/^\d+$/.test(start_time_str)) {
             time_mode = 'timestamp';
-        } else if (!isNaN(Date.parse(start_time)) && (start_time.includes('-') || start_time.includes('T'))) {
+        } else if (DateTime.fromISO(start_time_str).isValid) {
             time_mode = 'ISO8601';
         } else {
             time_mode = 'string';
         }
       }
-      node.start = start_time;
-      if (time_mode === 'ISO8601') { // TODO 改为使用 import { compareAsc, format } from "date-fns"
-        ;(() => {
-          const startTime = Date.parse(start_time);
-          if (isNaN(startTime)) return; // 如果转换失败则跳过
-          node.start = startTime;
-        })();
+
+      if (time_mode === 'ISO8601') {
+        const startDateTime = DateTime.fromISO(start_time_str);
+        if (startDateTime.isValid) { node.start = startDateTime.toMillis(); }
+        else { console.warn('开始时间解析失败1'); prev_nodes = undefined; continue; }
+
+        const potentialEndDate = DateTime.fromISO(end_time_str);
+        if (potentialEndDate.isValid) { // b1. 绝对日期
+          node.end = potentialEndDate.toMillis();
+        } else {
+          const potentialDuration = Duration.fromISO(end_time_str);
+          if (potentialDuration.isValid) { // b2. 持续时间 (e.g., "P1D")
+            node.end = startDateTime.plus(potentialDuration).toMillis();
+          } else { // b3. 解析失败
+            console.warn('结束时间解析失败1'); prev_nodes = undefined; continue;
+          }
+        }
+      } else if (time_mode === 'timestamp') {
+        const startTimestamp = parseInt(start_time_str, 10);
+        if (!isNaN(startTimestamp)) node.start = startTimestamp;
+        else { console.warn('开始时间戳解析失败2'); prev_nodes = undefined; continue; }
+
+        const endTimestamp = parseInt(end_time_str, 10);
+        if (!isNaN(endTimestamp)) node.end = endTimestamp;
+        else { console.warn('结束时间戳解析失败2'); prev_nodes = undefined; continue; }
+      } else {
+        console.warn('暂不支持非时间格式的甘特图时间解析');
+        prev_nodes = undefined
+        continue
       }
 
-      const end_time: string = content_array[1] ? content_array[1].trim() : "P1D"
-      if (time_mode === 'ISO8601') { // TODO 改为使用 import { compareAsc, format } from "date-fns"。需要支持 P1D 之类的格式
-        ;(() => {
-          const endTime = Date.parse(end_time);
-          if (isNaN(endTime)) return; // 如果转换失败则跳过
-          node.end = endTime;
-        })();
-      }
-
-      // const mid_time: string|null = content_array[2] ? content_array[2] : null // 暂不支持，以后再说
-      
       nodes.push(node)
       prev_nodes = node
       continue

@@ -14,9 +14,9 @@ importers:
 
   src/ABConverter:
     dependencies:
-      date-fns:
-        specifier: ^4.1.0
-        version: 4.1.0
+      luxon:
+        specifier: ^3.7.2
+        version: 3.7.2
       markmap-lib:
         specifier: ^0.17.2
         version: 0.17.2(markmap-common@0.18.9)
@@ -24,6 +24,9 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
     devDependencies:
+      '@types/luxon':
+        specifier: ^3.7.1
+        version: 3.7.1
       '@types/plantuml-encoder':
         specifier: ^1.4.2
         version: 1.4.2
@@ -1643,6 +1646,9 @@ packages:
   '@types/linkify-it@5.0.0':
     resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
 
+  '@types/luxon@3.7.1':
+    resolution: {integrity: sha512-H3iskjFIAn5SlJU7OuxUmTEpebK6TKB8rxZShDslBMZJ5u9S//KM1sbdAisiSrqwLQncVjnpi2OK2J51h+4lsg==}
+
   '@types/markdown-it-container@2.0.10':
     resolution: {integrity: sha512-zv+YxrlSYRq51e9kzm3orv4OvF4U79Ll1OyplNXr00o4ZC/8PukJk/jEWH7CnsMtrSWZlyv0czhz42jm9J4uLw==}
 
@@ -2145,9 +2151,6 @@ packages:
   data-urls@5.0.0:
     resolution: {integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==}
     engines: {node: '>=18'}
-
-  date-fns@4.1.0:
-    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
   debug@4.4.0:
     resolution: {integrity: sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA==}
@@ -2853,6 +2856,10 @@ packages:
 
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
+
+  luxon@3.7.2:
+    resolution: {integrity: sha512-vtEhXh/gNjI9Yg1u4jX/0YVPMvxzHuGgCm6tC5kZyb08yjGWGnqAjGJvcXbqQR2P3MyMEFnRbpcdFS6PBcLqew==}
+    engines: {node: '>=12'}
 
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
@@ -4887,6 +4894,8 @@ snapshots:
 
   '@types/linkify-it@5.0.0': {}
 
+  '@types/luxon@3.7.1': {}
+
   '@types/markdown-it-container@2.0.10':
     dependencies:
       '@types/markdown-it': 14.1.2
@@ -5452,8 +5461,6 @@ snapshots:
     dependencies:
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.2.0
-
-  date-fns@4.1.0: {}
 
   debug@4.4.0:
     dependencies:
@@ -6266,6 +6273,8 @@ snapshots:
   lodash.sortby@4.7.0: {}
 
   lru-cache@10.4.3: {}
+
+  luxon@3.7.2: {}
 
   magic-string@0.30.17:
     dependencies:

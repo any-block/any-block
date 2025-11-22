@@ -9,11 +9,12 @@
   "author": "LincZero",
   "license": "GNU Affero General Public License v3.0",
   "dependencies": {
-    "date-fns": "^4.1.0",
+    "luxon": "^3.7.2",
     "markmap-lib": "^0.17.2",
     "plantuml-encoder": "^1.4.0"
   },
   "devDependencies": {
+    "@types/luxon": "^3.7.1",
     "@types/plantuml-encoder": "^1.4.2",
     "tslib": "^2.8.1"
   }
