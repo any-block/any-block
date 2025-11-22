@@ -51,7 +51,8 @@ export class ListProcess{
    * 列表文本转列表数据 
    * @bug 不能跨缩进，后面再对异常缩进进行修复
    * @bug 内换行` | `可能有bug
-   * @param modeG: 识别符号 ` | `（该选项暂时不可用，0为不识别，1为识别为下一级，2为识别为同一级，转ultable时会用到选项2）
+   * @param modeG: 识别符号 ` | ` (ABReg.inline_split)
+   *   (该选项暂时不可用，目前强制开启且为1。原设计: 0为不识别，1为识别为下一级，2为识别为同一级，转ulTable时会用到选项2)
    */
   static list2data(text: string, modeG=true){
     /** 内联补偿列表。只保留comp>0的项 */

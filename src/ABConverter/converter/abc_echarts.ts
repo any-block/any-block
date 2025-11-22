@@ -7,10 +7,9 @@
  * 或 vuepress 生态系统中的 echarts 插件使用
  */
 
-import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
-import {ABConvertManager} from "../ABConvertManager"
-import {ABReg} from "../ABReg"
+import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
 import { type List_ListItem, ListProcess } from "./abc_list"
+import { type List_C2ListItem, C2ListProcess } from "./abc_c2list"
 
 const abc_list2echarts_tree = ABConvert.factory({
   id: "list2echarts_tree",
@@ -22,7 +21,7 @@ const abc_list2echarts_tree = ABConvert.factory({
   process: (el, header, content: string): string=>{
     let list_data: List_ListItem = ListProcess.list2data(content, false)
     list_data = ListProcess.data2strict(list_data)
-    let radial_array: RadialNode[] = list2radial_array(list_data)
+    let radial_array: RadialNode[] = listdata2radial_array(list_data)
     let radial_data: RadialNode = array2data(radial_array) as RadialNode
 
     // type attachment, 根据类型附加一些不同的信息
@@ -101,14 +100,14 @@ const option = {
 const abc_list2echarts_sunburst = ABConvert.factory({
   id: "list2echarts_sunburst",
   name: "ECharts旭日图",
-  match: /list2echarts_sunburst(.*)/,
+  match: "list2echarts_sunburst",
   detail: "将列表转换为放ECharts旭日图 (平均分配)",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
     let list_data: List_ListItem = ListProcess.list2data(content, false)
     list_data = ListProcess.data2strict(list_data)
-    let radial_array: RadialNode[] = list2radial_array(list_data, true)
+    let radial_array: RadialNode[] = listdata2radial_array(list_data, true)
 
     // json -> script string
     const data_str = JSON.stringify(radial_array)
@@ -130,6 +129,41 @@ const option = {
   }
 })
 
+const abc_list2echarts_gantt = ABConvert.factory({
+  id: "list2echarts_gantt",
+  name: "ECharts甘特图",
+  match: "list2echarts_gantt",
+  detail: "将列表转换为放ECharts甘特图 (ECharts的甘特图是用custom模拟的)",
+  process_param: ABConvert_IOEnum.text,
+  process_return: ABConvert_IOEnum.text,
+  process: (el, header, content: string): string=>{
+    let c2list_data: List_C2ListItem = C2ListProcess.list2c2data(content)
+
+    const gantt_array = c2listdata2gantt_array(c2list_data)
+    const data_str = JSON.stringify(gantt_array, null, 2)
+    return data_str
+    
+    // type attachment, 根据类型附加一些不同的信息
+//     let attachment1: string = `
+// dataZoom: [
+//   {
+//     type: 'slider',
+//     filterMode: 'weakFilter',
+//     showDataShadow: false,
+//     top: 400,
+//     labelFormatter: ''
+//   },
+//   {
+//     type: 'inside',
+//     filterMode: 'weakFilter'
+//   }
+// ],
+// `
+
+    // return script_str
+  }
+})
+
 // 树节点类型
 type RadialNode = {
   name: string,
@@ -144,7 +178,7 @@ type RadialNode = {
  *   默认不要给非叶子节点添加 value 属性，可能会影响如旭日图的父节点大小分配
  * @returns 
  */
-function list2radial_array(data: List_ListItem, leafValue: boolean = false): RadialNode[] {
+function listdata2radial_array(data: List_ListItem, leafValue: boolean = false): RadialNode[] {
   let nodes: RadialNode[] = []        // 节点树
   let prev_nodes: RadialNode[] = []   // 缓存每个level的最新节点
 
@@ -179,6 +213,54 @@ function list2radial_array(data: List_ListItem, leafValue: boolean = false): Rad
     } else { // 不合规
       console.error(`list数据不合规，没有正规化. level:${item.level}, prev_nodes:${prev_nodes}`)
       return nodes
+    }
+  }
+
+  return nodes
+}
+
+// gantt节点类型
+type GanttNode = {
+  content: string,
+  start: number|string, // 时间戳，支持从 ISO 8601 字符串解析并转换而来。如果无法转换过来，则...(TODO)
+  end: number|string,
+  duration: number, // (冗余，先不用)
+}
+function c2listdata2gantt_array(data: List_C2ListItem): GanttNode[] {
+  let nodes: GanttNode[] = []          // 节点列表
+  let prev_nodes: GanttNode|undefined  // 缓存零级level的最新节点
+
+  let mode: 'ISO8601' | 'timestamp' | 'string' | undefined // 第一次遇到时间节点时，记录模式
+
+  // 第一次变换，所有节点为 "key": {...} 形式
+  for (let index = 0; index<data.length; index++) {
+    const item = data[index]
+    const content: string = item.content.trim()
+
+    // 时间节点
+    if (item.level == 0) {
+      if (!mode) {
+        mode = 'string' // TODO
+      }
+
+      const content_array = content.split("/")
+      const start_time: string = content_array[0]
+      const end_time: string = content_array[1] ? content_array[1] : "P1D"
+      // const mid_time: string|null = content_array[2] ? content_array[2] : null // 暂不支持，以后再说
+      prev_nodes = {
+        content: "",
+        start: start_time,
+        end: end_time,
+        duration: 0,
+      }
+      nodes.push(prev_nodes)
+      continue
+    }
+    // 内容节点
+    else {
+      if (!prev_nodes || !mode) continue // 异常
+      prev_nodes.content = content
+      prev_nodes = undefined
     }
   }
 
