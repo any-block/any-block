@@ -224,16 +224,19 @@ function listdata2radial_array(data: List_ListItem, leafValue: boolean = false):
 // gantt节点类型
 type GanttNode = {
   content: string,
-  start: number|string, // 时间戳，支持从 ISO 8601 字符串解析并转换而来。如果无法转换过来，则...(TODO)
-  end: number|string,   // 时间戳，支持从 ISO 8601 字符串解析并转换而来。如果无法转换过来，则...(TODO)
-  duration: number, // (冗余，先不用)
+  start: number,        // 时间戳，支持从 ISO 8601 字符串解析并转换而来。如果无法转换过来，则...(TODO)
+  end: number,          // 时间戳，支持从 ISO 8601 字符串解析并转换而来。如果无法转换过来，则...(TODO)
+  duration: number,     // (冗余，先不用)
+  group1: number,       // 自动分组1
+  group2?: string,      // (暂不支持第二分组，即时间线名)
 }
 function c2listdata2gantt_array(data: List_C2ListItem): {
   data: GanttNode[],
   time_mode: 'ISO8601' | 'timestamp' | 'string' | undefined
 } {
-  let nodes: GanttNode[] = []          // 节点列表
-  let prev_nodes: GanttNode|undefined  // 缓存零级level的最新节点
+  let nodes: GanttNode[] = []           // 节点列表
+  let prev_nodes: GanttNode|undefined   // 缓存零级level的最新节点
+  let prev_group1: number[] = []        // 缓存每一个分组的尾范围，其length表示当前分组数
 
   let time_mode: 'ISO8601' | 'timestamp' | 'string' | undefined // 第一次遇到时间节点时，记录模式
 
@@ -244,20 +247,15 @@ function c2listdata2gantt_array(data: List_C2ListItem): {
 
     // 时间节点
     if (item.level == 0) {
+      // 1.1. 准备字段
       const content_array = content.split("/")
-      const node: GanttNode = {
-        content: "",
-        start: 0,
-        end: 0,
-        duration: 0,
-      }
       const start_time_str: string = content_array[0].trim();
-      node.start = start_time_str;
+      // node.start = start_time_str;
       const end_time_str: string = content_array[1] ? content_array[1].trim() : "P1D"
-      node.end = end_time_str;
+      // node.end = end_time_str;
       // const mid_time_str: string|null = content_array[2] ? content_array[2].trim() : null // 暂不支持，以后再说
 
-      // 格式解析
+      // 1.2. 准备格式类型
       if (!time_mode) {
         if (/^\d+$/.test(start_time_str)) {
             time_mode = 'timestamp';
@@ -268,11 +266,21 @@ function c2listdata2gantt_array(data: List_C2ListItem): {
         }
       }
 
+      // 2.1. 填充初始值
+      const node: GanttNode = {
+        content: "",
+        start: 0,
+        end: 0,
+        duration: 0,
+        group1: 0,
+      }
+
+      // 2.2. 填充归一化的时间
       if (time_mode === 'ISO8601') {
         const startDateTime = DateTime.fromISO(start_time_str);
         if (startDateTime.isValid) { node.start = startDateTime.toMillis(); }
         else { console.warn('开始时间解析失败1'); prev_nodes = undefined; continue; }
-
+        //
         const potentialEndDate = DateTime.fromISO(end_time_str);
         if (potentialEndDate.isValid) { // b1. 绝对日期
           node.end = potentialEndDate.toMillis();
@@ -288,7 +296,7 @@ function c2listdata2gantt_array(data: List_C2ListItem): {
         const startTimestamp = parseInt(start_time_str, 10);
         if (!isNaN(startTimestamp)) node.start = startTimestamp;
         else { console.warn('开始时间戳解析失败2'); prev_nodes = undefined; continue; }
-
+        //
         const endTimestamp = parseInt(end_time_str, 10);
         if (!isNaN(endTimestamp)) node.end = endTimestamp;
         else { console.warn('结束时间戳解析失败2'); prev_nodes = undefined; continue; }
@@ -296,6 +304,25 @@ function c2listdata2gantt_array(data: List_C2ListItem): {
         console.warn('暂不支持非时间格式的甘特图时间解析');
         prev_nodes = undefined
         continue
+      }
+
+      // 2.3. 填充分组
+      if (prev_group1.length == 0) {
+        // b1. 还没有第一组，添加新组
+        node.group1 = 0; prev_group1.push(node.end);
+      } else {
+        // b2. 寻找到所属组
+        let target_group1: undefined | number
+        for (let group1=0; group1 < prev_group1.length; group1++) {
+          if (node.start < prev_group1[group1]) continue
+          target_group1 = group1
+          node.group1 = group1; prev_group1[group1] = node.end;
+          break
+        }
+        // b3. 没有合适组，添加新组
+        if (target_group1 === undefined) {
+          node.group1 = prev_group1.length; prev_group1.push(node.end);
+        }
       }
 
       nodes.push(node)
