@@ -7,6 +7,8 @@
  * 或 vuepress 生态系统中的 echarts 插件使用
  */
 
+import { compareAsc, format } from "date-fns"
+
 import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
 import { type List_ListItem, ListProcess } from "./abc_list"
 import { type List_C2ListItem, C2ListProcess } from "./abc_c2list"
@@ -223,14 +225,17 @@ function listdata2radial_array(data: List_ListItem, leafValue: boolean = false):
 type GanttNode = {
   content: string,
   start: number|string, // 时间戳，支持从 ISO 8601 字符串解析并转换而来。如果无法转换过来，则...(TODO)
-  end: number|string,
+  end: number|string,   // 时间戳，支持从 ISO 8601 字符串解析并转换而来。如果无法转换过来，则...(TODO)
   duration: number, // (冗余，先不用)
 }
-function c2listdata2gantt_array(data: List_C2ListItem): GanttNode[] {
+function c2listdata2gantt_array(data: List_C2ListItem): {
+  data: GanttNode[],
+  time_mode: 'ISO8601' | 'timestamp' | 'string' | undefined
+} {
   let nodes: GanttNode[] = []          // 节点列表
   let prev_nodes: GanttNode|undefined  // 缓存零级level的最新节点
 
-  let mode: 'ISO8601' | 'timestamp' | 'string' | undefined // 第一次遇到时间节点时，记录模式
+  let time_mode: 'ISO8601' | 'timestamp' | 'string' | undefined // 第一次遇到时间节点时，记录模式
 
   // 第一次变换，所有节点为 "key": {...} 形式
   for (let index = 0; index<data.length; index++) {
@@ -239,32 +244,60 @@ function c2listdata2gantt_array(data: List_C2ListItem): GanttNode[] {
 
     // 时间节点
     if (item.level == 0) {
-      if (!mode) {
-        mode = 'string' // TODO
-      }
-
       const content_array = content.split("/")
-      const start_time: string = content_array[0]
-      const end_time: string = content_array[1] ? content_array[1] : "P1D"
-      // const mid_time: string|null = content_array[2] ? content_array[2] : null // 暂不支持，以后再说
-      prev_nodes = {
+      const node: GanttNode = {
         content: "",
-        start: start_time,
-        end: end_time,
+        start: 0,
+        end: 0,
         duration: 0,
       }
-      nodes.push(prev_nodes)
+
+      const start_time: string = content_array[0].trim();
+      if (!time_mode) {
+        if (/^\d+$/.test(start_time)) {
+            time_mode = 'timestamp';
+        } else if (!isNaN(Date.parse(start_time)) && (start_time.includes('-') || start_time.includes('T'))) {
+            time_mode = 'ISO8601';
+        } else {
+            time_mode = 'string';
+        }
+      }
+      node.start = start_time;
+      if (time_mode === 'ISO8601') { // TODO 改为使用 import { compareAsc, format } from "date-fns"
+        ;(() => {
+          const startTime = Date.parse(start_time);
+          if (isNaN(startTime)) return; // 如果转换失败则跳过
+          node.start = startTime;
+        })();
+      }
+
+      const end_time: string = content_array[1] ? content_array[1].trim() : "P1D"
+      if (time_mode === 'ISO8601') { // TODO 改为使用 import { compareAsc, format } from "date-fns"。需要支持 P1D 之类的格式
+        ;(() => {
+          const endTime = Date.parse(end_time);
+          if (isNaN(endTime)) return; // 如果转换失败则跳过
+          node.end = endTime;
+        })();
+      }
+
+      // const mid_time: string|null = content_array[2] ? content_array[2] : null // 暂不支持，以后再说
+      
+      nodes.push(node)
+      prev_nodes = node
       continue
     }
     // 内容节点
     else {
-      if (!prev_nodes || !mode) continue // 异常
+      if (!prev_nodes || !time_mode) continue // 异常
       prev_nodes.content = content
       prev_nodes = undefined
     }
   }
 
-  return nodes
+  return {
+    data: nodes,
+    time_mode
+  }
 }
 
 // 将data数组转对象，如果根节点只有一个则正常转，如果有多个根节点则自动加上名为root的根节点
