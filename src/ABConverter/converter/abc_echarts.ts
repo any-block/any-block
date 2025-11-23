@@ -142,27 +142,9 @@ const abc_list2echarts_gantt = ABConvert.factory({
     let c2list_data: List_C2ListItem = C2ListProcess.list2c2data(content)
 
     const gantt_array = c2listdata2gantt_array(c2list_data)
-    const data_str = JSON.stringify(gantt_array, null, 2)
-    return data_str
-    
-    // type attachment, 根据类型附加一些不同的信息
-//     let attachment1: string = `
-// dataZoom: [
-//   {
-//     type: 'slider',
-//     filterMode: 'weakFilter',
-//     showDataShadow: false,
-//     top: 400,
-//     labelFormatter: ''
-//   },
-//   {
-//     type: 'inside',
-//     filterMode: 'weakFilter'
-//   }
-// ],
-// `
+    const script_str = ganttdata_to_script(gantt_array)
 
-    // return script_str
+    return script_str
   }
 })
 
@@ -230,13 +212,19 @@ type GanttNode = {
   group1: number,       // 自动分组1
   group2?: string,      // (暂不支持第二分组，即时间线名)
 }
-function c2listdata2gantt_array(data: List_C2ListItem): {
+type GanttInfo = {
   data: GanttNode[],
-  time_mode: 'ISO8601' | 'timestamp' | 'string' | undefined
-} {
+  time_mode: 'ISO8601' | 'timestamp' | 'string' | undefined,
+  min_time?: number,
+  max_time?: number,
+  max_group1: number,
+}
+function c2listdata2gantt_array(data: List_C2ListItem): GanttInfo {
   let nodes: GanttNode[] = []           // 节点列表
   let prev_nodes: GanttNode|undefined   // 缓存零级level的最新节点
   let prev_group1: number[] = []        // 缓存每一个分组的尾范围，其length表示当前分组数
+  let min_time: number|undefined
+  let max_time: number|undefined
 
   let time_mode: 'ISO8601' | 'timestamp' | 'string' | undefined // 第一次遇到时间节点时，记录模式
 
@@ -305,6 +293,8 @@ function c2listdata2gantt_array(data: List_C2ListItem): {
         prev_nodes = undefined
         continue
       }
+      min_time = (min_time === undefined) ? node.start : Math.min(min_time, node.start)
+      max_time = (max_time === undefined) ? node.end : Math.max(max_time, node.end)
 
       // 2.3. 填充分组
       if (prev_group1.length == 0) {
@@ -339,8 +329,184 @@ function c2listdata2gantt_array(data: List_C2ListItem): {
 
   return {
     data: nodes,
-    time_mode
+    time_mode,
+    max_group1: prev_group1.length,
+    min_time,
+    max_time,
   }
+}
+
+function ganttdata_to_script(gantt_data: GanttInfo): string {
+  const { data: ganttNode, max_group1, min_time, max_time } = gantt_data
+
+  // data数据重新准备
+  let data: { value: (string|number)[], itemStyle?: any }[] = []
+  for (const item of ganttNode) {
+    data.push({
+      value: [
+        item.content, item.group1, item.start, item.end, item.end - item.start
+      ],
+      itemStyle: {
+        color: getRandomColor()
+      }
+    })
+  }
+  // 填充随机颜色
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  // 主体
+  const categories = Array.from({ length: max_group1 }, (_, i) => '');
+  const height_calc = categories.length * 40;
+  const startTime = min_time ?? 0 - 1 * 24 * 60 * 60 * 1000;
+  let option = {
+    tooltip: { // 悬浮显示文字
+      trigger: 'item',
+    },
+    dataZoom: [
+      {
+        type: 'slider', // 滑动条型 dataZoom
+        xAxisIndex: 0, // 控制第一个 X 轴
+        filterMode: 'weakFilter',
+        height: 20, // 滑动条高度
+        bottom: 10, // 距离底部的距离
+        start: 0, // 初始显示范围
+        end: 100, // 初始显示范围
+        handleIcon: 'path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+        handleSize: '80%',
+        showDetail: false,
+      },
+      {
+        type: 'inside', // 内置型 dataZoom，支持鼠标滚轮缩放
+        xAxisIndex: 0, // 控制第一个 X 轴
+        filterMode: 'weakFilter',
+        start: 0,
+        end: 100
+      }
+    ],
+    grid: {
+      height: height_calc,
+      top: 40,
+      bottom: 40,
+      left: 15,
+      right: 15,
+    },
+    xAxis: {
+      position: 'top',
+      min: startTime,
+      scale: true,
+      splitNumber: 30, // 显示更密集 (非一定，会避免标签重叠)
+      axisLabel: {
+        fontSize: 10, // 显示更密集
+      }
+    },
+    yAxis: {
+      data: categories, // 分类
+      inverse: true,
+    },
+    series: [
+      {
+        type: 'custom',
+        itemStyle: {
+          opacity: 0.8 // 透明度
+        },
+        encode: {
+          x: [2, 3], // 将value数组的第N个元素映射到x轴 (开始和结束时间)
+          y: 1 // 将value数组的第N个元素映射到y轴 (分类索引)
+        },
+        data: data
+      }
+    ]
+  };
+
+  const script_str = `\`\`\`echarts
+height = ${height_calc + 80}
+const option = ${JSON.stringify(option, null, 2)}
+
+// 自定义渲染函数 - x轴
+let lastMonth = -1; // 用来记录上一个刻度的月份
+option.xAxis.axisLabel.formatter = function (val) {
+  let date = new Date(val);
+  let currentMonth = date.getMonth();
+  if (lastMonth !== currentMonth) { // 如果月份与上一个不同，或者这是第一个刻度
+    lastMonth = currentMonth;
+    return echarts_lib.format.formatTime('yyyy-MM', val) + '\\n' +
+      echarts_lib.format.formatTime('dd', val);
+  } else {
+    return '\\n' +   // (头部空换行保持高度不变，避免缩放时图表跳动)
+      echarts_lib.format.formatTime('dd', val);
+  }
+}
+
+// 自定义渲染函数 - tooltip, 支持html
+option.tooltip.formatter = function (params) {
+  // let categoryName = categories[params.value[1]];
+  return echarts_lib.format.formatTime('MM-dd', params.value[2]) +
+    '/' +
+    echarts_lib.format.formatTime('MM-dd', params.value[3]) +
+    '<br />' +
+    params.value[0].replaceAll('\\n', '<br />');
+},
+
+// 自定义渲染函数 - 图表内容
+option.series[0].renderItem = function renderItem(params, api) {
+  var categoryIndex = api.value(1); // 分类索引
+  var start = api.coord([api.value(2), categoryIndex]);
+  var end = api.coord([api.value(3), categoryIndex]);
+  var height = api.size([0, 1])[1] * 1 - 5;
+  var rectShape = echarts_lib.graphic.clipRectByRect( // 绘制矩形，并裁减
+    {
+      x: start[0],
+      y: start[1] - height / 2,
+      width: end[0] - start[0],
+      height: height,
+    },
+    {
+      x: params.coordSys.x,
+      y: params.coordSys.y,
+      width: params.coordSys.width,
+      height: params.coordSys.height
+    }
+  );
+  var text_array = api.value(0).split('\\n');
+  return (
+    rectShape && {
+      type: 'group', // group 元素，包含矩形和文本
+      children: [
+        {
+          type: 'rect', // 矩形元素
+          transition: ['shape'],
+          shape: {
+            ...rectShape,
+            r: 5, // 圆角半径
+          },
+          style: api.style()
+        },
+        {
+          type: 'text', // 文本元素
+          transition: ['style'], // 对样式应用过渡动画
+          style: {
+            x: start[0] + 5, // 将文本放在矩形内部，并向右偏移 5px
+            y: start[1], // 垂直居中
+            text: (text_array.length > 1 ? text_array[0] + '...' : text_array[0]),
+            // fill: '#fff', // 文本颜色
+            textVerticalAlign: 'middle', // 文本垂直对齐方式
+            textAlign: 'left' // 文本水平对齐方式
+          }
+        }
+      ]
+    }
+  );
+}
+\`\`\``;
+
+  return script_str
 }
 
 // 将data数组转对象，如果根节点只有一个则正常转，如果有多个根节点则自动加上名为root的根节点
