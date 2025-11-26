@@ -336,7 +336,15 @@ function c2listdata2gantt_array(data: List_C2ListItem): GanttInfo {
   }
 }
 
+// TODO
+// gantt 这部分的 todos，应该还剩这几个：
+// - 明暗主题模式的颜色组 (obsidian和vuepress中判断主题)
+// - 可选的 mid time (task完成度)
+// - 可选 task flag (`[x]` `[ ]`)
+// - 自适应x轴显示 (根据缩放比例自动选择显示年/月/日/时间)
+// - 支持多时间线
 function ganttdata_to_script(gantt_data: GanttInfo): string {
+  const currentTheme = document.body.classList.contains('theme-dark') ? 'dark' : 'light'; // obsidian主题
   const { data: ganttNode, max_group1, min_time, max_time } = gantt_data
 
   // data数据重新准备
@@ -346,20 +354,20 @@ function ganttdata_to_script(gantt_data: GanttInfo): string {
       value: [
         item.content, item.group1, item.start, item.end, item.end - item.start
       ],
-      itemStyle: {
-        color: getRandomColor()
-      }
+      // itemStyle: {
+      //   color: getRandomColor()
+      // }
     })
   }
-  // 填充随机颜色
-  function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
+  // 填充随机颜色 (弃用，改用主题色)
+  // function getRandomColor() {
+  //   const letters = '0123456789ABCDEF';
+  //   let color = '#';
+  //   for (let i = 0; i < 6; i++) {
+  //     color += letters[Math.floor(Math.random() * 16)];
+  //   }
+  //   return color;
+  // }
 
   // 主体
   const categories = Array.from({ length: max_group1 }, (_, i) => '');
@@ -425,6 +433,14 @@ function ganttdata_to_script(gantt_data: GanttInfo): string {
     ]
   };
 
+  /**
+   * const myOption = echarts.getOption(); 颜色组
+   * 主要注意调用时机，在回调中调用还行，在根部的话会是 undefined
+   * - color: 一个长度为9的颜色列表, 是主题定义的 // 明亮模式可能无此属性，要 ?? black
+   * - backgroundColor: 背景颜色
+   * - gradientColor: 渐变色，2长度数组
+   * - textStyle.color: 文字颜色
+   */
   const script_str = `\`\`\`echarts
 height = ${height_calc + 80}
 const option = ${JSON.stringify(option, null, 2)}
@@ -475,6 +491,7 @@ option.series[0].renderItem = function renderItem(params, api) {
     }
   );
   var text_array = api.value(0).split('\\n');
+  const textColor = echarts.getOption().textStyle.color ?? black;
   return (
     rectShape && {
       type: 'group', // group 元素，包含矩形和文本
@@ -495,7 +512,7 @@ option.series[0].renderItem = function renderItem(params, api) {
             x: start[0] + 5, // 将文本放在矩形内部，并向右偏移 5px
             y: start[1], // 垂直居中
             text: (text_array.length > 1 ? text_array[0] + '...' : text_array[0]),
-            // fill: '#fff', // 文本颜色
+            fill: textColor, // 文本颜色
             textVerticalAlign: 'middle', // 文本垂直对齐方式
             textAlign: 'left' // 文本水平对齐方式
           }
