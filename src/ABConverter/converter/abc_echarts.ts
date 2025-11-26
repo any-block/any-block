@@ -434,7 +434,7 @@ function ganttdata_to_script(gantt_data: GanttInfo): string {
   };
 
   /**
-   * const myOption = echarts.getOption(); 颜色组
+   * const myOption = myChart.getOption(); 颜色组
    * 主要注意调用时机，在回调中调用还行，在根部的话会是 undefined
    * - color: 一个长度为9的颜色列表, 是主题定义的 // 明亮模式可能无此属性，要 ?? black
    * - backgroundColor: 背景颜色
@@ -452,20 +452,20 @@ option.xAxis.axisLabel.formatter = function (val) {
   let currentMonth = date.getMonth();
   if (lastMonth !== currentMonth) { // 如果月份与上一个不同，或者这是第一个刻度
     lastMonth = currentMonth;
-    return echarts_lib.format.formatTime('yyyy-MM', val) + '\\n' +
-      echarts_lib.format.formatTime('dd', val);
+    return echarts.format.formatTime('yyyy-MM', val) + '\\n' +
+      echarts.format.formatTime('dd', val);
   } else {
     return '\\n' +   // (头部空换行保持高度不变，避免缩放时图表跳动)
-      echarts_lib.format.formatTime('dd', val);
+      echarts.format.formatTime('dd', val);
   }
 }
 
 // 自定义渲染函数 - tooltip, 支持html
 option.tooltip.formatter = function (params) {
   // let categoryName = categories[params.value[1]];
-  return echarts_lib.format.formatTime('MM-dd', params.value[2]) +
+  return echarts.format.formatTime('MM-dd', params.value[2]) +
     '/' +
-    echarts_lib.format.formatTime('MM-dd', params.value[3]) +
+    echarts.format.formatTime('MM-dd', params.value[3]) +
     '<br />' +
     params.value[0].replaceAll('\\n', '<br />');
 },
@@ -476,7 +476,7 @@ option.series[0].renderItem = function renderItem(params, api) {
   var start = api.coord([api.value(2), categoryIndex]);
   var end = api.coord([api.value(3), categoryIndex]);
   var height = api.size([0, 1])[1] * 1 - 5;
-  var rectShape = echarts_lib.graphic.clipRectByRect( // 绘制矩形，并裁减
+  var rectShape = echarts.graphic.clipRectByRect( // 绘制矩形，并裁减
     {
       x: start[0],
       y: start[1] - height / 2,
@@ -491,7 +491,7 @@ option.series[0].renderItem = function renderItem(params, api) {
     }
   );
   var text_array = api.value(0).split('\\n');
-  const textColor = echarts.getOption().textStyle.color ?? black;
+  const textColor = myChart.getOption().textStyle.color ?? "black";
   return (
     rectShape && {
       type: 'group', // group 元素，包含矩形和文本
