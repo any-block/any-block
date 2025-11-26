@@ -1096,9 +1096,9 @@ const option = {
     },
   ],
 }
-\`\`\``}});Ze.factory({id:"list2echarts_gantt",name:"ECharts甘特图",match:"list2echarts_gantt",detail:"将列表转换为放ECharts甘特图 (ECharts的甘特图是用custom模拟的)",process_param:ie.text,process_return:ie.text,process:(t,e,n)=>{let i=Gr.list2c2data(n);const r=tR(i);return nR(r)}});function Ew(t,e=!1){let n=[],i=[];for(let r=0;r<t.length;r++){const s=t[r],o={name:s.content,...e?{value:1}:{}};if(i[s.level]=o,s.level>=1&&i.hasOwnProperty(s.level-1)){let l=i[s.level-1];if(typeof l!="object"||Array.isArray(l))return console.error("list数据不合规，父节点的value值不是{}类型"),n;e&&delete l.value,l.hasOwnProperty("children")?l.children.push(o):l.children=[o]}else if(s.level==0)n.push(o);else return console.error(`list数据不合规，没有正规化. level:${s.level}, prev_nodes:${i}`),n}return n}function tR(t){let e=[],n,i=[],r,s,a;for(let o=0;o<t.length;o++){const l=t[o],u=l.content.trim();if(l.level==0){const c=u.split("/"),h=c[0].trim(),d=c[1]?c[1].trim():"P1D";a||(/^\d+$/.test(h)?a="timestamp":vt.fromISO(h).isValid?a="ISO8601":a="string");const m={content:"",start:0,end:0,duration:0,group1:0};if(a==="ISO8601"){const _=vt.fromISO(h);if(_.isValid)m.start=_.toMillis();else{console.warn("开始时间解析失败1"),n=void 0;continue}const v=vt.fromISO(d);if(v.isValid)m.end=v.toMillis();else{const w=Vt.fromISO(d);if(w.isValid)m.end=_.plus(w).toMillis();else{console.warn("结束时间解析失败1"),n=void 0;continue}}}else if(a==="timestamp"){const _=parseInt(h,10);if(!isNaN(_))m.start=_;else{console.warn("开始时间戳解析失败2"),n=void 0;continue}const v=parseInt(d,10);if(!isNaN(v))m.end=v;else{console.warn("结束时间戳解析失败2"),n=void 0;continue}}else{console.warn("暂不支持非时间格式的甘特图时间解析"),n=void 0;continue}if(r=r===void 0?m.start:Math.min(r,m.start),s=s===void 0?m.end:Math.max(s,m.end),i.length==0)m.group1=0,i.push(m.end);else{let _;for(let v=0;v<i.length;v++)if(!(m.start<i[v])){_=v,m.group1=v,i[v]=m.end;break}_===void 0&&(m.group1=i.length,i.push(m.end))}e.push(m),n=m;continue}else{if(!n||!a)continue;n.content=u,n=void 0}}return{data:e,time_mode:a,max_group1:i.length,min_time:r,max_time:s}}function nR(t){const{data:e,max_group1:n,min_time:i}=t;let r=[];for(const h of e)r.push({value:[h.content,h.group1,h.start,h.end,h.end-h.start],itemStyle:{color:s()}});function s(){const h="0123456789ABCDEF";let d="#";for(let m=0;m<6;m++)d+=h[Math.floor(Math.random()*16)];return d}const a=Array.from({length:n},(h,d)=>""),o=a.length*40,l=i??0-1440*60*1e3;let u={tooltip:{trigger:"item"},dataZoom:[{type:"slider",xAxisIndex:0,filterMode:"weakFilter",height:20,bottom:10,start:0,end:100,handleIcon:"path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z",handleSize:"80%",showDetail:!1},{type:"inside",xAxisIndex:0,filterMode:"weakFilter",start:0,end:100}],grid:{height:o,top:40,bottom:40,left:15,right:15},xAxis:{position:"top",min:l,scale:!0,splitNumber:30,axisLabel:{fontSize:10}},yAxis:{data:a,inverse:!0},series:[{type:"custom",itemStyle:{opacity:.8},encode:{x:[2,3],y:1},data:r}]};return`\`\`\`echarts
-height = ${o+80}
-const option = ${JSON.stringify(u,null,2)}
+\`\`\``}});Ze.factory({id:"list2echarts_gantt",name:"ECharts甘特图",match:"list2echarts_gantt",detail:"将列表转换为放ECharts甘特图 (ECharts的甘特图是用custom模拟的)",process_param:ie.text,process_return:ie.text,process:(t,e,n)=>{let i=Gr.list2c2data(n);const r=tR(i);return nR(r)}});function Ew(t,e=!1){let n=[],i=[];for(let r=0;r<t.length;r++){const s=t[r],o={name:s.content,...e?{value:1}:{}};if(i[s.level]=o,s.level>=1&&i.hasOwnProperty(s.level-1)){let l=i[s.level-1];if(typeof l!="object"||Array.isArray(l))return console.error("list数据不合规，父节点的value值不是{}类型"),n;e&&delete l.value,l.hasOwnProperty("children")?l.children.push(o):l.children=[o]}else if(s.level==0)n.push(o);else return console.error(`list数据不合规，没有正规化. level:${s.level}, prev_nodes:${i}`),n}return n}function tR(t){let e=[],n,i=[],r,s,a;for(let o=0;o<t.length;o++){const l=t[o],u=l.content.trim();if(l.level==0){const c=u.split("/"),h=c[0].trim(),d=c[1]?c[1].trim():"P1D";a||(/^\d+$/.test(h)?a="timestamp":vt.fromISO(h).isValid?a="ISO8601":a="string");const m={content:"",start:0,end:0,duration:0,group1:0};if(a==="ISO8601"){const _=vt.fromISO(h);if(_.isValid)m.start=_.toMillis();else{console.warn("开始时间解析失败1"),n=void 0;continue}const v=vt.fromISO(d);if(v.isValid)m.end=v.toMillis();else{const w=Vt.fromISO(d);if(w.isValid)m.end=_.plus(w).toMillis();else{console.warn("结束时间解析失败1"),n=void 0;continue}}}else if(a==="timestamp"){const _=parseInt(h,10);if(!isNaN(_))m.start=_;else{console.warn("开始时间戳解析失败2"),n=void 0;continue}const v=parseInt(d,10);if(!isNaN(v))m.end=v;else{console.warn("结束时间戳解析失败2"),n=void 0;continue}}else{console.warn("暂不支持非时间格式的甘特图时间解析"),n=void 0;continue}if(r=r===void 0?m.start:Math.min(r,m.start),s=s===void 0?m.end:Math.max(s,m.end),i.length==0)m.group1=0,i.push(m.end);else{let _;for(let v=0;v<i.length;v++)if(!(m.start<i[v])){_=v,m.group1=v,i[v]=m.end;break}_===void 0&&(m.group1=i.length,i.push(m.end))}e.push(m),n=m;continue}else{if(!n||!a)continue;n.content=u,n=void 0}}return{data:e,time_mode:a,max_group1:i.length,min_time:r,max_time:s}}function nR(t){document.body.classList.contains("theme-dark");const{data:e,max_group1:n,min_time:i}=t;let r=[];for(const c of e)r.push({value:[c.content,c.group1,c.start,c.end,c.end-c.start]});const s=Array.from({length:n},(c,h)=>""),a=s.length*40,o=i??0-1440*60*1e3;let l={tooltip:{trigger:"item"},dataZoom:[{type:"slider",xAxisIndex:0,filterMode:"weakFilter",height:20,bottom:10,start:0,end:100,handleIcon:"path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z",handleSize:"80%",showDetail:!1},{type:"inside",xAxisIndex:0,filterMode:"weakFilter",start:0,end:100}],grid:{height:a,top:40,bottom:40,left:15,right:15},xAxis:{position:"top",min:o,scale:!0,splitNumber:30,axisLabel:{fontSize:10}},yAxis:{data:s,inverse:!0},series:[{type:"custom",itemStyle:{opacity:.8},encode:{x:[2,3],y:1},data:r}]};return`\`\`\`echarts
+height = ${a+80}
+const option = ${JSON.stringify(l,null,2)}
 
 // 自定义渲染函数 - x轴
 let lastMonth = -1; // 用来记录上一个刻度的月份
@@ -1107,20 +1107,20 @@ option.xAxis.axisLabel.formatter = function (val) {
   let currentMonth = date.getMonth();
   if (lastMonth !== currentMonth) { // 如果月份与上一个不同，或者这是第一个刻度
     lastMonth = currentMonth;
-    return echarts_lib.format.formatTime('yyyy-MM', val) + '\\n' +
-      echarts_lib.format.formatTime('dd', val);
+    return echarts.format.formatTime('yyyy-MM', val) + '\\n' +
+      echarts.format.formatTime('dd', val);
   } else {
     return '\\n' +   // (头部空换行保持高度不变，避免缩放时图表跳动)
-      echarts_lib.format.formatTime('dd', val);
+      echarts.format.formatTime('dd', val);
   }
 }
 
 // 自定义渲染函数 - tooltip, 支持html
 option.tooltip.formatter = function (params) {
   // let categoryName = categories[params.value[1]];
-  return echarts_lib.format.formatTime('MM-dd', params.value[2]) +
+  return echarts.format.formatTime('MM-dd', params.value[2]) +
     '/' +
-    echarts_lib.format.formatTime('MM-dd', params.value[3]) +
+    echarts.format.formatTime('MM-dd', params.value[3]) +
     '<br />' +
     params.value[0].replaceAll('\\n', '<br />');
 },
@@ -1131,7 +1131,7 @@ option.series[0].renderItem = function renderItem(params, api) {
   var start = api.coord([api.value(2), categoryIndex]);
   var end = api.coord([api.value(3), categoryIndex]);
   var height = api.size([0, 1])[1] * 1 - 5;
-  var rectShape = echarts_lib.graphic.clipRectByRect( // 绘制矩形，并裁减
+  var rectShape = echarts.graphic.clipRectByRect( // 绘制矩形，并裁减
     {
       x: start[0],
       y: start[1] - height / 2,
@@ -1146,6 +1146,7 @@ option.series[0].renderItem = function renderItem(params, api) {
     }
   );
   var text_array = api.value(0).split('\\n');
+  const textColor = myChart.getOption().textStyle.color ?? "black";
   return (
     rectShape && {
       type: 'group', // group 元素，包含矩形和文本
@@ -1166,7 +1167,7 @@ option.series[0].renderItem = function renderItem(params, api) {
             x: start[0] + 5, // 将文本放在矩形内部，并向右偏移 5px
             y: start[1], // 垂直居中
             text: (text_array.length > 1 ? text_array[0] + '...' : text_array[0]),
-            // fill: '#fff', // 文本颜色
+            fill: textColor, // 文本颜色
             textVerticalAlign: 'middle', // 文本垂直对齐方式
             textAlign: 'left' // 文本水平对齐方式
           }
