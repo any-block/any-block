@@ -129,43 +129,44 @@ export class ABReplacer_Widget extends WidgetType {
       }
     )
 
-    // 编辑按钮部分
-    if (this.global_editor){
-      let dom_edit = this.div.createEl("div", {
-        cls: ["ab-button", "ab-button-1", "edit-block-button"], // cm-embed-block和edit-block-button是自带的js样式，用来悬浮显示的，不是我写的
-        attr: {"aria-label": "Edit the block - "+this.rangeSpec.header},
-      })
-      if (Platform.isMobileApp || Platform.isPhone || Platform.isTablet) {
-        dom_edit.classList.remove("edit-block-button"); // 移动端这里的编辑按钮有个独立逻辑，他会自动将你的编辑按钮替换掉
+    if (!this.global_editor) return this.div // 非有效的实时编辑环境
+
+    // 菜单按钮1 - 编辑
+    const btn_edit = this.div.createEl("div", {
+      cls: ["ab-button", "ab-button-1", "edit-block-button"], // cm-embed-block和edit-block-button是自带的js样式，用来悬浮显示的，不是我写的
+      attr: {"aria-label": "Edit the block - "+this.rangeSpec.header},
+    })
+    if (Platform.isMobileApp || Platform.isPhone || Platform.isTablet) {
+      btn_edit.classList.remove("edit-block-button"); // 移动端这里的编辑按钮有个独立逻辑，他会自动将你的编辑按钮替换掉
+    }
+    btn_edit.empty(); btn_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_CODE2));
+    btn_edit.onclick = () => { this.moveCursor() }
+
+    // 菜单按钮3 - 刷新
+    const btn_refresh = this.div.createEl("div", {
+      cls: ["ab-button", "ab-button-3", "edit-block-button"],
+      attr: {"aria-label": "Refresh the block"}
+    })
+    btn_refresh.empty(); btn_refresh.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_REFRESH));
+    btn_refresh.onclick = () => { abConvertEvent(this.div); this.moveCursor(-1) }
+
+    // 菜单按钮2 - 展开更多 (2要后置)
+    const btn_more = this.div.createEl("div", {
+      cls: ["ab-button", "ab-button-2", "edit-block-button"],
+      attr: {"aria-label": "More option"}
+    })
+    btn_more.empty(); btn_more.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_ELLIPSIS));
+    let is_show = false
+    {
+      btn_refresh.style.display = "none"
+    }
+    btn_more.onclick = () => {
+      is_show = !is_show
+      if (is_show) {
+        btn_refresh.style.display = "block"
+      } else {
+        btn_refresh.style.display = "none"
       }
-      dom_edit.empty(); dom_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_CODE2));
-      dom_edit.onclick = () => { this.moveCursor() }
-    }
-
-    // 刷新按钮部分
-    if (this.global_editor){
-      let dom_edit = this.div.createEl("div", {
-        cls: ["ab-button", "ab-button-2", "edit-block-button"],
-        attr: {"aria-label": "Refresh the block"}
-      })
-      dom_edit.empty(); dom_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_REFRESH));
-      dom_edit.onclick = () => { abConvertEvent(this.div); this.moveCursor(-1) }
-    }
-
-    // 展开菜单
-    if (this.global_editor) {
-      // 类型
-      let dom_edit = this.div.createEl("div", {
-        cls: ["ab-button", "ab-button-3", "edit-block-button"],
-        attr: {"aria-label": "More option"}
-      })
-      dom_edit.empty(); dom_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_ELLIPSIS));
-      dom_edit.onclick = () => { abConvertEvent(this.div); this.moveCursor(-1) }
-
-      // 刷新
-
-
-      
     }
 
     // 控件部分的隐藏
