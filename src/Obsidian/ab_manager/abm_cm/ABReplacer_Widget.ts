@@ -140,7 +140,10 @@ export class ABReplacer_Widget extends WidgetType {
       btn_edit.classList.remove("edit-block-button"); // 移动端这里的编辑按钮有个独立逻辑，他会自动将你的编辑按钮替换掉
     }
     btn_edit.empty(); btn_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_CODE2));
-    btn_edit.onclick = () => { this.moveCursor() }
+    btn_edit.onclick = () => {
+      switch_more(false)
+      this.moveCursor()
+    }
 
     // 菜单按钮3 - 复制
     const btn_copy = this.div.createEl("div", {
@@ -150,6 +153,8 @@ export class ABReplacer_Widget extends WidgetType {
     btn_copy.empty(); btn_copy.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_COPY));
     btn_copy.onclick = () => {
       if (!this.global_editor) return
+      switch_more(false)
+
       // 这里的content有两种思路
       // - 一是最原本的fromPos-toPos。但可能包含不应该被包含的前缀，需要使用 parent_prefix 去除
       // - 二是使用 rangeSpec.content + header + selector 还原。但还原过程中可能存在一些差别 (如可选空行等)，也需要 pro 模块
@@ -171,7 +176,11 @@ export class ABReplacer_Widget extends WidgetType {
       attr: {"aria-label": "Refresh the block"}
     })
     btn_refresh.empty(); btn_refresh.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_REFRESH));
-    btn_refresh.onclick = () => { abConvertEvent(this.div); this.moveCursor(-1) }
+    btn_refresh.onclick = () => {
+      switch_more(false)
+      abConvertEvent(this.div)
+      this.moveCursor(-1)
+    }
 
     // 菜单按钮2 - 展开更多 (2要后置)
     const btn_more = this.div.createEl("div", {
@@ -180,12 +189,11 @@ export class ABReplacer_Widget extends WidgetType {
     })
     btn_more.empty(); btn_more.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_ELLIPSIS));
     let is_show = false
-    {
-      btn_copy.style.display = "none"
-      btn_refresh.style.display = "none"
-    }
-    btn_more.onclick = () => {
-      is_show = !is_show
+    switch_more(false)
+    btn_more.onclick = () => switch_more()
+    function switch_more(_is_show?: boolean): void {
+      if (_is_show) is_show = _is_show
+      else is_show = !is_show
       if (is_show) {
         btn_copy.style.display = "block"
         btn_refresh.style.display = "block"
