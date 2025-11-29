@@ -1,4 +1,4 @@
-import { type MarkdownPostProcessorContext, Platform, sanitizeHTMLToDom, type Editor, type EditorPosition } from 'obsidian';
+import { type MarkdownPostProcessorContext, Platform, sanitizeHTMLToDom, type Editor, type EditorPosition, Notice } from 'obsidian';
 import {
   EditorView,
   WidgetType  // 装饰器部件
@@ -142,9 +142,32 @@ export class ABReplacer_Widget extends WidgetType {
     btn_edit.empty(); btn_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_CODE2));
     btn_edit.onclick = () => { this.moveCursor() }
 
-    // 菜单按钮3 - 刷新
-    const btn_refresh = this.div.createEl("div", {
+    // 菜单按钮3 - 复制
+    const btn_copy = this.div.createEl("div", {
       cls: ["ab-button", "ab-button-3", "edit-block-button"],
+      attr: {"aria-label": "Copy source content"}
+    })
+    btn_copy.empty(); btn_copy.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_COPY));
+    btn_copy.onclick = () => {
+      if (!this.global_editor) return
+      // 这里的content有两种思路
+      // - 一是最原本的fromPos-toPos。但可能包含不应该被包含的前缀，需要使用 parent_prefix 去除
+      // - 二是使用 rangeSpec.content + header + selector 还原。但还原过程中可能存在一些差别 (如可选空行等)，也需要 pro 模块
+      // 旧: let content = this.rangeSpec.content
+      // 这里采用方案一
+      let content = this.global_editor.getRange(
+        this.global_editor.offsetToPos(this.rangeSpec.from_ch),
+        this.global_editor.offsetToPos(this.rangeSpec.to_ch)
+      )
+      if (this.rangeSpec.prefix.length > 0) { content = content.replaceAll("\n" + this.rangeSpec.prefix, "\n") }
+      if (!content.endsWith("\n")) content += "\n"
+      navigator.clipboard.writeText(content)
+      new Notice("Copied to clipboard")
+    }
+
+    // 菜单按钮4 - 刷新
+    const btn_refresh = this.div.createEl("div", {
+      cls: ["ab-button", "ab-button-4", "edit-block-button"],
       attr: {"aria-label": "Refresh the block"}
     })
     btn_refresh.empty(); btn_refresh.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_REFRESH));
@@ -158,13 +181,16 @@ export class ABReplacer_Widget extends WidgetType {
     btn_more.empty(); btn_more.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_ELLIPSIS));
     let is_show = false
     {
+      btn_copy.style.display = "none"
       btn_refresh.style.display = "none"
     }
     btn_more.onclick = () => {
       is_show = !is_show
       if (is_show) {
+        btn_copy.style.display = "block"
         btn_refresh.style.display = "block"
       } else {
+        btn_copy.style.display = "none"
         btn_refresh.style.display = "none"
       }
     }
@@ -241,6 +267,15 @@ export class ABReplacer_Widget extends WidgetType {
           c-80.1,42.6-131.1,124.8-132.2,215.3C0.799,252.574,9.199,261.874,20.599,261.874z"/>
       </g>
     </g>
+  </svg>`
+  // https://lucide.dev/icons/copy
+  static STR_ICON_COPY = `<svg xmlns="http://www.w3.org/2000/svg"
+    width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="lucide lucide-copy-icon lucide-copy"
+  >
+    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
   </svg>`
   // https://lucide.dev/icons/ellipsis
   static STR_ICON_ELLIPSIS = `<svg xmlns="http://www.w3.org/2000/svg"
