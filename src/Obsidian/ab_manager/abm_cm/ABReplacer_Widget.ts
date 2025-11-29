@@ -127,19 +127,19 @@ export class ABReplacer_Widget extends WidgetType {
         ctx: ABCSetting.global_ctx,
         app: ABCSetting.global_app,
       }
-    );
+    )
 
     // 编辑按钮部分
     if (this.global_editor){
       let dom_edit = this.div.createEl("div", {
         cls: ["ab-button", "ab-button-1", "edit-block-button"], // cm-embed-block和edit-block-button是自带的js样式，用来悬浮显示的，不是我写的
         attr: {"aria-label": "Edit the block - "+this.rangeSpec.header},
-      });
+      })
       if (Platform.isMobileApp || Platform.isPhone || Platform.isTablet) {
         dom_edit.classList.remove("edit-block-button"); // 移动端这里的编辑按钮有个独立逻辑，他会自动将你的编辑按钮替换掉
       }
       dom_edit.empty(); dom_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_CODE2));
-      dom_edit.onclick = ()=>{this.moveCursor()}
+      dom_edit.onclick = () => { this.moveCursor() }
     }
 
     // 刷新按钮部分
@@ -147,9 +147,25 @@ export class ABReplacer_Widget extends WidgetType {
       let dom_edit = this.div.createEl("div", {
         cls: ["ab-button", "ab-button-2", "edit-block-button"],
         attr: {"aria-label": "Refresh the block"}
-      });
+      })
       dom_edit.empty(); dom_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_REFRESH));
-      dom_edit.onclick = ()=>{abConvertEvent(this.div); this.moveCursor(-1)}
+      dom_edit.onclick = () => { abConvertEvent(this.div); this.moveCursor(-1) }
+    }
+
+    // 展开菜单
+    if (this.global_editor) {
+      // 类型
+      let dom_edit = this.div.createEl("div", {
+        cls: ["ab-button", "ab-button-3", "edit-block-button"],
+        attr: {"aria-label": "More option"}
+      })
+      dom_edit.empty(); dom_edit.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_ELLIPSIS));
+      dom_edit.onclick = () => { abConvertEvent(this.div); this.moveCursor(-1) }
+
+      // 刷新
+
+
+      
     }
 
     // 控件部分的隐藏
@@ -224,6 +240,16 @@ export class ABReplacer_Widget extends WidgetType {
           c-80.1,42.6-131.1,124.8-132.2,215.3C0.799,252.574,9.199,261.874,20.599,261.874z"/>
       </g>
     </g>
+  </svg>`
+  // https://lucide.dev/icons/ellipsis
+  static STR_ICON_ELLIPSIS = `<svg xmlns="http://www.w3.org/2000/svg"
+    width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="lucide lucide-ellipsis-icon lucide-ellipsis"
+  >
+    <circle cx="12" cy="12" r="1"/>
+    <circle cx="19" cy="12" r="1"/>
+    <circle cx="5" cy="12" r="1"/>
   </svg>`
 }
 

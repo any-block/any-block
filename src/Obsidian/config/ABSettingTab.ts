@@ -350,7 +350,9 @@ export class ABSettingTab extends PluginSettingTab {
         .setName(t("License Expiry"))
         .addText(text => text
           .setDisabled(true)
-          .setValue(expiry.expiry > 0 ? new Date(expiry.expiry).toLocaleDateString() : "No license")
+          .setValue(expiry.expiry > 0 ?
+            new Date(expiry.expiry).toLocaleDateString() :
+            "No License: " + expiry.expiry)
         )
       new Setting(ab_tab_content_item)
         .setName("Debug")
