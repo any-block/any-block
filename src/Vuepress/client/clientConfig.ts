@@ -100,7 +100,7 @@ function render_anyblock_fence() {
     // anyBlock专属渲染
     // public static autoABConvert(el:HTMLDivElement, header:string, content:string, selectorName:string = "", ctx?: any): void
     el.style.display = 'none'
-    const newEl = document.createElement('div'); el.after(newEl);
+    const newEl = document.createElement('div'); el.after(newEl); newEl.classList.add("ab-note", "drop-shadow");
     ABConvertManager.autoABConvert(newEl, ab_header, ab_content, '', undefined)
   })
 }
