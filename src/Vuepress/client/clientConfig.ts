@@ -4,15 +4,15 @@
  * 主要影响：nodes、card瀑布流 等处理器
  */
 
-import { defineClientConfig } from 'vuepress/client'
-
+import { defineClientConfig, usePageData } from 'vuepress/client'
 import { nextTick, watch } from 'vue'
-import { usePageData } from 'vuepress/client'
+import MarkdownIt from 'markdown-it'
 
 // import { abConvertEvent } from '../ABConvertManager/ABConverter/ABConvertEvent.js' // anyblock - 源码版
 // import '../ABConvertManager/ABConverter/style/styles.css';                         // anyblock - 源码版
-import { abConvertEvent } from 'markdown-it-any-block'                                // anyblock - npm版
+import { abConvertEvent, ABConvertManager } from 'markdown-it-any-block'              // anyblock - npm版
 import '../../../../../node_modules/markdown-it-any-block/styles.css';                // anyblock - npm版
+const IS_CLIENT = false
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -43,6 +43,7 @@ function newPageHook_init (
     // console.log("newPageHook_fn", page.value.path)
     await nextTick()
     await wait(delay/4) // 分两次更新，能确保响应够快，同时慢修改加载慢的东西
+    if (IS_CLIENT) render_anyblock_fence()
     abConvertEvent(document)
     await wait(delay/4*3)
     abConvertEvent(document)
@@ -57,5 +58,49 @@ function newPageHook_init (
    */
   watch(() => [page.value.path, enabled], newPageHookFn, {
     immediate: true,
+  })
+}
+
+// ---------------- ABConvertManager 相关 ----------------
+
+const md = new MarkdownIt()
+ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HTMLElement): void => {
+  el.classList.add("markdown-rendered")
+  
+  const result: string = md.render(markdown)
+  const el_child = document.createElement("div"); el.appendChild(el_child); el_child.innerHTML = result;
+})
+
+/**
+ * client 端渲染，较于 node 端渲染缺点:
+ * 
+ * - 缺少url修正，vuepress中可能图片等资源的路径会被改变，在client端无法指向
+ * - 缺少选择器类型，一些别名可能会失效
+ * - 无法使用 node 端生效的 markdown-it 插件，只能用原生的 markdown-it 进行再渲染
+ */
+function render_anyblock_fence() {
+  const blocks = document.querySelectorAll('div.language-anyblock')
+
+  blocks.forEach((el: HTMLElement) => {
+    const codeEl = el.querySelector('pre code') || el.querySelector('pre')
+    if (!codeEl) return
+    const content: string = codeEl.textContent
+
+    // take from anyblock index_mdit.ts
+    // 抽离指令头和内容
+    let lines = content.split('\n')
+    let ab_header: string|undefined = lines.shift()
+    if (typeof ab_header === 'undefined') { return }
+    const match = ab_header.match(/\[(.*)\]/)
+    if (!match || match?.length < 1) { return }
+    ab_header = match[1]
+    let ab_content: string = lines.join('\n')
+    ab_content = ab_content.trimStart() // TODO 这里去除了空行以外的前面空格，是否存在问题
+
+    // anyBlock专属渲染
+    // public static autoABConvert(el:HTMLDivElement, header:string, content:string, selectorName:string = "", ctx?: any): void
+    el.style.display = 'none'
+    const newEl = document.createElement('div'); el.after(newEl);
+    ABConvertManager.autoABConvert(newEl, ab_header, ab_content, '', undefined)
   })
 }
