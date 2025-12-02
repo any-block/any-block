@@ -433,3 +433,20 @@ export function ab_mdit(md: MarkdownIt, options?: Partial<Options>): void {
   md.use(abSelector_container)
   md.use(abRender_fence)
 }
+
+export function ab_mdit_client(md: MarkdownIt, options?: Partial<Options>): void {
+  // 定义默认渲染行为
+  ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HTMLElement): void => {
+    el.classList.add("markdown-rendered")
+    
+    const result: string = md.render(markdown)
+    const el_child = document.createElement("div"); el.appendChild(el_child); el_child.innerHTML = result;
+  })
+
+  // 定义环境条件
+  ABCSetting.env = "vuepress"
+
+  md.use(abSelector_squareInline)
+  md.use(abSelector_container)
+  // md.use(abRender_fence) // [!code hl] client端不在node端渲染，在client阶段再去找fence并渲染
+}

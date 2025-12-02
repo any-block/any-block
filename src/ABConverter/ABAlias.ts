@@ -96,7 +96,8 @@ interface ABAlias_json_item {
   replacement: string
 }
 
-// 允许带参数的部分 (这部分的遍历会更耗时间。为了性能考虑，单独拿出来)
+// 允许带参数的部分
+// ~~(这部分的遍历会更耗时间。为了性能考虑，单独拿出来)~~ 并不会影响遍历，只有执行时有一点消耗
 const ABAlias_json_withSub: ABAlias_json_item[] = [
   // 分下类，排下序
   // `gfm` 就支持五种: note, tip, important, warning, caution
