@@ -23,13 +23,16 @@
 - 默认 node 端渲染
 - 切换方式: 修改 node/index.ts 和 client/clientConfig.ts 两个文件 IS_CLIENT 变量
 
-比较 node/client 端渲染
+比较 node/client 端渲染，重点说缺点
 
 - node端渲染
   - 需要在node端通过 JSDOM 模拟浏览器环境 (可能存在插件和vitepress的冲突风险)
-  - 减少一些client端存在的问题
+  - (减少一些client端存在的问题)
+  - 事件方法不好写，需要函数转字符串
+  - 可以为其他插件也提供一个虚拟 dom 环境 (同时为优缺点)
 - client端渲染
   - 无需在node端模拟浏览器环境
+  - (减少一些node端存在的问题)
   - 缺少url修正，vuepress中可能图片等资源的路径会被改变，在client端无法指向
   - 缺少选择器类型，一些别名可能会失效
   - 无法使用 node 端生效的 markdown-it 插件，只能用原生的 markdown-it 进行再渲染
