@@ -40,11 +40,16 @@ export default class AnyBlockPlugin extends Plugin {
 
     // 右下角状态栏 - 刷新按钮
     {
-      const statusBtn = this.addStatusBarItem().createEl('div', {
+      const statusBtnContainer = this.addStatusBarItem();
+      statusBtnContainer.addClass('mod-clickable');
+
+      const statusBtn = statusBtnContainer.createEl('div', {
         cls: 'ab-rebuildview-btn'
       })
-      setIcon(statusBtn, 'refresh-cw')
+
+      setIcon(statusBtn, 'refresh-cw');
       statusBtn.setAttribute('aria-label', 'Rebuild View');
+		  statusBtn.setAttribute('data-tooltip-position', 'top');
       statusBtn.onclick = () => {
         const leaf = this.app.workspace.getActiveViewOfType(MarkdownView)?.leaf; if (!leaf) { return }
         // @ts-expect-error
