@@ -12,12 +12,13 @@ import MarkdownIt from 'markdown-it'
 // import '../ABConvertManager/ABConverter/style/styles.css';                         // anyblock - 源码版
 import { abConvertEvent, ABConvertManager } from 'markdown-it-any-block'              // anyblock - npm版
 import '../../../../../node_modules/markdown-it-any-block/styles.css';                // anyblock - npm版
-const IS_CLIENT = false
+const CLIENT_MODE = false
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 export default defineClientConfig({
   setup() {
+    if (typeof document == 'undefined') return
     newPageHook_init()
   },
 })
@@ -43,7 +44,7 @@ function newPageHook_init (
     // console.log("newPageHook_fn", page.value.path)
     await nextTick()
     await wait(delay/4) // 分两次更新，能确保响应够快，同时慢修改加载慢的东西
-    if (IS_CLIENT) render_anyblock_fence()
+    if (CLIENT_MODE) render_anyblock_fence()
     abConvertEvent(document)
     await wait(delay/4*3)
     abConvertEvent(document)

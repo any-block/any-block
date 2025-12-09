@@ -101,13 +101,14 @@ export const expiry = { // 仅用于显示，无其他用处
 
 /** 设置值面板 */
 export class ABSettingTab extends PluginSettingTab {
-	plugin: AnyBlockPlugin
+  plugin: AnyBlockPlugin
   processorPanel: HTMLElement
   selectorPanel: HTMLElement
 
-	constructor(app: App, plugin: AnyBlockPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
+  // 需要同步obsidian设置和通用设置，保持一致性
+  constructor(app: App, plugin: AnyBlockPlugin) {
+    super(app, plugin);
+    this.plugin = plugin;
 
     // Convert模块
     ABCSetting.is_debug = this.plugin.settings.is_debug
@@ -184,7 +185,7 @@ export class ABSettingTab extends PluginSettingTab {
     new Setting(ab_tab_content_item)
       .setName('源码模式中启用')
       .setDesc('推荐：不启用')
-			.addDropdown((component)=>{
+      .addDropdown((component)=>{
         component
         .addOption(ConfDecoration.none, "不启用")
         .addOption(ConfDecoration.inline, "仅启用线装饰")
@@ -199,7 +200,7 @@ export class ABSettingTab extends PluginSettingTab {
     new Setting(ab_tab_content_item)
       .setName('实时模式中启用')
       .setDesc('推荐：启用块装饰/线装饰')
-			.addDropdown((component)=>{
+      .addDropdown((component)=>{
         component
         .addOption(ConfDecoration.none, "不启用")
         .addOption(ConfDecoration.inline, "仅启用线装饰")
@@ -214,7 +215,7 @@ export class ABSettingTab extends PluginSettingTab {
     new Setting(ab_tab_content_item)
       .setName('渲染模式中启用')
       .setDesc('推荐：启用块装饰')
-			.addDropdown((component)=>{
+      .addDropdown((component)=>{
         component
         .addOption(ConfDecoration.none, "不启用")
         .addOption(ConfDecoration.block, "启用块装饰")
@@ -360,8 +361,7 @@ export class ABSettingTab extends PluginSettingTab {
         .addToggle(toggle => toggle
           .setValue(settings.is_debug)
           .onChange(async (value) => {
-            settings.is_debug = value
-            ABCSetting.is_debug = value
+            settings.is_debug = value; ABCSetting.is_debug = value;
             await this.plugin.saveSettings()
           })
         )
@@ -397,7 +397,7 @@ export class ABSettingTab extends PluginSettingTab {
       }
     }
     // #endregion
-	}
+  }
 }
 
 /** 设置子面板 - 自定义处理器 */
@@ -419,7 +419,7 @@ class ABProcessorModal extends Modal {
     this.onSubmit = onSubmit
   }
 
-  onOpen() {	// onOpen() 方法在对话框打开时被调用，它负责创建对话框中的内容。想要获取更多信息，可以查阅 HTML elements。
+  onOpen() {  // onOpen() 方法在对话框打开时被调用，它负责创建对话框中的内容。想要获取更多信息，可以查阅 HTML elements。
     let { contentEl } = this;
     contentEl.setText(t("Custom processor"));
     contentEl.createEl("p", {text: ""})
@@ -473,7 +473,7 @@ class ABProcessorModal extends Modal {
       })
   }
 
-  onClose() {	// onClose() 方法在对话框被关闭时调用，它负责清理对话框所占用的资源。
+  onClose() {  // onClose() 方法在对话框被关闭时调用，它负责清理对话框所占用的资源。
     let { contentEl } = this;
     contentEl.empty();
   }
@@ -496,7 +496,7 @@ class ABModal_alias extends Modal {
     this.onSubmit = onSubmit
   }
 
-  onOpen() {	// onOpen() 方法在对话框打开时被调用，它负责创建对话框中的内容。想要获取更多信息，可以查阅 HTML elements。
+  onOpen() {  // onOpen() 方法在对话框打开时被调用，它负责创建对话框中的内容。想要获取更多信息，可以查阅 HTML elements。
     let { contentEl } = this;
     contentEl.setText(t("Custom alias"));
     contentEl.createEl("p", {text: ""})
@@ -532,7 +532,7 @@ class ABModal_alias extends Modal {
       })
   }
 
-  onClose() {	// onClose() 方法在对话框被关闭时调用，它负责清理对话框所占用的资源。
+  onClose() {  // onClose() 方法在对话框被关闭时调用，它负责清理对话框所占用的资源。
     let { contentEl } = this;
     contentEl.empty();
   }

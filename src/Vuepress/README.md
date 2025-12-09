@@ -21,7 +21,7 @@
 切换 node/client 端渲染
 
 - 默认 node 端渲染
-- 切换方式: 修改 node/index.ts 和 client/clientConfig.ts 两个文件 IS_CLIENT 变量
+- 切换方式: 修改 `node/index.ts` 和 `client/clientConfig.ts` 两个文件 `CLIENT_MODE` 变量
 
 比较 node/client 端渲染，重点说缺点
 
@@ -68,3 +68,20 @@ const userConfig: UserConfig = {
 (客户端渲染暂未支持)
 
 依赖于 `markdown-it-any-block`
+
+## 仅个人备注 (如果你不是使用 LincZero.github.io 来改，则无需看这章)
+
+注意我个人的一些插件也依赖 jsdom，包括:
+
+- (markdown extends)
+  - chatview_mdit
+- (plugins)
+  - myLayout
+    - relational_graph
+
+如果 anyblock 要改成 client 模式，即不再提供虚拟dom。
+
+则其他插件也要改。但那边我暂时还没弄
+如果不能改，引入和启用都要注释掉
+
+否则 build 时报错 (dev倒不会): document 或 window 缺失
