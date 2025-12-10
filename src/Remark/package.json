@@ -1,6 +1,6 @@
 {
   "name": "@anyblock/remark-any-block",
-  "version": "1.0.0-beta1",
+  "version": "1.0.0-beta2",
   "description": "You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table`.",
   "main": "index.js",
   "publishConfig": {

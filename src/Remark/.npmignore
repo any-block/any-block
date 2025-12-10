@@ -1,0 +1,4 @@
+node_modules
+rollup.config.*
+tsup.config.*
+*.map
