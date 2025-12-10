@@ -13,11 +13,11 @@ export default defineConfig({
     lib: {
       entry: './index.ts',
 
-      name: 'MdItAnyBlock',
+      name: 'RemarkAnyBlock',
       formats: ['es', 'cjs'], //  ['es', 'cjs']
       fileName: (format) => format == 'es'
-        ? `mdit-any-block.js`
-        : `mdit-any-block.cjs`,
+        ? `remark-any-block.js`
+        : `remark-any-block.cjs`,
     },
     rollupOptions: {
       // 确保您的库与其他包兼容
