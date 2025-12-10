@@ -75,7 +75,7 @@ const abc_mditABDemo = ABConvert.factory({
     // 如果内部包含 mermaid/mermaid markmap/markmap 这三个图，会渲染失败或位置错误
 
     // 二选一，markdown-it-tab 版本
-    if (ABCSetting.env == "vuepress") {
+    if (ABCSetting.env == "markdown-it") {
       ABConvertManager.getInstance().m_renderMarkdownFn(`::::: tabs
 
 @tab show

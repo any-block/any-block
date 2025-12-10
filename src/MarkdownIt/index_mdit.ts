@@ -427,7 +427,7 @@ export function ab_mdit(md: MarkdownIt, options?: Partial<Options>): void {
   })
 
   // 定义环境条件
-  ABCSetting.env = "vuepress"
+  ABCSetting.env = "markdown-it"
 
   md.use(abSelector_squareInline)
   md.use(abSelector_container)
@@ -444,7 +444,7 @@ export function ab_mdit_client(md: MarkdownIt, options?: Partial<Options>): void
   })
 
   // 定义环境条件
-  ABCSetting.env = "vuepress"
+  ABCSetting.env = "markdown-it"
 
   md.use(abSelector_squareInline)
   md.use(abSelector_container)

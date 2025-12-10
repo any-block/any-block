@@ -61,7 +61,7 @@ export const ABReg = {
  */
 export const ABCSetting: {
   is_debug: boolean,
-  env: "obsidian"|"obsidian-min"|"obsidian-pro"|"app"|"vuepress",
+  env: "obsidian"|"obsidian-min"|"obsidian-pro"|"app"|"markdown-it"|"remark",
   global_app: any,
   global_ctx: any,
   mermaid?: Promise<any>,
