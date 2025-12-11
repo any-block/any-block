@@ -1,9 +1,3 @@
-// import { unified } from 'unified';
-// import remarkParse from 'remark-parse';
-// import remarkRehype from 'remark-rehype';
-// import rehypeStringify from 'rehype-stringify';
-
-// import { remove } from "unist-util-remove"
 import { Plugin } from "unified"
 import { Root, RootContent, Paragraph, Text, Code, Html } from "mdast"
 import type { VFile } from "vfile"
@@ -187,7 +181,7 @@ export const remark_anyblock_to_codeblock: Plugin<[Partial<AnyBlockOptions>?], R
   }
 
 // 渲染 anyblock 代码块
-export const remark_anyblock_render_codeblock = () => {
+const remark_anyblock_render_codeblock = () => {
   if (typeof document == "undefined") return
   return (tree: Root, _file: VFile) => {
     visit(tree, "code", (node: Code, index: number|undefined, parent: any|undefined) => { // 遍历所有的 code 类型节点
