@@ -54,15 +54,18 @@ export interface AnyBlockOptions {
  */
 function matchAbHeader(node: RootContent): string | null {
   if (node.type !== "paragraph") return null;
+
   const text = (node.children as RootContent[])
     .map((c) => (c.type === "text" ? (c as Text).value : ""))
     .join("");
-  const m = text.match(ABReg.reg_header);
-  return m && m[1] ? m[1] : null;
+  const match = text.match(ABReg.reg_header_noprefix);
+  if (!match || !match.length) return null
+
+  return match[5]
 }
 
 /**
- * 检测 `:::container` 段落
+ * 检测 `:::container` 首段落
  * 匹配时返回 `{flag, type}`
  */
 function matchContainerStart(node: RootContent):
@@ -79,9 +82,9 @@ function matchContainerStart(node: RootContent):
 }
 
 /**
- * 检测到一个 `:::` 结尾的段落
+ * 检测 `:::container` 尾段落
  */
-function isContainerEnd(node: RootContent, flag: string): boolean {
+function matchContainerEnd(node: RootContent, flag: string): boolean {
   if (node.type !== "paragraph") return false;
   const text = (node.children as RootContent[])
     .map((c) => (c.type === "text" ? (c as Text).value : ""))
@@ -91,7 +94,7 @@ function isContainerEnd(node: RootContent, flag: string): boolean {
 }
 
 /**
- * 将一组 mdast 节点序列化为 markdown 格式
+ * 将一组 mdast 节点反序列化为 markdown 格式
  */
 function nodesToMarkdown(nodes: RootContent[]): string {
   return toMarkdown(
@@ -107,86 +110,73 @@ function nodesToMarkdown(nodes: RootContent[]): string {
  * - `:::type ... :::`
  */
 export const remark_anyblock_to_codeblock: Plugin<[Partial<AnyBlockOptions>?], Root> =
-  (_options = {}) =>
-  (tree) => {
-    const out: RootContent[] = [];
-    const children = [...tree.children] as RootContent[];
+  (_options = {}) => (tree) =>
+{
+  const children = [...tree.children] as RootContent[];
 
-    for (let i = 0; i < children.length; i++) {
-      const node = children[i];
+  const out: RootContent[] = [];
+  for (let i = 0; i < children.length; i++) {
+    const node = children[i];
 
-      // --- square-inline header flow ---
-      const header = matchAbHeader(node);
-      if (header) {
-        const body: RootContent[] = [];
-        let j = i + 1;
-        for (; j < children.length; j++) {
-          const n = children[j];
-          if (
-            n.type === "list" ||
-            n.type === "heading" ||
-            n.type === "code" ||
-            n.type === "blockquote" ||
-            n.type === "table"
-          ) {
-            body.push(n);
-            continue;
-          }
-          // stop when first non-matching block is hit
-          break;
-        }
-        if (body.length > 0) {
-          const codeValue = `[${header}]\n${nodesToMarkdown(body)}`;
-          out.push({
-            type: "code",
-            lang: "AnyBlock",
-            value: codeValue,
-            data: { markup: "[]" },
-          } as Code);
-          i = j - 1;
-          continue;
-        }
-      }
-
-      // --- ::: container flow ---
-      const container = matchContainerStart(node);
-      if (container) {
-        const body: RootContent[] = [];
-        let j = i + 1;
-        for (; j < children.length; j++) {
-          const n = children[j];
-          if (isContainerEnd(n, container.flag)) {
-            break;
-          }
-          body.push(n);
-        }
-        if (j < children.length) {
-          const codeValue = `[${container.type}]\n${nodesToMarkdown(body)}`;
-          out.push({
-            type: "code",
-            lang: "AnyBlock",
-            value: codeValue,
-            data: { markup: container.flag },
-          } as Code);
-          i = j; // skip closing line
-          continue;
-        }
-      }
-
-      // default passthrough
-      out.push(node);
+    // step1. 检测 `[]` 语法
+    const header = matchAbHeader(node);
+    if (header) {
+      const node_next = children[i+1];
+      if (
+        node_next.type === "list" ||
+        node_next.type === "heading" ||
+        node_next.type === "code" ||
+        node_next.type === "blockquote" ||
+        node_next.type === "table"
+      ) {
+        const codeValue = `[${header}]\n${nodesToMarkdown([node_next])}`;
+        out.push({
+          type: "code",
+          lang: "anyblock",
+          value: codeValue,
+          data: { markup: "[]" },
+        } as Code);
+        i++; continue;
+      } else {}
     }
 
-    (tree as Root).children = out;
+    // step2. 检测 `:::` 语法
+    const container = matchContainerStart(node);
+    if (container) {
+      const body: RootContent[] = [];
+      let j = i + 1;
+      for (; j < children.length; j++) {
+        const n = children[j];
+        if (matchContainerEnd(n, container.flag)) {
+          break;
+        }
+        body.push(n);
+      }
+      if (j < children.length) {
+        const codeValue = `[${container.type}]\n${nodesToMarkdown(body)}`;
+        out.push({
+          type: "code",
+          lang: "anyblock",
+          value: codeValue,
+          data: { markup: container.flag },
+        } as Code);
+        i = j; continue;
+      }
+    }
+
+    // step3. 不处理的节点，保持不变
+    out.push(node)
   }
+
+  (tree as Root).children = out;
+}
 
 // 渲染 anyblock 代码块
 export const remark_anyblock_render_codeblock = () => {
   if (typeof document == "undefined") return
   return (tree: Root, _file: VFile) => {
     visit(tree, "code", (node: Code, index: number|undefined, parent: any|undefined) => { // 遍历所有的 code 类型节点
-      console.log("\nanyblock codeblock transformer visit:", node)
-      if (node.lang != "anyblock") return
+      if (node.lang.toLowerCase() != "anyblock") return
       if (!parent || !index) return
 
       const lines = node.value.split("\n")
@@ -203,8 +193,6 @@ export const remark_anyblock_render_codeblock = () => {
       ABConvertManager.autoABConvert(el, header, content, markup.startsWith(":::") ? "mdit" : "");
 
       // new node
-      console.log("\nanyblock codeblock transformer visit2:", header, 'c==', content)
-      console.log("\nanyblock codeblock transformer visit3:", el.outerHTML, el)
       const new_node: Html = {
         type: 'html',
         value: el.outerHTML,
@@ -245,7 +233,7 @@ export const transformer_anyblock: QuartzTransformerPlugin = (/*options: any*/) 
     name: "AnyBlock",
     markdownPlugins(_ctx: BuildCtx) {
       return [
-        // remark_anyblock_to_codeblock,
+        remark_anyblock_to_codeblock,
         remark_anyblock_render_codeblock, // last
       ]
     },
