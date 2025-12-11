@@ -181,7 +181,7 @@ export const remark_anyblock_to_codeblock: Plugin<[Partial<AnyBlockOptions>?], R
   }
 
 // 渲染 anyblock 代码块
-const remark_anyblock_render_codeblock = () => {
+export const remark_anyblock_render_codeblock = () => {
   if (typeof document == "undefined") return
   return (tree: Root, _file: VFile) => {
     visit(tree, "code", (node: Code, index: number|undefined, parent: any|undefined) => { // 遍历所有的 code 类型节点
