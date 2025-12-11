@@ -188,6 +188,7 @@ export const remark_anyblock_to_codeblock: Plugin<[Partial<AnyBlockOptions>?], R
 
 // 渲染 anyblock 代码块
 export const remark_anyblock_render_codeblock = () => {
+  if (!document) return
   return (tree: Root, _file: VFile) => {
     visit(tree, "code", (node: Code, index: number|undefined, parent: any|undefined) => { // 遍历所有的 code 类型节点
       console.log("\nanyblock codeblock transformer visit:", node)
