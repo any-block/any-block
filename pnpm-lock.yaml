@@ -259,6 +259,9 @@ importers:
 
   src/Remark:
     dependencies:
+      jsdom:
+        specifier: ^26.1.0
+        version: 26.1.0
       markdown-it:
         specifier: ^14.1.0
         version: 14.1.0

@@ -1,6 +1,6 @@
 {
   "name": "@anyblock/remark-any-block",
-  "version": "1.0.0-beta8",
+  "version": "1.0.0-beta9",
   "description": "You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table`.",
   "types": "@types/index_remark.d.ts",
   "type": "module",
@@ -26,6 +26,7 @@
   "license": "GNU Affero General Public License v3.0",
   "packageManager": "pnpm@10.10.0",
   "dependencies": {
+    "jsdom": "^26.1.0",
     "markdown-it": "^14.1.0",
     "mdast": "^3.0.0",
     "mdast-util-to-markdown": "^2.1.2",
