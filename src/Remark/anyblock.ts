@@ -187,7 +187,7 @@ export const remark_anyblock_to_codeblock: Plugin<[Partial<AnyBlockOptions>?], R
   }
 
 // 渲染 anyblock 代码块
-const remark_anyblock_render_codeblock = () => {
+export const remark_anyblock_render_codeblock = () => {
   return (tree: Root, _file: VFile) => {
     visit(tree, "code", (node: Code, index: number|undefined, parent: any|undefined) => { // 遍历所有的 code 类型节点
       console.log("\nanyblock codeblock transformer visit:", node)
@@ -222,7 +222,7 @@ const remark_anyblock_render_codeblock = () => {
 
 {
   // 定义环境条件
-  ABCSetting.env = "markdown-it"; // remark
+  ABCSetting.env = "remark";
 
   // 定义默认渲染行为 // [!code hl] risk 同步适配异步，可能会存在问题
   ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HTMLElement):void => {
