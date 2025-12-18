@@ -1,8 +1,11 @@
 import { Plugin } from "unified"
 import { Root, RootContent, Paragraph, Text, Code, Html } from "mdast"
 import type { VFile } from "vfile"
-import { toMarkdown } from "mdast-util-to-markdown"
 import { visit } from "unist-util-visit"
+import { toMarkdown } from "mdast-util-to-markdown" // TODO 这里好像会有 document 依赖
+  // 而且不一定能反序列化成功 (有私有节点类型，甚至table类型都不能识别)
+  // 后期需要去除此 "修改树" 的 `transformer` / `mdast-util` 插件
+  // 修改成 `micromarkExtensions` 形式的插件
 
 // 这里不想去依赖 Quartz 项目，所以用any。但是你可以去看具体的类型定义
 // import { type QuartzTransformerPlugin } from "../types"
@@ -126,8 +129,8 @@ export const remark_anyblock_to_codeblock: Plugin<[Partial<AnyBlockOptions>?], R
         node_next.type === "list" ||
         node_next.type === "heading" ||
         node_next.type === "code" ||
-        node_next.type === "blockquote" ||
-        node_next.type === "table"
+        node_next.type === "blockquote"
+        // node_next.type === "table"
       ) {
         const codeValue = `[${header}]\n${nodesToMarkdown([node_next])}`;
         out.push({
