@@ -236,7 +236,7 @@ export const transformer_anyblock: QuartzTransformerPlugin = (/*options: any*/) 
     name: "AnyBlock",
     markdownPlugins(_ctx: BuildCtx) {
       return [
-        remark_anyblock_to_codeblock,
+        // remark_anyblock_to_codeblock, // 取消注释则用库的地方会报错找不到 document
         remark_anyblock_render_codeblock, // last
       ]
     },
