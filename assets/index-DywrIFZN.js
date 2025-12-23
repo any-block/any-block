@@ -1020,7 +1020,7 @@ ${n}
 @tab mdSource
 ~~~~~md
 ${n}
-~~~~~`;return S8.process(t,e,i),t}});Ze.factory({id:"mditABDemo",name:"AnyBlock专用展示对比",process_param:ie.text,process_return:ie.el,process:(t,e,n)=>{if(vi.env=="vuepress")return vn.getInstance().m_renderMarkdownFn(`::::: tabs
+~~~~~`;return S8.process(t,e,i),t}});Ze.factory({id:"mditABDemo",name:"AnyBlock专用展示对比",process_param:ie.text,process_return:ie.el,process:(t,e,n)=>{if(vi.env=="markdown-it")return vn.getInstance().m_renderMarkdownFn(`::::: tabs
 
 @tab show
 
