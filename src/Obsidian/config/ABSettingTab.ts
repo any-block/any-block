@@ -359,9 +359,9 @@ export class ABSettingTab extends PluginSettingTab {
         .setName("Debug")
         .setDesc("Only for developer use")
         .addToggle(toggle => toggle
-          .setValue(settings.is_debug)
+        .setValue(settings.is_debug)
           .onChange(async (value) => {
-            settings.is_debug = value; ABCSetting.is_debug = value;
+            settings.is_debug = value
             await this.plugin.saveSettings()
           })
         )

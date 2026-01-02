@@ -19,8 +19,7 @@ import { ABConvertManager, ABCSetting } from "@/ABConverter/index"
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
 import { ABSelector_PostHtml } from "./ab_manager/abm_html/ABSelector_PostHtml"
-import type { ABSettingInterface } from "./config/ABSettingTab"
-import { ABSettingTab, AB_SETTINGS } from "./config/ABSettingTab"
+import { ABSettingTab, AB_SETTINGS, type ABSettingInterface } from "./config/ABSettingTab"
 
 export default class AnyBlockPlugin extends Plugin {
   settings: ABSettingInterface
@@ -41,7 +40,7 @@ export default class AnyBlockPlugin extends Plugin {
 
       setIcon(statusBtn, 'refresh-cw');
       statusBtn.setAttribute('aria-label', 'Rebuild View');
-		  statusBtn.setAttribute('data-tooltip-position', 'top');
+      statusBtn.setAttribute('data-tooltip-position', 'top');
       statusBtn.onclick = () => {
         const leaf = this.app.workspace.getActiveViewOfType(MarkdownView)?.leaf; if (!leaf) { return }
         // @ts-expect-error
@@ -130,16 +129,19 @@ export default class AnyBlockPlugin extends Plugin {
 
   async loadSettings() {
     const data = await this.loadData() // 如果没有配置文件则为null
-		this.settings = Object.assign({}, AB_SETTINGS, data); // 合并默认值和配置文件的值
+    this.settings = Object.assign({}, AB_SETTINGS, data); // 合并默认值和配置文件的值
 
     // 如果没有配置文件则生成一个默认值的配置文件
     if (!data) {
       this.saveData(this.settings)
     }
-	}
-	async saveSettings() {
-		await this.saveData(this.settings)
-	}
+  }
+  async saveSettings() {
+    // 部分配置项需要保持一致性
+    ABCSetting.is_debug = this.settings.is_debug
+
+    await this.saveData(this.settings)
+  }
 
   onunload() {
     console.log('<<< Unloading plugin AnyBlock')

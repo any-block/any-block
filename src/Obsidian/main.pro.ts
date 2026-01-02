@@ -27,8 +27,7 @@ import { onUpdateLicense } from "@/Pro/src/index.ob" // [!code hl] obsidian-pro 
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
 import { ABSelector_PostHtml } from "./ab_manager/abm_html/ABSelector_PostHtml"
-import type { ABSettingInterface } from "./config/ABSettingTab"
-import { ABSettingTab, AB_SETTINGS, expiry } from "./config/ABSettingTab"
+import { ABSettingTab, AB_SETTINGS, type ABSettingInterface } from "./config/ABSettingTab"
 
 export default class AnyBlockPlugin extends Plugin {
   settings: ABSettingInterface
@@ -148,6 +147,9 @@ export default class AnyBlockPlugin extends Plugin {
   }
 
   async saveSettings() {
+    // 部分配置项需要保持一致性
+    ABCSetting.is_debug = this.settings.is_debug
+
     await this.saveData(this.settings)
     expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
   }
