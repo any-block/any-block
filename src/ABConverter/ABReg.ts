@@ -41,9 +41,9 @@ export const ABReg = {
   reg_mdit_head_noprefix:/^((\s)*)(::::*)\s?(.*)/,
   reg_mdit_tail_noprefix:/^((\s)*)(::::*)/,
   reg_list_noprefix:     /^((\s)*)(-\s|\*\s|\+\s)(.*)/,
-  reg_code_noprefix:     /^((\s)*)(````*|~~~~*)(.*)/,      
-  reg_quote_noprefix:    /^((\s)*)(>\s)(.*)/,          
-  reg_heading_noprefix:  /^((\s)*)(\#+\s)(.*)/,         
+  reg_code_noprefix:     /^((\s)*)(````*|~~~~*)(.*)/,
+  reg_quote_noprefix:    /^((\s)*)(>\s)(.*)/,
+  reg_heading_noprefix:  /^((\s)*)(\#+\s)(.*)/,
   reg_table_noprefix:    /^((\s)*)(\|(.*)\|)/,
 
   reg_emptyline_noprefix:/^\s*$/,

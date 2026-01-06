@@ -42,6 +42,8 @@ export interface ABSettingInterface {
   // 其他
   is_debug: boolean,                // 是否开启调试打印
   enhance_refresh_time: number,     // 刷新增强的刷新时间 (ms) (<1000为关闭，最快1s)
+  reg_header: string,               // 正则 - square brackets
+  reg_header_noprefix: string,
   inline_split: string,             // 正则里的内联分隔符
   license_key: string               // pro版许可证密钥
 }
@@ -90,7 +92,9 @@ export const AB_SETTINGS: ABSettingInterface = {
 
   is_debug: false,
   enhance_refresh_time: 2000,
-  inline_split: "/\\| |,  |， |\\.  |。 |:  |： /",
+  reg_header: ABReg.reg_header.toString(),
+  reg_header_noprefix: ABReg.reg_header_noprefix.toString(),
+  inline_split: ABReg.inline_split.toString(), // "/\\| |,  |， |\\.  |。 |:  |： /",
   license_key: LICENSE_KEY_DEFAULT,
 }
 
