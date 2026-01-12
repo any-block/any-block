@@ -320,8 +320,6 @@ const mdSelector_heading:MdSelectorSpecSimp = {
       last_nonempty=i;
     }
 
-    console.log("heading selector:", mdRange, from_line, last_nonempty)
-
     mdRange.to_line = last_nonempty+1
     mdRange.content = list_text
       .slice(from_line, mdRange.to_line)
