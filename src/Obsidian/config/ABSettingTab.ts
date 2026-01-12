@@ -257,6 +257,10 @@ export class ABSettingTab extends PluginSettingTab {
         .onClick(e => {
           new ABModal_alias(this.app, async (result)=>{
             // 1. 保存到对象
+            settings.alias_user.push({
+              regex: result.regex,
+              replacement: result.replacement
+            })
             let newReg: string|RegExp;
             if (/^\/.*\/$/.test(result.regex)) {
               newReg = new RegExp(result.regex.slice(1,-1)) // 去除两侧的`/`并变回regExp
@@ -404,7 +408,7 @@ export class ABSettingTab extends PluginSettingTab {
   }
 }
 
-/** 设置子面板 - 自定义处理器 */
+/** 设置子面板 - 自定义处理器 (旧) */
 class ABProcessorModal extends Modal {
   args: ABConvert_SpecUser
   onSubmit: (args: ABConvert_SpecUser)=>void

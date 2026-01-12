@@ -20,6 +20,7 @@ import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock
 import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
 import { ABSelector_PostHtml } from "./ab_manager/abm_html/ABSelector_PostHtml"
 import { ABSettingTab, AB_SETTINGS, type ABSettingInterface } from "./config/ABSettingTab"
+import { ABAlias_json } from '@/ABConverter/ABAlias'
 
 export default class AnyBlockPlugin extends Plugin {
   settings: ABSettingInterface
@@ -130,6 +131,20 @@ export default class AnyBlockPlugin extends Plugin {
   async loadSettings() {
     const data = await this.loadData() // 如果没有配置文件则为null
     this.settings = Object.assign({}, AB_SETTINGS, data); // 合并默认值和配置文件的值
+
+    // 应用自定义别名
+    for(const result of this.settings.alias_user) {
+      let newReg: string|RegExp;
+      if (/^\/.*\/$/.test(result.regex)) {
+        newReg = new RegExp(result.regex.slice(1,-1)) // 去除两侧的`/`并变回regExp
+      } else {
+        newReg = result.regex
+      }
+      ABAlias_json.push({
+        regex: newReg,
+        replacement: result.replacement
+      })
+    }
 
     // 如果没有配置文件则生成一个默认值的配置文件
     if (!data) {
