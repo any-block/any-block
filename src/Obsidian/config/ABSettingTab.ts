@@ -92,8 +92,8 @@ export const AB_SETTINGS: ABSettingInterface = {
 
   is_debug: false,
   enhance_refresh_time: 2000,
-  reg_header: ABReg.reg_header.toString(),
-  reg_header_noprefix: ABReg.reg_header_noprefix.toString(),
+  reg_header: ABReg.reg_header.toString(), // 举例: 可将 .* 修改成 (?:[^:]*) 以排除 [] 中有 : 情况
+  reg_header_noprefix: ABReg.reg_header_noprefix.toString(), // 两个都要改
   inline_split: ABReg.inline_split.toString(), // "/\\| |,  |， |\\.  |。 |:  |： /",
   license_key: LICENSE_KEY_DEFAULT,
 }

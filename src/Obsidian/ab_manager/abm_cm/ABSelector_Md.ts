@@ -68,19 +68,19 @@ export function autoMdSelector(
     // 避免代码块内识别
     if (codeBlockFlag == "") {
       const match = line.match(ABReg.reg_code)
-      if (match && match[3]) {
+      if (match && match[3]) { // 进入代码块
         codeBlockFlag = match[1]+match[3]
         // TODO V3.0.7beta 发现一个选择器优化方案。未应用。暂时应急修复：这里不再执行 continue，当行可以触发，再往下一行不让触发
       }
     }
     else {
-      if (line.indexOf(codeBlockFlag) == 0) {
+      if (line.indexOf(codeBlockFlag) == 0) { // 离开代码块
         codeBlockFlag = ""
       }
       continue
     }
 
-    for (let selecotr of list_mdSelector){
+    for (let selecotr of list_mdSelector){ // 遍历选择器列表
       if (selecotr.match.test(line)) {
         // TODO V3.0.7beta 发现一个选择器优化方案：这里触发时，i位于`[]`的下面，即 `- `、`# ` 所属行。这个逻辑其实不太对。应该在 `[]` 所在行触发会比较好
         let sim:MdSelectorRangeSpecSimp|null = selecotr.selector(list_text, i)

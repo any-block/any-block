@@ -111,20 +111,20 @@ const mdSelector_headtail:MdSelectorSpecSimp = {
       // heading和mdit类型 需要跳过代码块内的结束标志
       if (codeBlockFlag == '') {
         const match = line.match(ABReg.reg_code)
-        if (match && match[3]) {
+        if (match && match[3]) { // 进入代码块
           codeBlockFlag = match[1]+match[3]
           continue
         }
       }
       else {
-        if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = ''
-        continue
+        if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = '' // 离开代码块
+        last_nonempty = i; continue
       }
       // 前缀不符合
       if (line.indexOf(mdRange.prefix)!=0) break
       const line2 = line.replace(mdRange.prefix, "")    // 删掉无用前缀
       // 空行
-      if (ABReg.reg_emptyline_noprefix.test(line2)) {continue}
+      if (ABReg.reg_emptyline_noprefix.test(line2)) { continue }
       last_nonempty = i
       // 结束
       if (line2.indexOf(mdRange.levelFlag)==0) { // ABReg.reg_mdit_tail_noprefix.test(line2)
@@ -299,26 +299,29 @@ const mdSelector_heading:MdSelectorSpecSimp = {
       // heading和mdit类型 需要跳过代码块内的结束标志
       if (codeBlockFlag == '') {
         const match = line.match(ABReg.reg_code)
-        if (match && match[3]) {
+        if (match && match[3]) { // 进入代码块
           codeBlockFlag = match[1]+match[3]
           continue
         }
       }
       else {
-        if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = ''
-        continue
+        if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = '' // 离开代码块
+        last_nonempty = i; continue
       }
       // 前缀不符合
       if (line.indexOf(mdRange.prefix)!=0) break
       const line2 = line.replace(mdRange.prefix, "")    // 删掉无用前缀
       // 空行
-      if (ABReg.reg_emptyline_noprefix.test(line2)) {continue}
+      if (ABReg.reg_emptyline_noprefix.test(line2)) { continue }
       // 更大的标题
       const match = line2.match(ABReg.reg_heading_noprefix)
-      if (!match) {last_nonempty=i; continue}
-      if (match[3].length < mdRange.levelFlag.length) {break}
+      if (!match) { last_nonempty = i; continue }
+      if (match[3].length < mdRange.levelFlag.length) { break }
       last_nonempty=i;
     }
+
+    console.log("heading selector:", mdRange, from_line, last_nonempty)
+
     mdRange.to_line = last_nonempty+1
     mdRange.content = list_text
       .slice(from_line, mdRange.to_line)
