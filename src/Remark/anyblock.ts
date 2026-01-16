@@ -230,8 +230,11 @@ export const remark_anyblock_render_codeblock = () => {
   })
 }
 
-// 这是 Quartz 的 Transformer 插件定义
-export const transformer_anyblock: QuartzTransformerPlugin = (/*options: any*/) => {
+/** 这是 Quartz 的 Transformer 插件定义
+ * 
+ * 仅 Quartz 项目可用，其他 Remark 项目 (如 Astro、Docusaurus) 不需要用到这个
+ */
+export const quartz_transformer_anyblock: QuartzTransformerPlugin = (/*options: any*/) => {
   return {
     name: "AnyBlock",
     markdownPlugins(_ctx: BuildCtx) {
