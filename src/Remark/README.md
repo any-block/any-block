@@ -2,9 +2,21 @@
 
 ## remark-any-block 使用
 
-详见 github *any-block* 组织下的 *Remark Demo* 仓库
+当前使用 Remark 解析/渲染引擎的主流 SSG (静态网站生成器) 有:
 
-暂时不属于完全通用的 Remark 插件 (doing, 或者你自己改改), 当前该插件测试于 Quartz V4 版本
+- Astro
+- Quartz4:  包含 OFM (Obsidian风格Markdown) 相关的插件
+- Docusaurus:  包含 MDX 相关插件
+
+> [!WARNING]
+> 暂时不属于完全通用的 Remark 插件 (doing, 或者你自己改改), 当前该插件测试于 Quartz V4 版本
+> 详见 [any-block/QuartzDemo](https://github.com/any-block/QuartzDemo)
+> 
+> Quartz V4 在 remark 的基础上又封装了一层
+
+## 使用案例/示例
+
+见 [any-block/QuartzDemo](https://github.com/any-block/QuartzDemo)
 
 ## 构建
 
