@@ -1,6 +1,6 @@
 {
   "name": "@anyblock/remark-any-block",
-  "version": "1.0.1-beta3",
+  "version": "1.0.1-beta4",
   "description": "You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table`.",
   "types": "@types/index_remark.d.ts",
   "type": "module",

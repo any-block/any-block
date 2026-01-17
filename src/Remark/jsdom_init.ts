@@ -18,7 +18,7 @@ export async function jsdom_init(enable: boolean = true) {
 }
 
 /// 启用 jsdom 环境
-export async function jsdom_enable() {
+export function jsdom_enable() {
   global.Storage = dom.window.Storage;
   global.window = dom.window as any
   global.history = dom.window.history // @warn 若缺少该行，则在mdit+build环境下，编译报错：ReferenceError: history is not defined
@@ -37,7 +37,7 @@ export async function jsdom_enable() {
 }
 
 /// 禁用 jsdom 环境
-export async function jsdom_disable() {
+export function jsdom_disable() {
   global.window = undefined
   global.history = undefined
   global.document = undefined
