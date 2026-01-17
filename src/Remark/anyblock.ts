@@ -179,7 +179,7 @@ export const remark_anyblock_render_codeblock = () => {
   if (typeof document == "undefined") return
   return (tree: Root, _file: VFile) => {
     visit(tree, "code", (node: Code, index: number|undefined, parent: any|undefined) => { // 遍历所有的 code 类型节点
-      if (node.lang.toLowerCase() != "anyblock") return
+      if (typeof node.lang != "string" || node.lang.toLowerCase() != "anyblock") return
       if (!parent || !index) return
 
       const lines = node.value.split("\n")

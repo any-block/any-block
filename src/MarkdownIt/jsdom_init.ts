@@ -6,12 +6,19 @@
 
 // import jsdom from "jsdom"
 
+let dom: any = null;
+
 export async function jsdom_init() {
   const { default: jsdom } = await import('jsdom') // 废弃，要同步，避免docuemnt初始化不及时
   const { JSDOM } = jsdom
-  const dom = new JSDOM(`<!DOCTYPE html><html><body></body></html>`, {
+  dom = new JSDOM(`<!DOCTYPE html><html><body></body></html>`, {
     url: 'http://localhost/', // @warn 若缺少该行，则在mdit+build环境下，编译报错
-  });
+  })
+  jsdom_able()
+}
+
+/// 启用 jsdom 环境
+export async function jsdom_able() {
   global.Storage = dom.window.Storage;
   global.window = dom.window as any
   global.history = dom.window.history // @warn 若缺少该行，则在mdit+build环境下，编译报错：ReferenceError: history is not defined
@@ -27,4 +34,11 @@ export async function jsdom_init() {
   global.HTMLScriptElement = dom.window.HTMLScriptElement
   dom.window.scrollTo = ()=>{} // @warn 若缺少该行，编译警告：Error: Not implemented: window.scrollTo
   global.MutationObserver = dom.window.MutationObserver
+}
+
+/// 禁用 jsdom 环境
+export async function jsdom_disable() {
+  global.window = undefined
+  global.history = undefined
+  global.document = undefined
 }
