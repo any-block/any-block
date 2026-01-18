@@ -9,7 +9,6 @@
 
 import {
   MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownView,
-  setIcon,
   type MarkdownPostProcessorContext
 } from 'obsidian'
 
@@ -19,6 +18,7 @@ import { ABConvertManager, ABCSetting } from "@/ABConverter/index.min" // [!code
 import { ABReplacer_CodeBlock } from "./ab_manager/abm_code/ABReplacer_CodeBlock"
 import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager"
 import { ABSelector_PostHtml } from "./ab_manager/abm_html/ABSelector_PostHtml"
+import { registerCommands, registerStatus } from './utils'
 import { ABSettingTab, AB_SETTINGS, type ABSettingInterface } from "./config/ABSettingTab"
 import { ABAlias_json } from '@/ABConverter/ABAlias'
 
@@ -30,24 +30,9 @@ export default class AnyBlockPlugin extends Plugin {
     await this.loadSettings()
     this.addSettingTab(new ABSettingTab(this.app, this))
 
-    // 右下角状态栏 - 刷新按钮
-    {
-      const statusBtnContainer = this.addStatusBarItem();
-      statusBtnContainer.addClass('mod-clickable');
-
-      const statusBtn = statusBtnContainer.createEl('div', {
-        cls: 'ab-rebuildview-btn'
-      })
-
-      setIcon(statusBtn, 'refresh-cw');
-      statusBtn.setAttribute('aria-label', 'Rebuild View');
-      statusBtn.setAttribute('data-tooltip-position', 'top');
-      statusBtn.onclick = () => {
-        const leaf = this.app.workspace.getActiveViewOfType(MarkdownView)?.leaf; if (!leaf) { return }
-        // @ts-expect-error
-        leaf.rebuildView()
-      }
-    }
+    // 添加 obsidian 命令和UI元素
+    registerStatus(this)
+    registerCommands(this)
 
     // 适配 - 将ob的渲染行为传入回调函数 (目的是将转换器和Obsidian相解耦合)
     ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HTMLElement, ctx?: MarkdownPostProcessorContext): void => {
