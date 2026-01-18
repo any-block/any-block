@@ -41,7 +41,8 @@ function selector_from_path() {}
  * [${rangeSpec.header}]
  * ${rangeSpec.content}
  * ~~~~~~`
- * 
+ *
+ * TODO 没有利用 rangeSpec.prefix，对于被列表/引用块等嵌套的 anyblock 可能存在问题
  * TODO 可能需要进行别名处理
  */
 export function convert_to_codeblock(file_content: string): string {
@@ -73,13 +74,3 @@ export function convert_to_codeblock(file_content: string): string {
 
   return parts.join("")
 }
-
-// 其中
-// interface MdSelectorRangeSpec {
-//   from_ch: number,  // 替换范围
-//   to_ch: number,    // .
-//   header: string,   // 头部信息
-//   selector: string, // 选择器（范围选择方式）
-//   content: string,  // 内容信息
-//   prefix: string,
-// }

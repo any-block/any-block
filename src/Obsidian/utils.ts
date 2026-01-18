@@ -30,7 +30,7 @@ export function registerCommands(plugin: Plugin) {
     }
   })
 
-  // 将当前文件的 anyblock 区块全部转换为代码块格式，并生成备份
+  // 将当前文件的 AnyBlock 区块全部转换为代码块格式，并生成备份
   // 这里有两种策略，当前选用第二种:
   // - 原文件到备份文件，新内容覆盖当前文件
   // - (选用) 新内容直接生成到临时文件
@@ -48,36 +48,40 @@ export function registerCommands(plugin: Plugin) {
       // 新内容
       const newText = convert_to_codeblock(text)
 
-      try {
-        // 新文件
-        let newFile: TFile
-        // const newPath = `temp_backup_${file.basename}.md`
-        const newPath = `temp_any_block_convert.md`
-        // const adapter = plugin.app.vault.adapter
-        // const isFileExists = await adapter.exists(newPath)
-        // if (isFileExists) {
-        //   await adapter.write(newPath, newText)
-        // }
-        const abstractFile = plugin.app.vault.getAbstractFileByPath(newPath)
-        if (abstractFile instanceof TFile) { // 存在则覆盖更新
-          newFile = abstractFile
-          await plugin.app.vault.modify(abstractFile, newText)
-        } else { // 不存在则创建
-          newFile = await plugin.app.vault.create(newPath, newText)
-        }
-
-        // 旧文件 - 不变
-        // editor.setValue(text)
-
-        // 在新标签页中打开该文件
-        await plugin.app.workspace.getLeaf('tab').openFile(newFile)
-        new Notice(t('any-block-to-codeblock-success') + newPath)
-      } catch (error) {
-        console.error('转换时文件保存失败:', error)
-        new Notice(t('any-block-to-codeblock-fail'))
-      }
+      // const newPath = `temp_backup_${file.basename}.md`
+      const newPath = `temp_any_block_convert.md`
+      await save_to_newPath(newText, newPath)
     }
   })
+
+  async function save_to_newPath(newText: string, newPath: string) {
+    try {
+      // 新文件
+      let newFile: TFile
+      // const adapter = plugin.app.vault.adapter
+      // const isFileExists = await adapter.exists(newPath)
+      // if (isFileExists) {
+      //   await adapter.write(newPath, newText)
+      // }
+      const abstractFile = plugin.app.vault.getAbstractFileByPath(newPath)
+      if (abstractFile instanceof TFile) { // 存在则覆盖更新
+        newFile = abstractFile
+        await plugin.app.vault.modify(abstractFile, newText)
+      } else { // 不存在则创建
+        newFile = await plugin.app.vault.create(newPath, newText)
+      }
+
+      // 旧文件 - 不变
+      // editor.setValue(text)
+
+      // 在新标签页中打开该文件
+      await plugin.app.workspace.getLeaf('tab').openFile(newFile)
+      new Notice(t('any-block-to-codeblock-success') + newPath)
+    } catch (error) {
+      console.error('转换时文件保存失败:', error)
+      new Notice(t('any-block-to-codeblock-fail'))
+    }
+  }
 }
 
 /** obsidian 状态栏管理 (右下角区域) */
