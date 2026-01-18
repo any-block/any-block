@@ -7,7 +7,7 @@
 ## What's AnyBlock?
 
 - A module/plugin for parsing and rendering highly versatile Markdown extensions.
-  (**Obsidian plugin, Markdown-it plugin, Vuepress plugin, CodeMirror plugin, Online App**)
+  (**Obsidian, CodeMirror, Markdown-it (Vuepress/Vitepress), Remark (Quartz/Docusaurus) Plugin. Online App**)
 - Feature: You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table` and so on
 - Feature (detail): You can select a section by list/heading/table/quote/codeBlock/markdown-it-container(`:::`), and trun into table/tabs/dir/card/column/mindmap/markmap/mermaid/PlantUML/timeLine/jsonChart/nodeTree and more
 
