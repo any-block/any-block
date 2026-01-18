@@ -19,13 +19,15 @@
 	"keywords": [
 		"anyblock",
 		"any-block",
-		"obsidian",
-		"obsidian plugin",
-		"vuepress",
-		"vuepress plugin",
 		"markdown",
+		"obsidian",
+		"codemirror",
 		"markdown-it",
-		"markdown-it plugin"
+		"vuepress",
+		"vitepress",
+		"remark",
+		"docusaurus",
+		"quartz"
 	],
 	"devDependencies": {
 		"copyfiles": "^2.4.1"
