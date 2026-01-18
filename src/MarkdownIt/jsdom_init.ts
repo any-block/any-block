@@ -6,9 +6,15 @@
 
 // import jsdom from "jsdom"
 
-let dom: any = null;
+let dom: any = null // 缓存 jsdom 实例
+let disable_disable_flag: boolean = false // 禁止禁用
 
-export async function jsdom_init(enable: boolean = true) {
+/**
+ * @param enable 默认开启
+ * @param disable_disable 禁止禁用
+ */
+export async function jsdom_init(enable: boolean = true, disable_disable: boolean = false) {
+  disable_disable_flag = disable_disable
   if (typeof document !== "undefined") return // 客户端环境，无需 jsdom 环境，同时也避免误卸载 document 环境
   const { default: jsdom } = await import('jsdom') // 废弃，要同步，避免docuemnt初始化不及时
   const { JSDOM } = jsdom
@@ -40,6 +46,7 @@ export function jsdom_enable() {
 
 /// 禁用 jsdom 环境
 export function jsdom_disable() {
+  if (disable_disable_flag) return
   if (!dom) return // console.error("jsdom_disable failed: please run jsdom_init first.") // 允许客户端中运行，不使用jsdom
   global.window = undefined
   global.history = undefined
