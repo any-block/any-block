@@ -12,13 +12,14 @@ import {
   TFile,
 } from 'obsidian'
 import { convert_to_codeblock } from '@/Scripts/index'
+import { t } from 'locales/helper'
 
 /** obsidian 命令管理 */
 export function registerCommands(plugin: Plugin) {
   // 刷新视图
   plugin.addCommand({
     id: 'any-block-rebuild-view',
-    name: 'Refresh/rebuild current view',
+    name: t('any-block-rebuild-view'),
     // callback: () => {},
     editorCallback: async (_editor, view) => {
       if (!(view instanceof MarkdownView)) return
@@ -35,7 +36,7 @@ export function registerCommands(plugin: Plugin) {
   // - (选用) 新内容直接生成到临时文件
   plugin.addCommand({
     id: 'any-block-to-codeblock',
-    name: 'Convert anyblock section into codeblock format',
+    name: t('any-block-to-codeblock'),
     // callback: () => {},
     editorCallback: async (_editor, view) => {
       // 旧内容
@@ -70,10 +71,10 @@ export function registerCommands(plugin: Plugin) {
 
         // 在新标签页中打开该文件
         await plugin.app.workspace.getLeaf('tab').openFile(newFile)
-        new Notice(`Convert success! Saved to ${newPath}`)
+        new Notice(t('any-block-to-codeblock-success') + newPath)
       } catch (error) {
         console.error('转换时文件保存失败:', error)
-        new Notice('Convert failed, please check the console for details')
+        new Notice(t('any-block-to-codeblock-fail'))
       }
     }
   })
@@ -91,7 +92,7 @@ export function registerStatus(plugin: Plugin) {
     })
 
     setIcon(statusBtn, 'refresh-cw');
-    statusBtn.setAttribute('aria-label', 'Rebuild View');
+    statusBtn.setAttribute('aria-label', t('any-block-rebuild-view-btn'));
     statusBtn.setAttribute('data-tooltip-position', 'top');
     statusBtn.onclick = () => {
       const leaf = plugin.app.workspace.getActiveViewOfType(MarkdownView)?.leaf
