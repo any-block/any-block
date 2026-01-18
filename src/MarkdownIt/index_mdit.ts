@@ -44,7 +44,7 @@
 import MarkdownIt from "markdown-it"
 
 // 2. markdown-it-container
-import MarkdownItConstructor from "markdown-it-container";
+import MarkdownItConstructor from "markdown-it-container"
 
 // 3. markdown-it-anyblock 插件
 // import { ABConvertManager } from "./index"
@@ -65,6 +65,7 @@ import "../ABConverter/converter/abc_echarts"
 import "../ABConverter/converter/abc_plantuml" // 可选建议：
 import "../ABConverter/converter/abc_mermaid"  // 可选建议：新版无额外依赖，旧版非 min 环境下 7.1MB
 import "../ABConverter/converter/abc_markmap"  // 可选建议：1.3MB
+import { jsdom_disable, jsdom_enable } from "./jsdom_init"
 
 interface Options {
   multiline: boolean;
@@ -372,10 +373,12 @@ function abRender_fence(md: MarkdownIt, options?: Partial<Options>): void {
     //`<!--afterbegin-->${rawCode}<!--beforeend--></div><!--afterend-->`
 
     // anyBlock专属渲染
+    jsdom_enable()
     const el: HTMLDivElement = document.createElement("div"); el.classList.add("ab-note", "drop-shadow");
         // 临时el，未appendClild到dom中，脱离作用域会自动销毁
         // 用临时el是因为 mdit render 是 md_str 转 html_str 的，而Ob和原插件那边是使用HTML类的，要兼容
     ABConvertManager.autoABConvert(el, ab_header, ab_content, token.markup.startsWith(':::')?'mdit':'')
+    jsdom_disable()
     
     // anyBlock特殊情况 - 需要再渲染 (ob不需要，主要是vuepress有些插件可以复用一下，并且处理mdit无客户端环境可能存在的问题)
     if (el.classList.contains("ab-raw")) {

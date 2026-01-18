@@ -9,6 +9,7 @@
 let dom: any = null;
 
 export async function jsdom_init(enable: boolean = true) {
+  if (document) return // 客户端环境，无需 jsdom 环境，同时也避免误卸载 document 环境
   const { default: jsdom } = await import('jsdom') // 废弃，要同步，避免docuemnt初始化不及时
   const { JSDOM } = jsdom
   dom = new JSDOM(`<!DOCTYPE html><html><body></body></html>`, {
@@ -19,6 +20,7 @@ export async function jsdom_init(enable: boolean = true) {
 
 /// 启用 jsdom 环境
 export function jsdom_enable() {
+  if (!dom) return // console.error("jsdom_enable failed: please run jsdom_init first.") // 允许客户端中运行，不使用jsdom
   global.Storage = dom.window.Storage;
   global.window = dom.window as any
   global.history = dom.window.history // @warn 若缺少该行，则在mdit+build环境下，编译报错：ReferenceError: history is not defined
@@ -38,6 +40,7 @@ export function jsdom_enable() {
 
 /// 禁用 jsdom 环境
 export function jsdom_disable() {
+  if (!dom) return // console.error("jsdom_disable failed: please run jsdom_init first.") // 允许客户端中运行，不使用jsdom
   global.window = undefined
   global.history = undefined
   global.document = undefined
