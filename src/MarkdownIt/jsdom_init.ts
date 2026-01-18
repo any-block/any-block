@@ -9,7 +9,7 @@
 let dom: any = null;
 
 export async function jsdom_init(enable: boolean = true) {
-  if (document) return // 客户端环境，无需 jsdom 环境，同时也避免误卸载 document 环境
+  if (typeof document !== "undefined") return // 客户端环境，无需 jsdom 环境，同时也避免误卸载 document 环境
   const { default: jsdom } = await import('jsdom') // 废弃，要同步，避免docuemnt初始化不及时
   const { JSDOM } = jsdom
   dom = new JSDOM(`<!DOCTYPE html><html><body></body></html>`, {
