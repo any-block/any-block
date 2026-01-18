@@ -36,7 +36,9 @@ function selector_from_file() {}
 function selector_from_path() {}
 
 /**
- * 将原文所有 anyblock 区域替换为:
+ * 将原文所有 AnyBlock 区域替换为代码块形式
+ * 
+ * 例如:
  * `~~~~~~anyblock
  * [${rangeSpec.header}]
  * ${rangeSpec.content}
@@ -62,6 +64,41 @@ export function convert_to_codeblock(file_content: string): string {
     // step2. 处理该片段，替换为代码块
     parts.push(
       `~~~~~~anyblock\n[${rangeSpec.header}]\n\n${rangeSpec.content}\n~~~~~~`
+    )
+
+    // step3. 更新游标到末尾
+    cursor = Math.max(cursor, rangeSpec.to_ch)
+  }
+  // 追加剩余未处理的内容
+  if (cursor < file_content.length) {
+    parts.push(file_content.slice(cursor))
+  }
+
+  return parts.join("")
+}
+
+/**
+ * 将原文所有 AnyBlock 区域中的 AnyBlock 语法头进行删除
+ * 
+ * 即删除: `[...]` 标志
+ */
+export function convert_delete_ab_header(file_content: string): string {
+  const mdSelectorRangeSpec: MdSelectorRangeSpec[] = autoMdSelector(file_content)
+
+  // 按起始位置排序，确保替换顺序正确
+  const sortedSpecs = [...mdSelectorRangeSpec].sort((a, b) => a.from_ch - b.from_ch)
+
+  let cursor = 0 // 末尾的游标位置
+  const parts: string[] = [] // [非anyblock区域, anyblock区域, 循环...]
+  for (const rangeSpec of sortedSpecs) {
+    // step1. 处理该片段之前的原文片段
+    if (rangeSpec.from_ch > cursor) {
+      parts.push(file_content.slice(cursor, rangeSpec.from_ch))
+    }
+
+    // step2. 处理该片段，替换为代码块
+    parts.push(
+      rangeSpec.content
     )
 
     // step3. 更新游标到末尾

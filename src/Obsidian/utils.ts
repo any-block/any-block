@@ -11,7 +11,10 @@ import {
   setIcon,
   TFile,
 } from 'obsidian'
-import { convert_to_codeblock } from '@/Scripts/index'
+import {
+  convert_delete_ab_header,
+  convert_to_codeblock
+} from '@/Scripts/index'
 import { t } from 'locales/helper'
 
 /** obsidian 命令管理 */
@@ -47,6 +50,26 @@ export function registerCommands(plugin: Plugin) {
 
       // 新内容
       const newText = convert_to_codeblock(text)
+
+      // const newPath = `temp_backup_${file.basename}.md`
+      const newPath = `temp_any_block_convert.md`
+      await save_to_newPath(newText, newPath)
+    }
+  })
+
+  plugin.addCommand({
+    id: 'any-block-delete-ab-header',
+    name: 'Delete AnyBlock header',
+    // callback: () => {},
+    editorCallback: async (_editor, view) => {
+      // 旧内容
+      if (!(view instanceof MarkdownView)) return
+      const file = view.file
+      if (!file) return
+      const text = view.data
+
+      // 新内容
+      const newText = convert_delete_ab_header(text)
 
       // const newPath = `temp_backup_${file.basename}.md`
       const newPath = `temp_any_block_convert.md`
