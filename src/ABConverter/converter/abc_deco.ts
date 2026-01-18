@@ -64,7 +64,29 @@ const abc_fold = ABConvert.factory({
         sub_button.textContent = "折叠"
       }
     }
-    sub_button.onclick = fn_fold
+    // 二选一。仅ob环境，mdit环境不支持
+    if (ABCSetting.env.startsWith("obsidian")) {
+      sub_button.onclick = fn_fold
+    }
+    // mdit (vuepress、app) 选用
+    else {
+      sub_button.setAttribute("onclick", `
+        const sub_button = this;
+        const sub_el = this.nextElementSibling;
+
+        const is_hide = sub_el.getAttribute("is_hide")
+        if (is_hide && is_hide=="false") {
+          sub_el.setAttribute("is_hide", "true"); 
+          sub_el.style.display = "none"
+          sub_button.textContent = "展开"
+        }
+        else if(is_hide && is_hide=="true") {
+          sub_el.setAttribute("is_hide", "false");
+          sub_el.style.display = ""
+          sub_button.textContent = "折叠"
+        }
+      `);
+    }
     mid_el.appendChild(sub_button)
     mid_el.appendChild(sub_el)
 
