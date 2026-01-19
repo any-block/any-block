@@ -80,11 +80,11 @@ export default class AnyBlockPlugin extends Plugin {
 
     // 适配 - mermaid
     ABCSetting.mermaid = loadMermaid()
-    ABCSetting.mermaid.then(mermaid => {
-      const isDarkTheme = document.body.classList.contains('theme-dark')
-      // const theme = isDarkTheme ? 'dark' : 'light' // theme: theme
-      mermaid.initialize({}) // 只初始化一次，减少频繁调用。但ob提供的版本，mermaid多了也会卡，不知道为什么
-    })
+    // ABCSetting.mermaid.then(mermaid => {
+    //   const isDarkTheme = document.body.classList.contains('theme-dark')
+    //   const theme = isDarkTheme ? 'dark' : 'light' // theme: theme
+    //   mermaid.initialize({ theme: theme }) // 只初始化一次，减少频繁调用。但ob提供的版本，mermaid多了也会卡，不知道为什么
+    // })
 
     // 钩子组1 - 代码块
     this.registerMarkdownCodeBlockProcessor("ab", ABReplacer_CodeBlock.processor);
