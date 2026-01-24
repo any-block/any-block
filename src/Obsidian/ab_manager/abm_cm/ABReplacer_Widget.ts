@@ -170,9 +170,26 @@ export class ABReplacer_Widget extends WidgetType {
       new Notice("Copied to clipboard")
     }
 
-    // 菜单按钮4 - 刷新
-    const btn_refresh = this.div.createEl("div", {
+    // 菜单按钮4 - 让块更宽
+    const btn_wider = this.div.createEl("div", {
       cls: ["ab-button", "ab-button-4", "edit-block-button"],
+      attr: {"aria-label": "Make the block wider"}
+    })
+    btn_wider.empty(); btn_wider.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_WIDER));
+    btn_wider.onclick = () => {
+      if (dom_note.classList.contains("ab-super-width")) {
+        dom_note.classList.remove("ab-super-width")
+        this.div.classList.remove("ab-super-width-p")
+      }
+      else {
+        dom_note.classList.add("ab-super-width")
+        this.div.classList.add("ab-super-width-p")
+      }
+    }
+
+    // 菜单按钮5 - 刷新
+    const btn_refresh = this.div.createEl("div", {
+      cls: ["ab-button", "ab-button-5", "edit-block-button"],
       attr: {"aria-label": "Refresh the block"}
     })
     btn_refresh.empty(); btn_refresh.appendChild(sanitizeHTMLToDom(ABReplacer_Widget.STR_ICON_REFRESH));
@@ -197,9 +214,11 @@ export class ABReplacer_Widget extends WidgetType {
       if (is_show) {
         btn_copy.style.display = "block"
         btn_refresh.style.display = "block"
+        btn_wider.style.display = "block"
       } else {
         btn_copy.style.display = "none"
         btn_refresh.style.display = "none"
+        btn_wider.style.display = "none"
       }
     }
 
@@ -252,6 +271,7 @@ export class ABReplacer_Widget extends WidgetType {
   }
 
   // 移动端似乎会强制替换掉edit-block-button，大小设置不生效。不过触控位置和z-index似乎可以正常工作
+  // 编辑图标
   static STR_ICON_CODE2 = `<svg xmlns="http://www.w3.org/2000/svg" stroke-linecap="round"
       stroke-linejoin="round" data-darkreader-inline-stroke="" stroke-width="2"
       viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" style="--darkreader-inline-stroke:currentColor;">
@@ -259,6 +279,7 @@ export class ABReplacer_Widget extends WidgetType {
     <path d="m6 8-4 4 4 4"></path>
     <path d="m14.5 4-5 16"></path>
   </svg>`
+  // 刷新图标
   // https://www.svgrepo.com/svg/18461/refresh, 原viewBox: 0 0 489.698 489.698, 原size 800
   static STR_ICON_REFRESH = `<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
       xml:space="preserve"
@@ -276,6 +297,7 @@ export class ABReplacer_Widget extends WidgetType {
       </g>
     </g>
   </svg>`
+  // 复制图标
   // https://lucide.dev/icons/copy
   static STR_ICON_COPY = `<svg xmlns="http://www.w3.org/2000/svg"
     width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -285,6 +307,19 @@ export class ABReplacer_Widget extends WidgetType {
     <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
     <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
   </svg>`
+  // 更宽图标
+  // https://lucide.dev/icons/move-horizontal
+  static STR_ICON_WIDER = `<svg xmlns="http://www.w3.org/2000/svg"
+    width="24" height="24" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+    class="lucide lucide-move-horizontal-icon lucide-move-horizontal"
+  >
+    <path d="m18 8 4 4-4 4"/>
+    <path d="M2 12h20"/>
+    <path d="m6 8-4 4 4 4"/>
+  </svg>
+  `
+  // 更多/横省略号图标
   // https://lucide.dev/icons/ellipsis
   static STR_ICON_ELLIPSIS = `<svg xmlns="http://www.w3.org/2000/svg"
     width="24" height="24" viewBox="0 0 24 24" fill="none"

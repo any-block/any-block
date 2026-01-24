@@ -13,16 +13,17 @@
  * @param d 这里有两种可能：
  *   - 一是局部刷新，d就是局部的div，此时d必须是 `.ab-replace`，且满足预设结构
  *   - 二是全局刷新，当页面加载完成后会自动调一次，d就是document
- * @param isCycle 是否循环定时启动。部分事件允许循环，消耗资源也较小，而部分时间不允许
+ * @param isCycle 是否循环定时启动。部分事件允许循环，消耗资源也较小，而部分事件不允许
  *   false为初始化启动，或手动按刷新按钮的情况
  */
 export function abConvertEvent(d: Element|Document, isCycle: boolean = false) {
   // 超宽div事件 (仅obsidian)，这个事件应该优先处理
+  // 寻找 .ab-note .ab-super-width
   if (d.querySelector('.ab-super-width')) {
     // 局部 (仅obsidian)
     const els_note: NodeListOf<Element> = d.querySelectorAll(".ab-note");
     for (const el_note of els_note) {
-      if (el_note.querySelector(".ab-super-width")) {
+      if (el_note.classList.contains("ab-super-width") || el_note.querySelector(".ab-super-width")) {
         const el_replace: ParentNode | null | undefined = el_note.parentNode;
         if (el_replace && (el_replace as HTMLElement).classList.contains("ab-replace")) {
           (el_replace as HTMLElement).classList.add("ab-super-width-p");

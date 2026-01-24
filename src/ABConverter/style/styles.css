@@ -158,6 +158,12 @@ html[data-theme=dark] #app {
 .ab-replace > .ab-button.ab-button-4 {
   right: 112px;
 }
+.ab-replace > .ab-button.ab-button-5 {
+  right: 148px;
+}
+.ab-replace > .ab-button.ab-button-6 {
+  right: 184px;
+}
 .ab-replace > .ab-button.ab-button-select > * {
   padding: 0 10px;
   width: 24px;
