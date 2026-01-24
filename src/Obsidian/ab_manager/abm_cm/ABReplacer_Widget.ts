@@ -192,7 +192,7 @@ export class ABReplacer_Widget extends WidgetType {
     switch_more(false)
     btn_more.onclick = () => switch_more()
     function switch_more(_is_show?: boolean): void {
-      if (_is_show) is_show = _is_show
+      if (_is_show !== undefined) is_show = _is_show
       else is_show = !is_show
       if (is_show) {
         btn_copy.style.display = "block"
