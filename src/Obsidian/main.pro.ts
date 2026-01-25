@@ -34,7 +34,7 @@ export default class AnyBlockPlugin extends Plugin {
   settings: ABSettingInterface
 
   async onload() {
-    ABCSetting.global_app = this.app
+    ABCSetting.api.ob.global_app = this.app
     await this.loadSettings();
     this.addSettingTab(new ABSettingTab(this.app, this))
 
@@ -65,7 +65,7 @@ export default class AnyBlockPlugin extends Plugin {
 
       const mdrc: MarkdownRenderChild = new MarkdownRenderChild(el);
       if (ctx) ctx.addChild(mdrc);
-      else if (ABCSetting.global_ctx) ABCSetting.global_ctx.addChild(mdrc);
+      else if (ABCSetting.api.ob.global_ctx) ABCSetting.api.ob.global_ctx.addChild(mdrc);
       /**
        * Renders markdown string to an HTML element.
        * @param app - A reference to the app object
@@ -79,8 +79,8 @@ export default class AnyBlockPlugin extends Plugin {
     })
 
     // 适配 - mermaid
-    ABCSetting.mermaid = loadMermaid()
-    // ABCSetting.mermaid.then(mermaid => {
+    ABCSetting.api.ob.mermaid = loadMermaid()
+    // ABCSetting.api.ob.mermaid.then(mermaid => {
     //   const isDarkTheme = document.body.classList.contains('theme-dark')
     //   const theme = isDarkTheme ? 'dark' : 'light' // theme: theme
     //   mermaid.initialize({ theme: theme }) // 只初始化一次，减少频繁调用。但ob提供的版本，mermaid多了也会卡，不知道为什么
