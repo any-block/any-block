@@ -26,9 +26,9 @@ import { create_widget } from './selector'
 // import { ABConvertManager } from "../../ABConverter/ABConvertManager"
 // import { ABCSetting, ABReg } from "../../ABConverter/ABReg"
 // 加载所有选择器
-import { init } from "../../Obsidian/ab_manager/abm_cm/ABSelector_MdBase" // 为什么这里的 `console.warn('sdgs mdbase loaded')` 没有不触发
+import { init } from "../../CodeMirror2/ABSelector_MdBase" // 为什么这里的 `console.warn('sdgs mdbase loaded')` 没有不触发
 init() // 避免优化掉
-import {} from "../../Obsidian/ab_manager/abm_cm/ABSelector_Md"
+import {} from "../../CodeMirror2/ABSelector_Md"
 import { ABCSetting } from "../../ABConverter/ABReg"
 // 加载所有转换器 (都是可选的)
 // (当然，如果A转换器依赖B转换器，那么你导入A必然导入B)
@@ -46,7 +46,7 @@ import "../../ABConverter/converter/abc_plantuml" // 可选建议：
 import "../../ABConverter/converter/abc_mermaid"  // 可选建议：非 min 环境下 7.1MB
 import "../../ABConverter/converter/abc_markmap"  // 可选建议：1.3MB
 
-import { autoMdSelector, type MdSelectorRangeSpec} from "../../Obsidian/ab_manager/abm_cm/ABSelector_Md"
+import { autoMdSelector, type MdSelectorRangeSpec} from "../../CodeMirror2/ABSelector_Md"
 import { ABReplacer_Widget } from './ABReplacer_Widget'
 
 import { ABConvertManager } from "../../ABConverter/ABConvertManager"

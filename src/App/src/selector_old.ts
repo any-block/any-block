@@ -18,7 +18,7 @@ import {
   Transaction,
 } from '@codemirror/state';
 
-import { autoMdSelector, MdSelectorRangeSpec } from '../../Obsidian/ab_manager/abm_cm/ABSelector_Md';
+import { autoMdSelector, MdSelectorRangeSpec } from '../../CodeMirror2/ABSelector_Md';
 import { ABReplacer_Widget } from './ABReplacer_Widget';
 
 /** 范围选择器 + 装饰集生成器

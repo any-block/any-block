@@ -9,7 +9,7 @@
  * 
  * 旧的是:
  * 
- * - /src/Obsidian/ab_manager/abm_cm/ABSelector_Md.ts::autoMdSelector
+ * - /src/CodeMirro2/ABSelector_Md.ts::autoMdSelector
  * 
  * 和
  * 
