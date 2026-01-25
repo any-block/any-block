@@ -48,6 +48,13 @@ export default {
   'Custom processor8': 'Processor replacement',
   'Custom processor9': 'Using `/` including it indicates a regular expression',
 
+  'Pro': 'Pro',
+  'Pro2': 'Pro version enhanced settings',
+  'Pro disable': 'Disable pro feat',
+  'Pro disable2': 'Disable pro feature',
+  'Pro callout': 'Callout selector',
+  'Pro callout2': 'Use the Callout selector and enable editable Callout',
+
   'License': 'License',
   'License2': 'This is a license for the Pro version. The display of expiration time needs to be updated by reopening the settings panel.',
   'License key': 'License key',

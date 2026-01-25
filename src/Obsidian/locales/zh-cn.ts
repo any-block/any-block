@@ -48,6 +48,13 @@ export default {
   'Custom processor8': '注册器替换为',
   'Custom processor9': '用 `/` 包括起来则表示正则',
 
+  'Pro': 'Pro',
+  'Pro2': 'Pro 版增强选项',
+  'Pro disable': '禁用 Pro 版功能',
+  'Pro disable2': '禁用 Pro 版功能',
+  'Pro callout': 'Callout 选择器',
+  'Pro callout2': '使用 Callout 选择器，并启用可编辑 Callout',
+
   'License': '许可证',
   'License2': '这是Pro版的许可证，到期时间的显示需要重新打开设置面板来更新',
   'License key': '许可证密钥',

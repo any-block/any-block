@@ -139,19 +139,25 @@ export default class AnyBlockPlugin extends Plugin {
       })
     }
 
-    // 如果没有配置文件则生成一个默认值的配置文件
-    if (!data) {
-      this.saveData(this.settings)
-    }
-    expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
+    // 同步到通用设置 (一致性，from obsidian专属设置)
+    ABCSetting.is_debug = this.settings.is_debug
+    ABCSetting.pro.disable = this.settings.pro.disable
+    ABCSetting.pro.enable_callout_selector = this.settings.pro.enable_callout_selector
+    expiry.expiry = await onUpdateLicense(this.settings.pro.license_key) // [!code hl] obsidian-pro
+
+    // 同步到文件 (读取也执行一次，避免没配置文件/配置文件错误/新版本增加了新的配置选项)
+    this.saveData(this.settings)
   }
 
   async saveSettings() {
-    // 部分配置项需要保持一致性
+    // 同步到通用设置 (一致性，from obsidian专属设置)
     ABCSetting.is_debug = this.settings.is_debug
+    ABCSetting.pro.disable = this.settings.pro.disable
+    ABCSetting.pro.enable_callout_selector = this.settings.pro.enable_callout_selector
+    expiry.expiry = await onUpdateLicense(this.settings.pro.license_key) // [!code hl] obsidian-pro
 
+    // 同步到文件
     await this.saveData(this.settings)
-    expiry.expiry = await onUpdateLicense(this.settings.license_key) // [!code hl] obsidian-pro
   }
 
   onunload() {

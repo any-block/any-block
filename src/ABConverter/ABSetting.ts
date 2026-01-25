@@ -8,8 +8,8 @@
  * 全平台通用设置
  * 
  * @detail
- * 可以被obsidian的设置覆盖，如果没有GUI设置页面，可以人工修改
- * 这部分是给非obsidian环境用的
+ * 在 obsidian 环境中，需要保证与 obsidian 设置的一致性 (可以被obsidian的设置修改)
+ * 如果没有GUI设置页面，可以人工修改
  */
 export const ABCSetting: {
   is_debug: boolean,

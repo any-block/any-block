@@ -45,7 +45,11 @@ export interface ABSettingInterface {
   reg_header: string,               // 正则 - square brackets
   reg_header_noprefix: string,
   inline_split: string,             // 正则里的内联分隔符
-  license_key: string               // pro版许可证密钥
+  pro: {                            // pro 相关设置
+    license_key: string,            // pro版许可证密钥
+    disable: boolean,               // 是否禁用 pro 版增强功能
+    enable_callout_selector: boolean, // 使用 callout 选择器并自动替换
+  },
 }
 export enum ConfSelect{
   no = "no",
@@ -58,7 +62,6 @@ export enum ConfDecoration{
   block = "block"
 }
 
-const LICENSE_KEY_DEFAULT = "eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJleHBpcnkiOjE3NTk5MzA4MDYwOTcsInRpZXIiOiJwcm8ifQ==.e7jggys0LBESQU5CPbQwIId0iyZZJZoyx2FHc7JPC6BsncUHL+oYORUYceqYeKjmnQIt+FcgqCeE44930sSUmKJVamxqJKB//zZL/RPnyYbqS1aujzZlNmTWx8MRkr4A4V8+0esQIXBHpZS3Ye5gtwWVg/YuLcHq+cPsh9rxWOEmljauclSmCI4zm0o+pMEoY2NbntPv5DBUZ7k7rh7/a4WGUekb2mu9BmQuK+IzqpdjqDrFs6cn50KjqD122U9Wic7rPk1IqH2TMUjOyo8UIFjbs8RsCy//F6rcY5KJ/kDVjyqBMYaDvwZpbY8qzO1xPWc/GBaezk5SVeQrpek7jQ=="
 /** 配置文件 - 默认值 */
 export const AB_SETTINGS: ABSettingInterface = {
   select_list: ConfSelect.ifhead,
@@ -95,7 +98,11 @@ export const AB_SETTINGS: ABSettingInterface = {
   reg_header: ABReg.reg_header.toString(), // 举例: 可将 .* 修改成 (?:[^:]*) 以排除 [] 中有 : 情况
   reg_header_noprefix: ABReg.reg_header_noprefix.toString(), // 两个都要改
   inline_split: ABReg.inline_split.toString(), // "/\\| |,  |， |\\.  |。 |:  |： /",
-  license_key: LICENSE_KEY_DEFAULT,
+  pro: {
+    license_key: '',
+    disable: false,
+    enable_callout_selector: true,
+  },
 }
 
 /** 非配置文件 - 当前值/默认值 */
@@ -335,27 +342,45 @@ export class ABSettingTab extends PluginSettingTab {
     // #endregion
 
     // #region (pro) Pro功能设置
-    // if (ABCSetting.env === 'obsidian-pro') {
-    //   ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: "Pro"})
-    //   ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
-    //   new Setting(ab_tab_content_item).setName("License").setHeading()
-    //   ab_tab_content_item.createEl('p', {text: t("License2")})
+    if (ABCSetting.env === 'obsidian-pro') {
+      ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: t("Pro")})
+      ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
+      new Setting(ab_tab_content_item).setName(t("Pro")).setHeading()
+      ab_tab_content_item.createEl('p', {text: t("Pro2")})
 
-    //   // 1. 是否关闭 Pro 版的增强功能
-    //   // (关闭后，以下的功能也都全部不生效。体验大致等同非 Pro 版)
-    //   await onUpdateLicense("DISABLE_FLAG") // [!code hl] obsidian-pro
+      // 1. 是否关闭 Pro 版的增强功能
+      // (关闭后，以下的功能也都全部不生效。体验大致等同非 Pro 版)
+      new Setting(ab_tab_content_item)
+        .setName(t("Pro disable"))
+        .setDesc(t("Pro disable2"))
+        .addToggle(toggle => toggle
+        .setValue(settings.pro.disable)
+          .onChange(async (value) => {
+            settings.pro.disable = value; ABCSetting.pro.disable = value;
+            await this.plugin.saveSettings()
+          })
+        )
 
-    //   // 2.1. 是否使用 callout 选择器
-    //   // (会覆盖 Obsidian 自带 callout 选择器。注意 callout 块前后最好都有空行)
+      // 2.1. 是否使用 callout 选择器
+      // (会覆盖 Obsidian 自带 callout 选择器。注意 callout 块前后最好都有空行)
+      new Setting(ab_tab_content_item)
+        .setName(t("Pro callout"))
+        .setDesc(t("Pro callout2"))
+        .addToggle(toggle => toggle
+        .setValue(settings.pro.enable_callout_selector)
+          .onChange(async (value) => {
+            settings.pro.enable_callout_selector = value; ABCSetting.pro.enable_callout_selector = value;
+            await this.plugin.saveSettings()
+          })
+        )
 
-    //   // 2.2. 动态关闭其他选择器功能
-
-    //   // 2.3. 使用旧版选择器 or 新版选择器
-
-    //   // TODO 解决 ABStateManager 对 pro 库的依赖
-    //   // 以及解决此处对 pro 库的依赖
-    //   // 也还需要重构 selector 模块
-    // }
+      // 其他未来可能加入的设置:
+      // 2.2. 动态关闭其他选择器功能
+      // 3. 可编辑块默认显示模式
+      //   - 阅读模式，更节约性能和资源，需要中键激发编辑
+      //   - 实时模式，更耗费资源
+      // 4. 使用旧版选择器 or 新版选择器
+    }
     // #endregion
 
     // #region (pro) 许可证
@@ -373,9 +398,9 @@ export class ABSettingTab extends PluginSettingTab {
       new Setting(ab_tab_content_item)
         .setName(t("License key"))
         .addTextArea(text => text
-          .setValue(settings.license_key)
+          .setValue(settings.pro.license_key)
           .onChange(async (value) => {
-            settings.license_key = value
+            settings.pro.license_key = value
             await this.plugin.saveSettings()
           })
         )
@@ -393,7 +418,7 @@ export class ABSettingTab extends PluginSettingTab {
         .addToggle(toggle => toggle
         .setValue(settings.is_debug)
           .onChange(async (value) => {
-            settings.is_debug = value
+            settings.is_debug = value; ABCSetting.is_debug = value;
             await this.plugin.saveSettings()
           })
         )
