@@ -56,8 +56,8 @@ export class ABReplacer_Widget extends WidgetType {
 
       // TODO 有个可能发生的bug: ctx 他不一定是实时编辑根部的那个ctx，view也是
       // try {
-      //   const t = (ABCSetting.api.ob.global_ctx as MarkdownPostProcessorContext).getSectionInfo(this.div)
-      //   console.log('getSectionInfo', t, this.div, ABCSetting.api.ob.global_ctx)
+      //   const t = (ABCSetting.obsidian.global_ctx as MarkdownPostProcessorContext).getSectionInfo(this.div)
+      //   console.log('getSectionInfo', t, this.div, ABCSetting.obsidian.global_ctx)
       // } catch (e) {
       //   console.warn('getSectionInfo failed:', e)
       // }
@@ -124,8 +124,8 @@ export class ABReplacer_Widget extends WidgetType {
           parent_prefix: this.rangeSpec.prefix,
         },      
         setting: {},
-        ctx: ABCSetting.api.ob.global_ctx,
-        app: ABCSetting.api.ob.global_app,
+        ctx: ABCSetting.obsidian.global_ctx,
+        app: ABCSetting.obsidian.global_app,
       }
     )
 

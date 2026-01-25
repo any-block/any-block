@@ -36,7 +36,7 @@ export class ABSelector_PostHtml{
     el: HTMLElement, 
     ctx: MarkdownPostProcessorContext
   ) {
-    ABCSetting.api.ob.global_ctx = ctx;
+    ABCSetting.obsidian.global_ctx = ctx;
 
     if (this.settings.decoration_render==ConfDecoration.none) return // 若设置里不启用，直接退出
     const mdSrc: HTMLSelectorRangeSpec | null = getSourceMarkdown(el, ctx) // 获取el对应的源md

@@ -240,8 +240,8 @@ async function render_mermaidText(mermaidText: string, div: HTMLElement) {
   // 优点：无需自带mermaid依赖
   // full-ob和min-ob选用
   // 调试: 在 obsidian 控制台输入 `mermaid` 或 `mermaid.mermaidAPI.render("a-46485456", `graph TB\na\nbbb`).then(result => console.log("---", result))`
-  if ((ABCSetting.env.startsWith("obsidian")) && ABCSetting.api.ob.mermaid) {
-    ABCSetting.api.ob.mermaid.then(async mermaid => {
+  if ((ABCSetting.env.startsWith("obsidian")) && ABCSetting.obsidian.mermaid) {
+    ABCSetting.obsidian.mermaid.then(async mermaid => {
       const { svg } = await mermaid.render("ab-mermaid-"+getID(), mermaidText)
       const div_mermaid = document.createElement('div'); div.appendChild(div_mermaid); div_mermaid.classList.add("mermaid"); // 使用 obsidian 主题
       div_mermaid.innerHTML = svg

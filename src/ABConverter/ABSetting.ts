@@ -14,30 +14,29 @@
 export const ABCSetting: {
   is_debug: boolean,
   env: "obsidian"|"obsidian-min"|"obsidian-pro"|"app"|"markdown-it"|"remark",
-  api: { // 某些环境的独占 api，其他环境用不上
-    ob: {
-      global_app: any,
-      global_ctx: any, // MarkdownPostProcessorContext类型, obsidian专用
-      mermaid?: Promise<any>, // obsidian专用，obsidian 如何渲染mermaid
-    }
-    pro: {
-      disable: boolean, // 禁用 pro 版的扩展功能，变为非 pro 版
-      enable_callout_selector: boolean, // 是否启用 callout 选择器并自动替换 callout 为可编辑 callout
-    }
+  // 某些环境的独占 api，其他环境用不上
+  obsidian: {
+    global_app: any,
+    global_ctx: any, // MarkdownPostProcessorContext类型, obsidian专用
+    mermaid?: Promise<any>, // obsidian专用，obsidian 如何渲染mermaid
+  },
+  pro: {
+    disable: boolean, // 禁用 pro 版的扩展功能，变为非 pro 版
+    enable_callout_selector: boolean, // 是否启用 callout 选择器并自动替换 callout 为可编辑 callout
   },
 } = {
   is_debug: false,
   env: "obsidian",
-  api: {
-    ob: {
-      global_app: null,
-      global_ctx: null,
-    },
-    pro: {
-      disable: false,
-      enable_callout_selector: true,
-    }
+  // 某些环境的独占 api，其他环境用不上
+  obsidian: {
+    global_app: null,
+    global_ctx: null,
+    mermaid: undefined,
   },
+  pro: {
+    disable: false,
+    enable_callout_selector: true,
+  }
 }
 
 /**
