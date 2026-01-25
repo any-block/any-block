@@ -56,6 +56,8 @@ export const ABReg = {
 /**
  * ABConvert的设置
  * 
+ * 全平台通用设置
+ * 
  * @detail
  * 可以被obsidian的设置覆盖，如果没有GUI设置页面，可以人工修改
  * 这部分是给非obsidian环境用的
@@ -63,12 +65,38 @@ export const ABReg = {
 export const ABCSetting: {
   is_debug: boolean,
   env: "obsidian"|"obsidian-min"|"obsidian-pro"|"app"|"markdown-it"|"remark",
+  api: { // 某些环境的独占 api，其他环境用不上
+    obsidian: {
+      global_app: any,
+      global_ctx: any, // MarkdownPostProcessorContext类型, obsidian专用
+      mermaid?: Promise<any>,
+    }
+    pro: {
+      // create_decorations: any,
+      // onUpdateLicense 被替换安全
+      disable: boolean,
+      enable_callout_selector: boolean,
+    }
+  },
+  // 待删除
   global_app: any,
   global_ctx: any,
   mermaid?: Promise<any>,
 } = {
   is_debug: false,
   env: "obsidian",
+  api: {
+    obsidian: {
+      global_app: null,
+      global_ctx: null,
+    },
+    pro: {
+      // create_decorations: ()=>{}
+      disable: false,
+      enable_callout_selector: true,
+    }
+  },
+  // 待删除
   global_app: null,
   global_ctx: null, // MarkdownPostProcessorContext类型, obsidian专用
   mermaid: undefined, // obsidian专用，表示使用哪种方式渲染mermaid

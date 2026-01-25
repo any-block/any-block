@@ -8,7 +8,7 @@ import {App, PluginSettingTab, Setting, Modal, sanitizeHTMLToDom} from "obsidian
 import type AnyBlockPlugin from "../main"
 import {ABConvertManager} from "@/ABConverter/ABConvertManager"
 import {ABConvert, type ABConvert_SpecUser} from "@/ABConverter/converter/ABConvert"
-import { ABCSetting, ABReg } from "@/ABConverter/ABReg"
+import { ABCSetting, ABReg } from "@/ABConverter/ABSetting"
 import { ABAlias_json, ABAlias_json_default } from "@/ABConverter/ABAlias" // 别名模块
 import { root_menu_demo } from "@/ABConverter/demo" // 菜单模块
 

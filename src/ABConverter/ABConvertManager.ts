@@ -24,7 +24,7 @@ import {
   ABConvert
 } from './converter/ABConvert'
 import { autoABAlias } from "./ABAlias"
-import { ABCSetting } from "./ABReg"
+import { ABCSetting } from "./ABSetting"
  
 /**
   * AB转换器的管理器。注意：使用前必须先执行：`redefine_renderMarkdown`

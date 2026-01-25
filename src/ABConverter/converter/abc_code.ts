@@ -12,7 +12,7 @@
  * ```
  */
 
-import { ABReg } from "../ABReg"
+import { ABReg } from "../ABSetting"
 import { ABConvert, ABConvert_IOEnum } from "./ABConvert"
 
 const abc_region2indent = ABConvert.factory({

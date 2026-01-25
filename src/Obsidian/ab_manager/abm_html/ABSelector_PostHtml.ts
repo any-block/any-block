@@ -8,10 +8,10 @@ import {
 import { ConfDecoration } from "../../config/ABSettingTab"
 import type AnyBlockPlugin from "../../main"
 import { ABReplacer_Render } from "./ABReplacer_Render"
-import { ABReg } from "@/ABConverter/ABReg"
+import { ABReg } from "@/ABConverter/ABSetting"
 import { ABConvertManager } from "@/ABConverter/ABConvertManager"
 import { abConvertEvent } from "@/ABConverter/ABConvertEvent";
-import { ABCSetting } from '@/ABConverter/ABReg'
+import { ABCSetting } from '@/ABConverter/ABSetting'
 
 /**
  * Html处理器

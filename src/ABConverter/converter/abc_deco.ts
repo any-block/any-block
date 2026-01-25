@@ -7,7 +7,7 @@
 
 import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
 import { ABConvertManager } from "../ABConvertManager"
-import { ABCSetting } from "../ABReg";
+import { ABCSetting } from "../ABSetting"
 
 export const DECOProcessor = 0  // 用于模块化，防报错，其实没啥用
 

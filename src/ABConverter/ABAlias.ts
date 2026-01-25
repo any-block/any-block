@@ -23,7 +23,7 @@
  * 5. 正则的子串填空 (类似于搜索拐杖和旧版AB的别名器那样)
  */
 
-import {ABReg} from "./ABReg"
+import {ABReg} from "./ABSetting"
 
 /**
  * 指令头转义补全，可配合自然语言转指令

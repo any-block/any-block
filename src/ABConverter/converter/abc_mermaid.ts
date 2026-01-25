@@ -9,7 +9,7 @@
 import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
 import {ABConvertManager} from "../ABConvertManager"
 import {ListProcess, type List_ListItem} from "./abc_list"
-import {ABCSetting, ABReg} from "../ABReg"
+import {ABCSetting, ABReg} from "../ABSetting"
 
 /**
  * 生成一个随机id

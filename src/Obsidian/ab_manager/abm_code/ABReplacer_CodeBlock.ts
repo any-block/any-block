@@ -6,7 +6,7 @@ import{
 } from "obsidian";
 import { ABConvertManager } from "@/ABConverter/ABConvertManager";
 import { abConvertEvent } from "@/ABConverter/ABConvertEvent";
-import { ABCSetting, ABReg } from "@/ABConverter/ABReg";
+import { ABCSetting, ABReg } from "@/ABConverter/ABSetting";
 import { ABReplacer_Widget } from "../abm_cm/ABReplacer_Widget";
 
 export class ABReplacer_CodeBlock{

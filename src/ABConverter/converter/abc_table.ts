@@ -6,7 +6,7 @@
  * - 列表数据 -> 表格数据
  */
 
-import { ABReg } from '../ABReg'
+import { ABReg } from '../ABSetting'
 import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
 import {ABConvertManager} from "../ABConvertManager"
 import { type ListItem, type List_ListItem, ListProcess, abc_title2listdata, abc_list2listdata } from "./abc_list"

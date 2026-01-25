@@ -6,7 +6,7 @@
 
 import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
 import {ABConvertManager} from "../ABConvertManager"
-import {ABReg} from "../ABReg"
+import {ABReg} from "../ABSetting"
 
 /**
  * 将registerABProcessor的调用分成两步是因为：

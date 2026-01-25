@@ -4,7 +4,7 @@ import {
   WidgetType  // 装饰器部件
 } from "@codemirror/view"
 
-import { ABCSetting } from '@/ABConverter/ABReg'
+import { ABCSetting } from '@/ABConverter/ABSetting'
 import {ABConvertManager} from "@/ABConverter/ABConvertManager"
 import type {MdSelectorRangeSpec} from "../../../CodeMirror2/ABSelector_Md"
 import { abConvertEvent } from '@/ABConverter/ABConvertEvent'

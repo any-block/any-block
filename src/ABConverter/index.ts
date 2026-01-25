@@ -21,6 +21,6 @@ export {} from "./converter/abc_mermaid"  // 可选建议：新版无额外依�
 export {} from "./converter/abc_markmap"  // 可选建议：1.3MB
 
 // 定义环境条件
-import { ABCSetting } from "./ABReg"
+import { ABCSetting } from "./ABSetting"
 ABCSetting.env = "obsidian"
-export { ABCSetting } from "./ABReg"
+export { ABCSetting } from "./ABSetting"

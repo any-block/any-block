@@ -49,7 +49,7 @@ import MarkdownItConstructor from "markdown-it-container"
 // 3. markdown-it-anyblock 插件
 // import { ABConvertManager } from "./index"
 import { ABConvertManager } from "../ABConverter/ABConvertManager"
-import { ABCSetting, ABReg } from "../ABConverter/ABReg"
+import { ABCSetting, ABReg } from "../ABConverter/ABSetting"
 // 加载所有转换器 (都是可选的)
 // (当然，如果A转换器依赖B转换器，那么你导入A必然导入B)
 import "../ABConverter/converter/abc_text"

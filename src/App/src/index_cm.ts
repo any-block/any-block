@@ -24,12 +24,12 @@ import { create_widget } from './selector'
 
 // #region anyblock
 // import { ABConvertManager } from "../../ABConverter/ABConvertManager"
-// import { ABCSetting, ABReg } from "../../ABConverter/ABReg"
+// import { ABCSetting, ABReg } from "../../ABConverter/ABSetting"
 // 加载所有选择器
 import { init } from "../../CodeMirror2/ABSelector_MdBase" // 为什么这里的 `console.warn('sdgs mdbase loaded')` 没有不触发
 init() // 避免优化掉
 import {} from "../../CodeMirror2/ABSelector_Md"
-import { ABCSetting } from "../../ABConverter/ABReg"
+import { ABCSetting } from "../../ABConverter/ABSetting"
 // 加载所有转换器 (都是可选的)
 // (当然，如果A转换器依赖B转换器，那么你导入A必然导入B)
 import "../../ABConverter/converter/abc_text"

@@ -1,4 +1,4 @@
-import { ABReg } from "../ABConverter/ABReg"
+import { ABReg } from "../ABConverter/ABSetting"
 import {
   registerMdSelector, 
   type MdSelectorSpecSimp,

@@ -22,7 +22,7 @@ const md = new MarkdownIt({
 
 // 2. AnyBlock
 import { ABConvertManager } from "../ABConverter/ABConvertManager"
-import { ABCSetting, ABReg } from "../ABConverter/ABReg"
+import { ABCSetting, ABReg } from "../ABConverter/ABSetting"
 import "../ABConverter/converter/abc_text"
 import "../ABConverter/converter/abc_code"
 import "../ABConverter/converter/abc_list"
