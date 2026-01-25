@@ -24,7 +24,7 @@ import  { MarkdownView, type View, type Editor } from 'obsidian';
 
 import type AnyBlockPlugin from '../../main'
 import { ConfDecoration } from "../../config/ABSettingTab"
-import { autoMdSelector, type MdSelectorRangeSpec} from "./ABSelector_Md"
+import { autoMdSelector, type MdSelectorRangeSpec} from "../../../CodeMirror2/ABSelector_Md"
 import { ABReplacer_Widget } from "./ABReplacer_Widget"
 import { abConvertEvent } from "@/ABConverter/ABConvertEvent"
 // import { create_decorations } from "../../../CodeMirror/src/" // [!code hl] obsidian-pro

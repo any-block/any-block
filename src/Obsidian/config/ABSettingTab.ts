@@ -13,8 +13,8 @@ import { ABAlias_json, ABAlias_json_default } from "@/ABConverter/ABAlias" // �
 import { root_menu_demo } from "@/ABConverter/demo" // 菜单模块
 
 // 加载所有选择器
-import {} from "../ab_manager/abm_cm/ABSelector_MdBase"
-import {generateSelectorInfoTable} from "../ab_manager/abm_cm/ABSelector_Md"
+import {} from "../../CodeMirror2/ABSelector_MdBase"
+import {generateSelectorInfoTable} from "../../CodeMirror2/ABSelector_Md"
 
 import { t } from "../locales/helper"
 
@@ -99,7 +99,7 @@ export const AB_SETTINGS: ABSettingInterface = {
 }
 
 /** 非配置文件 - 当前值/默认值 */
-export const expiry = { // 仅用于显示，无其他用处
+export const expiry = { // 仅用于用户显示，无其他用处。被篡改无事
   expiry: -1
 }
 
@@ -332,6 +332,30 @@ export class ABSettingTab extends PluginSettingTab {
         }
       })
     }
+    // #endregion
+
+    // #region (pro) Pro功能设置
+    // if (ABCSetting.env === 'obsidian-pro') {
+    //   ab_tab_nav_item = el_tab_nav.createEl('button', {cls: 'ab-tab-nav-item', text: "Pro"})
+    //   ab_tab_content_item = el_tab_content.createEl('div', {cls: 'ab-tab-content-item'})
+    //   new Setting(ab_tab_content_item).setName("License").setHeading()
+    //   ab_tab_content_item.createEl('p', {text: t("License2")})
+
+    //   // 1. 是否关闭 Pro 版的增强功能
+    //   // (关闭后，以下的功能也都全部不生效。体验大致等同非 Pro 版)
+    //   await onUpdateLicense("DISABLE_FLAG") // [!code hl] obsidian-pro
+
+    //   // 2.1. 是否使用 callout 选择器
+    //   // (会覆盖 Obsidian 自带 callout 选择器。注意 callout 块前后最好都有空行)
+
+    //   // 2.2. 动态关闭其他选择器功能
+
+    //   // 2.3. 使用旧版选择器 or 新版选择器
+
+    //   // TODO 解决 ABStateManager 对 pro 库的依赖
+    //   // 以及解决此处对 pro 库的依赖
+    //   // 也还需要重构 selector 模块
+    // }
     // #endregion
 
     // #region (pro) 许可证

@@ -25,7 +25,7 @@
  * 这里使用后者
  */
 
-import { autoMdSelector, type MdSelectorRangeSpec } from "../Obsidian/ab_manager/abm_cm/ABSelector_Md";
+import { autoMdSelector, type MdSelectorRangeSpec } from "../CodeMirror2/ABSelector_Md";
 
 export function selector_from_text(mdText?: string) {
   return autoMdSelector(mdText)

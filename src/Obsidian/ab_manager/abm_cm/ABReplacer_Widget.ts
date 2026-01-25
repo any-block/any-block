@@ -6,7 +6,7 @@ import {
 
 import { ABCSetting } from '@/ABConverter/ABReg'
 import {ABConvertManager} from "@/ABConverter/ABConvertManager"
-import type {MdSelectorRangeSpec} from "./ABSelector_Md"
+import type {MdSelectorRangeSpec} from "../../../CodeMirror2/ABSelector_Md"
 import { abConvertEvent } from '@/ABConverter/ABConvertEvent'
 
 export class ABReplacer_Widget extends WidgetType {

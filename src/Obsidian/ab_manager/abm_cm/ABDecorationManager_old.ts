@@ -6,7 +6,7 @@ import {EditorView, Decoration} from "@codemirror/view"
 import type {Extension} from "@codemirror/state"
 
 import type { ABStateManager } from './ABStateManager';
-import type { MdSelectorRangeSpec } from "./ABSelector_Md"
+import type { MdSelectorRangeSpec } from "../../../CodeMirror2/ABSelector_Md"
 import { ABReplacer_Widget } from "./ABReplacer_Widget"
 
 interface CursorSpec{

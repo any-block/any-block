@@ -22,7 +22,7 @@
  *    上一层需要获取选择器列表，再在上一层遍历
  */
 
-import { ABReg } from "../../../ABConverter/ABReg"
+import { ABReg } from "../ABConverter/ABReg"
 
 /**
  * 自动选择器
