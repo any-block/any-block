@@ -48,7 +48,8 @@ export interface ABSettingInterface {
   pro: {                            // pro 相关设置
     license_key: string,            // pro版许可证密钥
     disable: boolean,               // 是否禁用 pro 版增强功能
-    enable_callout_selector: boolean, // 使用 callout 选择器并自动替换
+    enable_callout_selector: boolean,     // 使用 callout 选择器并自动替换
+    editableblock_defaultRender: 'readmode' | 'realtime', // 可编辑块的默认渲染模式
   },
 }
 export enum ConfSelect{
@@ -102,6 +103,7 @@ export const AB_SETTINGS: ABSettingInterface = {
     license_key: '',
     disable: false,
     enable_callout_selector: true,
+    editableblock_defaultRender: 'readmode',
   },
 }
 
@@ -361,13 +363,30 @@ export class ABSettingTab extends PluginSettingTab {
           })
         )
 
-      // 2.1. 是否使用 callout 选择器
+      // 2. 可编辑块默认显示模式
+      //   - 阅读模式，更节约性能和资源，需要中键激发编辑
+      //   - 实时模式，更耗费资源
+      new Setting(ab_tab_content_item)
+        .setName(t("Pro editableblock render"))
+        .setDesc(t("Pro editableblock render2"))
+        .addDropdown(component => {
+          component
+          .addOption("readmode", t("Pro editableblock render3"))
+          .addOption("realtime", t("Pro editableblock render4"))
+          .setValue(settings.pro.editableblock_defaultRender)
+          .onChange(async v => {
+            const value = v as "readmode" | "realtime"
+            settings.pro.editableblock_defaultRender = value; ABCSetting.pro.editableblock_defaultRender = value;
+          })
+        })
+
+      // 3.1. 是否使用 callout 选择器
       // (会覆盖 Obsidian 自带 callout 选择器。注意 callout 块前后最好都有空行)
       new Setting(ab_tab_content_item)
         .setName(t("Pro callout"))
         .setDesc(t("Pro callout2"))
         .addToggle(toggle => toggle
-        .setValue(settings.pro.enable_callout_selector)
+          .setValue(settings.pro.enable_callout_selector)
           .onChange(async (value) => {
             settings.pro.enable_callout_selector = value; ABCSetting.pro.enable_callout_selector = value;
             await this.plugin.saveSettings()
@@ -375,10 +394,7 @@ export class ABSettingTab extends PluginSettingTab {
         )
 
       // 其他未来可能加入的设置:
-      // 2.2. 动态关闭其他选择器功能
-      // 3. 可编辑块默认显示模式
-      //   - 阅读模式，更节约性能和资源，需要中键激发编辑
-      //   - 实时模式，更耗费资源
+      // 3.2. 动态关闭其他选择器功能
       // 4. 使用旧版选择器 or 新版选择器
     }
     // #endregion

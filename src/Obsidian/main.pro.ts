@@ -143,6 +143,7 @@ export default class AnyBlockPlugin extends Plugin {
     ABCSetting.is_debug = this.settings.is_debug
     ABCSetting.pro.disable = this.settings.pro.disable
     ABCSetting.pro.enable_callout_selector = this.settings.pro.enable_callout_selector
+    ABCSetting.pro.editableblock_defaultRender = this.settings.pro.editableblock_defaultRender
     expiry.expiry = await onUpdateLicense(this.settings.pro.license_key) // [!code hl] obsidian-pro
 
     // 同步到文件 (读取也执行一次，避免没配置文件/配置文件错误/新版本增加了新的配置选项)
@@ -154,6 +155,7 @@ export default class AnyBlockPlugin extends Plugin {
     ABCSetting.is_debug = this.settings.is_debug
     ABCSetting.pro.disable = this.settings.pro.disable
     ABCSetting.pro.enable_callout_selector = this.settings.pro.enable_callout_selector
+    ABCSetting.pro.editableblock_defaultRender = this.settings.pro.editableblock_defaultRender
     expiry.expiry = await onUpdateLicense(this.settings.pro.license_key) // [!code hl] obsidian-pro
 
     // 同步到文件
