@@ -54,16 +54,18 @@ export default {
   'Pro disable2': '(修改后需要重启插件) \
 禁用 Pro 版功能，开启后等同于非 Pro 版功能，便于调试 bug 或功能是否该模块产生的',
   'Pro editableblock render': '可编辑块的默认渲染',
-  'Pro editableblock render2': '可编辑块的默认渲染模式。\n\
-阅读模式: 需要使用中键进入编辑，中键/Esc/光标外部聚焦完成编辑。\n\
-实时模式: 可直接编辑但会更吃性能',
+  'Pro editableblock render2': '可编辑块的默认渲染模式',
+  'Pro editableblock render21': '- 阅读模式: 需要使用中键进入编辑，中键/Esc/光标外部聚焦完成编辑',
+  'Pro editableblock render22': '- 实时模式: 可直接编辑但会更吃性能',
+  'Pro editableblock render23': '- 仅编辑时接管 (开发中): 不修改默认渲染逻辑，仅中键将其修改为可编辑状态',
   'Pro editableblock render3': '阅读模式',
   'Pro editableblock render4': '实时模式',
   'Pro callout': 'Callout 选择器',
   'Pro callout2': '使用 Callout 选择器，并启用可编辑 Callout',
 
   'License': '许可证',
-  'License2': '这是Pro版的许可证，到期时间的显示需要重新打开设置面板来更新',
+  'License2': '这是Pro版的许可证，到期时间的显示需要重新打开设置面板来更新\n\
+采用双许可证机制，每次更新都会给一定时长的默认免费许可证 (与用户许可证并存)',
   'License key': '许可证密钥',
   'License Expiry': '许可证到期时间，到期时间的显示需要重新打开设置面板来更新',
 

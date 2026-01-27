@@ -327,19 +327,19 @@ export class ABSettingTab extends PluginSettingTab {
       // textarea.textContent = JSON.stringify(root_menu_demo, null, 2)
 
       // demo2
-      const div = ab_tab_content_item.createEl('div')
-      ABConvertManager.autoABConvert(div, "json-e", `\`\`\`json\n${JSON.stringify(root_menu_demo, null, 2)}\n\`\`\``, "unknown", {
-        save: (str_with_prefix: string, force_refresh: boolean = false) => {
-          // 去除代码块
-          const match = /^(```+|~~~+)(.*)\n([\s\S]*?)\n(\1)$/gm.exec(str_with_prefix)
-          let content2 = str_with_prefix
-          if (match) {
-            content2 = match[3]
-          }
+      // const div = ab_tab_content_item.createEl('div')
+      // ABConvertManager.autoABConvert(div, "json-e", `\`\`\`json\n${JSON.stringify(root_menu_demo, null, 2)}\n\`\`\``, "unknown", {
+      //   save: (str_with_prefix: string, force_refresh: boolean = false) => {
+      //     // 去除代码块
+      //     const match = /^(```+|~~~+)(.*)\n([\s\S]*?)\n(\1)$/gm.exec(str_with_prefix)
+      //     let content2 = str_with_prefix
+      //     if (match) {
+      //       content2 = match[3]
+      //     }
 
-          Object.assign(root_menu_demo, JSON.parse(content2)) // 以json方式拷贝
-        }
-      })
+      //     Object.assign(root_menu_demo, JSON.parse(content2)) // 以json方式拷贝
+      //   }
+      // })
     }
     // #endregion
 
@@ -368,7 +368,17 @@ export class ABSettingTab extends PluginSettingTab {
       //   - 实时模式，更耗费资源
       new Setting(ab_tab_content_item)
         .setName(t("Pro editableblock render"))
-        .setDesc(t("Pro editableblock render2"))
+        .setDesc(
+          createFragment(frag => {
+            frag.appendText(t("Pro editableblock render2"));
+            frag.appendChild(document.createElement("br"));
+            frag.appendText(t("Pro editableblock render21"));
+            frag.appendChild(document.createElement("br"));
+            frag.appendText(t("Pro editableblock render22"));
+            frag.appendChild(document.createElement("br"));
+            frag.appendText(t("Pro editableblock render23"));
+          })
+        )
         .addDropdown(component => {
           component
           .addOption("readmode", t("Pro editableblock render3"))
