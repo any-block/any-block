@@ -24,6 +24,13 @@ export const ABCSetting: {
     disable: boolean, // 禁用 pro 版的扩展功能，变为非 pro 版
     enable_callout_selector: boolean, // 是否启用 callout 选择器并自动替换 callout 为可编辑 callout
     editableblock_defaultRender: 'readmode' | 'realtime', // 可编辑块的默认渲染模式
+    create_decorations: undefined | ((
+      customData: {
+        cancelFlag: number[];
+        updateMode: string | number;
+      },
+      oldView: any, tr: any, decorationSet: any | undefined, create_widget: any
+    ) => any)
   },
 } = {
   is_debug: false,
@@ -38,6 +45,7 @@ export const ABCSetting: {
     disable: false,
     enable_callout_selector: true,
     editableblock_defaultRender: 'readmode',
+    create_decorations: undefined
   }
 }
 

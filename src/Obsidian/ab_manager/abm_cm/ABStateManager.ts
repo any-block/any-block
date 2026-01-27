@@ -27,7 +27,7 @@ import { ConfDecoration } from "../../config/ABSettingTab"
 import { autoMdSelector, type MdSelectorRangeSpec} from "../../../CodeMirror2/ABSelector_Md"
 import { ABReplacer_Widget } from "./ABReplacer_Widget"
 import { abConvertEvent } from "@/ABConverter/ABConvertEvent"
-// import { create_decorations } from "../../../CodeMirror/src/" // [!code hl] obsidian-pro
+import { ABCSetting } from "@/ABConverter";
 
 // 获取 - 模式
 enum Editor_mode{
@@ -213,37 +213,39 @@ export class ABStateManager {
     }
 
     // 2. 解析、并装饰调整匹配项（删增改），包起来准备防抖（未防抖）
-    // // let refreshStrong = this.onUpdate_refresh.bind(this)
-    const new_decorationSet = this.onUpdate_refresh(decorationSet, tr, decoration_mode, editor_mode)
-    this.prev_decoration_mode = decoration_mode; this.prev_editor_mode = editor_mode; // 返回前操作2
-    return new_decorationSet
+    if (ABCSetting.env != "obsidian-pro" || ABCSetting.pro.disable || ABCSetting.pro.create_decorations == undefined) {
+      // let refreshStrong = this.onUpdate_refresh.bind(this)
+      const new_decorationSet = this.onUpdate_refresh(decorationSet, tr, decoration_mode, editor_mode)
+      this.prev_decoration_mode = decoration_mode; this.prev_editor_mode = editor_mode; // 返回前操作2
+      return new_decorationSet
+    } else {
+      // [!code hl] obsidian-pro
+      // TODO 没有排除源码模式的情况
+      const create_widget = (
+        customData: { cancelFlag: number[], updateMode: string|number },
+        state: EditorState, oldView: EditorView,
+        rangeSpec: any, // RangeSpec_AnyBlock
+        // rangeSpec: RangeSpec_Codeblock | RangeSpec_Quote | RangeSpec_AnyBlock,
+        focusLine: number|null = null, focusOffset: number = 0
+      ): WidgetType => {
+        // 这里再转回旧版的，复用旧版的逻辑
+        const rangeSpec_: MdSelectorRangeSpec = {
+          content: rangeSpec.text_content,
 
-    // [!code hl] obsidian-pro
-    // TODO 没有排除源码模式的情况
-    // const create_widget = (
-    //   customData: { cancelFlag: number[], updateMode: string|number },
-    //   state: EditorState, oldView: EditorView,
-    //   rangeSpec: any, // RangeSpec_AnyBlock
-    //   // rangeSpec: RangeSpec_Codeblock | RangeSpec_Quote | RangeSpec_AnyBlock,
-    //   focusLine: number|null = null, focusOffset: number = 0
-    // ): WidgetType => {
-    //   // 这里再转回旧版的，复用旧版的逻辑
-    //   const rangeSpec_: MdSelectorRangeSpec = {
-    //     content: rangeSpec.text_content,
-
-    //     from_ch: rangeSpec.fromPos,
-    //     to_ch: rangeSpec.toPos,
-    //     header: rangeSpec.header,
-    //     selector: rangeSpec.selector,
-    //     prefix: rangeSpec.parent_prefix,
-    //   }
-    //   return new ABReplacer_Widget(rangeSpec_, this.editor, customData)
-    // }
-    // const new_decorationSet = create_decorations(this.customData, this.editorView, tr, decorationSet, 
-    //   create_widget
-    // )
-    // this.prev_decoration_mode = decoration_mode; this.prev_editor_mode = editor_mode; // 返回前操作2
-    // return new_decorationSet
+          from_ch: rangeSpec.fromPos,
+          to_ch: rangeSpec.toPos,
+          header: rangeSpec.header,
+          selector: rangeSpec.selector,
+          prefix: rangeSpec.parent_prefix,
+        }
+        return new ABReplacer_Widget(rangeSpec_, this.editor, customData)
+      }
+      const new_decorationSet = ABCSetting.pro.create_decorations(this.customData, this.editorView, tr, decorationSet, 
+        create_widget
+      )
+      this.prev_decoration_mode = decoration_mode; this.prev_editor_mode = editor_mode; // 返回前操作2
+      return new_decorationSet
+    }
   }
 
   /**

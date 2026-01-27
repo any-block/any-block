@@ -30,6 +30,10 @@ import { registerCommands, registerStatus } from './utils'
 import { ABSettingTab, AB_SETTINGS, type ABSettingInterface, expiry } from "./config/ABSettingTab"
 import { ABAlias_json } from '@/ABConverter/ABAlias'
 
+// 新选择器 // [!code hl] obsidian-pro
+import { create_decorations } from "@/CodeMirror/src/" // [!code hl] obsidian-pro
+if (!ABCSetting.pro.disable) ABCSetting.pro.create_decorations = create_decorations
+
 export default class AnyBlockPlugin extends Plugin {
   settings: ABSettingInterface
 
