@@ -327,7 +327,7 @@ export class ABStateManager {
         // 光标在内
         if (isCursorIn) {
           const decoration = Decoration.mark({
-            class: "cm-line-yellow",
+            class: "ab-line-yellow",
             inclusive: true, // 区别: PosAtDom() 时有区别，false的话pos结果有波动，true则获取结果包含两侧符号，更稳定。且 img.cm-widgetBuffer 可能消失
           // block: true, // 区别: 光标上下移动会跳过 block，但这个也能自行监听且感觉更合适
           })

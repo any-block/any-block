@@ -187,7 +187,7 @@ onMounted(() => {
 }
 
 /* cm */
-.cm-line-yellow {
+.ab-line-yellow {
   text-decoration: underline 1px rgba(255, 255, 0, 0.3);
 }
 .editable-codeblock-p > .editable-codeblock.editable-textarea > textarea {
