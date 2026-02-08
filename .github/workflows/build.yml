@@ -30,7 +30,7 @@ jobs:                         # 工作流
       if: always()                      # 即使之前的构建步骤失败，也会上载构建产物
       uses: actions/upload-artifact@v4  # 保存构建产物 (使用的是官方提供的action)
       with:
-        name: build-artifact            # 构建产物的名称
+        name: obsidian-any-block        # 构建产物的名称
         path: |                         # 构建产物的路径
           manifest.json
           main.js
@@ -60,7 +60,7 @@ jobs:                         # 工作流
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: build-artifact-min
+        name: obsidian-any-block-min
         path: |
           manifest.json
           main.js
@@ -98,7 +98,7 @@ jobs:                         # 工作流
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: build-artifact-pro
+        name: obsidian-any-block-pro
         path: |
           manifest.json
           main.js
@@ -173,3 +173,42 @@ jobs:                         # 工作流
     #   env:
     #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     #   continue-on-error: true  # 关键配置：允许步骤失败但不中断工作流
+
+  create-release:
+    name: Create Release
+    if: github.event_name == 'push' # 跳过PR
+    needs: [build-obsidian, build-obsidian-min, build-obsidian-pro] # 需要等待相关 build job 都成功
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          # 将所有构建产物下载到 'dist' 目录
+          # 这将创建 'dist/obsidian-any-menu'、'dist/any-menu-windows-msi' 等子目录
+          path: ./dist
+      
+      - name: List downloaded artifacts
+        run: |
+          echo "Listing contents of ./dist:"
+          ls -R ./dist
+
+      # 场景一：release 到正式版 tag
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/') # 有tag
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.ANYMENU }}
+          # 'tag' 默认就是 github.ref_name (即你推送的 tag)，所以不用写
+          name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
+          body: |
+
+          artifacts: |
+            ./dist/obsidian-any-block/*
+            # ./dist/obsidian-any-block-min/* # TODO 部署到其他 repo 中，方便用户使用 brat 更新
+            # ./dist/obsidian-any-block-pro/*
+          generateReleaseNotes: true # 自动根据 commits 生成 release notes
+          prerelease: true # 是否预发布
+          makeLatest: false  # 是否最后一个版本
+
+      # 场景二：release 到固定的 beta tag
+      # 略
