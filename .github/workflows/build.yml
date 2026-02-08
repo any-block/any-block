@@ -184,7 +184,7 @@ jobs:                         # 工作流
         uses: actions/download-artifact@v4
         with:
           # 将所有构建产物下载到 'dist' 目录
-          # 这将创建 'dist/obsidian-any-menu'、'dist/any-menu-windows-msi' 等子目录
+          # 这将创建 'dist/xxx' 等子目录
           path: ./dist
       
       - name: List downloaded artifacts
@@ -197,18 +197,49 @@ jobs:                         # 工作流
         if: startsWith(github.ref, 'refs/tags/') # 有tag
         uses: ncipollo/release-action@v1
         with:
-          token: ${{ secrets.ANYMENU }}
+          token: ${{ secrets.AnyBlockPro_Repo }}
           # 'tag' 默认就是 github.ref_name (即你推送的 tag)，所以不用写
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
-          body: |
-
           artifacts: |
             ./dist/obsidian-any-block/*
-            # ./dist/obsidian-any-block-min/* # TODO 部署到其他 repo 中，方便用户使用 brat 更新
-            # ./dist/obsidian-any-block-pro/*
           generateReleaseNotes: true # 自动根据 commits 生成 release notes
           prerelease: true # 是否预发布
           makeLatest: false  # 是否最后一个版本
+          allowUpdates: true # 如果 tag 已存在，允许更新
+
+      - name: Create Release - min
+        if: startsWith(github.ref, 'refs/tags/') # 有tag
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.AnyBlockPro_Repo }}
+          # 以下三个表示在其他仓库进行 release
+          owner: any-block
+          repo: obsidian-any-block-min
+          tag: ${{ github.ref_name }} # 使用相同的 tag 名
+          name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
+          artifacts: |
+            ./dist/obsidian-any-block-min/*
+          generateReleaseNotes: false # 非本仓库则可能没有相同的 commit 历史，建议关闭
+          prerelease: true
+          makeLatest: false
+          allowUpdates: true
+
+      - name: Create Release - pro
+        if: startsWith(github.ref, 'refs/tags/') # 有tag
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.AnyBlockPro_Repo }}
+          # 以下三个表示在其他仓库进行 release
+          owner: any-block
+          repo: obsidian-any-block-pro
+          tag: ${{ github.ref_name }} # 使用相同的 tag 名
+          name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
+          artifacts: |
+            ./dist/obsidian-any-block-pro/*
+          generateReleaseNotes: false # 非本仓库则可能没有相同的 commit 历史，建议关闭
+          prerelease: true
+          makeLatest: false
+          allowUpdates: true
 
       # 场景二：release 到固定的 beta tag
       # 略
