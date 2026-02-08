@@ -3,6 +3,7 @@ name: Node.js CI/CD Pipeline  # 工作流名
 on:                           # 触发器，定义何时运行此工作流
   push:
     branches: [main]          # 默认分支名!
+    tags: ['**']              # or tags: ['v*']
   pull_request:
     branches: [main]
   workflow_dispatch:          # 手动执行
