@@ -203,7 +203,7 @@ jobs:                         # 工作流
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
           body: |
             (en) For the update log, please visit https://lincdocs.github.io/AnyBlock/en/CHANGELOG
-            <br><br>
+
             (zh) 更新日志详见: https://lincdocs.github.io/AnyBlock/zh/CHANGELOG
           artifacts: |
             ./dist/obsidian-any-block/*
@@ -224,7 +224,7 @@ jobs:                         # 工作流
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
           body: |
             (en) For the update log, please visit https://lincdocs.github.io/AnyBlock/en/CHANGELOG
-            <br><br>
+
             (zh) 更新日志详见: https://lincdocs.github.io/AnyBlock/zh/CHANGELOG
           artifacts: |
             ./dist/obsidian-any-block-min/*
@@ -245,7 +245,7 @@ jobs:                         # 工作流
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
           body: |
             (en) For the update log, please visit https://lincdocs.github.io/AnyBlock/en/CHANGELOG
-            <br><br>
+
             (zh) 更新日志详见: https://lincdocs.github.io/AnyBlock/zh/CHANGELOG
           artifacts: |
             ./dist/obsidian-any-block-pro/*

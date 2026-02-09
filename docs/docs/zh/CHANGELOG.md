@@ -2,6 +2,32 @@
 
 按时间倒序展示
 
+## 3.4.3 (2026-02-09)
+
+(不包含上一正式版到这版本之间的 beta 版更新日志，如需了解更多更新内容，可自主查看)
+
+- feat
+  - 支持自定义 `[]` 头正则
+  - 新增脚本子项目，新增一些命令:
+    - 快速生成临时文件以方便导出带 AnyBlock 渲染的 PDF
+    - 刷新视图
+    - 去除 AnyBlock 头部标识
+  - 工具栏添加: wider 按钮
+- enhance
+  - 一些代码优化
+  - 避免 mermaid 样式的全局污染
+- fix
+  - 默认避免了与 dataview 的行内属性 `[::]` 的冲突
+  - 别名设置保存失败
+  - 在非 obsidian 环境中 fold 处理器失效
+- pro
+  - 设置面板相关设置
+- refactor / chore
+  - 重构了 markdown-it vuepress 插件等环境中，jsdom 的使用，允许仅使用时注入虚拟浏览器环境，避免环境污染
+  - 重构了 CodeMirror 程序文件的结构，新增 CodeMirror2 子项目
+  - 重命名了 ABReg 文件 (有 fork 魔改的请注意)，以及添加了 ABCSetting 中多平台差异化 api 的集中管理
+  - 新增 remark 插件版本，增强了通用性。创建了 Quartz4 和 Docusaurus 使用 AnyBlock 的 Demo
+
 ## 3.4.1-beta3 (2025-12-24)
 
 - feat

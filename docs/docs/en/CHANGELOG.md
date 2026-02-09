@@ -2,6 +2,32 @@
 
 Display in reverse chronological order
 
+## 3.4.3 (2026-02-09)
+
+(Does not include beta version changelogs between the previous official release and this version. For more update details, please check independently.)
+
+- feat
+  - Support custom `[]` header regex
+  - Added script subproject, including some new commands:
+    - Quickly generate temporary files to facilitate exporting PDFs with AnyBlock rendering
+    - Refresh view
+    - Remove AnyBlock header identifiers
+  - Toolbar added: wider button
+- enhance
+  - Some code optimizations
+  - Avoid global style pollution of mermaid
+- fix
+  - Default avoidance of conflicts with dataview inline attributes `[::]`
+  - Alias settings save failure
+  - Fold processor failure in non-Obsidian environments
+- pro
+  - Settings panel related configurations
+- refactor / chore
+  - Refactored the use of jsdom in environments such as markdown-it vuepress plugin, allowing virtual browser environment injection only when needed to avoid environmental pollution
+  - Refactored the structure of CodeMirror program files, added CodeMirror2 subproject
+  - Renamed ABReg file (please note if you have forked and modified), and added centralized management of multi-platform differentiated APIs in ABCSetting
+  - Added remark plugin version, improved universality. Created demos for using AnyBlock in Quartz4 and Docusaurus
+
 ## 3.4.1-beta3 (2025-12-24)
 
 - feat
