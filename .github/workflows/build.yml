@@ -185,7 +185,7 @@ jobs:                         # 工作流
         uses: actions/download-artifact@v4
         with:
           # 将所有构建产物下载到 'dist' 目录
-          # 这将创建 'dist/xxx' 等子目录
+          # 这将创建 'dist/artifact1'、'dist/artifact2' 等子目录
           path: ./dist
       
       - name: List downloaded artifacts
@@ -201,11 +201,15 @@ jobs:                         # 工作流
           token: ${{ secrets.AnyBlockPro_Repo }}
           # 'tag' 默认就是 github.ref_name (即你推送的 tag)，所以不用写
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
+          body: |
+            (en) For the update log, please visit https://lincdocs.github.io/AnyBlock/en/CHANGELOG
+            <br><br>
+            (zh) 更新日志详见: https://lincdocs.github.io/AnyBlock/zh/CHANGELOG
           artifacts: |
             ./dist/obsidian-any-block/*
-          generateReleaseNotes: true # 自动根据 commits 生成 release notes
-          prerelease: true # 是否预发布
-          makeLatest: false  # 是否最后一个版本
+          generateReleaseNotes: false # 自动根据 commits 生成 release notes。此外，这里应该导向一个更新日志页
+          prerelease: true # 是否预发布 (可以在release上修改该项，我就不判断tag是否beta结尾了)
+          makeLatest: false  # 是否最后一个版本 (可以在release上修改该项，我就不判断tag是否beta结尾了)
           allowUpdates: true # 如果 tag 已存在，允许更新
 
       - name: Create Release - min
@@ -218,6 +222,10 @@ jobs:                         # 工作流
           repo: obsidian-any-block-min
           tag: ${{ github.ref_name }} # 使用相同的 tag 名
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
+          body: |
+            (en) For the update log, please visit https://lincdocs.github.io/AnyBlock/en/CHANGELOG
+            <br><br>
+            (zh) 更新日志详见: https://lincdocs.github.io/AnyBlock/zh/CHANGELOG
           artifacts: |
             ./dist/obsidian-any-block-min/*
           generateReleaseNotes: false # 非本仓库则可能没有相同的 commit 历史，建议关闭
@@ -235,6 +243,10 @@ jobs:                         # 工作流
           repo: obsidian-any-block-pro
           tag: ${{ github.ref_name }} # 使用相同的 tag 名
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
+          body: |
+            (en) For the update log, please visit https://lincdocs.github.io/AnyBlock/en/CHANGELOG
+            <br><br>
+            (zh) 更新日志详见: https://lincdocs.github.io/AnyBlock/zh/CHANGELOG
           artifacts: |
             ./dist/obsidian-any-block-pro/*
           generateReleaseNotes: false # 非本仓库则可能没有相同的 commit 历史，建议关闭
