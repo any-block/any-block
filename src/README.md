@@ -44,3 +44,7 @@ pnpm -r publish --access public
 #  --tag beta: 若为beta版本
 # 如没登录需要先 npm adduser
 ```
+
+然后再去更新三个 manifest.json 内的 version (obsidian 用)
+
+以及两个分发 obsidian 仓库中的 manifest.json

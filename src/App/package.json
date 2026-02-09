@@ -1,6 +1,6 @@
 {
   "name": "any-block-app",
-  "version": "3.3.2",
+  "version": "3.4.3",
   "description": "",
   "scripts": {
     "dev": "vite",
