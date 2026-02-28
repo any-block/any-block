@@ -162,6 +162,29 @@ Author: LincZero
 
 :::
 
+小技巧: 这个也可以与上一章的 exTable 合起来一起用 (AnyBlock 的串联处理器语法)
+
+示例:
+
+:::mditABDemo
+
+[list2table|exTable]
+
+- title | <| <
+- 1
+  - 2
+  - 3
+    - 4
+    - 5
+- 6
+  - 7
+  - 8
+- tail
+  - <
+    - <
+
+:::
+
 ## (5) Markdown-it-attrs
 
 见:
