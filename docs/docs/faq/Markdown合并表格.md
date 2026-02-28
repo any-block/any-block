@@ -183,6 +183,8 @@ Author: LincZero
   - <
     - <
 
+(exTable 是 el->el 处理器，需要额外适配。此处在 obsidian 中正常，但在网页端可能未能正常渲染)
+
 :::
 
 ## (5) Markdown-it-attrs
