@@ -62,7 +62,7 @@ function easySelector(
  * 基本同 easySelector
  * 
  * 区别：
- * - easySelector:
+ * - easySelector: 给 `[<header>]` 选择器使用
  * - easySelector_headtail: 特供给头尾选择器来使用
  */
 function easySelector_headtail(
@@ -81,7 +81,7 @@ function easySelector_headtail(
     prefix: ""
   }
   // 验证首行
-  if (from_line <= 0) return null
+  if (from_line < 0) return null
   const first_line_match = list_text[from_line].match(frist_reg)
   if (!first_line_match) return null
   mdRange.prefix = first_line_match[1]  // 可以是空
@@ -93,6 +93,8 @@ function easySelector_headtail(
 
 /**
  * 首尾选择器
+ * 
+ * 这里先匹配 `mdit :::` 再向下找结束，和其他几个逻辑不太一样
  */
 const mdSelector_headtail:MdSelectorSpecSimp = {
   id: "mdit",
@@ -143,6 +145,8 @@ registerMdSelector(mdSelector_headtail)
 
 /**
  * 列表选择器
+ * 
+ * TODO 这里是先匹配 list 再向上找 `[<header>]`，逻辑不好用。以后可以改成 pro 版逻辑
  */
 const mdSelector_list:MdSelectorSpecSimp = {
   id: "list",
@@ -180,6 +184,8 @@ registerMdSelector(mdSelector_list)
 
 /**
  * 代码块选择器
+ * 
+ * TODO 这里是先匹配 code 再向上找 `[<header>]`，逻辑不好用。以后可以改成 pro 版逻辑
  */
 const mdSelector_code:MdSelectorSpecSimp = {
   id: "code",
@@ -215,6 +221,8 @@ registerMdSelector(mdSelector_code)
 
 /**
  * 引用块选择器
+ * 
+ * TODO 这里是先匹配 quote 再向上找 `[<header>]`，逻辑不好用。以后可以改成 pro 版逻辑
  */
 const mdSelector_quote:MdSelectorSpecSimp = {
   id: "quote",
@@ -248,6 +256,8 @@ registerMdSelector(mdSelector_quote)
 
 /**
  * 表格块选择器
+ * 
+ * TODO 这里是先匹配 table 再向上找 `[<header>]`，逻辑不好用。以后可以改成 pro 版逻辑
  */
 const mdSelector_table:MdSelectorSpecSimp = {
   id: "table",
@@ -281,6 +291,8 @@ registerMdSelector(mdSelector_table)
 
 /**
  * 标题选择器
+ * 
+ * TODO 这里是先匹配 heading 再向上找 `[<header>]`，逻辑不好用。以后可以改成 pro 版逻辑
  */
 const mdSelector_heading:MdSelectorSpecSimp = {
   id: "heading",

@@ -83,7 +83,7 @@ export function autoMdSelector(
     for (let selecotr of list_mdSelector){ // 遍历选择器列表
       if (selecotr.match.test(line)) {
         // TODO V3.0.7beta 发现一个选择器优化方案：这里触发时，i位于`[]`的下面，即 `- `、`# ` 所属行。这个逻辑其实不太对。应该在 `[]` 所在行触发会比较好
-        let sim:MdSelectorRangeSpecSimp|null = selecotr.selector(list_text, i)
+        let sim: MdSelectorRangeSpecSimp|null = selecotr.selector(list_text, i)
         if (!sim) continue
         // 语法糖 // TODO 要被新的语法系统给替换掉
         /*
