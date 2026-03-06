@@ -9,8 +9,8 @@ import type AnyBlockPlugin from "../main"
 import {ABConvertManager} from "@/ABConverter/ABConvertManager"
 import {ABConvert, type ABConvert_SpecUser} from "@/ABConverter/converter/ABConvert"
 import { ABCSetting, ABReg } from "@/ABConverter/ABSetting"
-import { ABAlias_json, ABAlias_json_default } from "@/ABConverter/ABAlias" // 别名模块
-import { root_menu_demo } from "@/ABConverter/demo" // 菜单模块
+import { ABAlias_user } from "@/ABConverter/ABAlias" // 别名模块
+// import { root_menu_demo } from "@/ABConverter/demo" // 菜单模块
 
 // 加载所有选择器
 import {} from "../../CodeMirror2/ABSelector_MdBase"
@@ -129,7 +129,7 @@ export class ABSettingTab extends PluginSettingTab {
 
     // Alias模块，加载自定义别名
     if (!plugin.settings.alias_use_default) {
-      ABAlias_json.length = 0 // 清空数组
+      ABAlias_user.length = 0 // 清空数组
     }
     //   新版
     for (let item of plugin.settings.alias_user){
@@ -139,7 +139,7 @@ export class ABSettingTab extends PluginSettingTab {
       } else {
         newReg = item.regex
       }
-      ABAlias_json.push({
+      ABAlias_user.push({
         regex: newReg,
         replacement: item.replacement
       })
@@ -276,7 +276,7 @@ export class ABSettingTab extends PluginSettingTab {
             } else {
               newReg = result.regex
             }
-            ABAlias_json.push({
+            ABAlias_user.push({
               regex: newReg,
               replacement: result.replacement
             })

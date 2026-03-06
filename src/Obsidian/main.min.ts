@@ -20,7 +20,7 @@ import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager
 import { ABSelector_PostHtml } from "./ab_manager/abm_html/ABSelector_PostHtml"
 import { registerCommands, registerStatus } from './utils'
 import { ABSettingTab, AB_SETTINGS, type ABSettingInterface } from "./config/ABSettingTab"
-import { ABAlias_json } from '@/ABConverter/ABAlias'
+import { ABAlias_user } from '@/ABConverter/ABAlias'
 
 export default class AnyBlockPlugin extends Plugin {
   settings: ABSettingInterface
@@ -125,7 +125,7 @@ export default class AnyBlockPlugin extends Plugin {
       } else {
         newReg = result.regex
       }
-      ABAlias_json.push({
+      ABAlias_user.push({
         regex: newReg,
         replacement: result.replacement
       })

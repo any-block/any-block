@@ -76,11 +76,11 @@ export function autoABAlias (header:string, selectorName:string, content:string)
   }
 
   // 3. 别名模块 - 别名替换
-  for (const item of ABAlias_json) {
+  for (const item of get_ABAlias_iter()) {
     header = header.replace(item.regex, item.replacement)
   }
   for (const item of ABAlias_json_withSub) { // 特别组，被替换为带子串表示的结果
-    header = header.replace(item.regex, (match, ...groups) => {
+    header = header.replace(item.regex, (_match, ...groups) => {
       return item.replacement.replace(/\$(\d+)/g, (_, number) => groups[number - 1]??""); // 根据捕获组替换。如果某个组是未定义，那么为空
     });
   }
@@ -91,14 +91,14 @@ export function autoABAlias (header:string, selectorName:string, content:string)
   return header
 }
 
-interface ABAlias_json_item {
+interface ABAlias_json {
   regex: RegExp|string,
   replacement: string
 }
 
 // 允许带参数的部分
 // ~~(这部分的遍历会更耗时间。为了性能考虑，单独拿出来)~~ 并不会影响遍历，只有执行时有一点消耗
-const ABAlias_json_withSub: ABAlias_json_item[] = [
+const ABAlias_json_withSub: ABAlias_json[] = [
   // 分下类，排下序
   // `gfm` 就支持五种: note, tip, important, warning, caution
   // `vuepress` 比gfm多了个: info
@@ -122,7 +122,7 @@ const ABAlias_json_withSub: ABAlias_json_item[] = [
 ]
 
 // mdit块
-const ABAlias_json_mdit: ABAlias_json_item[] = [
+const ABAlias_json_mdit: ABAlias_json[] = [
   {regex: /\|:::_140lne\|(2?tabs?|标签页?)\|/, replacement: "|mditTabs|"},
   {regex: "|:::_140lne|demo|", replacement: "|mditDemo|"},
   {regex: "|:::_140lne|abDemo|", replacement: "|mditABDemo|"},
@@ -132,7 +132,7 @@ const ABAlias_json_mdit: ABAlias_json_item[] = [
 ]
 
 // 标题块
-const ABAlias_json_title: ABAlias_json_item[] = [
+const ABAlias_json_title: ABAlias_json[] = [
   {regex: "|title2list|", replacement: "|title2listdata|listdata2strict|listdata2list|"},
 
   // title - list&title
@@ -160,7 +160,7 @@ const ABAlias_json_title: ABAlias_json_item[] = [
 ]
 
 // 列表块
-const ABAlias_json_list: ABAlias_json_item[] = [
+const ABAlias_json_list: ABAlias_json[] = [
   // 特殊
   {regex: "|listXinline|", replacement: "|list2listdata|listdata2strict|listdata2list|"},
   {regex: "|list2task|", replacement: "|list2listdata|listdata2task|listdata2list|"},
@@ -191,7 +191,7 @@ const ABAlias_json_list: ABAlias_json_item[] = [
 ]
 
 // 代码块
-const ABAlias_json_code: ABAlias_json_item[] = [
+const ABAlias_json_code: ABAlias_json[] = [
   {regex: "|code_140lne|X|", replacement: "|xCode|"},
   {regex: "|code_140lne|x|", replacement: "|xCode|"},
   {regex: "|code2list|", replacement: "|xCode|region2indent|addList|"},
@@ -200,17 +200,17 @@ const ABAlias_json_code: ABAlias_json_item[] = [
 ]
 
 // 引用块
-const ABAlias_json_quote: ABAlias_json_item[] = [
+const ABAlias_json_quote: ABAlias_json[] = [
   // {regex: "|quote_140lne|X|", replacement: "|xQuote|"},
   // {regex: "|quote_140lne|x|", replacement: "|xQuote|"},
 ]
 
 // 表格块
-const ABAlias_json_table: ABAlias_json_item[] = [
+const ABAlias_json_table: ABAlias_json[] = [
 ]
 
 // 通用，一般是装饰处理器 (易误选，通常最后才执行)
-const ABAlias_json_general: ABAlias_json_item[] = [
+const ABAlias_json_general: ABAlias_json[] = [
   {regex: "|echarts|", replacement: "|xCode|code(echarts)|"}, // 配合 any-block/obsidian-charts 使用
 
   {regex: "|黑幕|", replacement: "|addClass(ab-deco-heimu)|"},
@@ -255,7 +255,14 @@ const ABAlias_json_general: ABAlias_json_item[] = [
   {regex: "|加粗|", replacement: "|addClass(ab-custom-font-bold)|"},
 ]
 
-export const ABAlias_json_default: ABAlias_json_item[] = [
+// 
+// 暂时只支持在开头处替换 (?)
+// 
+export const ABAlias_user: ABAlias_json[] = []
+
+export const ABAlias_pro: ABAlias_json[] = []
+
+export const ABAlias_default: ABAlias_json[] = [
   ...ABAlias_json_mdit,
   ...ABAlias_json_title,
   ...ABAlias_json_list,
@@ -265,12 +272,23 @@ export const ABAlias_json_default: ABAlias_json_item[] = [
   ...ABAlias_json_general, // 这个放最后
 ]
 
-// 暂时只支持在开头处替换
-export let ABAlias_json: ABAlias_json_item[] = [
-  ...ABAlias_json_default // 设置决定是否停用
-]
+/**
+ * 用于遍历所有的数组
+ * 
+ * 会被 info_alias 显示。自定义别名、pro 版别名 也会插入到这
+ * 优先级系统: 用户 > pro > ABAlias_json_withSub > 默认，汇总时则写
+ * 
+ * 旧写法: 函数动态组装 [...ABAlias_user, ...ABAlias_pro, ...ABAlias_default]
+ * 新写法: 返回迭代器，零拷贝，更节省性能
+ */
+export function* get_ABAlias_iter() {
+  yield* ABAlias_user
+  yield* ABAlias_pro
+  yield* ABAlias_default
+}
 
-const ABAlias_json_end: ABAlias_json_item[] = [
+// 最后被替换
+const ABAlias_json_end: ABAlias_json[] = [
   {regex: "|:::_140lne", replacement: ""},
   {regex: "|heading_140lne", replacement: ""},
   {regex: "|list_140lne", replacement: ""},

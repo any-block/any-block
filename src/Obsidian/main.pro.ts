@@ -28,7 +28,7 @@ import { ABStateManager, global_timer } from "./ab_manager/abm_cm/ABStateManager
 import { ABSelector_PostHtml } from "./ab_manager/abm_html/ABSelector_PostHtml"
 import { registerCommands, registerStatus } from './utils'
 import { ABSettingTab, AB_SETTINGS, type ABSettingInterface, expiry } from "./config/ABSettingTab"
-import { ABAlias_json } from '@/ABConverter/ABAlias'
+import { ABAlias_user } from '@/ABConverter/ABAlias'
 
 // 新选择器 // [!code hl] obsidian-pro
 import { create_decorations } from "@/CodeMirror/src/" // [!code hl] obsidian-pro
@@ -137,7 +137,7 @@ export default class AnyBlockPlugin extends Plugin {
       } else {
         newReg = result.regex
       }
-      ABAlias_json.push({
+      ABAlias_user.push({
         regex: newReg,
         replacement: result.replacement
       })

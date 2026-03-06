@@ -6,7 +6,7 @@
 
 import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
 import {ABConvertManager} from "../ABConvertManager"
-import { ABAlias_json } from "../ABAlias";
+import { get_ABAlias_iter } from "../ABAlias";
 
 const abc_faq = ABConvert.factory({
   id: "faq",
@@ -101,11 +101,12 @@ const abc_info_alias = ABConvert.factory({
   process_return: ABConvert_IOEnum.json,
   process: (el, header, content: string): string=>{
     return JSON.stringify(
-      ABAlias_json.map((item)=>{return {
+      Array.from(get_ABAlias_iter(), (item) => ({
         regex: item.regex.toString(),
-        replacement: item.replacement
-      }}),
-      null, 2
+        replacement: item.replacement,
+      })),
+      null,
+      2,
     )
   }
 })
