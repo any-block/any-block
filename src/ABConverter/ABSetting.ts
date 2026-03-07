@@ -24,7 +24,7 @@ export const ABCSetting: {
     disable: boolean, // 禁用 pro 版的扩展功能，变为非 pro 版
     enable_callout_selector: boolean,     // 是否启用 callout 选择器并自动替换 callout 为可编辑 callout
     enable_alias_override: boolean,       // 启用别名覆盖 (启用后 pro 处理器会使用旧处理器名，并覆盖掉之前的行为)
-    editableblock_defaultRender: 'readmode' | 'realtime', // 可编辑块的默认渲染模式
+    editableblock_defaultRender: 'readmode' | 'realtime' | 'textarea', // 可编辑块的默认渲染模式
     create_decorations: undefined | ((
       customData: {
         cancelFlag: number[];

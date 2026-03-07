@@ -50,7 +50,7 @@ export interface ABSettingInterface {
     disable: boolean,               // 是否禁用 pro 版增强功能
     enable_callout_selector: boolean,     // 使用 callout 选择器并自动替换
     enable_alias_override: boolean,       // 启用别名覆盖 (启用后 pro 处理器会使用旧处理器名，并覆盖掉之前的行为)
-    editableblock_defaultRender: 'readmode' | 'realtime', // 可编辑块的默认渲染模式
+    editableblock_defaultRender: 'readmode' | 'realtime' | 'textarea', // 可编辑块的默认渲染模式
   },
 }
 export enum ConfSelect{
@@ -379,15 +379,18 @@ export class ABSettingTab extends PluginSettingTab {
             frag.appendText(t("Pro editableblock render22"));
             frag.appendChild(document.createElement("br"));
             frag.appendText(t("Pro editableblock render23"));
+            frag.appendChild(document.createElement("br"));
+            frag.appendText(t("Pro editableblock render24"));
           })
         )
         .addDropdown(component => {
           component
           .addOption("readmode", t("Pro editableblock render3"))
           .addOption("realtime", t("Pro editableblock render4"))
+          .addOption("textarea", t("Pro editableblock render5"))
           .setValue(settings.pro.editableblock_defaultRender)
           .onChange(async v => {
-            const value = v as "readmode" | "realtime"
+            const value = v as "readmode" | "realtime" | "textarea"
             settings.pro.editableblock_defaultRender = value; ABCSetting.pro.editableblock_defaultRender = value;
           })
         })

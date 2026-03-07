@@ -57,9 +57,11 @@ export default {
   'Pro editableblock render2': '可编辑块的默认渲染模式',
   'Pro editableblock render21': '- 阅读模式: 需要使用中键进入编辑，中键/Esc/光标外部聚焦完成编辑',
   'Pro editableblock render22': '- 实时模式: 可直接编辑但会更吃性能',
-  'Pro editableblock render23': '- 仅编辑时接管 (开发中): 不修改默认渲染逻辑，仅中键将其修改为可编辑状态',
+  'Pro editableblock render23': '- 简易文本框: 显示为纯文本，适合子块不包含复杂md的情况',
+  'Pro editableblock render24': '- 仅编辑时接管 (开发中): 不修改默认渲染逻辑，仅中键将其修改为可编辑状态',
   'Pro editableblock render3': '阅读模式',
   'Pro editableblock render4': '实时模式',
+  'Pro editableblock render5': '简易文本框',
   'Pro alias override': 'Pro 别名覆盖',
   'Pro alias override2': '(重启插件生效) \
 将原处理器行为替换为 pro 对应处理器的行为。若关闭则可编辑版本与原版本分别使用不同的处理器名',

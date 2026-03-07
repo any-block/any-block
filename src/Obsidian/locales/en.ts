@@ -57,9 +57,11 @@ Disable the Pro version features. Once enabled, they will be equivalent to the n
   'Pro editableblock render2': 'EditableBlock default render mode',
   'Pro editableblock render21': '- Read mode: you need to press the middle key to enter the editing mode. Press the middle key / Esc / move the cursor outside to complete the editing.',
   'Pro editableblock render22': '- Teal time: allows for direct editing but requires more performance.',
-  'Pro editableblock render23': '- Only take over during editing (developing)',
+  'Pro editableblock render23': '- Simple text area: Display as plain text, suitable for cases where the sub-block does not contain complex markdown.',
+  'Pro editableblock render24': '- Only take over during editing (developing)',
   'Pro editableblock render3': 'Read mode',
   'Pro editableblock render4': 'Real mode',
+  'Pro editableblock render5': 'Simple text area',
   'Pro alias override': 'Pro alias override',
   'Pro alias override2': '(The modification requires restarting the plugin) \
 Replace the original processor behavior with the corresponding Pro processor behavior. If disabled, the editable version and the original version will use different processor names.',
