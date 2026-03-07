@@ -49,6 +49,7 @@ export interface ABSettingInterface {
     license_key: string,            // pro版许可证密钥
     disable: boolean,               // 是否禁用 pro 版增强功能
     enable_callout_selector: boolean,     // 使用 callout 选择器并自动替换
+    enable_alias_override: boolean,       // 启用别名覆盖 (启用后 pro 处理器会使用旧处理器名，并覆盖掉之前的行为)
     editableblock_defaultRender: 'readmode' | 'realtime', // 可编辑块的默认渲染模式
   },
 }
@@ -103,6 +104,7 @@ export const AB_SETTINGS: ABSettingInterface = {
     license_key: '',
     disable: false,
     enable_callout_selector: true,
+    enable_alias_override: true,
     editableblock_defaultRender: 'readmode',
   },
 }
@@ -390,7 +392,19 @@ export class ABSettingTab extends PluginSettingTab {
           })
         })
 
-      // 3.1. 是否使用 callout 选择器
+      // 3.1. 是否用 pro 处理器覆盖对应的原处理器
+      new Setting(ab_tab_content_item)
+        .setName(t("Pro alias override"))
+        .setDesc(t("Pro alias override2"))
+        .addToggle(toggle => toggle
+          .setValue(settings.pro.enable_alias_override)
+          .onChange(async (value) => {
+            settings.pro.enable_alias_override = value; ABCSetting.pro.enable_alias_override = value;
+            await this.plugin.saveSettings()
+          })
+        )
+
+      // 3.2. 是否使用 callout 选择器
       // (会覆盖 Obsidian 自带 callout 选择器。注意 callout 块前后最好都有空行)
       new Setting(ab_tab_content_item)
         .setName(t("Pro callout"))
@@ -404,7 +418,7 @@ export class ABSettingTab extends PluginSettingTab {
         )
 
       // 其他未来可能加入的设置:
-      // 3.2. 动态关闭其他选择器功能
+      // 3.3. 动态关闭其他选择器功能
       // 4. 使用旧版选择器 or 新版选择器
     }
     // #endregion

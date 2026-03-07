@@ -60,6 +60,9 @@ export default {
   'Pro editableblock render23': '- 仅编辑时接管 (开发中): 不修改默认渲染逻辑，仅中键将其修改为可编辑状态',
   'Pro editableblock render3': '阅读模式',
   'Pro editableblock render4': '实时模式',
+  'Pro alias override': 'Pro 别名覆盖',
+  'Pro alias override2': '(重启插件生效) \
+将原处理器行为替换为 pro 对应处理器的行为。若关闭则可编辑版本与原版本分别使用不同的处理器名',
   'Pro callout': 'Callout 选择器',
   'Pro callout2': '使用 Callout 选择器，并启用可编辑 Callout',
 

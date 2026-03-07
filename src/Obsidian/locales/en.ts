@@ -60,6 +60,9 @@ Disable the Pro version features. Once enabled, they will be equivalent to the n
   'Pro editableblock render23': '- Only take over during editing (developing)',
   'Pro editableblock render3': 'Read mode',
   'Pro editableblock render4': 'Real mode',
+  'Pro alias override': 'Pro alias override',
+  'Pro alias override2': '(The modification requires restarting the plugin) \
+Replace the original processor behavior with the corresponding Pro processor behavior. If disabled, the editable version and the original version will use different processor names.',
   'Pro callout': 'Callout selector',
   'Pro callout2': 'Use the Callout selector and enable editable Callout',
 
