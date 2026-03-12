@@ -20,7 +20,7 @@ import {
   WidgetType
 } from "@codemirror/view"
 import { StateField, StateEffect, EditorState, EditorSelection, Transaction, Range } from "@codemirror/state"
-import  { MarkdownView, type View, type Editor } from 'obsidian';
+import  { MarkdownView, type Editor } from 'obsidian';
 
 import type AnyBlockPlugin from '../../main'
 import { ConfDecoration } from "../../config/ABSettingTab"
@@ -69,6 +69,7 @@ export class ABStateManager {
   // get state(): any {return this.view.getState()}
   // get mdText(): string {return this.editor.getValue()}
 
+  // 功能详见 pro 版部分代码的注释
   customData: {
     cancelFlag: number[],
     updateMode: string
@@ -223,10 +224,10 @@ export class ABStateManager {
       // TODO 没有排除源码模式的情况
       const create_widget = (
         customData: { cancelFlag: number[], updateMode: string|number },
-        state: EditorState, oldView: EditorView,
+        _state: EditorState, _oldView: EditorView,
         rangeSpec: any, // RangeSpec_AnyBlock
         // rangeSpec: RangeSpec_Codeblock | RangeSpec_Quote | RangeSpec_AnyBlock,
-        focusLine: number|null = null, focusOffset: number = 0
+        _focusLine: number|null = null, _focusOffset: number = 0
       ): WidgetType => {
         // 这里再转回旧版的，复用旧版的逻辑
         const rangeSpec_: MdSelectorRangeSpec = {

@@ -7,6 +7,9 @@ export default {
   'any-block-to-codeblock-success': 'Convert success! Generated to ',
   'any-block-to-codeblock-fail': 'Convert failed, please check the console for details',
 
+  'any-block-delete-ab-header': 'Delete AnyBlock header',
+  'any-block-switch-disable': 'Toggle AnyBlock enable/disable',
+
   // setting.ts
   'Mini docs': `Mini docs`,
   'see website for detail': `See 

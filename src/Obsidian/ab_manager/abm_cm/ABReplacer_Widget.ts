@@ -208,6 +208,7 @@ export class ABReplacer_Widget extends WidgetType {
     let is_show = false
     switch_more(false)
     btn_more.onclick = () => switch_more()
+    /** 是否显示更多工具栏项 */
     function switch_more(_is_show?: boolean): void {
       if (_is_show !== undefined) is_show = _is_show
       else is_show = !is_show

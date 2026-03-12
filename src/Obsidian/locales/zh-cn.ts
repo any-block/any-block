@@ -1,11 +1,14 @@
 export default {
   // commands (utils.ts)
   'any-block-rebuild-view': '刷新/重建当前视图',
-  'any-block-rebuild-view-btn': '刷新/重建视图',
+  'any-block-rebuild-view-btn': '刷新视图',
 
   'any-block-to-codeblock': '将 anyblock 区块转换为代码块格式',
   'any-block-to-codeblock-success': '转换成功! 已生成到 ',
   'any-block-to-codeblock-fail': '转换失败，请检查控制台以获取详细信息',
+
+  'any-block-delete-ab-header': '删除 AnyBlock 方括号头部',
+  'any-block-switch-disable': '切换 AnyBlock 启用/禁用',
 
   // setting.ts
   'Mini docs': `mini文档`,
