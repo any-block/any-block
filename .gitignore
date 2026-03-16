@@ -27,3 +27,5 @@ data.json
 # Other
 /src/CodeMirror
 /src/Pro
+src/Obsidian/package-lock.json
+src/Obsidian/node_modules/
