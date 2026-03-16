@@ -196,7 +196,18 @@ export class ABStateManager {
       decoration_mode = this.plugin_this.settings.decoration_render
     }
 
-    // 1.2 排除非装饰 (如源码模式) 的情况
+    // 1.2 排除 AnyBlock 功能被禁用的情况
+    if (!this.plugin_this.settings.is_enable) {
+      // 功能禁用，清空装饰集
+      decorationSet = decorationSet.update({
+        filter: (from:number, to:number, value:unknown)=>{ return false }
+      })
+      this.is_prev_cursor_in = true; // 返回前操作1
+      this.prev_decoration_mode = decoration_mode; this.prev_editor_mode = editor_mode; // 返回前操作2
+      return decorationSet
+    }
+
+    // 1.3 排除非装饰 (如源码模式) 的情况
     if (decoration_mode == ConfDecoration.none) {
       // 装饰模式改变，则清空装饰集
       if (decoration_mode != this.prev_decoration_mode) {

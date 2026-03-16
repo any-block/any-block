@@ -3,6 +3,10 @@ export default {
   'any-block-rebuild-view': '刷新/重建当前视图',
   'any-block-rebuild-view-btn': '刷新/重建视图',
 
+  'any-block-toggle-enable': '禁用/启用 AnyBlock 功能并刷新当前页面',
+  'any-block-toggle-enable-on': 'AnyBlock 已启用',
+  'any-block-toggle-enable-off': 'AnyBlock 已禁用',
+
   'any-block-to-codeblock': '将 anyblock 区块转换为代码块格式',
   'any-block-to-codeblock-success': '转换成功! 已生成到 ',
   'any-block-to-codeblock-fail': '转换失败，请检查控制台以获取详细信息',

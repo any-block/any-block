@@ -3,6 +3,10 @@ export default {
   'any-block-rebuild-view': 'Refresh/rebuild current view',
   'any-block-rebuild-view-btn': 'Rebuild View',
 
+  'any-block-toggle-enable': 'Toggle AnyBlock (enable/disable) and refresh current page',
+  'any-block-toggle-enable-on': 'AnyBlock enabled',
+  'any-block-toggle-enable-off': 'AnyBlock disabled',
+
   'any-block-to-codeblock': 'Convert anyblock section into codeblock format',
   'any-block-to-codeblock-success': 'Convert success! Generated to ',
   'any-block-to-codeblock-fail': 'Convert failed, please check the console for details',

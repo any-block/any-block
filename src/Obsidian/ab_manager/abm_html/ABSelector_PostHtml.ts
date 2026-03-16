@@ -38,6 +38,7 @@ export class ABSelector_PostHtml{
   ) {
     ABCSetting.obsidian.global_ctx = ctx;
 
+    if (!this.settings.is_enable) return // 若 AnyBlock 功能被禁用，直接退出
     if (this.settings.decoration_render==ConfDecoration.none) return // 若设置里不启用，直接退出
     const mdSrc: HTMLSelectorRangeSpec | null = getSourceMarkdown(el, ctx) // 获取el对应的源md
     

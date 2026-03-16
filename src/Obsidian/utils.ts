@@ -16,6 +16,9 @@ import {
   convert_to_codeblock
 } from '@/Scripts/index'
 import { t } from 'locales/helper'
+import type { ABSettingInterface } from './config/ABSettingTab'
+
+type AnyBlockPluginLike = Plugin & { settings: ABSettingInterface; saveSettings: () => Promise<void> }
 
 /** obsidian 命令管理 */
 export function registerCommands(plugin: Plugin) {
@@ -30,6 +33,24 @@ export function registerCommands(plugin: Plugin) {
       if (!leaf) return
       // @ts-expect-error 类型“WorkspaceLeaf”上不存在属性“rebuildView”
       leaf.rebuildView()
+    }
+  })
+
+  // 禁用/启用 AnyBlock 功能并刷新当前页面
+  plugin.addCommand({
+    id: 'any-block-toggle-enable',
+    name: t('any-block-toggle-enable'),
+    callback: async () => {
+      const p = plugin as AnyBlockPluginLike
+      p.settings.is_enable = !p.settings.is_enable
+      await p.saveSettings()
+      new Notice(p.settings.is_enable ? t('any-block-toggle-enable-on') : t('any-block-toggle-enable-off'))
+      // 刷新当前视图
+      const leaf = plugin.app.workspace.getActiveViewOfType(MarkdownView)?.leaf
+      if (leaf) {
+        // @ts-expect-error 类型"WorkspaceLeaf"上不存在属性"rebuildView"
+        leaf.rebuildView()
+      }
     }
   })
 
