@@ -65,7 +65,7 @@ import "../ABConverter/converter/abc_echarts"
 import "../ABConverter/converter/abc_plantuml" // 可选建议：
 import "../ABConverter/converter/abc_mermaid"  // 可选建议：新版无额外依赖，旧版非 min 环境下 7.1MB
 import "../ABConverter/converter/abc_markmap"  // 可选建议：1.3MB
-import { jsdom_disable, jsdom_enable } from "./jsdom_init"
+import { jsdom_disable, jsdom_enable } from "./node/jsdom_init"
 
 interface Options {
   multiline: boolean;

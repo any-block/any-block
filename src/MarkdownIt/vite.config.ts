@@ -11,13 +11,22 @@ export default defineConfig({
     minify: false, // 禁用代码压缩，包括混淆
     sourcemap: true,
     lib: {
-      entry: './index.ts',
+      entry: {
+        index: './index.ts',
+        node: './node/jsdom_init.ts'
+      },
 
       name: 'MdItAnyBlock',
       formats: ['es', 'cjs'], //  ['es', 'cjs']
-      fileName: (format) => format == 'es'
-        ? `mdit-any-block.js`
-        : `mdit-any-block.cjs`,
+      fileName: (format, entryName) => {
+        if (entryName === 'index') return format == 'es'
+          ? `mdit-any-block.js`
+          : `mdit-any-block.cjs`
+        else if (entryName === 'index') return format == 'es'
+          ? `mdit-any-block.node.js`
+          : `mdit-any-block.node.cjs`
+        return `${entryName}.${format}.js`
+      }
     },
     rollupOptions: {
       // 确保您的库与其他包兼容
