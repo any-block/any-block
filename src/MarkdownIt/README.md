@@ -24,9 +24,11 @@ $ pnpm install -D markdown-it-any-block@latest
 `config.ts`
 
 ```ts
-import { ab_mdit, jsdom_init } from "markdown-it-any-block/node"
-jsdom_init()
+import { ab_mdit } from "markdown-it-any-block"
 
+// (可选) 如果你要在 node 环境渲染而非 client 中渲染，则加上下面的语句。在 client 端不要这样做
+import { jsdom_init } from "markdown-it-any-block/node"
+jsdom_init()
 ...
 
 const userConfig: UserConfig = {
