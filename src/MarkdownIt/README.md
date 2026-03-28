@@ -24,7 +24,7 @@ $ pnpm install -D markdown-it-any-block@latest
 `config.ts`
 
 ```ts
-import { ab_mdit, jsdom_init } from "markdown-it-any-block"
+import { ab_mdit, jsdom_init } from "markdown-it-any-block/node"
 jsdom_init()
 
 ...

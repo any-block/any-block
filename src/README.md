@@ -43,6 +43,8 @@ pnpm -r publish --access public
 # --access public：确保公共包可被访问（私有包可不添加）
 #  --tag beta: 若为beta版本
 # 如没登录需要先 npm adduser
+
+pnpm up -i --latest # 强制列出最新版的包并可选自动升级
 ```
 
 然后再去更新三个 manifest.json 内的 version (obsidian 用)
