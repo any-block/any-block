@@ -13,7 +13,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: './index.ts',
-        node: './node/jsdom_init.ts'
+        node: './node/index.ts'
       },
 
       name: 'MdItAnyBlock',
@@ -22,10 +22,12 @@ export default defineConfig({
         if (entryName === 'index') return format == 'es'
           ? `mdit-any-block.js`
           : `mdit-any-block.cjs`
-        else if (entryName === 'index') return format == 'es'
+        else if (entryName === 'node') return format == 'es'
           ? `mdit-any-block.node.js`
           : `mdit-any-block.node.cjs`
-        return `${entryName}.${format}.js`
+        return format == 'es'
+          ? `${entryName}.${format}.js`
+          : `${entryName}.${format}.cjs`
       }
     },
     rollupOptions: {
