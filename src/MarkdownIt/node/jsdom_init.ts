@@ -5,6 +5,7 @@
  */
 
 // import jsdom from "jsdom"
+import { jsdom_api } from '../index_mdit'
 
 let dom: any = null // 缓存 jsdom 实例
 let disable_disable_flag: boolean = false // 禁止禁用
@@ -22,10 +23,14 @@ export async function jsdom_init(enable: boolean = true, disable_disable: boolea
     url: 'http://localhost/', // @warn 若缺少该行，则在mdit+build环境下，编译报错
   })
   if (enable) jsdom_enable()
+
+  // JsDom。仅用于提供document对象支持 (如果纯Client/Ob环境中则不需要，用client自带document对象的)
+  jsdom_api.jsdom_enable = jsdom_enable
+  jsdom_api.jsdom_disable = jsdom_disable
 }
 
 /// 启用 jsdom 环境
-export function jsdom_enable() {
+function jsdom_enable() {
   if (!dom) return // console.error("jsdom_enable failed: please run jsdom_init first.") // 允许客户端中运行，不使用jsdom
   global.Storage = dom.window.Storage;
   global.window = dom.window as any
@@ -45,7 +50,7 @@ export function jsdom_enable() {
 }
 
 /// 禁用 jsdom 环境
-export function jsdom_disable() {
+function jsdom_disable() {
   if (disable_disable_flag) return
   if (!dom) return // console.error("jsdom_disable failed: please run jsdom_init first.") // 允许客户端中运行，不使用jsdom
   global.window = undefined
