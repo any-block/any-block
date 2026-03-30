@@ -45,6 +45,11 @@ const userConfig: UserConfig = {
 > 例如vuepress中可以创建/修改 `src/.vuepress/styles/index.scss`
 > 并添加: `@import '../../../node_modules/markdown-it-any-block/styles';`
 
+> [!WARNING]
+> BREAKCHANGE
+> 3.4.4-beta3 将 jsdom_init 移到了 markdown-it-any-block/node 中。
+> 原本在 markdown-it-any-block 中没有作分离，会存在 client 环境自动排除 jsdom 依赖并警告的问题
+
 ## 扩展补充
 
 服务端渲染与客户端渲染
