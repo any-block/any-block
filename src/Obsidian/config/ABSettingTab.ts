@@ -40,6 +40,7 @@ export interface ABSettingInterface {
   user_processor: ABConvert_SpecUser[],  // @deprecated 别名系统 (旧)，用户自定义的别名处理器
 
   // 其他
+  is_enable: boolean,               // 是否启用 AnyBlock 功能
   is_debug: boolean,                // 是否开启调试打印
   enhance_refresh_time: number,     // 刷新增强的刷新时间 (ms) (<1000为关闭，最快1s)
   reg_header: string,               // 正则 - square brackets
@@ -95,6 +96,7 @@ export const AB_SETTINGS: ABSettingInterface = {
     "process_alias": "|addClass(ab-custom-text-blue)|addClass(ab-custom-bg-red)|"
   }],
 
+  is_enable: true,
   is_debug: false,
   enhance_refresh_time: 2000,
   reg_header: ABReg.reg_header.toString(), // 举例: 可将 .* 修改成 (?:[^:]*) 以排除 [] 中有 : 情况
