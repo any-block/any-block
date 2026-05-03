@@ -12,7 +12,7 @@ const abc_faq = ABConvert.factory({
   id: "faq",
   name: "FAQ",
   match: "FAQ",
-  detail: "渲染常见问题/对话。每个项需以 `/^([a-zA-Z])(: |：)(.*)/` 开头",
+  detail: "Render FAQs/dialogues. Each item needs to start with `/^([a-zA-Z])(: |：)(.*)/`",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -53,7 +53,7 @@ const abc_faq = ABConvert.factory({
 const abc_info_converter = ABConvert.factory({
   id: "info_converter",
   name: "INFO",
-  detail: "查看当前软件版本下的注册处理器表",
+  detail: "View the registered processor list in the current software version",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -63,15 +63,15 @@ const abc_info_converter = ABConvert.factory({
       const thead = document.createElement("thead"); table.appendChild(thead);
       const tr = document.createElement("tr"); thead.appendChild(tr);
       let th;
-      th = document.createElement("th"); tr.appendChild(th); th.textContent = "处理器名\nProcessor name";
-      th = document.createElement("th"); tr.appendChild(th); th.textContent = "下拉框默认项\nThe default drop-down box";
-      th = document.createElement("th"); tr.appendChild(th); th.textContent = "用途描述\nPurpose description";
-      th = document.createElement("th"); tr.appendChild(th); th.textContent = "输入类型\nInput type";
-      th = document.createElement("th"); tr.appendChild(th); th.textContent = "输出类型\nOutput type";
-      th = document.createElement("th"); tr.appendChild(th); th.textContent = "正则\nRegExp";
-      th = document.createElement("th"); tr.appendChild(th); th.textContent = "是否启用\nIs enable";
-      th = document.createElement("th"); tr.appendChild(th); th.textContent = "定义来源\nSource";
-      th = document.createElement("th"); tr.appendChild(th); th.textContent = "别名替换\nAlias substitution";
+      th = document.createElement("th"); tr.appendChild(th); th.textContent = "Processor name";
+      th = document.createElement("th"); tr.appendChild(th); th.textContent = "The default drop-down box";
+      th = document.createElement("th"); tr.appendChild(th); th.textContent = "Purpose description";
+      th = document.createElement("th"); tr.appendChild(th); th.textContent = "Input type";
+      th = document.createElement("th"); tr.appendChild(th); th.textContent = "Output type";
+      th = document.createElement("th"); tr.appendChild(th); th.textContent = "RegExp";
+      th = document.createElement("th"); tr.appendChild(th); th.textContent = "Is enable";
+      th = document.createElement("th"); tr.appendChild(th); th.textContent = "Source";
+      th = document.createElement("th"); tr.appendChild(th); th.textContent = "Alias substitution";
     }
     const tbody = document.createElement("tbody"); table.appendChild(tbody);
     for (let item of ABConvertManager.getInstance().list_abConvert){
@@ -96,7 +96,7 @@ const abc_info_alias = ABConvert.factory({
   id: "info_alias",
   name: "INFO_Alias",
   match: "info_alias",
-  detail: "查看当前软件版本下的注册别名表",
+  detail: "View the registered alias list in the current software version",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.json,
   process: (el, header, content: string): string=>{

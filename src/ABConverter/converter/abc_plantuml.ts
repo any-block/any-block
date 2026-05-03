@@ -14,7 +14,7 @@ import { list2ActivityDiagramText } from "./abc_plantuml_tools"
 
 const abc_list2jsontext = ABConvert.factory({
   id: "json2pumlJson",
-  name: "json到可视化",
+  name: "Json to visualization",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -26,7 +26,7 @@ const abc_list2jsontext = ABConvert.factory({
 
 const abc_list2pumlWBS = ABConvert.factory({
   id: "list2pumlWBS",
-  name: "列表到puml工作分解结构",
+  name: "List to puml work breakdown structure",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -48,7 +48,7 @@ const abc_list2pumlWBS = ABConvert.factory({
 
 const abc_list2pumlMindmap = ABConvert.factory({
   id: "list2pumlMindmap",
-  name: "列表到puml思维导图",
+  name: "List to puml mindmap",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -67,7 +67,7 @@ const abc_list2pumlMindmap = ABConvert.factory({
 
 const abc_list2ActivityDiagramText = ABConvert.factory({
 	id: "list2pumlActivityDiagramText",
-	name: "列表到puml活动图文本",
+	name: "List to puml activity diagram text",
 	process_param: ABConvert_IOEnum.text,
 	process_return: ABConvert_IOEnum.text,
 	process: (el, header, content: string): string => {
@@ -77,7 +77,7 @@ const abc_list2ActivityDiagramText = ABConvert.factory({
 
 const abc_list2ActivityDiagram = ABConvert.factory({
 	id: "list2pumlActivityDiagram",
-	name: "列表到puml活动图",
+	name: "List to puml activity diagram",
 	process_param: ABConvert_IOEnum.text,
 	process_return: ABConvert_IOEnum.el,
 	process: (el, header, content: string): HTMLElement => {

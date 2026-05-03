@@ -98,8 +98,8 @@ function easySelector_headtail(
  */
 const mdSelector_headtail:MdSelectorSpecSimp = {
   id: "mdit",
-  name: "mdit:::头尾选择器",
-  detail: "以`:::`开头和结尾，处理器名写在第一个`:::`的后面，不需要加`[]`。其实就和代码块差不多，这也是VuePress的一个md扩展语法",
+  name: "Mdit ::: head/tail selector",
+  detail: "Starts with `:::` and ends with `:::`. The processor name is written after the first `:::`, no need to add `[]`. It's similar to code blocks, and also a markdown extension syntax for VuePress",
   match: ABReg.reg_mdit_head,
   selector: (list_text, from_line)=>{
     let mdRangeTmp = easySelector_headtail(list_text, from_line, "mdit", ABReg.reg_mdit_head)
@@ -150,9 +150,9 @@ registerMdSelector(mdSelector_headtail)
  */
 const mdSelector_list:MdSelectorSpecSimp = {
   id: "list",
-  name: "列表选择器",
+  name: "List selector",
   match: ABReg.reg_list,
-  detail: "在列表的上一/两行加上`[处理器名]`的header，注意header必须和列表首行位于同一层次",
+  detail: "Add `[processor name]` header in the one or two lines above the list. Note that the header must be at the same level as the first line of the list",
   selector: (list_text, from_line)=>{
     let mdRangeTmp = easySelector(list_text, from_line, "list", ABReg.reg_list)
     if (!mdRangeTmp) return null
@@ -189,9 +189,9 @@ registerMdSelector(mdSelector_list)
  */
 const mdSelector_code:MdSelectorSpecSimp = {
   id: "code",
-  name: "代码选择器",
+  name: "Code selector",
   match: ABReg.reg_code,
-  detail: "在代码块的上一/两行加上`[处理器名]`的header，注意header必须和代码块首行位于同一层次",
+  detail: "Add `[processor name]` header in the one or two lines above the code block. Note that the header must be at the same level as the first line of the code block",
   selector: (list_text, from_line)=>{
     let mdRangeTmp = easySelector(list_text, from_line, "code", ABReg.reg_code)
     if (!mdRangeTmp) return null
@@ -226,9 +226,9 @@ registerMdSelector(mdSelector_code)
  */
 const mdSelector_quote:MdSelectorSpecSimp = {
   id: "quote",
-  name: "引用块选择器",
+  name: "Quote selector",
   match: ABReg.reg_quote,
-  detail: "在引用块的上一/两行加上`[处理器名]`的header，注意header必须和引用块首行位于同一层次",
+  detail: "Add `[processor name]` header in the one or two lines above the quote block. Note that the header must be at the same level as the first line of the quote block",
   selector: (list_text, from_line)=>{
     let mdRangeTmp = easySelector(list_text, from_line, "quote", ABReg.reg_quote)
     if (!mdRangeTmp) return null
@@ -261,9 +261,9 @@ registerMdSelector(mdSelector_quote)
  */
 const mdSelector_table:MdSelectorSpecSimp = {
   id: "table",
-  name: "表格选择器",
+  name: "Table selector",
   match: ABReg.reg_table,
-  detail: "在表格的上一/两行加上`[处理器名]`的header，注意header必须和表格首行位于同一层次",
+  detail: "Add `[processor name]` header in the one or two lines above the table. Note that the header must be at the same level as the first line of the table",
   selector: (list_text, from_line)=>{
     let mdRangeTmp = easySelector(list_text, from_line, "table", ABReg.reg_table)
     if (!mdRangeTmp) return null
@@ -296,7 +296,7 @@ registerMdSelector(mdSelector_table)
  */
 const mdSelector_heading:MdSelectorSpecSimp = {
   id: "heading",
-  name: "标题选择器",
+  name: "Title selector",
   match: ABReg.reg_heading,
   detail: "在标题的上一/两行加上`[处理器名]`的header，注意header必须和标题首行位于同一层次",
   selector: (list_text, from_line)=>{

@@ -158,7 +158,7 @@ export class TableProcess{
 // 纯组合，后续用别名模块替代
 const abc_title2table = ABConvert.factory({
   id: "title2table",
-  name: "标题到表格",
+  name: "Title to table",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -170,7 +170,7 @@ const abc_title2table = ABConvert.factory({
 // 纯组合，后续用别名模块替代
 const abc_list2table = ABConvert.factory({
   id: "list2table",
-  name: "列表转表格",
+  name: "List to table",
   match: /list2(md)?table(T)?/,
   default: "list2table",
   process_param: ABConvert_IOEnum.text,
@@ -185,7 +185,7 @@ const abc_list2table = ABConvert.factory({
 
 const abc_list2c2table = ABConvert.factory({
   id: "list2c2t",
-  name: "列表转二列表格",
+  name: "List to two-column table",
   match: "list2c2t",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
@@ -198,7 +198,7 @@ const abc_list2c2table = ABConvert.factory({
 
 const abc_list2ut = ABConvert.factory({
   id: "list2ut",
-  name: "列表转二维表格",
+  name: "List to two-dimensional table",
   match: /list2(md)?ut(T)?/,
   default: "list2ut",
   process_param: ABConvert_IOEnum.text,
@@ -213,7 +213,7 @@ const abc_list2ut = ABConvert.factory({
 
 const abc_list2timeline = ABConvert.factory({
   id: "list2timeline",
-  name: "列表转时间线",
+  name: "List to timeline",
   match: /list2(md)?timeline(T)?/,
   default: "list2mdtimeline",
   process_param: ABConvert_IOEnum.text,
@@ -228,7 +228,7 @@ const abc_list2timeline = ABConvert.factory({
 
 const abc_title2timeline = ABConvert.factory({
   id: "title2timeline",
-  name: "标题转时间线",
+  name: "Title to timeline",
   match: /title2(md)?timeline(T)?/,
   default: "title2mdtimeline",
   process_param: ABConvert_IOEnum.text,

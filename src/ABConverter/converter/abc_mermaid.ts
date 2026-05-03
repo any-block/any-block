@@ -23,7 +23,7 @@ function getID(length=16){
 // 纯组合，后续用别名模块替代
 const abc_title2mindmap = ABConvert.factory({
   id: "title2mindmap",
-  name: "标题到脑图",
+  name: "Title to mindmap",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: async (el, header, content: string): Promise<HTMLElement>=>{
@@ -36,7 +36,7 @@ const abc_title2mindmap = ABConvert.factory({
 // 纯组合，后续用别名模块替代
 const abc_list2mindmap = ABConvert.factory({
   id: "list2mindmap",
-  name: "列表转mermaid思维导图",
+  name: "List to mermaid mindmap",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: async (el, header, content: string): Promise<HTMLElement>=>{
@@ -48,7 +48,7 @@ const abc_list2mindmap = ABConvert.factory({
 
 const abc_list2mermaid = ABConvert.factory({
   id: "list2mermaid",
-  name: "列表转mermaid流程图",
+  name: "List to mermaid flowchart",
   match: /^list2mermaid(\((.*)\))?$/,
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
@@ -67,9 +67,9 @@ const abc_list2mermaid = ABConvert.factory({
 
 const abc_list2mermaidText = ABConvert.factory({
   id: "list2mermaidText",
-  name: "列表转mermaid文本",
+  name: "List to mermaid text",
   match: /^list2mermaidText(\((.*)\))?$/,
-  detail: "列表转mermaid文本",
+  detail: "List to mermaid text",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -86,9 +86,9 @@ const abc_list2mermaidText = ABConvert.factory({
 
 const abc_list2mehrmaid = ABConvert.factory({
   id: "list2mehrmaidText",
-  name: "列表转mehrmaid文本",
+  name: "List to mehrmaid text",
   match: /^list2mehrmaidText(\((.*)\))?$/,
-  detail: "需要配合mehrmaid插件和code(mehrmaid)使用，或使用别名简化",
+  detail: "Need to配合 mehrmaid plugin and code(mehrmaid) to use, or use aliases to simplify",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -105,10 +105,10 @@ const abc_list2mehrmaid = ABConvert.factory({
 
 const abc_mermaid = ABConvert.factory({
   id: "mermaid-with",
-  name: "新mermaid",
+  name: "New mermaid",
   match: /^mermaid(\((.*)\))?$/,
   default: "mermaid(graph TB)",
-  detail: "由于需要兼容脑图，这里会使用插件内置的最新版mermaid",
+  detail: "To be compatible with mindmaps, the built-in latest version of mermaid will be used here",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: async (el, header, content: string): Promise<HTMLElement>=>{

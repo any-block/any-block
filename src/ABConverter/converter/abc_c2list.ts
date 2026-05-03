@@ -423,7 +423,7 @@ export class C2ListProcess{
 
 const abc_list2c2listdata = ABConvert.factory({
   id: "list2c2listdata",
-  name: "列表转c2listdata",
+  name: "List to c2listdata",
   match: "list2c2listdata",
   default: "list2c2listdata",
   process_param: ABConvert_IOEnum.text,
@@ -435,7 +435,7 @@ const abc_list2c2listdata = ABConvert.factory({
 
 const abc_title2c2listdata = ABConvert.factory({
   id: "title2c2listdata",
-  name: "标题转c2listdata",
+  name: "Title to c2listdata",
   match: "title2c2listdata",
   default: "title2c2listdata",
   process_param: ABConvert_IOEnum.text,
@@ -447,7 +447,7 @@ const abc_title2c2listdata = ABConvert.factory({
 
 const abc_c2listdata2tab = ABConvert.factory({
   id: "c2listdata2tab",
-  name: "c2listdata转标签",
+  name: "c2listdata to tab",
   match: "c2listdata2tab",
   default: "c2listdata2tab",
   process_param: ABConvert_IOEnum.c2list_stream,
@@ -459,7 +459,7 @@ const abc_c2listdata2tab = ABConvert.factory({
 
 const abc_c2listdata2items = ABConvert.factory({
   id: "c2listdata2items",
-  name: "c2listdata转容器结构",
+  name: "c2listdata to container structure",
   match: "c2listdata2items",
   default: "c2listdata2items",
   process_param: ABConvert_IOEnum.c2list_stream,
@@ -471,9 +471,9 @@ const abc_c2listdata2items = ABConvert.factory({
 
 const abc_c2listdata2easytimeline = ABConvert.factory({
   id: "c2listdata2easytimeline",
-  name: "适配到easy_timeline",
+  name: "Adapt to easy_timeline",
   match: "c2listdata2easytimeline",
-  detail: "适配到easy_timeline格式，需要安装easy timeline插件",
+  detail: "Adapt to easy_timeline format, requires easy timeline plugin",
   process_param: ABConvert_IOEnum.c2list_stream,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: List_C2ListItem): string=>{

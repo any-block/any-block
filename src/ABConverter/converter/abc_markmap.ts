@@ -41,7 +41,7 @@ const transformer = new Transformer();
 
 const abc_list2mindmap = ABConvert.factory({
 id: "list2markmap",
-name: "列表到脑图 (markmap)",
+name: "List to mindmap (markmap)",
 process_param: ABConvert_IOEnum.text,
 process_return: ABConvert_IOEnum.el,
 process: (el, header, content: string): HTMLElement=>{

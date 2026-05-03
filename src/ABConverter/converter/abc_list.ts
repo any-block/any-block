@@ -561,10 +561,10 @@ export class ListProcess{
 
 export const abc_list2listdata = ABConvert.factory({
   id: "list2listdata",
-  name: "列表到listdata",
+  name: "List to listdata",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.list_stream,
-  detail: "列表到listdata",
+  detail: "List to listdata",
   process: (el, header, content: string): List_ListItem=>{
     return ListProcess.list2data(content) as List_ListItem
   }
@@ -572,10 +572,10 @@ export const abc_list2listdata = ABConvert.factory({
 
 export const abc_title2listdata = ABConvert.factory({
   id: "title2listdata",
-  name: "标题到listdata",
+  name: "Title to listdata",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.list_stream,
-  detail: "标题到listdata",
+  detail: "Title to listdata",
   process: (el, header, content: string): List_ListItem=>{
     return ListProcess.title2data(content) as List_ListItem
   }
@@ -583,10 +583,10 @@ export const abc_title2listdata = ABConvert.factory({
 
 const abc_listdata2list = ABConvert.factory({
   id: "listdata2list",
-  name: "listdata到列表",
+  name: "listdata to list",
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.text,
-  detail: "listdata到列表",
+  detail: "listdata to list",
   process: (el, header, content: List_ListItem): string=>{
     return ListProcess.data2list(content) as string
   }
@@ -594,10 +594,10 @@ const abc_listdata2list = ABConvert.factory({
 
 const abc_listdata2nodes = ABConvert.factory({
   id: "listdata2nodes",
-  name: "listdata到节点图",
+  name: "listdata to node graph",
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.el,
-  detail: "listdata到节点图",
+  detail: "listdata to node graph",
   process: (el, header, content: List_ListItem): HTMLElement=>{
     return ListProcess.data2nodes(content, el) as HTMLElement
   }
@@ -605,10 +605,10 @@ const abc_listdata2nodes = ABConvert.factory({
 
 const abc_listdata2strict = ABConvert.factory({
   id: "listdata2strict",
-  name: "listdata严格化",
+  name: "listdata strictify",
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.list_stream,
-  detail: "将列表数据转化为更规范的列表数据。统一缩进符(2空格 4空格 tab混用)为level 1、禁止跳等级(h1直接就到h3)",
+  detail: "Convert list data to more standardized format. Unify indentation characters (2 spaces, 4 spaces, tab mix) to level 1, prohibit level skipping (h1 directly to h3)",
   process: (el, header, content: List_ListItem): List_ListItem=>{
     return ListProcess.data2strict(content)
   }
@@ -616,10 +616,10 @@ const abc_listdata2strict = ABConvert.factory({
 
 const abc_listdata2task = ABConvert.factory({
   id: "listdata2task",
-  name: "listdata支持任务列表",
+  name: "listdata support task list",
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.list_stream,
-  detail: "当列表中存在任务列表项时，令此列表项支持任务项",
+  detail: "When list contains task list items, enable task item support for this list",
   process: (el, header, content: List_ListItem): List_ListItem=>{
     return ListProcess.data2taskData(content)
   }
@@ -627,10 +627,10 @@ const abc_listdata2task = ABConvert.factory({
 
 export const abc_list2listnode = ABConvert.factory({
   id: "list2listnode",
-  name: "列表到listnode (beta)",
+  name: "List to listnode (beta)",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.json,
-  detail: "列表到listnode",
+  detail: "List to listnode",
   process: (el, header, content: string): string=>{
     const data: listNodes[] = ListProcess.list2listnode(content)
     return JSON.stringify(data, null, 2) // TMP
@@ -639,10 +639,10 @@ export const abc_list2listnode = ABConvert.factory({
 
 export const abc_list2json = ABConvert.factory({
   id: "list2json",
-  name: "列表到json (beta)",
+  name: "List to json (beta)",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.json,
-  detail: "列表到json",
+  detail: "List to json",
   process: (el, header, content: string): string=>{
     const data: object = ListProcess.list2json(content)
     return JSON.stringify(data, null, 2) // TMP

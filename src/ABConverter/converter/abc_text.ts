@@ -16,9 +16,9 @@ import {ABReg} from "../ABSetting"
 
 const abc_addQuote = ABConvert.factory({
   id: "addQuote",
-  name: "增加引用块",
+  name: "Add quote block",
   match: "addQuote",
-  detail: "在文本的每行前面加上 `> `",
+  detail: "Add `> ` to the beginning of each line in text",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -28,10 +28,10 @@ const abc_addQuote = ABConvert.factory({
 
 const abc_addCode = ABConvert.factory({
   id: "addCode",
-  name: "增加代码块",
+  name: "Add code block",
   match: /^(addCode|code)(\((.*)\))?$/,
   default: "code()",
-  detail: "在文本的前后均加上一行代码块围栏。不加`()`表示用原文本的第一行作为代码类型，括号类型为空表示代码类型为空",
+  detail: "Add code block fences before and after text. Without `()` means use first line of text as code type, empty parentheses means empty code type",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -44,9 +44,9 @@ const abc_addCode = ABConvert.factory({
 
 const abc_xQuote = ABConvert.factory({
   id: "xQuote",
-  name: "去除引用块",
+  name: "Remove quote block",
   match: /^(xQuote|Xquote)$/,
-  detail: "在文本的每行前面删除 `> `",
+  detail: "Remove `> ` from the beginning of each line in text",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -58,10 +58,10 @@ const abc_xQuote = ABConvert.factory({
 
 const abc_xCode = ABConvert.factory({
   id: "xCode",
-  name: "去除代码块",
+  name: "Remove code block",
   match: /^(xCode|Xcode)(\((true|false|)\))?$/,
   default: "xCode(true)",
-  detail: "参数为是否移除代码类型, Xcode默认为false, Xcode默认为true。记法: code|Xcode 或 code()|Xcode()内容不变",
+  detail: "Parameter is whether to remove code type. Xcode defaults to false, xCode defaults to true. Notation: code|Xcode or code()|Xcode() content unchanged",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -102,7 +102,7 @@ const abc_xCode = ABConvert.factory({
 
 const abc_x = ABConvert.factory({
   id: "x",
-  name: "去除代码或引用块",
+  name: "Remove code or quote block",
   match: /^(x|X)$/,
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
@@ -120,9 +120,9 @@ const abc_x = ABConvert.factory({
 
 const abc_slice = ABConvert.factory({
   id: "slice",
-  name: "切片",
+  name: "Slice",
   match: /^slice\((\s*\d+\s*)(,\s*-?\d+\s*)?\)$/,
-  detail: "和js的slice方法是一样的。例如 `[slice(1, -1)]`",
+  detail: "Same as JavaScript's slice method. For example `[slice(1, -1)]`",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -143,9 +143,9 @@ const abc_slice = ABConvert.factory({
 
 const abc_add = ABConvert.factory({
   id: "add",
-  name: "增添内容",
+  name: "Add content",
   match: /^add\((.*?)(,\s*-?\d+\s*)?\)$/,
-  detail: "增添. 参数2为行序, 默认0, 行尾-1。会插行增添",
+  detail: "Add content. Parameter 2 is line number, default 0, end is -1. Will insert line to add",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -174,10 +174,10 @@ const abc_add = ABConvert.factory({
 
 const abc_listroot = ABConvert.factory({
   id: "listroot",
-  name: "增加列表根",
+  name: "Add list root",
   match: /^listroot\((.*)\)$/,
   default: "listroot(root)",
-  detail: "每行前面加两空格，并在首行插入 `- ` 开头的根列表项",
+  detail: "Add two spaces before each line, and insert root list item starting with `- ` at the beginning",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -192,9 +192,8 @@ const abc_listroot = ABConvert.factory({
 
 const abc_addList = ABConvert.factory({
   id: "addList",
-  name: "缩进转列表",
-  detail: "缩进转列表",
-  default: "缩进转列表。对于空行的处理有两种策略：一是空行表示下一个列表，单换行表示同一列表项。二是忽略空行。暂时仅为策略二",
+  name: "Indent to list",
+  detail: "Indent to list. Two strategies for handling empty lines: 1) Empty line means next list, single line break means same list item. 2) Ignore empty lines. Currently only strategy 2",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -214,9 +213,9 @@ const abc_addList = ABConvert.factory({
 
 const abc_xList = ABConvert.factory({
   id: "xList",
-  name: "列表转缩进",
+  name: "List to indent",
   match: /^(xList|Xlist)$/,
-  detail: "列表转缩进。对于多行内容的列表项，默认换行项删除前置空格并使用 `; ` 拼接，拼接符暂不支持自定义",
+  detail: "List to indent. For list items with multiple lines, default line break items remove leading spaces and join with `; `, joiner not customizable yet",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{

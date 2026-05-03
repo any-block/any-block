@@ -321,7 +321,7 @@ export class DirProcess{
 
 const abc_list2lt = ABConvert.factory({
   id: "list2lt",
-  name: "列表转列表表格",
+  name: "List to list table",
   match: /list2(md)?lt(T)?/,
   default: "list2lt",
   process_param: ABConvert_IOEnum.text,
@@ -336,7 +336,7 @@ const abc_list2lt = ABConvert.factory({
 
 const abc_list2dt = ABConvert.factory({
   id: "list2dt",
-  name: "列表转树状目录",
+  name: "List to tree directory",
   match: /list2(md)?dt(T)?/,
   default: "list2dt",
   process_param: ABConvert_IOEnum.text,
@@ -441,7 +441,7 @@ function listdata2dirdata(list: List_ListItem): List_DirListItem {
 
 const abc_list2astreeH = ABConvert.factory({
   id: "list2astreeH",
-  name: "列表到sacii目录树",
+  name: "List to ASCII directory tree",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{

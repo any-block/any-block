@@ -43,7 +43,7 @@ export function mditTabs2listdata(content:string, reg: RegExp): List_C2ListItem 
 
 const abc_mditTabs = ABConvert.factory({
   id: "mditTabs",
-  name: "mdit标签页",
+  name: "mdit tabs",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -55,7 +55,7 @@ const abc_mditTabs = ABConvert.factory({
 
 const abc_mditDemo = ABConvert.factory({
   id: "mditDemo",
-  name: "mdit展示对比",
+  name: "mdit demo comparison",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -67,7 +67,7 @@ const abc_mditDemo = ABConvert.factory({
 
 const abc_mditABDemo = ABConvert.factory({
   id: "mditABDemo",
-  name: "AnyBlock专用展示对比",
+  name: "AnyBlock专用demo comparison",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -111,7 +111,7 @@ ${content}
  */
 const abc_midt_col = ABConvert.factory({
   id: "mditCol",
-  name: "mdit分栏",
+  name: "mdit columns",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -124,7 +124,7 @@ const abc_midt_col = ABConvert.factory({
 
 const abc_midt_card = ABConvert.factory({
   id: "mditCard",
-  name: "mdit卡片",
+  name: "mdit card",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -138,8 +138,8 @@ const abc_midt_card = ABConvert.factory({
 
 const abc_midt_chat = ABConvert.factory({
   id: "mditChat",
-  name: "mdit对话",
-  detail: "显示渲染对话，需要配合 obsidian-view-chat-qq 插件使用",
+  name: "mdit chat",
+  detail: "Display rendered chat, need to配合 obsidian-view-chat-qq plugin to use",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
