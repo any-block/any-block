@@ -16,7 +16,7 @@ import { ABAlias_user } from "@/ABConverter/ABAlias" // 别名模块
 import {} from "../../CodeMirror2/ABSelector_MdBase"
 import {generateSelectorInfoTable} from "../../CodeMirror2/ABSelector_Md"
 
-import { t } from "../locales/helper"
+import { t } from "@/ABConverter/locales/helper"
 
 /** 配置文件 - 接口 */
 export interface ABSettingInterface {

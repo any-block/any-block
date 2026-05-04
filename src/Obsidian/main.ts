@@ -8,6 +8,7 @@
  */
 
 import {
+  getLanguage, // https://github.com/obsidianmd/obsidian-translations?tab=readme-ov-file#existing-languages
   MarkdownRenderChild, MarkdownRenderer, loadMermaid, Plugin, MarkdownView,
   type MarkdownPostProcessorContext
 } from 'obsidian'
@@ -27,6 +28,7 @@ export default class AnyBlockPlugin extends Plugin {
 
   async onload() {
     ABCSetting.obsidian.global_app = this.app
+    ABCSetting.state.language = getLanguage()
     await this.loadSettings();
     this.addSettingTab(new ABSettingTab(this.app, this))
 

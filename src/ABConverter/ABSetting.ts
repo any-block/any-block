@@ -33,6 +33,10 @@ export const ABCSetting: {
       oldView: any, tr: any, decorationSet: any | undefined, create_widget: any
     ) => any)
   },
+  // 运行时状态
+  state: {
+    language: 'en'|'zh'|'zh-TW'|string // 语言 (字典语言标志: 本地化语言名转标志, 不存在语言转en，自动选择转实际语言)
+  },
 } = {
   is_debug: false,
   env: "obsidian",
@@ -48,7 +52,10 @@ export const ABCSetting: {
     enable_alias_override: true,
     editableblock_defaultRender: 'readmode',
     create_decorations: undefined
-  }
+  },
+  state: {
+    language: 'en',
+  },
 }
 
 /**
