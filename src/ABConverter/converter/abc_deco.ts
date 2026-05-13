@@ -5,13 +5,14 @@
  * md_str <-> html
  */
 
+import DOMPurify from "dompurify"
 import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
 import { ABConvertManager } from "../ABConvertManager"
 import { ABCSetting } from "../ABSetting"
 
 export const DECOProcessor = 0  // 用于模块化，防报错，其实没啥用
 
-const abc_md = ABConvert.factory({
+const _abc_md = ABConvert.factory({
   id: "md",
   name: "md",
   process_param: ABConvert_IOEnum.text,
@@ -23,7 +24,7 @@ const abc_md = ABConvert.factory({
   }
 })
 
-const abc_text = ABConvert.factory({
+const _abc_text = ABConvert.factory({
   id: "text",
   name: "纯文本",
   detail: "其实一般会更推荐用code()代替，那个更精确",
@@ -32,12 +33,12 @@ const abc_text = ABConvert.factory({
   process: (el, header, content: string): HTMLElement=>{
     // 文本元素。pre不好用，这里还是得用<br>换行最好
     // `<p>${content.split("\n").map(line=>{return "<span>"+line+"</span>"}).join("<br/>")}</p>`
-    el.innerHTML = `<p>${content.replace(/ /g, "&nbsp;").split("\n").join("<br/>")}</p>`
+    el.innerHTML = DOMPurify.sanitize(`<p>${content.replace(/ /g, "&nbsp;").split("\n").join("<br/>")}</p>`)
     return el
   }
 })
 
-const abc_fold = ABConvert.factory({
+const _abc_fold = ABConvert.factory({
   id: "fold",
   name: "折叠",
   process_param: ABConvert_IOEnum.el,
@@ -122,7 +123,7 @@ const abc_fold = ABConvert.factory({
   }
 })
 
-const abc_scroll = ABConvert.factory({
+const _abc_scroll = ABConvert.factory({
   id: "scroll",
   name: "滚动",
   match: /^scroll(X)?(\((\d+)\))?$/,
@@ -160,7 +161,7 @@ const abc_scroll = ABConvert.factory({
   }
 })
 
-const abc_overfold = ABConvert.factory({
+const _abc_overfold = ABConvert.factory({
   id: "overfold",
   name: "超出折叠",
   match: /^overfold(\((\d+)\))?$/,
@@ -213,7 +214,7 @@ const abc_overfold = ABConvert.factory({
   /// width(25%,25%,50%)
   /// width(100px,10rem,10.5) 
   /// width(100)
-  const abc_width = ABConvert.factory({
+  const _abc_width = ABConvert.factory({
     id: "width",
     name: "宽度控制",
     match: /^width\(((?:\d*\.?\d+(?:%|px|rem)?,\s*)*\d*\.?\d+(?:%|px|rem)?)\)$/,
@@ -277,7 +278,7 @@ const abc_overfold = ABConvert.factory({
     }
   })
 
-const abc_addClass = ABConvert.factory({
+const _abc_addClass = ABConvert.factory({
   id: "addClass",
   name: "增加class",
   detail: "给当前块增加一个类名。支持正常使用空格来添加多个class, 不需要加dot符, 就像在class=''里写的那样",
@@ -298,7 +299,7 @@ const abc_addClass = ABConvert.factory({
   }
 })
 
-const abc_addStyle = ABConvert.factory({
+const _abc_addStyle = ABConvert.factory({
   id: "addStyle",
   name: "增加style",
   detail: "给当前块增加一个样式, 注意最外的括号往内要留一个空格, 避免rotate这种用括号时冲突。添加多个则正常使用分号",
@@ -316,7 +317,7 @@ const abc_addStyle = ABConvert.factory({
   }
 })
 
-const abc_addDiv = ABConvert.factory({
+const _abc_addDiv = ABConvert.factory({
   id: "addDiv",
   name: "增加div和class",
   detail: "给当前块增加一个父类，需要给这个父类一个类名",
@@ -342,7 +343,7 @@ const abc_addDiv = ABConvert.factory({
   }
 })
 
-const abc_title = ABConvert.factory({
+const _abc_title = ABConvert.factory({
   id: "title",
   name: "标题",
   match: /^#(.*)/,
@@ -399,7 +400,7 @@ const abc_title = ABConvert.factory({
   }
 })
 
-const abc_transposition = ABConvert.factory({
+const _abc_transposition = ABConvert.factory({
   id: "transposition",
   name: "表格转置",
   match: "transposition",
@@ -438,7 +439,7 @@ const abc_transposition = ABConvert.factory({
   }
 })
 
-const abc_transpose = ABConvert.factory({
+const _abc_transpose = ABConvert.factory({
   id: "transpose",
   name: "表格转置",
   match: "trs",
@@ -494,7 +495,7 @@ const abc_transpose = ABConvert.factory({
 })
 
 // 实现上与表格转置大差不差
-const abc_exTable = ABConvert.factory({
+const _abc_exTable = ABConvert.factory({
   id: "exTable",
   name: "表格扩展",
   match: "exTable",
@@ -523,7 +524,7 @@ const abc_exTable = ABConvert.factory({
 })
 
 /// 表格严格化/normalized
-const abc_strictTable = ABConvert.factory({
+const _abc_strictTable = ABConvert.factory({
   id: "strictTable",
   name: "正规化表格",
   match: "strictTable",

@@ -39,7 +39,7 @@ import { abc_title2listdata } from "./abc_list";
 const transformer = new Transformer();
 //import { Markmap, loadCSS, loadJS } from 'markmap-view'
 
-const abc_list2mindmap = ABConvert.factory({
+const _abc_list2mindmap = ABConvert.factory({
 id: "list2markmap",
 name: "列表到脑图 (markmap)",
 process_param: ABConvert_IOEnum.text,

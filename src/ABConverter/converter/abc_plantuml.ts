@@ -13,7 +13,7 @@ import plantumlEncoder from "plantuml-encoder"
 
 import { list2ActivityDiagramText } from "./abc_plantuml_tools"
 
-const abc_list2jsontext = ABConvert.factory({
+const _abc_list2jsontext = ABConvert.factory({
   id: "json2pumlJson",
   name: "json到可视化",
   process_param: ABConvert_IOEnum.text,
@@ -25,7 +25,7 @@ const abc_list2jsontext = ABConvert.factory({
   }
 })
 
-const abc_list2pumlWBS = ABConvert.factory({
+const _abc_list2pumlWBS = ABConvert.factory({
   id: "list2pumlWBS",
   name: "列表到puml工作分解结构",
   process_param: ABConvert_IOEnum.text,
@@ -47,7 +47,7 @@ const abc_list2pumlWBS = ABConvert.factory({
   }
 })
 
-const abc_list2pumlMindmap = ABConvert.factory({
+const _abc_list2pumlMindmap = ABConvert.factory({
   id: "list2pumlMindmap",
   name: "列表到puml思维导图",
   process_param: ABConvert_IOEnum.text,
@@ -66,7 +66,7 @@ const abc_list2pumlMindmap = ABConvert.factory({
   }
 })
 
-const abc_list2ActivityDiagramText = ABConvert.factory({
+const _abc_list2ActivityDiagramText = ABConvert.factory({
 	id: "list2pumlActivityDiagramText",
 	name: "列表到puml活动图文本",
 	process_param: ABConvert_IOEnum.text,
@@ -76,7 +76,7 @@ const abc_list2ActivityDiagramText = ABConvert.factory({
 	}
 })
 
-const abc_list2ActivityDiagram = ABConvert.factory({
+const _abc_list2ActivityDiagram = ABConvert.factory({
 	id: "list2pumlActivityDiagram",
 	name: "列表到puml活动图",
 	process_param: ABConvert_IOEnum.text,

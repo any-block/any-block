@@ -14,7 +14,7 @@ import {ABReg} from "../ABSetting"
  * 2. 让处理器能互相调用
  */
 
-const abc_addQuote = ABConvert.factory({
+const _abc_addQuote = ABConvert.factory({
   id: "addQuote",
   name: "增加引用块",
   match: "addQuote",
@@ -26,7 +26,7 @@ const abc_addQuote = ABConvert.factory({
   }
 })
 
-const abc_addCode = ABConvert.factory({
+const _abc_addCode = ABConvert.factory({
   id: "addCode",
   name: "增加代码块",
   match: /^(addCode|code)(\((.*)\))?$/,
@@ -100,7 +100,7 @@ const abc_xCode = ABConvert.factory({
   }
 })
 
-const abc_x = ABConvert.factory({
+const _abc_x = ABConvert.factory({
   id: "x",
   name: "去除代码或引用块",
   match: /^(x|X)$/,
@@ -118,7 +118,7 @@ const abc_x = ABConvert.factory({
   }
 })
 
-const abc_slice = ABConvert.factory({
+const _abc_slice = ABConvert.factory({
   id: "slice",
   name: "切片",
   match: /^slice\((\s*\d+\s*)(,\s*-?\d+\s*)?\)$/,
@@ -141,7 +141,7 @@ const abc_slice = ABConvert.factory({
   }
 })
 
-const abc_add = ABConvert.factory({
+const _abc_add = ABConvert.factory({
   id: "add",
   name: "增添内容",
   match: /^add\((.*?)(,\s*-?\d+\s*)?\)$/,
@@ -172,7 +172,7 @@ const abc_add = ABConvert.factory({
   }
 })
 
-const abc_listroot = ABConvert.factory({
+const _abc_listroot = ABConvert.factory({
   id: "listroot",
   name: "增加列表根",
   match: /^listroot\((.*)\)$/,
@@ -190,7 +190,7 @@ const abc_listroot = ABConvert.factory({
   }
 })
 
-const abc_addList = ABConvert.factory({
+const _abc_addList = ABConvert.factory({
   id: "addList",
   name: "缩进转列表",
   detail: "缩进转列表",
@@ -212,7 +212,7 @@ const abc_addList = ABConvert.factory({
   }
 })
 
-const abc_xList = ABConvert.factory({
+const _abc_xList = ABConvert.factory({
   id: "xList",
   name: "列表转缩进",
   match: /^(xList|Xlist)$/,

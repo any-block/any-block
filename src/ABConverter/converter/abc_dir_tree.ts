@@ -5,10 +5,10 @@
  * md_str <-> html
  */
 
-import { ABCSetting, ABReg } from '../ABSetting'
-import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
-import {ABConvertManager} from "../ABConvertManager"
-import {ListProcess, type List_ListItem, type ListItem} from "./abc_list"
+import { ABCSetting, ABReg } from "../ABSetting"
+import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
+import  {ABConvertManager } from "../ABConvertManager"
+import  {ListProcess, type List_ListItem, type ListItem } from "./abc_list"
 
 export interface LTableItem {
   content: string,        // 内容
@@ -319,7 +319,7 @@ export class DirProcess{
   }
 }
 
-const abc_list2lt = ABConvert.factory({
+const _abc_list2lt = ABConvert.factory({
   id: "list2lt",
   name: "列表转列表表格",
   match: /list2(md)?lt(T)?/,
@@ -334,7 +334,7 @@ const abc_list2lt = ABConvert.factory({
   }
 })
 
-const abc_list2dt = ABConvert.factory({
+const _abc_list2dt = ABConvert.factory({
   id: "list2dt",
   name: "列表转树状目录",
   match: /list2(md)?dt(T)?/,
@@ -439,7 +439,7 @@ function listdata2dirdata(list: List_ListItem): List_DirListItem {
   return newlist
 }
 
-const abc_list2astreeH = ABConvert.factory({
+const _abc_list2astreeH = ABConvert.factory({
   id: "list2astreeH",
   name: "列表到sacii目录树",
   process_param: ABConvert_IOEnum.text,

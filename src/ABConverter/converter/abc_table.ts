@@ -156,7 +156,7 @@ export class TableProcess{
 }
 
 // 纯组合，后续用别名模块替代
-const abc_title2table = ABConvert.factory({
+const _abc_title2table = ABConvert.factory({
   id: "title2table",
   name: "标题到表格",
   process_param: ABConvert_IOEnum.text,
@@ -168,7 +168,7 @@ const abc_title2table = ABConvert.factory({
 })
 
 // 纯组合，后续用别名模块替代
-const abc_list2table = ABConvert.factory({
+const _abc_list2table = ABConvert.factory({
   id: "list2table",
   name: "列表转表格",
   match: /list2(md)?table(T)?/,
@@ -183,7 +183,7 @@ const abc_list2table = ABConvert.factory({
   }
 })
 
-const abc_list2c2table = ABConvert.factory({
+const _abc_list2c2table = ABConvert.factory({
   id: "list2c2t",
   name: "列表转二列表格",
   match: "list2c2t",
@@ -196,7 +196,7 @@ const abc_list2c2table = ABConvert.factory({
   }
 })
 
-const abc_list2ut = ABConvert.factory({
+const _abc_list2ut = ABConvert.factory({
   id: "list2ut",
   name: "列表转二维表格",
   match: /list2(md)?ut(T)?/,
@@ -211,7 +211,7 @@ const abc_list2ut = ABConvert.factory({
   }
 })
 
-const abc_list2timeline = ABConvert.factory({
+const _abc_list2timeline = ABConvert.factory({
   id: "list2timeline",
   name: "列表转时间线",
   match: /list2(md)?timeline(T)?/,
@@ -226,7 +226,7 @@ const abc_list2timeline = ABConvert.factory({
   }
 })
 
-const abc_title2timeline = ABConvert.factory({
+const _abc_title2timeline = ABConvert.factory({
   id: "title2timeline",
   name: "标题转时间线",
   match: /title2(md)?timeline(T)?/,
