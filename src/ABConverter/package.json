@@ -9,6 +9,7 @@
   "author": "LincZero",
   "license": "GNU Affero General Public License v3.0",
   "dependencies": {
+    "dompurify": "^3.4.3",
     "luxon": "^3.7.2",
     "markmap-lib": "^0.17.2",
     "plantuml-encoder": "^1.4.0"

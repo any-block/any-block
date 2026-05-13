@@ -5,6 +5,7 @@
  * md_str <-> html
  */
 
+import DOMPurify from "dompurify"
 import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
 import {ListProcess, type List_ListItem} from "./abc_list"
 
@@ -92,14 +93,14 @@ export async function render_pumlText(text: string, div: HTMLElement) {
     // 当前mdit和ob使用
     var encoded = plantumlEncoder.encode(text)
     let url = 'http://www.plantuml.com/plantuml/img/' + encoded
-    div.innerHTML = `<img src="${url}">`
+    div.innerHTML = DOMPurify.sanitize(`<img src="${url}">`)
 
     // 2. 四选一。这里给环境渲染 (优缺点见abc_mermaid的相似方法)
     //ABConvertManager.getInstance().m_renderMarkdownFn("```plantuml\n"+text+"```", div)
 
     // 3. 四选一。这里不渲，交给上一层让上一层渲 (优缺点见abc_mermaid的相似方法)
     //div.classList.add("ab-raw")
-    //div.innerHTML = `<div class="ab-raw-data" type-data="plantuml" content-data='${text}'></div>`
+    //div.innerHTML = DOMPurify.sanitize(`<div class="ab-raw-data" type-data="plantuml" content-data='${text}'></div>`)
 
     // 4. 四选一。纯动态/手动渲染 (优缺点见abc_mermaid的相似方法)
     // ...

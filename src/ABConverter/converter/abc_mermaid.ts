@@ -6,10 +6,10 @@
  * 使用注意项：在ob/mdit中的写法不同，本文件搜索render_mermaidText函数。里面有三种策略。ob推荐策略1，mdit推荐策略3
  */
 
-import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
-import {ABConvertManager} from "../ABConvertManager"
-import {ListProcess, type List_ListItem} from "./abc_list"
-import {ABCSetting, ABReg} from "../ABSetting"
+import DOMPurify from "dompurify"
+import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
+import { ListProcess, type List_ListItem } from "./abc_list"
+import { ABCSetting } from "../ABSetting"
 
 /**
  * 生成一个随机id
@@ -272,7 +272,7 @@ async function render_mermaidText(mermaidText: string, div: HTMLElement) {
   // - 选用：mdit可以用这种，dev环境的最佳策略
   else {
     div.classList.add("ab-raw")
-    div.innerHTML = `<div class="ab-raw-data" type-data="mermaid" content-data='${mermaidText}'></div>`
+    div.innerHTML = DOMPurify.sanitize(`<div class="ab-raw-data" type-data="mermaid" content-data='${mermaidText}'></div>`)
   }
   // 4. 四选一。纯动态/手动渲染
   // - 优点：abc模块无需重复内置mermaid
