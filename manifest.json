@@ -1,0 +1,15 @@
+{
+	"id": "any-block",
+	"name": "AnyBlock",
+	"version": "3.4.3",
+	"minAppVersion": "0.15.0",
+	"description": "You can flexibility to create a 'Block' by some means. It also provides some useful features, like `list to table`. ",
+	"author": "LincZero",
+	"authorUrl": "https://github.com/LincZero",
+	"repo": "https://github.com/any-block/any-block",
+	"fundingUrl": {
+		"Support Page": "https://github.com/LincZero#thank-you-very-much-for-your-support",
+		"中国大陆备用链接": "https://linczero-github-io.pages.dev/MdNote_Other/LincZero/#thank-you-very-much-for-your-support"
+	},
+	"isDesktopOnly": false
+}

@@ -1,0 +1,21 @@
+{
+  "name": "any-block-converter",
+  "version": "3.4.3",
+  "description": "You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table`. (obsidian/markdown-it/vuepress plugin/app)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "LincZero",
+  "license": "GNU Affero General Public License v3.0",
+  "dependencies": {
+    "luxon": "^3.7.2",
+    "markmap-lib": "^0.17.2",
+    "plantuml-encoder": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.7.1",
+    "@types/plantuml-encoder": "^1.4.2",
+    "tslib": "^2.8.1"
+  }
+}

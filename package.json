@@ -1,0 +1,39 @@
+{
+	"name": "any-block",
+	"version": "3.3.2",
+	"description": "You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table`. (obsidian/markdown-it/vuepress plugin/app)",
+	"author": "LincZero",
+	"authorUrl": "https://github.com/LincZero",
+	"license": "GNU Affero General Public License v3.0",
+	"main": "main.js",
+	"scripts": {
+		"build": "pnpm run ob:build",
+		"build-min": "pnpm run ob:build-min",
+		"ob:build": "cd ./src/Obsidian && pnpm build",
+		"ob:build-min": "cd ./src/Obsidian && pnpm build-min",
+		"ob:build-pro": "cd ./src/Obsidian && pnpm build-pro",
+		"app:dev": "cd ./src/App && pnpm dev",
+		"app:build": "cd ./src/App && pnpm build",
+		"mdit:build": "cd ./src/MarkdownIt && pnpm build"
+	},
+	"keywords": [
+		"anyblock",
+		"any-block",
+		"markdown",
+		"obsidian",
+		"codemirror",
+		"markdown-it",
+		"vuepress",
+		"vitepress",
+		"remark",
+		"docusaurus",
+		"quartz"
+	],
+	"devDependencies": {
+		"copyfiles": "^2.4.1"
+	},
+	"packageManager": "pnpm@10.10.0",
+	"engines": {
+		"node": ">=20.6.0"
+	}
+}
