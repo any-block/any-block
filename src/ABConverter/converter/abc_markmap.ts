@@ -18,10 +18,10 @@
  *    - 在VuePress-Mdit环境，没有真正的document元素，而打开文件的钩子在mdit里面又没有，可能需要要vuepress插件解决
  */
 
-import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
-import {ABConvertManager} from "../ABConvertManager"
-import {ABCSetting, ABReg} from "../ABSetting"
-import { abConvertEvent, markmap_event } from "../ABConvertEvent";
+ import DOMPurify from "dompurify"
+import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
+import { ABCSetting } from "../ABSetting"
+import { markmap_event } from "../ABConvertEvent";
 
 /**
  * 生成一个随机id
@@ -67,13 +67,15 @@ function list2markmap(markdown: string, div: HTMLDivElement) {
 		const id = Math.random().toString(36).substring(2);
 		const svg_div = document.createElement("div"); div.appendChild(svg_div); svg_div.classList.add("ab-markmap-div"); svg_div.id = "ab-markmap-div-"+id
 		const html_str = `<svg class="ab-markmap-svg" id="ab-markmap-${id}" data-json='${JSON.stringify(root)}' style="height:${height_adapt}px"></svg>` // TODO 似乎是这里导致了`'`符号的异常
-		svg_div.innerHTML = html_str
+		svg_div.innerHTML = DOMPurify.sanitize(html_str, {
+			USE_PROFILES: { svg: true }
+		})
 	}
 	// 2. 四选一。这里不渲，交给上一层让上一层渲 (优缺点见abc_mermaid的相似方法)
 	// 当前mdit (vuepress、app) 使用
 	else {
 		div.classList.add("ab-raw")
-		div.innerHTML = `<div class="ab-raw-data" type-data="markmap" content-data='${markdown}'></div>`
+		div.innerHTML = DOMPurify.sanitize(`<div class="ab-raw-data" type-data="markmap" content-data='${markdown}'></div>`)
 	}
 	// 1.2. 四选一。纯动态/手动渲染 (优缺点见abc_mermaid的相似方法)
 	// 旧Ob使用
