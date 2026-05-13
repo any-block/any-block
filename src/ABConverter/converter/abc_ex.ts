@@ -8,7 +8,7 @@ import {ABConvert_IOEnum, ABConvert, type ABConvert_SpecSimp} from "./ABConvert"
 import {ABConvertManager} from "../ABConvertManager"
 import { get_ABAlias_iter } from "../ABAlias";
 
-const abc_faq = ABConvert.factory({
+const _abc_faq = ABConvert.factory({
   id: "faq",
   name: "FAQ",
   match: "FAQ",
@@ -50,7 +50,7 @@ const abc_faq = ABConvert.factory({
   }
 })
 
-const abc_info_converter = ABConvert.factory({
+const _abc_info_converter = ABConvert.factory({
   id: "info_converter",
   name: "INFO",
   detail: "查看当前软件版本下的注册处理器表",
@@ -92,7 +92,7 @@ const abc_info_converter = ABConvert.factory({
   }
 })
 
-const abc_info_alias = ABConvert.factory({
+const _abc_info_alias = ABConvert.factory({
   id: "info_alias",
   name: "INFO_Alias",
   match: "info_alias",

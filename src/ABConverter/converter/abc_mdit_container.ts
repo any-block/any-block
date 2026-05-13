@@ -53,7 +53,7 @@ const abc_mditTabs = ABConvert.factory({
   }
 })
 
-const abc_mditDemo = ABConvert.factory({
+const _abc_mditDemo = ABConvert.factory({
   id: "mditDemo",
   name: "mdit展示对比",
   process_param: ABConvert_IOEnum.text,
@@ -65,7 +65,7 @@ const abc_mditDemo = ABConvert.factory({
   }
 })
 
-const abc_mditABDemo = ABConvert.factory({
+const _abc_mditABDemo = ABConvert.factory({
   id: "mditABDemo",
   name: "AnyBlock专用展示对比",
   process_param: ABConvert_IOEnum.text,
@@ -109,7 +109,7 @@ ${content}
  * 1. 根据标签分栏 (手动分栏)
  * 2. 指定分栏个数 (自动分栏)
  */
-const abc_midt_col = ABConvert.factory({
+const _abc_midt_col = ABConvert.factory({
   id: "mditCol",
   name: "mdit分栏",
   process_param: ABConvert_IOEnum.text,
@@ -122,7 +122,7 @@ const abc_midt_col = ABConvert.factory({
   }
 })
 
-const abc_midt_card = ABConvert.factory({
+const _abc_midt_card = ABConvert.factory({
   id: "mditCard",
   name: "mdit卡片",
   process_param: ABConvert_IOEnum.text,
@@ -136,7 +136,7 @@ const abc_midt_card = ABConvert.factory({
   }
 })
 
-const abc_midt_chat = ABConvert.factory({
+const _abc_midt_chat = ABConvert.factory({
   id: "mditChat",
   name: "mdit对话",
   detail: "显示渲染对话，需要配合 obsidian-view-chat-qq 插件使用",

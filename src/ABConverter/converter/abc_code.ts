@@ -15,7 +15,7 @@
 import { ABReg } from "../ABSetting"
 import { ABConvert, ABConvert_IOEnum } from "./ABConvert"
 
-const abc_region2indent = ABConvert.factory({
+const _abc_region2indent = ABConvert.factory({
   id: "region2indent",
   name: "代码注释转缩进",
   detail: "代码块注释转缩进 (识别 `//` 和 `#` 的region注释对)，通常配合code2list使用。默认补充两缩进",
@@ -53,7 +53,7 @@ const abc_region2indent = ABConvert.factory({
   }
 })
 
-const abc_mdit2code = ABConvert.factory({
+const _abc_mdit2code = ABConvert.factory({
   id: "mdit2code",
   name: "mdit转代码块",
   detail: "mdit转代码块 (允许嵌套)。注意 `:*n` 会转化为 `~*(n+3)`, `@aaa bbb` 会转换为 `# bbb` (h1标题)",
