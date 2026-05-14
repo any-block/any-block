@@ -614,7 +614,7 @@ const _abc_listdata2strict = ABConvert.factory({
   }
 })
 
-const abc_listdata2task = ABConvert.factory({
+const _abc_listdata2task = ABConvert.factory({
   id: "listdata2task",
   name: "listdata支持任务列表",
   process_param: ABConvert_IOEnum.list_stream,
