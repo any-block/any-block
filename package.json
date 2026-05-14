@@ -12,6 +12,8 @@
 		"ob:build": "cd ./src/Obsidian && pnpm build",
 		"ob:build-min": "cd ./src/Obsidian && pnpm build-min",
 		"ob:build-pro": "cd ./src/Obsidian && pnpm build-pro",
+		"ob:lint": "cd ./src/Obsidian && pnpm lint",
+		"ob:lint:fix": "cd ./src/Obsidian && pnpm lint:fix",
 		"app:dev": "cd ./src/App && pnpm dev",
 		"app:build": "cd ./src/App && pnpm build",
 		"mdit:build": "cd ./src/MarkdownIt && pnpm build"

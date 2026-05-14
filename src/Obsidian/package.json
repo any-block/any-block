@@ -7,6 +7,8 @@
 	"license": "GNU Affero General Public License v3.0",
 	"main": "main.js",
 	"scripts": {
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
 		"dev": "node esbuild.config.mjs",
 		"ob:dev2": "vite build --watch --mode=development",
 		"build": "pnpm copy_abc_style && tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
@@ -31,6 +33,8 @@
 		"copyfiles": "^2.4.1",
 		"esbuild": "^0.14.54",
 		"esbuild-svelte": "^0.7.4",
+		"eslint": "^10.3.0",
+		"eslint-plugin-obsidianmd": "^0.3.0",
 		"javascript-obfuscator": "^4.1.1",
 		"obsidian": "latest",
 		"svelte": "^3.59.2",

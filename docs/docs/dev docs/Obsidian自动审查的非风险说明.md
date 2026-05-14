@@ -53,9 +53,71 @@ https://community.obsidian.md/account/plugins/any-block 中，
             commit-message: "chore: sync obsidian branch"
 ```
 
-可以在工作中将其他不参与 Obsidian 代码构成的模块删除掉并备份到分支中，然后再给 Obsidian 进行自动审核。
+可以在工作中将其他不参与 Obsidian 代码构成的模块删除掉并备份到分支中。
+
+然后你可以在 Obsidian 仪表盘处主动 review 你的新分支。
 
 不过还是偏麻烦了，不是所有开发者都会采用这种 “偷鸡” 的方式
+
+### 部分解决方法2
+
+注意上面的方法只能 review 分支，发布时不能用。Obsidian 要求 Release 时审查代码要是你的主分支。
+
+当然你也可以将 only-obsidian 分之切换为主分支 (但一般不会这样做)。
+
+所以你得创建一个单独用于发布 Obsidian 版本，以及应对审查的映射分支，以及发布：
+
+和前面的差不多，改改就行。注意你得先创建一下 TOKEN
+
+```yml
+  sync-repo:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Remove unused directories
+      run: |
+        # 删除不需要同步到新仓库的目录
+        rm -rf src/App src/Tauri
+
+    - name: Push to external repository
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        repository-name: any-block/obsidian-any-block # 替换为你的目标仓库 (需提前在 GitHub 创建好)
+        branch: main                          # 目标仓库的分支
+        folder: .
+        token: ${{ secrets.AnyBlockPro_Repo }} # 跨仓库推送必须使用 PAT 
+        commit-message: "chore: sync from monorepo"
+```
+
+同时 Release 到新仓库的作业这里也给一下:
+
+```yml
+  # 在 only-obsidian repo 上也发布一份
+  - name: Create Release (on only-obsidian repo)
+    if: startsWith(github.ref, 'refs/tags/') # 有tag
+    uses: ncipollo/release-action@v1
+    with:
+      owner: any-menu # 目标仓库的 owner
+      repo: obsidian-any-menu # 目标仓库名
+      commit: main
+      token: ${{ secrets.ANYMENU }} # PAT GitHub Token。可选一，填写设置的PAT
+      # token: ${{ secrets.GITHUB_TOKEN }} # 内置 Github Token。可选二
+      # 'tag' 默认就是 github.ref_name (即你推送的 tag)，但这里是另一个仓库，所以也要写
+      tag: ${{ github.ref_name }}
+
+      name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
+      body: |
+        CHANGELOG: https://any-menu.github.io/any-menu/CHANGELOG.html
+      artifacts: |
+        ./dist/obsidian-any-menu/*
+      generateReleaseNotes: true # 自动根据 commits 生成 release notes
+      prerelease: ${{ endsWith(github.ref_name, 'beta') }} # 是否预发布
+      makeLatest: ${{ !endsWith(github.ref_name, 'beta') }} # 是否最后一个版本
+```
+
+总体来说还是比较麻烦的
 
 ## 排除 Core 模块的检查
 
@@ -253,3 +315,13 @@ const module = await dynamicImport(blobUrl);
 
 希望以后能有好的、优质的、低成本的 AI 审查，去 review 代码。
 避免当前使用死板规则且过度检测的情况。
+
+## For Developer
+
+对插件开发人员的一些其他补充
+
+https://github.com/obsidianmd/eslint-plugin
+
+这样就可以在本地进行检查，检查上就快得多了
+
+并且如果你觉得需要添加什么规则，或觉得什么规则过于严格，也可以往该仓库提 issue 或 pr
