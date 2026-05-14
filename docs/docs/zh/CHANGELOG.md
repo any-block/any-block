@@ -9,7 +9,7 @@
 - docs
   - 一些文档校正
   - 测试使用 obsidian-web 提供在线 obsidian，帮助更好地阅读和查看文档，
-    尝鲜体验: http://obsidian.night07.com/
+    尝鲜体验: http://obsidian.night07.com/ (由于免费 CF 的大小限制，此处不支持图片)
 - 重构
   - 别名系统，支持 pro 版别名
   - 重构mdit模块，严格分离 node 版资源

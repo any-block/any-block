@@ -67,6 +67,10 @@ pnpm -r exec pnpm version 1.0.1
 
 ### CF Worker + obsidian-web
 
+> [!WARNING]
+> 
+> 注意，免费的 CF Worker 打包后 脚本大小不能超过了 Cloudflare 免费计划 3 MiB 的限制
+
 obsidian web 地址: https://github.com/MusiCode1/obsidian-web
 
 fork 一下
@@ -74,23 +78,36 @@ fork 一下
 1. 打开 CF Worker 并使用该 fork 作为仓库源
 2. 部署时设置部署命令:
 
+(有可能说太长了，可以删除注释和打印 + 分一部分给构建命令?)
+
 ```bash
-echo "=== Step01==="
+# 准备插件
+mkdir -p cf/plugins/any-block/
+echo "Step1.1"
+curl -sSfL https://github.com/any-block/any-block/releases/latest/download/main.js -o cf/plugins/any-block/main.js
+echo "Step1.2"
+curl -sSfL https://github.com/any-block/any-block/releases/latest/download/manifest.json -o cf/plugins/any-block/manifest.json
+echo "Step1.3"
+curl -sSfL https://github.com/any-block/any-block/releases/latest/download/styles.css -o cf/plugins/any-block/styles.css
+
+# 准备文档库内容
+echo "Step2.1"
 git clone https://github.com/any-block/any-block.git
-echo "=== Step02==="
+echo "Step2.2"
 mkdir -p cf/docs
-echo "=== Step03==="
+echo "Step2.3"
 mv any-block/docs/* cf/docs
 
-echo "=== Step1==="
+# 运行部署脚本
+echo "Step3.1"
 node scripts/update-obsidian.js
-echo "=== Step2==="
+echo "Step3.2"
 ls -la
-echo "=== Step3==="
+echo "Step3.3"
 cd cf
-echo "=== Step4==="
+echo "Step3.4"
 npm install
-echo "=== Step5==="
+echo "Step3.5"
 npm run deploy
 ```
 

@@ -151,18 +151,21 @@ Describe print statements for various common programming languages (描述一下
   - Print statement<br>打印语句
     - characteristic<br>特点
 - Java
-  - ```java
+  - 
+    ```java
     System.out.
         println("Hello World");
     ```
     - This sentence is a little long<br>这语句有点长
 - C
-  - ```c
+  - 
+    ```c
     printf("Hello World");
     ```
     - The raw C output<br>原始的C输出
 - C++
-  - ```cpp
+  - 
+    ```cpp
     std::cout<<"Hello Wrold";
     // <<std::end;
     ```
@@ -171,7 +174,8 @@ Describe print statements for various common programming languages (描述一下
       > - newline：`<<std::end;`
       > - 换行: `<<std::end;`
 - Python
-  - ```python
+  - 
+    ```python
     print("Hello World")
     ```
       - Note that Python2 and Python3 have different print statements<br>需要注意一下Python2和Python3的打印语句不同
@@ -179,7 +183,8 @@ Describe print statements for various common programming languages (描述一下
         |---|---|
         |`print ""`|`print("")`|
 - JavaScript
-  - ```js
+  - 
+    ```js
     console.log("Hello World");
     ```
       - Console printing<br>控制台打印
