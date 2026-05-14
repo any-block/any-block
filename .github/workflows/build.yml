@@ -106,26 +106,6 @@ jobs:                         # 工作流
           main.js
           styles.css
 
-  # 避免自动审查时，审查 Obsidian 插件用不上的部分
-  sync-obsidian:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Remove unused directories
-        run: |
-          # 删除不需要参与 Obsidian 审查的目录
-          rm -rf src/App src/Remark src/Vuepress src/MarkdownIt
-
-      - name: Push to only-obsidian branch
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: only-obsidian # 目标分支
-          folder: .
-          commit-message: "chore: sync obsidian branch"
-
   build-app:                  # 作业 - app构建部分 (PR 时没有权限，不执行)
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest

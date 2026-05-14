@@ -1,0 +1,48 @@
+# 避免自动审查时，审查 Obsidian 插件用不上的部分
+
+name: Sync Obsidian Branch
+
+on:                           # 触发器，定义何时运行此工作流
+  push:
+    branches: [main]          # 默认分支名!
+  workflow_dispatch:          # 手动执行
+
+jobs:
+  sync-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Remove unused directories
+        run: |
+          # 删除不需要参与 Obsidian 审查的目录
+          rm -rf src/App src/Remark src/Vuepress src/MarkdownIt
+
+      - name: Push to only-obsidian branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: only-obsidian # 目标分支
+          folder: .
+          commit-message: "chore: sync obsidian branch"
+
+  # sync-repo:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v4
+  #     
+  #   - name: Remove unused directories
+  #     run: |
+  #       # 删除不需要同步到新仓库的目录
+  #       rm -rf src/App src/Remark src/Vuepress src/MarkdownIt
+  # 
+  #   - name: Push to external repository
+  #     uses: JamesIves/github-pages-deploy-action@v4
+  #     with:
+  #       repository-name: any-block/obsidian-any-block # 替换为你的目标仓库 (需提前在 GitHub 创建好)
+  #       branch: main                          # 目标仓库的分支
+  #       folder: .
+  #       token: ${{ secrets.AnyBlockPro_Repo }} # 跨仓库推送必须使用 PAT 
+  #       commit-message: "chore: sync from monorepo"
