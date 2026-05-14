@@ -75,6 +75,7 @@ features:
 - 相关链接：**教程**、使用技能、贡献、二次开发、在线使用
 - [效果展示/**教程**](./README.show.md), 你可以通过切换里面的标签页来学习用法
 - [在线交互/Demo](https://any-block.github.io/any-block/)，你可以在这里编写体验、通过模板学习用法
+- [在线交互 (obsidian-web)](http://obsidian.night07.com/) (由于免费 CF 的大小限制，不支持图片)
 - [文档](./)
 - 安装和使用
   - [在Obsidian中安装和使用](https://lincdocs.github.io/AnyBlock/docs/en/04.%20InstallAndUse_Obsidian.html)
