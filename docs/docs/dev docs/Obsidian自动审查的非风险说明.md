@@ -29,28 +29,28 @@ https://community.obsidian.md/account/plugins/any-block 中，
 
 ### 部分解决方法
 
-当然，这里有一些技巧能避免该问题。例如在 github 工作流中添加一个工作：
+当然，这里有一些技巧能避免该问题。例如在 github 工作流中添加一个作业：
 
 ```yml
-# 避免自动审查时，审查 Obsidian 插件用不上的部分
-sync-obsidian:
-runs-on: ubuntu-latest
-permissions:
-    contents: write
-steps:
-    - name: Checkout repository
-    uses: actions/checkout@v4
-    - name: Remove unused directories
-    run: |
-        # 删除不需要参与 Obsidian 审查的目录
-        rm -rf src/App src/Remark src/Vuepress src/MarkdownIt
+    # 避免自动审查时，审查 Obsidian 插件用不上的部分
+    sync-obsidian:
+    runs-on: ubuntu-latest
+    permissions:
+        contents: write
+    steps:
+        - name: Checkout repository
+        uses: actions/checkout@v4
+        - name: Remove unused directories
+        run: |
+            # 删除不需要参与 Obsidian 审查的目录
+            rm -rf src/App src/Remark src/Vuepress src/MarkdownIt
 
-    - name: Push to only-obsidian branch
-    uses: JamesIves/github-pages-deploy-action@v4
-    with:
-        branch: only-obsidian # 目标分支
-        folder: .
-        commit-message: "chore: sync obsidian branch"
+        - name: Push to only-obsidian branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+            branch: only-obsidian # 目标分支
+            folder: .
+            commit-message: "chore: sync obsidian branch"
 ```
 
 可以在工作中将其他不参与 Obsidian 代码构成的模块删除掉并备份到分支中，然后再给 Obsidian 进行自动审核。
@@ -226,6 +226,23 @@ const module = await dynamicImport(blobUrl);
 ```
 
 **但这也很可能被打入黑名单** (?)，我还是建议你请求人工审核
+
+## 免责
+
+> [!WARNING]
+> 严禁使用里面的技巧隐藏你的恶意代码。
+> 由此造成的后果自行承担。
+
+> [!WARNING]
+> 如果是正常让你修改的话，其实他都有提示告诉你要换成什么写法。或者你去 discord 问也行。
+> 
+> 如果你用我这里的方法，很可能比正常修改更麻烦。所以你应当优先考虑按他提议地去做。
+> 
+> 我这里有很多方法，说的都是条件限制下，没办法按 obsidian 希望的那样去改。是无解的。
+> 在该情景下的解决方法。
+> (当然此时能申请到人工审核是更好的)。
+> 
+> 常规情况下一些技巧你不一定用得着
 
 ## 结语
 
