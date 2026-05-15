@@ -248,7 +248,15 @@ globalThis.activeDocument = document
 
 `el.style.setProperty('--am-bottom', 'unset')`，依然会被检查出相同的 Error:
 
-Obsidian 希望你使用 `setCssProps` 代替之。但你当前的是一个无 Obsidian 依赖的 Core 模块，自然也用不了
+Obsidian 希望你使用 `setCssProps` 代替之。或者使用使用他的 `createEl` 方法，如:
+
+```js
+const btn_save = tab_content.createEl('button', { text: t('Save config'), cls: 'absolute', attr: { style: 'position: absolute; bottom: 16px; right: 30px;' } })
+```
+
+这种规定的大概原理，好像是这种方式添加的内联代码会被特殊降级？然后可以被主题更轻松 (无需important) 地覆盖？
+
+但你当前的是一个无 Obsidian 依赖的 Core 模块，自然也用不了
 
 依然只能偷鸡，例如: (这个方法之前也提到过)
 
