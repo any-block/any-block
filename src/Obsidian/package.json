@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-any-block",
-	"version": "3.4.5",
+	"version": "3.4.6",
 	"description": "You can flexibility to create a 'Block' by some means.",
 	"author": "LincZero",
 	"authorUrl": "https://github.com/LincZero",
@@ -15,9 +15,7 @@
 		"build-min": "pnpm copy_abc_style && tsc -noEmit -skipLibCheck && node esbuild.config.min.mjs production",
 		"build-pro": "tsc -noEmit -skipLibCheck && node esbuild.config.pro.mjs production",
 		"copy_abc_style": "copyfiles --flat ../../src/ABConverter/style/styles.css ../../",
-		"build2": "pnpm copy_abc_style && npx svelte-check && vite build --mode=production",
-		"version": "node version-bump.mjs && git add manifest.json versions.json",
-		"bumpversion": "node version-bump.mjs && git add manifest.json versions.json"
+		"build2": "pnpm copy_abc_style && npx svelte-check && vite build --mode=production"
 	},
 	"keywords": [],
 	"devDependencies": {

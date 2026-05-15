@@ -1,7 +1,7 @@
 {
 	"id": "any-block-pro",
 	"name": "AnyBlock Pro",
-	"version": "3.4.5",
+	"version": "3.4.6",
 	"minAppVersion": "0.15.0",
 	"description": "AnyBlock Pro version. More processor types, and some processors support visual editing.",
 	"author": "LincZero",
