@@ -42,7 +42,7 @@ jobs:
         # 覆盖 Obsidian 清单文件
         mv dist-min/manifest.json manifest.json
         # 覆盖 package.json
-        mv src/Obsidian/min/package.json src/Obsidian/package.json
+        mv src/Obsidian/min/* src/Obsidian/
   
     - name: Push to external repository
       uses: JamesIves/github-pages-deploy-action@v4
