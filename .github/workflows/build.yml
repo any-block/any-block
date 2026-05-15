@@ -195,9 +195,9 @@ jobs:                         # 工作流
           echo "Listing contents of ./dist:"
           ls -R ./dist
 
-      # 场景一：release 到正式版 tag
+      # release 到正式版 tag
       - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/') # 有tag
+        if: github.ref_type == 'tag'
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.AnyBlockPro_Repo }}
@@ -210,12 +210,12 @@ jobs:                         # 工作流
           artifacts: |
             ./dist/obsidian-any-block/*
           generateReleaseNotes: false # 自动根据 commits 生成 release notes。此外，这里应该导向一个更新日志页
-          prerelease: true # 是否预发布 (可以在release上修改该项，我就不判断tag是否beta结尾了)
-          makeLatest: false  # 是否最后一个版本 (可以在release上修改该项，我就不判断tag是否beta结尾了)
+          prerelease: ${{ endsWith(github.ref_name, 'beta') }} # 是否预发布
+          makeLatest: ${{ !endsWith(github.ref_name, 'beta') }} # 是否最后一个版本
           allowUpdates: true # 如果 tag 已存在，允许更新
 
       - name: Create Release - min
-        if: startsWith(github.ref, 'refs/tags/') # 有tag
+        if: github.ref_type == 'tag'
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.AnyBlockPro_Repo }}
@@ -231,12 +231,12 @@ jobs:                         # 工作流
           artifacts: |
             ./dist/obsidian-any-block-min/*
           generateReleaseNotes: false # 非本仓库则可能没有相同的 commit 历史，建议关闭
-          prerelease: true
-          makeLatest: false
+          prerelease: ${{ endsWith(github.ref_name, 'beta') }} # 是否预发布
+          makeLatest: ${{ !endsWith(github.ref_name, 'beta') }} # 是否最后一个版本
           allowUpdates: true
 
       - name: Create Release - pro
-        if: startsWith(github.ref, 'refs/tags/') # 有tag
+        if: github.ref_type == 'tag'
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.AnyBlockPro_Repo }}
@@ -252,9 +252,6 @@ jobs:                         # 工作流
           artifacts: |
             ./dist/obsidian-any-block-pro/*
           generateReleaseNotes: false # 非本仓库则可能没有相同的 commit 历史，建议关闭
-          prerelease: true
-          makeLatest: false
+          prerelease: ${{ endsWith(github.ref_name, 'beta') }} # 是否预发布
+          makeLatest: ${{ !endsWith(github.ref_name, 'beta') }} # 是否最后一个版本
           allowUpdates: true
-
-      # 场景二：release 到固定的 beta tag
-      # 略
