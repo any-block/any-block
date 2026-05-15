@@ -1,14 +1,14 @@
 {
-	"id": "any-block-pro",
-	"name": "AnyBlock Pro",
-	"version": "3.4.6",
-	"minAppVersion": "1.8.7",
-	"description": "AnyBlock's pro version. More processor types, and some processors support visual editing.",
-	"author": "LincZero",
-	"authorUrl": "https://github.com/LincZero",
-	"fundingUrl": {
-		"Support Page": "https://github.com/LincZero#thank-you-very-much-for-your-support",
-		"中国大陆备用链接": "https://linczero-github-io.pages.dev/MdNote_Other/LincZero/#thank-you-very-much-for-your-support"
-	},
-	"isDesktopOnly": false
+  "id": "any-block-pro",
+  "name": "AnyBlock Pro",
+  "version": "3.4.7",
+  "minAppVersion": "1.8.7",
+  "description": "AnyBlock's pro version. More processor types, and some processors support visual editing.",
+  "author": "LincZero",
+  "authorUrl": "https://github.com/LincZero",
+  "fundingUrl": {
+    "Support Page": "https://github.com/LincZero#thank-you-very-much-for-your-support",
+    "中国大陆备用链接": "https://linczero-github-io.pages.dev/MdNote_Other/LincZero/#thank-you-very-much-for-your-support"
+  },
+  "isDesktopOnly": false
 }
