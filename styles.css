@@ -78,6 +78,10 @@ html[data-theme=dark] #app {
   --color-pink: #fa99cd;
 }
 
+.ab-hide {
+  display: none;
+}
+
 /**
  * obsidian各模式下的微调
  * 
@@ -284,11 +288,13 @@ html[data-theme=dark] #app {
 .ab-note table.ab-table td, .ab-note table.ab-table th {
   white-space: normal;
   overflow-wrap: break-word;
-  padding: 2px 5px;
-  border: solid var(--ab-table-border-width) var(--ab-table-border-color);
 }
 .ab-note table.ab-table td code, .ab-note table.ab-table th code {
   white-space: pre;
+}
+.ab-note table.ab-table td, .ab-note table.ab-table th {
+  padding: 2px 5px;
+  border: solid var(--ab-table-border-width) var(--ab-table-border-color);
 }
 .ab-note table.ab-table tr {
   background: none;
@@ -448,8 +454,8 @@ html[data-theme=dark] #app {
   padding-top: 4px;
 }
 .ab-note table.ab-list-table.ab-table-folder .ab-foldable-tr .ab-list-table-svg svg {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 16px;
   fill: var(--ab-bright-color);
 }
 .ab-note table.ab-list-table.ab-table-folder .ab-foldable-tr td:first-child {
@@ -683,6 +689,12 @@ html[data-theme=dark] #app {
        column-count: 4;
   -moz-column-gap: 10px;
        column-gap: 10px;
+}
+.ab-note .ab-items.ab-card.ab-lay-vfall:not(.ab-hfall) .ab-items-item {
+  -moz-column-break-inside: avoid;
+       break-inside: avoid-column;
+}
+.ab-note .ab-items.ab-card.ab-lay-vfall:not(.ab-hfall) {
   /*display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 1rem; // 间隙
@@ -706,18 +718,14 @@ html[data-theme=dark] #app {
     &:nth-child(4n+0){ order: 4; }
   }*/
 }
-.ab-note .ab-items.ab-card.ab-lay-vfall:not(.ab-hfall) .ab-items-item {
-  -moz-column-break-inside: avoid;
-       break-inside: avoid-column;
+.ab-note .ab-items.ab-card.ab-lay-hfall .ab-items-item .ab-items-title {
+  color: currentColor;
+  border-bottom: none;
 }
 .ab-note .ab-items.ab-card.ab-lay-hfall {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-}
-.ab-note .ab-items.ab-card.ab-lay-hfall .ab-items-item .ab-items-title {
-  color: currentColor;
-  border-bottom: none;
 }
 .ab-note .ab-items.ab-card.ab-lay-hfall::after {
   content: "";

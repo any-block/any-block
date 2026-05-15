@@ -1,7 +1,6 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "types": ["svelte", "node"],
+    "types": ["node"],
     "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
