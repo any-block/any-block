@@ -49,7 +49,7 @@ ABConvertManager.getInstance().redefine_renderMarkdown((markdown: string, el: HT
 
     const mdrc: MarkdownRenderChild = new MarkdownRenderChild(el);
     if (ctx) ctx.addChild(mdrc);
-    else if (ABCSetting.global_ctx) ABCSetting.global_ctx.addChild(mdrc);
+    else if (ABCSetting.global_ctx) { (ABCSetting.global_ctx  as MarkdownPostProcessorContext).addChild(mdrc) }
     /**
      * Renders markdown string to an HTML element.
      * @param app - A reference to the app object

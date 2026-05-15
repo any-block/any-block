@@ -16,8 +16,8 @@ export const ABCSetting: {
   env: "obsidian"|"obsidian-min"|"obsidian-pro"|"app"|"markdown-it"|"remark",
   // 某些环境的独占 api，其他环境用不上
   obsidian: {
-    global_app: any,
-    global_ctx: any, // MarkdownPostProcessorContext类型, obsidian专用
+    global_app: unknown|null,
+    global_ctx: unknown|null, // MarkdownPostProcessorContext类型, obsidian专用
     mermaid?: Promise<any>, // obsidian专用，obsidian 如何渲染mermaid
   },
   pro: {
@@ -63,7 +63,7 @@ export const ABCSetting: {
  * 
  * @attention 注意：修改正则要注意小括号的位置是否对应，不然还要去修改索引
  */
-export const ABReg = {
+export const ABReg: Record<string, RegExp> = {
   /**
    * AB块头部
    *
