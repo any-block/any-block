@@ -4,9 +4,14 @@ home: true
 title: AnyBlock
 icon: home
 heroText: AnyBlock
-tagline: A module/plugin for parsing and rendering highly versatile Markdown extensions
+# tagline带图片时，文本最好长点能换行，否则空间分配不美观
+tagline: |
+  A module/plugin for parsing and rendering highly versatile Markdown extensions.
+  You can select any text area and treat it as a block, and then process it as you wish.
 heroStyle:
   min-height: 450px
+heroImage: https://raw.githubusercontent.com/any-block/any-block/refs/heads/main/docs/assets/icon.png
+heroImageDark: https://raw.githubusercontent.com/any-block/any-block/refs/heads/main/docs/assets/icon.png
 # heroImage: /logo.png
 
 actions:
@@ -57,11 +62,11 @@ features:
     link: https://any-block.github.io/any-block/
 ---
 
+[中文](./README.zh.md) | [English](./README.md)
+
 # README
 
 ![Obsidian plugin](https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LincZero/obsidian-any-block)
-
-[中文](./README.zh.md) | [English](./README.md)
 
 ## What's AnyBlock?
 

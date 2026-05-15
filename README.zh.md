@@ -1,8 +1,12 @@
+<div align="center" style="margin-bottom: 20px">
+  <img width="35%" src="./docs/assets/icon.png">
+</div>
+
+[中文](./README.zh.md) | [English](./README.md)
+
 # README
 
 ![Obsidian plugin](https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LincZero/obsidian-any-block)
-
-[中文](./README.zh.md) | [English](./README.md)
 
 ## AnyBlock是什么?
 
