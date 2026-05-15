@@ -46,7 +46,7 @@ export class ABReplacer_Render extends MarkdownRenderChild {
     this.containerEl.replaceWith(div);
     
     // 刷新按钮部分
-    let dom_edit2 = div.createEl("div", {
+    let dom_edit2: HTMLDivElement = div.createEl("div", {
       cls: ["ab-button", "ab-button-1", "edit-block-button"],
       attr: {"aria-label": "Refresh the block"}
     });
@@ -54,28 +54,28 @@ export class ABReplacer_Render extends MarkdownRenderChild {
     dom_edit2.onclick = ()=>{abConvertEvent(div)}
 
     // 下拉框格式部分
-    const dom_edit = div.createEl("div", {
+    const dom_edit: HTMLDivElement = div.createEl("div", {
       cls: ["ab-button", "ab-button-2", "edit-block-button", "ab-button-select"],
     })
-    const dom_edit_mask = dom_edit.createEl("button", {}) // 遮挡select元素的, text: "v"
+    const dom_edit_mask: HTMLButtonElement = dom_edit.createEl("button", {}) // 遮挡select元素的, text: "v"
     dom_edit_mask.empty(); dom_edit_mask.appendChild(sanitizeHTMLToDom(`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>`));
-    const dom_edit_select = dom_edit.createEl("select", {
+    const dom_edit_select: HTMLSelectElement = dom_edit.createEl("select", {
       attr: {"aria-label": "Change the block - "+this.header}
     });
-    const first_dom_option = dom_edit_select.createEl("option",{ // 这个需要在首选
+    const first_dom_option: HTMLOptionElement = dom_edit_select.createEl("option",{ // 这个需要在首选
       text: "复合格式:"+this.header,
       attr: {"value": this.header, "title": this.header},
     })
     first_dom_option.selected=true
     let header_name_flag = ""   // 当前填写的处理器是否标准处理器，如过则隐藏第一个option改用标准的那个
     for (let item of ABConvertManager.getInstance().getConvertOptions()){
-      const dom_option = dom_edit_select.createEl("option",{
+      const _dom_option: HTMLOptionElement = dom_edit_select.createEl("option",{
         text:item.name,
         attr:{"value":item.id},
       })
       if (this.header==item.id) {
         header_name_flag = item.name
-        // dom_option.selected=true
+        // _dom_option.selected=true
       }
     }
     if (header_name_flag!=""){ // 这里可选一种处理方式：销毁/隐藏/不处理 保留两个相同规则的选项

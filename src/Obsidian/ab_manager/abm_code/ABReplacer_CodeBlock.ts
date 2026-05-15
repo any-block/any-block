@@ -66,7 +66,7 @@ export class ABReplacer_CodeBlock{
     // codeblock自带编辑按钮，不需要额外追加
 
     // 刷新按钮部分
-    let dom_edit = root_div.createEl("div", {
+    let dom_edit: HTMLDivElement = root_div.createEl("div", {
       cls: ["ab-button", "ab-button-2", "edit-block-button"],
       attr: {"aria-label": "Refresh the block"}
     });
