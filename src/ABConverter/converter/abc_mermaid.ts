@@ -21,7 +21,7 @@ function getID(length=16){
 }
 
 // 纯组合，后续用别名模块替代
-const abc_title2mindmap = ABConvert.factory({
+const _abc_title2mindmap = ABConvert.factory({
   id: "title2mindmap",
   name: "标题到脑图",
   process_param: ABConvert_IOEnum.text,
@@ -34,7 +34,7 @@ const abc_title2mindmap = ABConvert.factory({
 })
 
 // 纯组合，后续用别名模块替代
-const abc_list2mindmap = ABConvert.factory({
+const _abc_list2mindmap = ABConvert.factory({
   id: "list2mindmap",
   name: "列表转mermaid思维导图",
   process_param: ABConvert_IOEnum.text,
@@ -46,7 +46,7 @@ const abc_list2mindmap = ABConvert.factory({
   }
 })
 
-const abc_list2mermaid = ABConvert.factory({
+const _abc_list2mermaid = ABConvert.factory({
   id: "list2mermaid",
   name: "列表转mermaid流程图",
   match: /^list2mermaid(\((.*)\))?$/,
@@ -65,7 +65,7 @@ const abc_list2mermaid = ABConvert.factory({
   }
 })
 
-const abc_list2mermaidText = ABConvert.factory({
+const _abc_list2mermaidText = ABConvert.factory({
   id: "list2mermaidText",
   name: "列表转mermaid文本",
   match: /^list2mermaidText(\((.*)\))?$/,
@@ -84,7 +84,7 @@ const abc_list2mermaidText = ABConvert.factory({
   }
 })
 
-const abc_list2mehrmaid = ABConvert.factory({
+const _abc_list2mehrmaid = ABConvert.factory({
   id: "list2mehrmaidText",
   name: "列表转mehrmaid文本",
   match: /^list2mehrmaidText(\((.*)\))?$/,
@@ -103,7 +103,7 @@ const abc_list2mehrmaid = ABConvert.factory({
   }
 })
 
-const abc_mermaid = ABConvert.factory({
+const _abc_mermaid = ABConvert.factory({
   id: "mermaid-with",
   name: "新mermaid",
   match: /^mermaid(\((.*)\))?$/,
