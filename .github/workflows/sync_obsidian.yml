@@ -41,6 +41,8 @@ jobs:
         mv "docs/docs/dev docs/obsidian-any-block-min.md" README.md
         # 覆盖 Obsidian 清单文件
         mv dist-min/manifest.json manifest.json
+        # 覆盖 package.json
+        mv src/Obsidian/min/package.json src/Obsidian/package.json
   
     - name: Push to external repository
       uses: JamesIves/github-pages-deploy-action@v4
