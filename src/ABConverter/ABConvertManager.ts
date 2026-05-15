@@ -25,7 +25,18 @@ import {
 } from './converter/ABConvert'
 import { autoABAlias } from "./ABAlias"
 import { ABCSetting } from "./ABSetting"
- 
+
+/** 上个处理器的结果
+ * 多个处理器串连时，每个处理器给下一个处理器的东西。
+ * 标注了上次的处理结果，以让下个处理器判断是否能继续处理，还是跳过。
+ */
+type PREV = {
+    prev_result: ABConvert_IOType;            // 上次转换后的结果，初始必为string
+    prev_type: string;                        // 上次转换后的结果的类型 (类型检测而来)
+    prev_type2: ABConvert_IOEnum;             // 上次转换后的结果的类型 (接口声明而来)
+    prev_processor: string | undefined | any; // 上一次执行转换的处理器
+}
+
 /**
   * AB转换器的管理器。注意：使用前必须先执行：`redefine_renderMarkdown`
   * 
@@ -82,15 +93,15 @@ export class ABConvertManager {
    * @detail 这里需要能够被回调函数替换。从而用于接回软件自身的html渲染机制，来进行解耦
    * @param markdown 原md
    * @param el 要追加到的元素
-   * @param ctx Obsidian在这里需要传入 MarkdownRenderChild 类型，但为了跨平台我这里修改成可选的any类型
+   * @param ctx Obsidian在这里需要传入 MarkdownRenderChild 类型，但为了跨平台我这里修改成可选的unknown类型
    */
-  public m_renderMarkdownFn:(markdown: string, el: HTMLElement, ctx?: any) => void = (markdown, el) => {
+  public m_renderMarkdownFn:(markdown: string, el: HTMLElement, ctx?: unknown) => void = (markdown, el) => {
     el.classList.add("markdown-rendered") // 并注意，应当在使用该函数前将el添加该css类，或者重定义时增加该条语句
     console.error("Please use renderMarkdownFn redefine render function")
   }
 
   /// 用回调函数替换重渲染器
-  public redefine_renderMarkdown(callback: (markdown: string, el: HTMLElement, ctx?: any) => void) {
+  public redefine_renderMarkdown(callback: (markdown: string, el: HTMLElement, ctx?: unknown) => void) {
     this.m_renderMarkdownFn = callback
   }
 
@@ -110,25 +121,24 @@ export class ABConvertManager {
    * @param header 转换方式
    * @param content 要转换的初始文本 (无前缀版本，前缀在选择器环节已经删除了)
    * @param selectorName 选择器名，空表示未知
-   * @return 等于el，无用，后面可以删了
    */
-  public static autoABConvert(el:HTMLDivElement, header:string, content:string, selectorName:string = "", ctx?: any): void{
-    let prev_result: ABConvert_IOType = content               // 上次转换后的结果，初始必为string
-    let prev_type: string = "string"                          // 上次转换后的结果的类型 (类型检测而来)
-    let prev_type2: ABConvert_IOEnum = ABConvert_IOEnum.text  // 上次转换后的结果的类型 (接口声明而来)
-    let prev_processor;                                       // 上一次转换的处理器
-    let prev = {                                              // 组合在一起是为了引用传参
-      prev_result, prev_type, prev_type2, prev_processor
+  public static autoABConvert(el:HTMLDivElement, header:string, content:string, selectorName:string = "", ctx?: unknown): void{
+    // 初始情况，上一个处理器不存在
+    let prev: PREV = {
+      prev_result: content,
+      prev_type: "string",
+      prev_type2: ABConvert_IOEnum.text,
+      prev_processor: undefined,
     }
 
-    if (false && ABCSetting.is_debug) ABConvertManager.startTime = performance.now();
+    if (false && ABCSetting.is_debug) ABConvertManager.startTime = performance.now(); // 性能检查1
     {
-      header = autoABAlias(header, selectorName, prev_result as string);
+      header = autoABAlias(header, selectorName, prev.prev_result as string);
       let list_header = header.split("|")
-      prev_result = this.autoABConvert_runConvert(el, list_header, prev, ctx)
+      this.autoABConvert_runConvert(el, list_header, prev, ctx)
       this.autoABConvert_last(el, header, selectorName, prev, ctx)
     }
-    if (false && ABCSetting.is_debug) {
+    if (false && ABCSetting.is_debug) { // 性能检查2
       const endTime = performance.now();
       console.log(`Takes ${(endTime - ABConvertManager.startTime).toFixed(2)} ms when selector "${selectorName}" header "${header}"`);
     }
@@ -143,7 +153,11 @@ export class ABConvertManager {
    * @param prev_type2  上次转换后的结果的类型 (接口声明而来, IOEnum类型)
    * @returns           递归转换后的结果
    */
-  private static autoABConvert_runConvert(el:HTMLDivElement, list_header:string[], prev:any, ctx?: any):any{
+  private static autoABConvert_runConvert(
+    el:HTMLDivElement, list_header:string[],
+    prev: PREV,
+    ctx?: unknown
+  ): PREV | void {
     // 循环header组，直到遍历完文本处理器或遇到渲染处理器
     for (let item_header of list_header){ // TODO 因为可能被插入新的“中间自动转换器”，要么for替换成递归，要么都在头部预处理时弄完
       for (let abReplaceProcessor of ABConvertManager.getInstance().list_abConvert){
@@ -179,7 +193,7 @@ export class ABConvertManager {
               prev.prev_type2==ABConvert_IOEnum.text
             ){ // 需要输入html，实际输入md，则插入一个md->html
               const subEl: HTMLDivElement = document.createElement("div"); el.appendChild(subEl);
-              ABConvertManager.getInstance().m_renderMarkdownFn(prev.prev_result, subEl);
+              ABConvertManager.getInstance().m_renderMarkdownFn(prev.prev_result as string, subEl);
               prev.prev_result = el
               prev.prev_type = typeof(prev.prev_result)
               prev.prev_type2 = ABConvert_IOEnum.el
@@ -232,19 +246,19 @@ export class ABConvertManager {
   /**
    * 子函数，后处理/尾处理，主要进行末尾追加指令
    */
-  private static autoABConvert_last (el:HTMLDivElement, header:string, selectorName:string, prev:any, ctx?: any):any{
+  private static autoABConvert_last (el:HTMLDivElement, _header:string, _selectorName:string, prev:PREV, _ctx?: unknown):any{
     // text内容，则给一个md渲染器
     if (prev.prev_type == "string" && prev.prev_type2 == ABConvert_IOEnum.text) {
       const subEl = document.createElement("div"); el.appendChild(subEl);
       ABConvertManager.getInstance().m_renderMarkdownFn(prev.prev_result as string, subEl);
-      prev.prev_result = el; prev.prev_type = "object"; prev.prev_type2 = ABConvert_IOEnum.el; prev.process = "md";
+      prev.prev_result = el; prev.prev_type = "object"; prev.prev_type2 = ABConvert_IOEnum.el; prev.prev_processor = "md";
     }
     // json内容/数组内容，则用代码块表示
     else if (prev.prev_type == "string" && prev.prev_type2 == ABConvert_IOEnum.json) {
       const code_str:string = "```json\n" + prev.prev_result + "\n```\n"
       const subEl = document.createElement("div"); el.appendChild(subEl);
       ABConvertManager.getInstance().m_renderMarkdownFn(code_str, subEl);
-      prev.prev_result = el; prev.prev_type = "object"; prev.prev_type2 = ABConvert_IOEnum.el; prev.process = "show_json";
+      prev.prev_result = el; prev.prev_type = "object"; prev.prev_type2 = ABConvert_IOEnum.el; prev.prev_processor = "show_json";
     }
     // 数组流，用代码块表示
     else if (prev.prev_type == "object" &&
@@ -253,7 +267,7 @@ export class ABConvertManager {
       const code_str:string = "```json\n" + JSON.stringify(prev.prev_result, null, 2) + "\n```\n"
       const subEl = document.createElement("div"); el.appendChild(subEl);
       ABConvertManager.getInstance().m_renderMarkdownFn(code_str, subEl);
-      prev.prev_result = el; prev.prev_type = "object"; prev.prev_type2 = ABConvert_IOEnum.el; prev.process = "show_listStream";
+      prev.prev_result = el; prev.prev_type = "object"; prev.prev_type2 = ABConvert_IOEnum.el; prev.prev_processor = "show_listStream";
     }
     else if (prev.prev_type == "object" && prev.prev_type2 == ABConvert_IOEnum.el) {
       return prev
