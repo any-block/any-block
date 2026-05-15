@@ -114,7 +114,7 @@ export function registerStatus(plugin: Plugin) {
     const statusBtnContainer = plugin.addStatusBarItem();
     statusBtnContainer.addClass('mod-clickable');
 
-    const statusBtn = statusBtnContainer.createEl('div', {
+    const statusBtn: HTMLDivElement = statusBtnContainer.createEl('div', {
       cls: 'ab-rebuildview-btn'
     })
 

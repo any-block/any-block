@@ -159,13 +159,13 @@ export class ABSettingTab extends PluginSettingTab {
     // new Setting(containerEl).setName('AnyBlock').setHeading();
 
     // 弃用，移至 MiniDocs
-    // const div_url = containerEl.createEl('div');
+    // const div_url: HTMLDivElement = containerEl.createEl('div');
     //   div_url.empty(); div_url.appendChild(sanitizeHTMLToDom(t("see website for detail")));
     //   div_url.style.marginBottom = "1em";
 
     // #region 标签页 (设置项框架)
-    const el_note = containerEl.createEl('div', {cls: 'ab-note'})
-    const el_tab = el_note.createEl('div', {cls: 'ab-tab-root'})
+    const el_note: HTMLDivElement = containerEl.createEl('div', {cls: 'ab-note'})
+    const el_tab: HTMLDivElement = el_note.createEl('div', {cls: 'ab-tab-root'})
     const el_tab_nav = el_tab.createEl('div', {cls: 'ab-tab-nav'})
     const el_tab_content = el_tab.createEl('div', {cls: 'ab-tab-content'})
     let ab_tab_nav_item: HTMLElement
@@ -249,7 +249,7 @@ export class ABSettingTab extends PluginSettingTab {
     new Setting(ab_tab_content_item).setName(t("Convertor manager")).setHeading();
     ab_tab_content_item.createEl('p', {text: t("Convertor manager2")});
     ab_tab_content_item.createEl('p', {text: t("Convertor manager3")});
-    const div = ab_tab_content_item.createEl("div");
+    const div: HTMLDivElement = ab_tab_content_item.createEl("div");
     ABConvertManager.autoABConvert(div, "info_converter", "", "unknown") // this.processorPanel = ABConvertManager.getInstance().generateConvertInfoTable(containerEl)
     this.processorPanel = div
     // #endregion
@@ -301,7 +301,7 @@ export class ABSettingTab extends PluginSettingTab {
             await this.plugin.saveSettings();
             // 3. 刷新处理器的图表
             this.processorPanel.remove()
-            const div = ab_tab_content_item.createEl("div");
+            const div: HTMLDivElement = ab_tab_content_item.createEl("div");
             ABConvertManager.autoABConvert(div, "info_converter", "", "null_content")
             this.processorPanel = div
           }).open()

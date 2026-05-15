@@ -132,7 +132,7 @@ export class ABReplacer_Widget extends WidgetType {
     if (!this.global_editor) return this.div // 非有效的实时编辑环境
 
     // 菜单按钮1 - 编辑
-    const btn_edit = this.div.createEl("div", {
+    const btn_edit: HTMLDivElement = this.div.createEl("div", {
       cls: ["ab-button", "ab-button-1", "edit-block-button"], // cm-embed-block和edit-block-button是自带的js样式，用来悬浮显示的，不是我写的
       attr: {"aria-label": "Edit the block - "+this.rangeSpec.header},
     })
@@ -146,7 +146,7 @@ export class ABReplacer_Widget extends WidgetType {
     }
 
     // 菜单按钮3 - 复制
-    const btn_copy = this.div.createEl("div", {
+    const btn_copy: HTMLDivElement = this.div.createEl("div", {
       cls: ["ab-button", "ab-button-3", "edit-block-button"],
       attr: {"aria-label": "Copy source content"}
     })
@@ -171,7 +171,7 @@ export class ABReplacer_Widget extends WidgetType {
     }
 
     // 菜单按钮4 - 让块更宽
-    const btn_wider = this.div.createEl("div", {
+    const btn_wider: HTMLDivElement = this.div.createEl("div", {
       cls: ["ab-button", "ab-button-4", "edit-block-button"],
       attr: {"aria-label": "Make the block wider"}
     })
@@ -188,7 +188,7 @@ export class ABReplacer_Widget extends WidgetType {
     }
 
     // 菜单按钮5 - 刷新
-    const btn_refresh = this.div.createEl("div", {
+    const btn_refresh: HTMLDivElement = this.div.createEl("div", {
       cls: ["ab-button", "ab-button-5", "edit-block-button"],
       attr: {"aria-label": "Refresh the block"}
     })
@@ -200,7 +200,7 @@ export class ABReplacer_Widget extends WidgetType {
     }
 
     // 菜单按钮2 - 展开更多 (2要后置)
-    const btn_more = this.div.createEl("div", {
+    const btn_more: HTMLDivElement = this.div.createEl("div", {
       cls: ["ab-button", "ab-button-2", "edit-block-button"],
       attr: {"aria-label": "More option"}
     })
@@ -332,31 +332,3 @@ export class ABReplacer_Widget extends WidgetType {
     <circle cx="5" cy="12" r="1"/>
   </svg>`
 }
-
-interface TreeNode {
-    text: string
-    children: TreeNode[]
-}
-
-/*`
-<div class="drop-shadow ab-note">
-  <p>${this.text.split("\n").join("<br/>")}</p>
-</div>
-<div class="edit-block-button" aria-label="Edit this block">
-  ${str_icon_code2}
-</div>
-`*/
-
-/**const div = document.createDiv({
-  cls: ["ab-replace"]
-})/
-/*const editButton = div.createEl("img", {
-  cls: ["ab-switchButton"],
-  //text: str_icon_code2,
-  title: "Edit this block",
-  // attr: {"src": "code-2"}////////////////
-})*/
-/*const adText = div.createDiv({
-  text: "👉" + this.text
-})*/
-// div.innerText = "👉" + this.text;

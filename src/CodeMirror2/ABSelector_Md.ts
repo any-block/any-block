@@ -113,22 +113,22 @@ export function autoMdSelector(
 
 /** 选择器一览表 - 全部信息 */
 export function generateSelectorInfoTable(el: HTMLElement){
-  const table_p = el.createEl("div",{
+  const table_p: HTMLDivElement = el.createEl("div",{
     cls: ["ab-setting","md-table-fig1"]
   })
-  const table = table_p.createEl("table",{
+  const table: HTMLTableElement = table_p.createEl("table",{
     cls: ["ab-setting","md-table-fig2"]
   })
   {
-    const thead = table.createEl("thead")
-    const tr = thead.createEl("tr")
+    const thead: HTMLTableSectionElement = table.createEl("thead")
+    const tr: HTMLTableRowElement = thead.createEl("tr")
     tr.createEl("th", {text: "Selector Name"})
     tr.createEl("th", {text: "First-line Regular"})
     tr.createEl("th", {text: "Enable"})
   }
-  const tbody = table.createEl("tbody")
+  const tbody: HTMLTableSectionElement = table.createEl("tbody")
   for (let item of list_mdSelector){
-    const tr = tbody.createEl("tr")
+    const tr: HTMLTableRowElement = tbody.createEl("tr")
     tr.createEl("td", {text: item.name})
     tr.createEl("td", {text: String(item.match)})
     tr.createEl("td", {text: item.is_disable?"No":"Yes"})
