@@ -167,6 +167,9 @@ importers:
 
   src/Obsidian:
     dependencies:
+      '@anyblock/any-block-core':
+        specifier: ^3.4.6
+        version: 3.4.6(markmap-common@0.18.9)
       html-to-md:
         specifier: ^0.8.8
         version: 0.8.8
@@ -310,6 +313,9 @@ importers:
         version: 7.2.7(sass-embedded@1.90.0)(sass@1.90.0)(tsx@4.20.5)(yaml@2.7.1)
 
 packages:
+
+  '@anyblock/any-block-core@3.4.6':
+    resolution: {integrity: sha512-gqT8JDJkzYYhoTIOmsufI+4r1a9cijZDryQktmPMwfOegdPBU7p5rAn19ThsceuAamhMxDEvcqJ20g5IwFfXwQ==}
 
   '@asamuzakjp/css-color@3.1.7':
     resolution: {integrity: sha512-Ok5fYhtwdyJQmU1PpEv6Si7Y+A4cYb8yNM9oiIJC9TzXPMuN9fvdonKJqcnz9TbFqV6bQ8z0giRq0iaOpGZV2g==}
@@ -4643,6 +4649,15 @@ packages:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
 snapshots:
+
+  '@anyblock/any-block-core@3.4.6(markmap-common@0.18.9)':
+    dependencies:
+      dompurify: 3.4.3
+      luxon: 3.7.2
+      markmap-lib: 0.17.2(markmap-common@0.18.9)
+      plantuml-encoder: 1.4.0
+    transitivePeerDependencies:
+      - markmap-common
 
   '@asamuzakjp/css-color@3.1.7':
     dependencies:

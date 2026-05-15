@@ -477,11 +477,11 @@ export class ABSettingTab extends PluginSettingTab {
       if (i==0) {
         lis[i].setAttribute("is_activate", "true")
         contents[i].setAttribute("is_activate", "true")
-        contents[i].setAttribute("style", "display:block")
+        contents[i].classList.remove("ab-hide")
       } else {
         lis[i].setAttribute("is_activate", "false")
         contents[i].setAttribute("is_activate", "false")
-        contents[i].setAttribute("style", "display:none")
+        contents[i].classList.add("ab-hide")
       }
 
       // onclick
@@ -489,11 +489,11 @@ export class ABSettingTab extends PluginSettingTab {
         for (let j=0; j<contents.length; j++){
           lis[j].setAttribute("is_activate", "false")
           contents[j].setAttribute("is_activate", "false")
-          contents[j].setAttribute("style", "display:none")
+          contents[j].classList.add("ab-hide")
         }
         lis[i].setAttribute("is_activate", "true")
         contents[i].setAttribute("is_activate", "true")
-        contents[i].setAttribute("style", "display:block")
+        contents[i].classList.remove("ab-hide")
       }
     }
     // #endregion

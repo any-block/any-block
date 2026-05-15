@@ -54,11 +54,39 @@ pnpm up -i --latest # 强制列出最新版的包并可选自动升级
 
 ## 更新/发布时需做
 
+### 发布到 Obsidian
+
 (1) 同步更新版本号
 ```bash
 pnpm -r exec pnpm version 1.0.1
 ```
 (2) 修改 manifest.json, dist-min/manifest.json, dist-pro/manifest.json 中的 version
+
+### 发布到 npm
+
+主要是 MarkdownIt, Remark, ABConverter 三个需要。
+
+前两者分别作为插件
+
+最后一个仅用于将 Core 模块作为包，忽略 Obsidian 的严格的风格类审查。甚至不需要编译再上传
+
+```bash
+# $ pnpm build # 设置了prepublishOnly，不需要先手动编译。但是你可以手动执行这一步，来检查编译是否正常
+
+$ npm adduser  # 先登录，在vscode里他会让我打开浏览器来登录 # 不行用 `npm login` 代替
+Username: ...
+Password: ...
+
+$ npm publish  # 上传 (注意不要重名、npm账号可能需要邮箱验证)
+               # 如果设置了 package.json::script.prepublishOnly，会先执行 (一般是build)
+               # 这一步会将当前文件夹内容都上传到npm中名为 `<package.json 里 name@version>` 的包里
+               # 如果没有对应包，会自动创建
+               # 首次提交可以手动声明为公开包 `npm publish --access public`，否则默认私有，要付费
+
+# or 或
+$ npm publish --tag beta  # 如果使用测试或beta版本 (包含 `-tagname`)，如 `-beta` 
+                          # 需要 添加 `--tag <tagname>`，如 `--tag beta`
+```
 
 ## 部署
 
