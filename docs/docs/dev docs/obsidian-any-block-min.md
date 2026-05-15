@@ -25,8 +25,8 @@
 
 虽然min版不再内置mermaid/plantuml/markmap包，但这仅意味着编辑体验有所下降，对应功能并不一定就完全用不了。
 
-- 例如你可以安装 mindmap-nextgen 插件并配合使用：https://lincdocs.github.io/AnyBlock/docs/zh/05.%20%E7%B2%BE%E5%BD%A9%E7%94%A8%E4%BE%8B.html#mindmap-nexgen
+- 例如你可以安装 mindmap-nextgen 插件并配合使用：[精彩用例#mindmap-nextgen](https://lincdocs.github.io/AnyBlock/docs/zh/05.%20%E7%B2%BE%E5%BD%A9%E7%94%A8%E4%BE%8B.html#mindmap-nexgen)
 - 例如你依然可以使用mermaid，只是对应的库由插件内置改为ob内置的版本。但这会有一些编辑上的不流程的影响 (误刷新问题)，但整体其实也不算太影响
-- 例如你可以配合 mehrmaid 插件，来代替 mermaid，也行。参考: https://lincdocs.github.io/AnyBlock/docs/zh/05.%20%E7%B2%BE%E5%BD%A9%E7%94%A8%E4%BE%8B.html#mehrmaid
+- 例如你可以配合 mehrmaid 插件，来代替 mermaid，也行。参考: [精彩用例.html#mehrmaid](https://lincdocs.github.io/AnyBlock/docs/zh/05.%20%E7%B2%BE%E5%BD%A9%E7%94%A8%E4%BE%8B.html#mehrmaid)
 
 (这部分的文档后续会补充更多)
