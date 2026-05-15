@@ -27,22 +27,26 @@ jobs:
           folder: .
           commit-message: "chore: sync obsidian branch"
 
-  # sync-repo:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout repository
-  #     uses: actions/checkout@v4
-  #     
-  #   - name: Remove unused directories
-  #     run: |
-  #       # 删除不需要同步到新仓库的目录
-  #       rm -rf src/App src/Remark src/Vuepress src/MarkdownIt
-  # 
-  #   - name: Push to external repository
-  #     uses: JamesIves/github-pages-deploy-action@v4
-  #     with:
-  #       repository-name: any-block/obsidian-any-block # 替换为你的目标仓库 (需提前在 GitHub 创建好)
-  #       branch: main                          # 目标仓库的分支
-  #       folder: .
-  #       token: ${{ secrets.AnyBlockPro_Repo }} # 跨仓库推送必须使用 PAT 
-  #       commit-message: "chore: sync from monorepo"
+  sync-repo-min:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Remove unused directories
+      run: |
+        # 删除不需要同步到新仓库的目录
+        rm -rf src/App src/Remark src/Vuepress src/MarkdownIt
+        # 覆盖说明文件
+        mv "docs/docs/dev docs/obsidian-any-block-min.md" README.md
+        # 覆盖 Obsidian 清单文件
+        mv dist-min/manifest.json manifest.json
+  
+    - name: Push to external repository
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        repository-name: any-block/obsidian-any-block-min # 替换为你的目标仓库 (需提前在 GitHub 创建好)
+        branch: main                          # 目标仓库的分支
+        folder: .
+        token: ${{ secrets.AnyBlockPro_Repo }} # 跨仓库推送必须使用 PAT 
+        commit-message: "chore: sync from monorepo"
