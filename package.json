@@ -16,7 +16,8 @@
 		"ob:lint:fix": "cd ./src/Obsidian && pnpm lint:fix",
 		"app:dev": "cd ./src/App && pnpm dev",
 		"app:build": "cd ./src/App && pnpm build",
-		"mdit:build": "cd ./src/MarkdownIt && pnpm build"
+		"mdit:build": "cd ./src/MarkdownIt && pnpm build",
+		"bump": "node ./src/Scripts/bump.mjs"
 	},
 	"keywords": [
 		"anyblock",

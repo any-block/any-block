@@ -62,6 +62,10 @@ pnpm -r exec pnpm version 1.0.1
 ```
 (2) 修改 manifest.json, dist-min/manifest.json, dist-pro/manifest.json 中的 version
 
+---
+
+后来我封装了一下，现在使用 `pnpm run bump 1.0.1` 这个命令即可 (目标版本号自行修改)
+
 ### 发布到 npm
 
 主要是 MarkdownIt, Remark, ABConverter 三个需要。
