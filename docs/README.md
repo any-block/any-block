@@ -12,7 +12,11 @@ heroStyle:
   min-height: 450px
 heroImage: https://raw.githubusercontent.com/any-block/any-block/refs/heads/main/docs/assets/icon.png
 heroImageDark: https://raw.githubusercontent.com/any-block/any-block/refs/heads/main/docs/assets/icon.png
-# heroImage: /logo.png
+heroImageStyle: {
+  height: '288px',
+  width: '288px'
+}
+# heroImage: /logo.png。但被限制不能用相对路径了，大小的话再大也会缩小回 288 px
 
 actions:
   - text: Introduce
