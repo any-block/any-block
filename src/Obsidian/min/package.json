@@ -7,7 +7,7 @@
 	"license": "GNU Affero General Public License v3.0",
 	"main": "main.js",
 	"scripts": {
-		"prebuild": "pnpm copy_core && pnpm copy_abc_style",
+		"prebuild": "pnpm install @anyblock/any-block-core && pnpm copy_core && pnpm copy_abc_style",
 		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.min.mjs production",
 		"copy_core": "copyfiles -u 3 \"node_modules/@anyblock/any-block-core/**/*\" src/ABConverter/",
 
@@ -42,7 +42,6 @@
 		"vite": "^4.5.14"
 	},
 	"dependencies": {
-		"@anyblock/any-block-core": "latest",
 		"html-to-md": "^0.8.8"
 	}
 }
