@@ -66,6 +66,10 @@ pnpm -r exec pnpm version 1.0.1
 
 后来我封装了一下，现在使用 `pnpm run bump 1.0.1` 这个命令即可 (目标版本号自行修改)
 
+---
+
+由于还有使用 npm 版本 core 模块的情况，更新版本时 core 可能也得 publish 一下
+
 ### 发布到 npm
 
 主要是 MarkdownIt, Remark, ABConverter 三个需要。

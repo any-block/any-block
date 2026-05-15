@@ -4,6 +4,10 @@ import { defineConfig } from "eslint/config";
 import obsidianmd from "eslint-plugin-obsidianmd";
 
 export default defineConfig([
+  {
+    // 否则会检查 esbuild.config.mjs 代码
+    ignores: ["**/*.mjs", "**/*.json"]
+  },
   ...obsidianmd.configs.recommended,
   {
     files: ["**/*.ts"],
