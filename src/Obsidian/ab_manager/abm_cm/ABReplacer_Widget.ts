@@ -213,13 +213,13 @@ export class ABReplacer_Widget extends WidgetType {
       if (_is_show !== undefined) is_show = _is_show
       else is_show = !is_show
       if (is_show) {
-        btn_copy.style.display = "block"
-        btn_refresh.style.display = "block"
-        btn_wider.style.display = "block"
+        btn_copy.classList.remove("ab-hide")
+        btn_refresh.classList.remove("ab-hide")
+        btn_wider.classList.remove("ab-hide")
       } else {
-        btn_copy.style.display = "none"
-        btn_refresh.style.display = "none"
-        btn_wider.style.display = "none"
+        btn_copy.classList.add("ab-hide")
+        btn_refresh.classList.add("ab-hide")
+        btn_wider.classList.add("ab-hide")
       }
     }
 
