@@ -63,7 +63,7 @@ export const ABCSetting: {
  * 
  * @attention 注意：修改正则要注意小括号的位置是否对应，不然还要去修改索引
  */
-export const ABReg = {
+export const ABReg: Record<string, RegExp> = {
   /**
    * AB块头部
    *
@@ -111,4 +111,4 @@ export const ABReg = {
   reg_indentline_noprefix:/^\s+?\S/,
 
   inline_split: /\| |,  |， |\.  |。 |:  |： /, // 内联切分。`|`或全角符号+一空格，半角符号+两空格 (后者由于空格压缩，若经历了重渲染可能有问题)
-} satisfies Record<string, RegExp>
+}
