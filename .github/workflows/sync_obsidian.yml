@@ -18,7 +18,7 @@ jobs:
       - name: Remove unused directories
         run: |
           # 删除不需要参与 Obsidian 审查的目录
-          rm -rf src/App src/Remark src/Vuepress src/MarkdownIt src/Core
+          rm -rf src/App src/Remark src/Vuepress src/MarkdownIt src/ABConverter
 
       - name: Push to only-obsidian branch
         uses: JamesIves/github-pages-deploy-action@v4
@@ -36,7 +36,7 @@ jobs:
     - name: Remove unused directories
       run: |
         # 删除不需要同步到新仓库的目录
-        rm -rf src/App src/Remark src/Vuepress src/MarkdownIt src/Core
+        rm -rf src/App src/Remark src/Vuepress src/MarkdownIt src/ABConverter
         # 覆盖说明文件
         mv "docs/docs/dev docs/obsidian-any-block-min.md" README.md
         # 覆盖 Obsidian 清单文件
