@@ -72,7 +72,11 @@ pnpm -r exec pnpm version 1.0.1
 
 ---
 
+min版本问题:
+
 由于还有使用 npm 版本 core 模块的情况，更新版本时 core 可能也得 publish 一下
+
+然后检查和同步一下 Obsidian/min 中的依赖项 (否则会说 pnpm-lock 不一致)
 
 ### 发布到 npm
 
