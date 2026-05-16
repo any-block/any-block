@@ -18,10 +18,9 @@
  *    - 在VuePress-Mdit环境，没有真正的document元素，而打开文件的钩子在mdit里面又没有，可能需要要vuepress插件解决
  */
 
- import DOMPurify from "dompurify"
+import DOMPurify from "dompurify"
 import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
 import { ABCSetting } from "../ABSetting"
-import { markmap_event } from "../ABConvertEvent";
 
 /**
  * 生成一个随机id
@@ -46,7 +45,7 @@ process_param: ABConvert_IOEnum.text,
 process_return: ABConvert_IOEnum.el,
 process: (el, header, content: string): HTMLElement=>{
 		list2markmap(content, el)
-		markmap_event(el)
+		ABCSetting.obsidian.markmap_event?.(el)
 		// setTimeout(()=>{abConvertEvent(el)}, 500);
 		return el
 	}
@@ -117,3 +116,42 @@ function list2markmap(markdown: string, div: HTMLDivElement) {
 
 	return div
 }
+
+/**
+ * 一些AB块的后触发事件 - dom加载完触发 - markmap
+ * 
+ * 注意这里的 script 标签执行动态类型会被 obsidian 审查认为是不安全的。
+ * 所以没必要打包使用时，不加载该函数
+ */
+async function markmap_event(d: Element|Document) {
+  if (ABCSetting.env == "obsidian-min") return // min 不支持 markmap
+
+  // xxx2markmap，渲染事件
+  if (d.querySelector('.ab-markmap-svg')) {
+    console.log("  - markmap_event")
+    let script_el: HTMLScriptElement|null = document.querySelector('script[script-id="ab-markmap-script"]');
+    if (script_el) script_el.remove();
+    const divEl = d as Element;
+    let markmapId = '';
+    if (divEl.tagName === 'DIV') {
+      markmapId = divEl.querySelector('.ab-markmap-svg')?.id || '';
+    }
+    script_el = document.createElement('script'); document.head.appendChild(script_el);
+    script_el.type = "module";
+    script_el.setAttribute("script-id", "ab-markmap-script");
+    script_el.textContent = `
+    import { Markmap, } from 'https://jspm.dev/markmap-view';
+    const markmapId = "${markmapId || ''}";
+    let mindmaps;
+    if (markmapId) {
+      mindmaps = document.querySelectorAll('#' + markmapId);
+    } else {
+      mindmaps = document.querySelectorAll('.ab-markmap-svg'); // 注意一下这里的选择器
+    }
+    for(const mindmap of mindmaps) {
+      mindmap.innerHTML = "";
+      Markmap.create(mindmap,null,JSON.parse(mindmap.getAttribute('data-json')));
+    }`;
+  }
+}
+ABCSetting.obsidian.markmap_event = markmap_event

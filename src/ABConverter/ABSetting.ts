@@ -19,6 +19,7 @@ export const ABCSetting: {
     global_app: unknown|null,
     global_ctx: unknown|null, // MarkdownPostProcessorContext类型, obsidian专用
     mermaid?: Promise<any>, // obsidian专用，obsidian 如何渲染mermaid
+    markmap_event?: (d: Element|Document) => Promise<void>, // 如何渲染 markmap
   },
   pro: {
     disable: boolean, // 禁用 pro 版的扩展功能，变为非 pro 版
@@ -45,6 +46,7 @@ export const ABCSetting: {
     global_app: null,
     global_ctx: null,
     mermaid: undefined,
+    markmap_event: undefined,
   },
   pro: {
     disable: false,

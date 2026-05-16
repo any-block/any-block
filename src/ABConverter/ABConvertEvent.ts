@@ -7,6 +7,8 @@
  * 这些操作统一注册在此处
  */
 
+import { ABCSetting } from "./ABSetting"
+
 /**
  * 一些AB块的后触发事件 - css加载完触发
  * 
@@ -267,41 +269,8 @@ export function abConvertEvent(d: Element|Document, isCycle: boolean = false) {
         const scale_new = el_g.getBBox().height/el_div.offsetWidth;
         el_svg.setAttribute("style", `height:${el_g.getBBox().height*scale_new+40}px`); // 重调容器大小
         // el_g.setAttribute("transform", `translate(20.0,80.0) scale(${scale_new})`) // 重调位置和缩放
-        markmap_event(d) // 好像调位置有问题，只能重渲染了……
+        ABCSetting.obsidian.markmap_event?.(d) // 好像调位置有问题，只能重渲染了……
       }
     }
-  }
-}
-
-/**
- * 一些AB块的后触发事件 - dom加载完触发 - markmap
- */
-export function markmap_event(d: Element|Document) {
-  // xxx2markmap，渲染事件
-  if (d.querySelector('.ab-markmap-svg')) {
-    console.log("  - markmap_event")
-    let script_el: HTMLScriptElement|null = document.querySelector('script[script-id="ab-markmap-script"]');
-    if (script_el) script_el.remove();
-    const divEl = d as Element;
-    let markmapId = '';
-    if (divEl.tagName === 'DIV') {
-      markmapId = divEl.querySelector('.ab-markmap-svg')?.id || '';
-    }
-    script_el = document.createElement('script'); document.head.appendChild(script_el);
-    script_el.type = "module";
-    script_el.setAttribute("script-id", "ab-markmap-script");
-    script_el.textContent = `
-    import { Markmap, } from 'https://jspm.dev/markmap-view';
-    const markmapId = "${markmapId || ''}";
-    let mindmaps;
-    if (markmapId) {
-      mindmaps = document.querySelectorAll('#' + markmapId);
-    } else {
-      mindmaps = document.querySelectorAll('.ab-markmap-svg'); // 注意一下这里的选择器
-    }
-    for(const mindmap of mindmaps) {
-      mindmap.innerHTML = "";
-      Markmap.create(mindmap,null,JSON.parse(mindmap.getAttribute('data-json')));
-    }`;
   }
 }
