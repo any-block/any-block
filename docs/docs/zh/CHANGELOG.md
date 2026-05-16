@@ -2,6 +2,12 @@
 
 按时间倒序展示
 
+## 3.4.8 (2026-05-16)
+
+- chore
+  - optimize obsidian review score
+  - 修复 core 模块抽离后，自动审查找不到 core 模块类型的问题
+
 ## 3.4.5 (2026-05-14)
 
 - fix
