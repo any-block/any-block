@@ -1,6 +1,6 @@
 {
   "name": "@anyblock/any-block-core",
-  "version": "3.4.8",
+  "version": "3.4.9",
   "description": "You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table`. (obsidian/markdown-it/vuepress plugin/app)",
   "main": "index.js",
   "scripts": {
