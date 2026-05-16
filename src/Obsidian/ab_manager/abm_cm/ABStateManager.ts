@@ -27,7 +27,7 @@ import { ConfDecoration } from "../../config/ABSettingTab"
 import { autoMdSelector, type MdSelectorRangeSpec} from "../../../CodeMirror2/ABSelector_Md"
 import { ABReplacer_Widget } from "./ABReplacer_Widget"
 import { abConvertEvent } from "@/ABConverter/ABConvertEvent"
-import { ABCSetting } from "@/ABConverter";
+import { ABCSetting } from "@/ABConverter/ABSetting";
 
 // 获取 - 模式
 enum Editor_mode{
