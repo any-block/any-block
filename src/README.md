@@ -46,6 +46,10 @@ pnpm -r publish --access public
 # 如没登录需要先 npm adduser
 
 pnpm up -i --latest # 强制列出最新版的包并可选自动升级
+# --latest 或 -L: 更新到 latest 标签
+# --interactive 或 -i: 交互式选择要更新的包
+# --prod: 仅更新生产依赖
+# --recursive 或 -r: 更新 workspace 中所有子包
 ```
 
 然后再去更新三个 manifest.json 内的 version (obsidian 用)
