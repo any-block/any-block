@@ -4,6 +4,9 @@
 
 ## 3.4.9 (2026-05-16)
 
+- enhance
+  - min 版本再简化，尺寸再压缩
+  - optimize obsidian review score
 - fix
   - Obsidian 中实时模式无法渲染的问题 (eedf847ce263adc32eaad51b80c7ad132a69b2cb cause)
 
