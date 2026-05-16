@@ -26,4 +26,8 @@ error: TypeError: can't access property "length" of undefined
     emit_render EditableBlock_Cm.ts:460
 ```
 
-未解决
+然后也导致了 `'@lezer/common': 1.2.3` 变 `'@lezer/common': 1.5.2`
+
+出现了版本不一致的冲突
+
+解决：回退 lang-markdown，间接回退 `'@lezer/common'`
