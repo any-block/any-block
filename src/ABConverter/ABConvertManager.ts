@@ -220,7 +220,14 @@ export class ABConvertManager {
           }
 
           // (2) 执行处理器
-          prev.prev_result = abReplaceProcessor.process(el, item_header, prev.prev_result, ctx)
+          // 避免用户扩展或PR的一些新处理器不正常
+          // TODO cm 相关的依赖升级后，list2card 中包含 `<br>` 时，id `id:c2listdata2items-e` 存在错误
+          try {
+            prev.prev_result = abReplaceProcessor.process(el, item_header, prev.prev_result, ctx)
+          } catch (e) {
+            console.error(`处理器执行错误, id:${abReplaceProcessor.id}, header:${item_header}, error:`, e)
+            break
+          }
           prev.prev_type = typeof(prev.prev_result)
           prev.prev_type2 = abReplaceProcessor.process_return as ABConvert_IOEnum
           prev.prev_processor = abReplaceProcessor.process
