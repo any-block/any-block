@@ -1,12 +1,33 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
+  "extends": "../../tsconfig.base.json",
+
   "compilerOptions": {
+    // take from @tsconfig/svelte/tsconfig.json 3.0.0
+    // 只引入 TypeScript 类型时必须使用 import type 语法
+    "importsNotUsedAsValues": "error",
+    // 防止 TypeScript 自动删除它认为“未被使用”的变量导入
+    "preserveValueImports": true,
+    // 生成 Source Map（源码映射文件）
+    "sourceMap": true,
+    // 关闭严格模式。不会进行最严格的类型校验
+    "strict": false,
+    // 增强对 CommonJS 模块的兼容性。允许你以 ES 模块的方式默认导入 CommonJS 模块
+    "esModuleInterop": true,
+    // 跳过对所有的 .d.ts 声明文件
+    // 这能显著提升编译/检查速度，同时避免因第三方库本身类型不严谨而导致你的项目报错。
+    "skipLibCheck": true,
+    // 强制引入文件时的大小写必须与文件系统上的真实名称一致。
+    // 这可以避免跨平台开发（例如 Windows 忽略大小写，而 Linux/macOS 区分大小写）带来的路径找不到的隐患。
+    "forceConsistentCasingInFileNames": true,
+
+    // 若后续升级 TypeScript 5.0+ 的话
+    // 由于已经废弃了 "importsNotUsedAsValues" 和 "preserveValueImports"。
+    // 需改用该选项:
+    // 只要我写了 import，你就必须原封不动给我保留打包进去；除非我明确写了 import type，你才可以把它当类型删掉
+    // "verbatimModuleSyntax": true,
+
     "types": ["node"],
     "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["../../src/*"]
-    },
     // "inlineSourceMap": true, // 否则svelete文件报错：[svelte-preprocess] Encountered type error
     // "inlineSources": true,
     "module": "ESNext",
