@@ -22,7 +22,6 @@
 		"@codemirror/language": "^6.11.3",
 		"@codemirror/state": "^6.5.2",
 		"@codemirror/view": "^6.38.1",
-		"@tsconfig/svelte": "^3.0.0",
 		"@types/node": "^16.18.126",
 		"@typescript-eslint/eslint-plugin": "8.59.3",
 		"@typescript-eslint/parser": "8.59.3",
