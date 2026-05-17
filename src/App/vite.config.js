@@ -30,4 +30,10 @@ export default defineConfig({
       input: path.resolve(__dirname, './index.html'),
     },
   },
+  resolve: {
+    // Vite 打包时无法使用 tsconfig.json 中的路径别名，所以在这里也配置一次
+    alias: {
+      '@': path.resolve(__dirname, '../../src')
+    }
+  }
 });
