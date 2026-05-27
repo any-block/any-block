@@ -2,7 +2,7 @@
   <img width="128" src="./docs/assets/icon.png">
 </p>
 
-<h1 align="center>">AnyBlock</h1>
+<h1 align="center">AnyBlock</h1>
 
 <p align="center">
   <strong>A module/plugin for parsing and rendering highly versatile Markdown extensions</strong><br>
