@@ -2,7 +2,7 @@
   <img width="128" src="./docs/assets/icon.png">
 </p>
 
-<h1 align="center>">AnyBlock</h1>
+<h1 align="center">AnyBlock</h1>
 
 <p align="center">
   <strong>一个高通用markdown扩展的解析和渲染的模块/插件</strong><br>
