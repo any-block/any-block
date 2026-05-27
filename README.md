@@ -1,16 +1,33 @@
-<div align="center" style="margin-bottom: 20px">
-  <img width="35%" src="./docs/assets/icon.png">
-</div>
+<p align="center" style="margin-bottom: 20px">
+  <img width="128" src="./docs/assets/icon.png">
+</p>
 
-[中文](./README.zh.md) | [English](./README.md)
+<h1 align="center>">AnyBlock</h1>
 
-# README
+<p align="center">
+  <strong>A module/plugin for parsing and rendering highly versatile Markdown extensions</strong><br>
+  <sub>You can flexibility to create a 'Block' by many means. It also provides many useful features, like "list to table" and so on</sub>
+</p>
 
-![Obsidian plugin](https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LincZero/obsidian-any-block)
+<p align="center">
+  <a href="https://github.com/any-block/any-block/releases/latest">
+    <img src="https://img.shields.io/github/v/release/any-block/any-block?style=flat-square&color=DD2476&label=Version">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/LICENSE-AGPL--3.0-3b82f6?style=flat-square" alt="AGPL-3.0">
+  </a>
+  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json&style=flat-square">
+  <a href="https://github.com/any-block/any-block/releases">
+    <img src="https://img.shields.io/github/downloads/any-block/any-block/total?style=flat-square&color=success&label=Github downloads">
+  </a>
+  <img src="https://img.shields.io/badge/Platform-Obsidian%20%2F%20Vuepress%20%2F%20Vitepress%20%2F%20MarkdownIt%20%2F%20Remark%20%2F%20CodeMirror6-0078D6?style=flat-square">
+  <br>
+  <a href="./README.zh.md">中文</a> | <a href="./README.md">English</a>
+</p>
 
 ## What's AnyBlock?
 
-- A module/plugin for parsing and rendering highly versatile Markdown extensions.  
+- A module/plugin for parsing and rendering highly versatile Markdown extensions.
   (**Obsidian, CodeMirror, Markdown-it (Vuepress/Vitepress), Remark (Quartz/Docusaurus) Plugin. Online App**)
 - Feature: You can flexibility to create a 'Block' by many means. It also provides many useful features, like `list to table` and so on
 - Feature (detail): You can select a section by list/heading/table/quote/codeBlock/markdown-it-container(`:::`), and trun into table/tabs/dir/card/column/mindmap/markmap/mermaid/PlantUML/timeLine/jsonChart/nodeTree and more
@@ -19,8 +36,9 @@
 
 - Related links：**tutorial**、use skill、contribution、secondary development、online use
 - [Effects warrior/**Tutorial**](https://lincdocs.github.io/AnyBlock/README.show.html), You can learn how to use it by switching between tabs.
-- [Online Interaction/Demo](https://any-block.github.io/any-block/). You can write experiences here and learn usage through templates
-- [Online Interaction (obsidian-web)](http://obsidian.night07.com/) (Due to the size limit of the free CF, images are not supported.)
+- Online Interaction
+  - [Online Interaction/Demo](https://any-block.github.io/any-block/). You can write experiences here and learn usage through templates
+  - [Online Interaction (obsidian-web)](http://obsidian.night07.com/) (Due to the size limit of the free CF, images are not supported.)
 - [Wiki](https://lincdocs.github.io/AnyBlock/)
 - Install and use
   - [Install and use in Obsidian](https://lincdocs.github.io/AnyBlock/docs/en/04.%20InstallAndUse_Obsidian.html)

@@ -1,12 +1,29 @@
-<div align="center" style="margin-bottom: 20px">
-  <img width="35%" src="./docs/assets/icon.png">
-</div>
+<p align="center" style="margin-bottom: 20px">
+  <img width="128" src="./docs/assets/icon.png">
+</p>
 
-[中文](./README.zh.md) | [English](./README.md)
+<h1 align="center>">AnyBlock</h1>
 
-# README
+<p align="center">
+  <strong>一个高通用markdown扩展的解析和渲染的模块/插件</strong><br>
+  <sub>你可以通过许多方式灵活地创建一个“块”。它还提供了许多有用的功能，如“列表转表格”等</sub>
+</p>
 
-![Obsidian plugin](https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json) ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/LincZero/obsidian-any-block)
+<p align="center">
+  <a href="https://github.com/any-block/any-block/releases/latest">
+    <img src="https://img.shields.io/github/v/release/any-block/any-block?style=flat-square&color=DD2476&label=%E7%89%88%E6%9C%AC">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/%E5%8D%8F%E8%AE%AE-AGPL--3.0-3b82f6?style=flat-square" alt="AGPL-3.0">
+  </a>
+  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json&style=flat-square&label=Obsidain 下载量">
+  <a href="https://github.com/any-block/any-block/releases">
+    <img src="https://img.shields.io/github/downloads/any-block/any-block/total?style=flat-square&color=success&label=Github 下载量">
+  </a>
+  <img src="https://img.shields.io/badge/%E5%B9%B3%E5%8F%B0-Obsidian%20%2F%20Vuepress%20%2F%20Vitepress%20%2F%20MarkdownIt%20%2F%20Remark%20%2F%20CodeMirror6-0078D6?style=flat-square">
+  <br>
+  <a href="./README.zh.md">中文</a> | <a href="./README.md">English</a>
+</p>
 
 ## AnyBlock是什么?
 
@@ -19,8 +36,9 @@
 
 - 相关链接：**教程**、使用技能、贡献、二次开发、在线使用
 - [效果展示/**教程**](https://lincdocs.github.io/AnyBlock/README.show.html), 你可以通过切换里面的标签页来学习用法
-- [在线交互/Demo](https://any-block.github.io/any-block/)，你可以在这里编写体验、通过模板学习用法
-- [在线交互 (obsidian-web)](http://obsidian.night07.com/) (由于免费 CF 的大小限制，不支持图片)
+- 在线交互
+  - [在线交互/Demo](https://any-block.github.io/any-block/)，你可以在这里编写体验、通过模板学习用法
+  - [在线交互 (obsidian-web)](http://obsidian.night07.com/) (由于免费 CF 的大小限制，不支持图片)
 - [文档](https://lincdocs.github.io/AnyBlock/)
 - 安装和使用
   - [在Obsidian中安装和使用](https://lincdocs.github.io/AnyBlock/docs/en/04.%20InstallAndUse_Obsidian.html)
