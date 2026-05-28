@@ -16,10 +16,10 @@
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/LICENSE-AGPL--3.0-3b82f6?style=flat-square" alt="AGPL-3.0">
   </a>
-  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json&style=flat-square">
   <a href="https://github.com/any-block/any-block/releases">
     <img src="https://img.shields.io/github/downloads/any-block/any-block/total?style=flat-square&color=success&label=Github downloads">
   </a>
+  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fscambier.xyz%2Fobsidian-endpoints%2Fany-block.json&style=flat-square">
   <img src="https://img.shields.io/badge/Platform-Obsidian%20%2F%20Vuepress%20%2F%20Vitepress%20%2F%20MarkdownIt%20%2F%20Remark%20%2F%20CodeMirror6-0078D6?style=flat-square">
   <br>
   <a href="./README.zh.md">中文</a> | <a href="./README.md">English</a>
