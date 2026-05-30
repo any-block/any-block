@@ -26,8 +26,8 @@ const _abc_md = ABConvert.factory({
 
 const _abc_text = ABConvert.factory({
   id: "text",
-  name: "纯文本",
-  detail: "其实一般会更推荐用code()代替，那个更精确",
+  name: "Plain text",
+  detail: "Actually, it is generally recommended to use code() instead, which is more precise",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: string): HTMLElement=>{
@@ -40,7 +40,7 @@ const _abc_text = ABConvert.factory({
 
 const _abc_fold = ABConvert.factory({
   id: "fold",
-  name: "折叠",
+  name: "Fold",
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: HTMLElement): HTMLElement=>{
@@ -125,10 +125,10 @@ const _abc_fold = ABConvert.factory({
 
 const _abc_scroll = ABConvert.factory({
   id: "scroll",
-  name: "滚动",
+  name: "Scroll",
   match: /^scroll(X)?(\((\d+)\))?$/,
   default: "scroll(460)",
-  detail: "默认是纵向滚动。可以指定溢出滚动的范围，可以使用scrollX进行横向滚动",
+  detail: "Default is vertical scrolling. Can specify overflow scrolling range, can use scrollX for horizontal scrolling",
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: HTMLElement): HTMLElement=>{
@@ -163,7 +163,7 @@ const _abc_scroll = ABConvert.factory({
 
 const _abc_overfold = ABConvert.factory({
   id: "overfold",
-  name: "超出折叠",
+  name: "Overflow fold",
   match: /^overfold(\((\d+)\))?$/,
   default: "overfold(380)",
   process_param: ABConvert_IOEnum.el,
@@ -216,9 +216,9 @@ const _abc_overfold = ABConvert.factory({
   /// width(100)
   const _abc_width = ABConvert.factory({
     id: "width",
-    name: "宽度控制",
+    name: "Width control",
     match: /^width\(((?:\d*\.?\d+(?:%|px|rem)?,\s*)*\d*\.?\d+(?:%|px|rem)?)\)$/,
-    detail: "用于控制表格或分栏的每列的宽度",
+    detail: "Used to control the width of each column in tables or columns",
     process_param: ABConvert_IOEnum.el,
     process_return: ABConvert_IOEnum.el,
     process: (el, header, content: HTMLElement): HTMLElement=>{
@@ -280,8 +280,8 @@ const _abc_overfold = ABConvert.factory({
 
 const _abc_addClass = ABConvert.factory({
   id: "addClass",
-  name: "增加class",
-  detail: "给当前块增加一个类名。支持正常使用空格来添加多个class, 不需要加dot符, 就像在class=''里写的那样",
+  name: "Add class",
+  detail: "Add a class name to the current block. Supports using spaces to add multiple classes, no need to add dot symbol, just like writing in class=''",
   match: /^addClass\((.*)\)$/,
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
@@ -301,8 +301,8 @@ const _abc_addClass = ABConvert.factory({
 
 const _abc_addStyle = ABConvert.factory({
   id: "addStyle",
-  name: "增加style",
-  detail: "给当前块增加一个样式, 注意最外的括号往内要留一个空格, 避免rotate这种用括号时冲突。添加多个则正常使用分号",
+  name: "Add style",
+  detail: "Add a style to the current block, note that leave a space inside the outermost parentheses to avoid conflicts with functions like rotate. Add multiple styles using semicolons normally",
   match: /^addStyle\(\s(.*)\s\)$/, // 中间可能有括号，要加空格保证不误识别
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
@@ -319,8 +319,8 @@ const _abc_addStyle = ABConvert.factory({
 
 const _abc_addDiv = ABConvert.factory({
   id: "addDiv",
-  name: "增加div和class",
-  detail: "给当前块增加一个父类，需要给这个父类一个类名",
+  name: "Add div and class",
+  detail: "Add a parent element to the current block and assign a class name to it",
   match: /^addDiv\((.*)\)$/,
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
@@ -345,9 +345,9 @@ const _abc_addDiv = ABConvert.factory({
 
 const _abc_title = ABConvert.factory({
   id: "title",
-  name: "标题",
+  name: "Title",
   match: /^#(.*)/,
-  detail: "若直接处理代码或表格块，则会有特殊风格",
+  detail: "Will have special style if directly processing code or table blocks",
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: HTMLElement): HTMLElement=>{ // content有特殊class，不能更换。要在他下面套壳
@@ -402,9 +402,9 @@ const _abc_title = ABConvert.factory({
 
 const _abc_transposition = ABConvert.factory({
   id: "transposition",
-  name: "表格转置",
+  name: "Table transpose",
   match: "transposition",
-  detail: "将表格进行转置，就像矩阵转置那样。该版本不支持有跨行跨列单元格。若复杂表格，请换用trs版本",
+  detail: "Transpose the table, like matrix transpose. This version does not support cells with row/column spanning. For complex tables, please use the trs version",
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: HTMLElement): HTMLElement=>{
@@ -441,9 +441,9 @@ const _abc_transposition = ABConvert.factory({
 
 const _abc_transpose = ABConvert.factory({
   id: "transpose",
-  name: "表格转置",
+  name: "Table transpose",
   match: "trs",
-  detail: "将表格进行转置，就像矩阵转置那样。该版本支持有跨行跨列单元格",
+  detail: "Transpose the table, like matrix transpose. This version supports cells with row/column spanning",
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: HTMLElement): HTMLElement=>{
@@ -497,9 +497,9 @@ const _abc_transpose = ABConvert.factory({
 // 实现上与表格转置大差不差
 const _abc_exTable = ABConvert.factory({
   id: "exTable",
-  name: "表格扩展",
+  name: "Table expand",
   match: "exTable",
-  detail: "将表格应用sheet-table语法 (使用 `</^` 标注合并单元格)",
+  detail: "Apply sheet-table syntax to the table (use `</^` to mark merged cells)",
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: HTMLElement): HTMLElement=>{
@@ -526,9 +526,9 @@ const _abc_exTable = ABConvert.factory({
 /// 表格严格化/normalized
 const _abc_strictTable = ABConvert.factory({
   id: "strictTable",
-  name: "正规化表格",
+  name: "Normalize table",
   match: "strictTable",
-  detail: "补全表格的尾丢失项，list2table|trs时，可以有效避免bug",
+  detail: "Complete the missing items at the end of the table, can effectively avoid bugs when using list2table|trs",
   process_param: ABConvert_IOEnum.el,
   process_return: ABConvert_IOEnum.el,
   process: (el, header, content: HTMLElement): HTMLElement=>{

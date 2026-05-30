@@ -17,8 +17,8 @@ import { ABConvert, ABConvert_IOEnum } from "./ABConvert"
 
 const _abc_region2indent = ABConvert.factory({
   id: "region2indent",
-  name: "代码注释转缩进",
-  detail: "代码块注释转缩进 (识别 `//` 和 `#` 的region注释对)，通常配合code2list使用。默认补充两缩进",
+  name: "Region comment to indent",
+  detail: "Convert code block region comments to indentation (recognizes region comment pairs with `//` and `#`). Usually used with code2list. Default adds two indentation levels",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -55,8 +55,8 @@ const _abc_region2indent = ABConvert.factory({
 
 const _abc_mdit2code = ABConvert.factory({
   id: "mdit2code",
-  name: "mdit转代码块",
-  detail: "mdit转代码块 (允许嵌套)。注意 `:*n` 会转化为 `~*(n+3)`, `@aaa bbb` 会转换为 `# bbb` (h1标题)",
+  name: "Mdit to code block",
+  detail: "Convert mdit to code block (supports nesting). Note: `:*n` becomes `~*(n+3)`, `@aaa bbb` becomes `# bbb` (h1 heading)",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{

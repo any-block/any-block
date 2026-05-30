@@ -15,9 +15,9 @@ import { type List_C2ListItem, C2ListProcess } from "./abc_c2list"
 
 const _abc_list2echarts_tree = ABConvert.factory({
   id: "list2echarts_tree",
-  name: "ECharts树图",
+  name: "ECharts tree chart",
   match: /list2echarts_tree(.*)/,
-  detail: "将列表转换为放ECharts树图，可选附加参数: `_tb` 或 `_radial` 或 `_polyline` 等",
+  detail: "Convert list to ECharts tree chart, optional parameters: `_tb` or `_radial` or `_polyline` etc",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -101,9 +101,9 @@ const option = {
 
 const _abc_list2echarts_sunburst = ABConvert.factory({
   id: "list2echarts_sunburst",
-  name: "ECharts旭日图",
+  name: "ECharts sunburst chart",
   match: "list2echarts_sunburst",
-  detail: "将列表转换为放ECharts旭日图 (平均分配)",
+  detail: "Convert list to ECharts sunburst chart (even distribution)",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
@@ -133,9 +133,9 @@ const option = {
 
 const _abc_list2echarts_gantt = ABConvert.factory({
   id: "list2echarts_gantt",
-  name: "ECharts甘特图",
+  name: "ECharts gantt chart",
   match: "list2echarts_gantt",
-  detail: "将列表转换为放ECharts甘特图 (ECharts的甘特图是用custom模拟的)",
+  detail: "Convert list to ECharts gantt chart (ECharts gantt chart is simulated with custom)",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.text,
   process: (el, header, content: string): string=>{
