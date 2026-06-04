@@ -168,6 +168,7 @@ const _abc_title2table = ABConvert.factory({
 })
 
 // 纯组合，后续用别名模块替代
+// 不过目前用得比较频繁，而且还有参数，先放着
 const _abc_list2table = ABConvert.factory({
   id: "list2table",
   name: "列表转表格",
@@ -180,6 +181,20 @@ const _abc_list2table = ABConvert.factory({
     if (!matchs) return el
     const data: List_ListItem = abc_list2listdata.process(el, header, content) as List_ListItem
     return el = TableProcess.data2table(data, el, matchs[2]=="T") as HTMLDivElement
+  }
+})
+
+const _abc_listdata2table = ABConvert.factory({
+  id: "listdata2table",
+  name: "列表数据转表格",
+  match: /listdata2(md)?table(T)?/,
+  default: "listdata2table",
+  process_param: ABConvert_IOEnum.list_stream,
+  process_return: ABConvert_IOEnum.el,
+  process: (el, header, content: List_ListItem): HTMLElement=>{
+    const matchs = header.match(/listdata2(md)?table(T)?/)
+    if (!matchs) return el
+    return el = TableProcess.data2table(content, el, matchs[2]=="T") as HTMLDivElement
   }
 })
 
