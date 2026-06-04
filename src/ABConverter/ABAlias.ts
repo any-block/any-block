@@ -159,6 +159,10 @@ const ABAlias_json_mdit: ABAlias_json[] = [
 
 // 标题块
 const ABAlias_json_title: ABAlias_json[] = [
+  // 至前，特殊
+  {regex: "|heading2", replacement: "|title2"},
+  {regex: "|h2", replacement: "|title2"},
+
   // title - list&title
   {regex: /\|heading_140lne\|2?(timeline|时间线)\|/, replacement: "|title2timeline|"},
   {regex: /\|heading_140lne\|2?(tabs?|标签页?)\||\|title2tabs?\|/, replacement: "|title2c2listdata|c2listdata2tab|"},

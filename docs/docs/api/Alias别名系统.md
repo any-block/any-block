@@ -52,7 +52,9 @@ const ABAlias_json_mdit: ABAlias_json_item[] = [
 
 // 标题块
 const ABAlias_json_title: ABAlias_json_item[] = [
-  {regex: "|title2list|", replacement: "|title2listdata|listdata2strict|listdata2list|"},
+  // 至前，特殊
+  {regex: "|heading2", replacement: "|title2"},
+  {regex: "|h2", replacement: "|title2"},
 
   // title - list&title
   {regex: /\|heading 140lne\|2?(timeline|时间线)\|/, replacement: "|title2timeline|"},
@@ -75,6 +77,9 @@ const ABAlias_json_title: ABAlias_json_item[] = [
 
   // list - 二层树
   {regex: /\|heading 140lne\|(fakeList|仿列表)\|/, replacement: "|title2list" + "|list2table|addClass(ab-table-fc)|addClass(ab-table-likelist)|"},
+
+  // 至后
+  {regex: "|title2list|", replacement: "|title2listdata|listdata2strict|listdata2list|"},
 ]
 
 // 列表块
