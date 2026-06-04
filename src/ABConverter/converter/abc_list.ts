@@ -333,7 +333,7 @@ export class ListProcess{
         if (mul_mode=="para") {
           list_itemInfo[list_itemInfo.length-1].content += "\n" + line
         }
-        else if(/^\s*$/.test(line)){
+        else if(/^\s*$/.test(line)){ // 非正文内的空行
           continue
         }
         else{
@@ -367,7 +367,7 @@ export class ListProcess{
    * 2. 正文等级,  = 0,              取值[+1,+Infi]
    * 3. 列表等级,  = `(.*)-`个数+1,  取值[0]
    * 
-   * 例如:
+   * ## 例子
    * 
    * :::
    * 
@@ -394,6 +394,57 @@ export class ListProcess{
    *     - ccc
    *       ddd
    * - A22
+   * 
+   * ## 规则补充 - 多行分割标题
+   * 
+   * 和 title2list 不同
+   * 
+   * - title 中的 title 项一定是单行内容
+   * - list 的所有 list 项都可以是多行内容
+   * - markdownIt 语法中的 `@` 项一般来说也只能是单行内容
+   * 
+   * 但这里希望扩展这种定义，mdit2list 过程中，也希望每个节点都能够是多行内容。
+   * 为此我们需要定义一种语法来表示 `多行分隔标题`
+   * 
+   * 即 `@<分割标识> <分割标题>` 这里，使 "分割标题" 可以为多行。最后采用的设计如下:
+   * 
+   * 类似于列表项中，列表项一个项可以是多行那样。
+   * 
+   * 如果存在不使用 `<br>` 声明的多级标题，应该会长这样:
+   * 
+   * ```markdown
+   * ## 标题一
+   *    标题一的第二行
+   * 
+   * 正文
+   * 
+   * ### 标题二
+   *     标题二的第二行
+   * 
+   * ^ 注意这里仅对齐示意，不建议缩进太多行。会被认为是缩进代码块。一般前面统一两空格就好
+   * 
+   * 正文
+   * ```
+   * 
+   * 然后mdit也同理
+   * 
+   * ```markdown
+   * :::mdit2list
+   * 
+   * @1 标题一
+   *    标题一的第二行
+   * 
+   * 正文
+   * 
+   * @1 标题二
+   *    标题二的第二行
+   * 
+   * 正文
+   * 
+   * :::
+   * ```
+   * 
+   * 我们这里使用后者的多行 mdit 分割标识的设计，多行标题的设计我感觉还是太前卫了，不采用。
    */
   static mdit2data(text: string): List_ListItem {
     let list_itemInfo: List_ListItem = []
@@ -427,6 +478,7 @@ export class ListProcess{
 
       //
       const match_mdit = line.match(/^(\s*)@(\d+)\s+(.*)$/)
+      const match_mdit_multiline = line.match(/^(  |\t)(.*)$/) // 多行分割标题
       const match_list = line.match(ABReg.reg_list_noprefix)
       if (match_mdit && !match_mdit[1]) {                       // 1. Mdit层级（只识别根处）
         removeTailBlank()
@@ -435,6 +487,12 @@ export class ListProcess{
           level: Number(match_mdit[2]) - 100
         })
         mul_mode = "mdit"
+      }
+      else if (mul_mode === "mdit" && match_mdit_multiline) {   // 1.1. Mdit层级的多行分割标题
+        list_itemInfo[list_itemInfo.length - 1].content += "\n" + match_mdit_multiline[2]
+      }
+      else if (mul_mode === "mdit" && /^\s*$/.test(line)) {     // 1.1. Mdit层级的多行分割标题-空行
+        list_itemInfo[list_itemInfo.length - 1].content += "\n"
       }
       else if (match_list) {                                    // 2. 列表层级 ~~（只识别根处）~~
         removeTailBlank()
@@ -451,7 +509,7 @@ export class ListProcess{
         if (mul_mode == "para") {
           list_itemInfo[list_itemInfo.length-1].content += "\n" + line
         }
-        else if (/^\s*$/.test(line)) {
+        else if (/^\s*$/.test(line)) { // 非正文空行
           continue
         }
         else {
