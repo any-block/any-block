@@ -267,7 +267,7 @@ export class ListProcess{
   }
 
   /**
-   * 标题大纲转列表数据（@todo 正文的level+10，要减掉）
+   * 标题大纲转列表数据
    * 
    * @detail
    * 这里要将标题、正文、列表 的等级合为一块，所以存在偏移值：
@@ -276,15 +276,16 @@ export class ListProcess{
    * 2. 正文等级,  = 0,              取值[+1,+Infi]
    * 3. 列表等级,  = `(.*)-`个数+1,  取值[0]
    * 
+   * (比较旧版是正文+10，列表+11，后来允许标题等级为负数。这样方便很多)
    */
-  static title2data(text: string){
+  static title2data(text: string): List_ListItem {
     let list_itemInfo:List_ListItem = []
 
     const list_text = text.split("\n")
     let mul_mode:"heading"|"para"|"list"|"" = ""                // 多行模式，标题/正文/列表/空
     let codeBlockFlag = '' // 代码块标志，避免在代码块内识别结束符号
     for (let line of list_text) {
-      // heading和mdit类型 需要跳过代码块内的结束标志
+      // heading和mdit类型都需要跳过代码块内的结束标志
       if (codeBlockFlag == '') {
         const match = line.match(ABReg.reg_code)
         if (match && match[3]) { // 进入代码块。则将内容添加添加到最后的列表项 (不能是标题列表项)
@@ -296,14 +297,14 @@ export class ListProcess{
             mul_mode = "para"
           } else {
             codeBlockFlag = match[1]+match[3]
-            list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content+"\n"+line;
+            list_itemInfo[list_itemInfo.length-1].content += "\n" + line;
           }
           continue
         }
       }
       else { // 在代码块内，找代码块的结束标志
         if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = ''
-        list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content+"\n"+line; continue
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line; continue
       }
 
       //
@@ -313,7 +314,7 @@ export class ListProcess{
         removeTailBlank()
         list_itemInfo.push({
           content: match_heading[4],
-          level: (match_heading[3].length-1)-10
+          level: (match_heading[3].length-1) - 10
         })
         mul_mode = "heading"
       }
@@ -321,16 +322,16 @@ export class ListProcess{
         removeTailBlank()
         list_itemInfo.push({
           content: match_list[4],
-          level: match_list[1].length+1//+10
+          level: match_list[1].length + 1
         })
         mul_mode = "list"
       }
       else if (/^\S/.test(line) && mul_mode=="list"){         // 3. 带缩进且在列表层级中
-        list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content+"\n"+line
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line
       }
       else {                                                  // 4. 正文层级
         if (mul_mode=="para") {
-          list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content+"\n"+line
+          list_itemInfo[list_itemInfo.length-1].content += "\n" + line
         }
         else if(/^\s*$/.test(line)){
           continue
@@ -338,7 +339,7 @@ export class ListProcess{
         else{
           list_itemInfo.push({
             content: line,
-            level: 0//+10
+            level: 0
           })
           mul_mode = "para"
         }
@@ -349,6 +350,125 @@ export class ListProcess{
 
     function removeTailBlank(){
       if (mul_mode=="para"||mul_mode=="list"){
+        list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content.replace(/\s*$/, "")
+      }
+    }
+  }
+
+  /**
+   * MarkdownIt 转列表数据
+   * 
+   * @detail
+   * 与 title2data 的逻辑基本相同
+   * 
+   * 这里要将Mdit标识 (@xxx)、正文、列表 的等级合为一块，所以存在偏移值：
+   * 
+   * 1. Mdit等级,  = `@<数字>`-100,
+   * 2. 正文等级,  = 0,              取值[+1,+Infi]
+   * 3. 列表等级,  = `(.*)-`个数+1,  取值[0]
+   * 
+   * 例如:
+   * 
+   * :::
+   * 
+   * @1 AAA
+   * 
+   * aaa
+   * 
+   * @2 BBB
+   * 
+   * @2 B22
+   * 
+   * ccc
+   * ddd
+   * 
+   * @1 A22
+   * 
+   * :::
+   * 
+   * 会被转化为
+   * 
+   * - AAA
+   *   - BBB
+   *   - B22
+   *     - ccc
+   *       ddd
+   * - A22
+   */
+  static mdit2data(text: string): List_ListItem {
+    let list_itemInfo: List_ListItem = []
+
+    const list_text = text.split("\n")
+    let mul_mode: "mdit" | "para" | "list" | "" = ""            // 多行模式，mdit/正文/列表/空
+    let codeBlockFlag = '' // 代码块标志，避免在代码块内识别结束符号
+    for (let line of list_text) {
+      // heading和mdit类型都需要跳过代码块内的结束标志
+      if (codeBlockFlag == '') {
+        const match = line.match(ABReg.reg_code)
+        if (match && match[3]) { // 进入代码块。则将内容添加到最后的列表项 (不能是mdit列表项)
+          if (mul_mode === "mdit" || mul_mode === "") {
+            list_itemInfo.push({
+              content: line,
+              level: 0
+            })
+            mul_mode = "para"
+          } else {
+            codeBlockFlag = match[1] + match[3]
+            list_itemInfo[list_itemInfo.length-1].content += "\n" + line
+          }
+          continue
+        }
+      }
+      else { // 在代码块内，找代码块的结束标志
+        if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = ''
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line
+        continue
+      }
+
+      //
+      const match_mdit = line.match(/^(\s*)@(\d+)\s+(.*)$/)
+      const match_list = line.match(ABReg.reg_list_noprefix)
+      if (match_mdit && !match_mdit[1]) {                       // 1. Mdit层级（只识别根处）
+        removeTailBlank()
+        list_itemInfo.push({
+          content: match_mdit[3],
+          level: Number(match_mdit[2]) - 100
+        })
+        mul_mode = "mdit"
+      }
+      else if (match_list) {                                    // 2. 列表层级 ~~（只识别根处）~~
+        removeTailBlank()
+        list_itemInfo.push({
+          content: match_list[4],
+          level: match_list[1].length + 1
+        })
+        mul_mode = "list"
+      }
+      else if (/^\S/.test(line) && mul_mode == "list") {        // 3. 带缩进且在列表层级中
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line
+      }
+      else {                                                    // 4. 正文层级
+        if (mul_mode == "para") {
+          list_itemInfo[list_itemInfo.length-1].content += "\n" + line
+        }
+        else if (/^\s*$/.test(line)) {
+          continue
+        }
+        else {
+          list_itemInfo.push({
+            content: line,
+            level: 0
+          })
+          mul_mode = "para"
+        }
+      }
+    }
+
+    removeTailBlank()
+    return list_itemInfo
+
+    function removeTailBlank(){
+      if (mul_mode == "para" || mul_mode == "list") {
         list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content.replace(/\s*$/, "")
       }
     }
@@ -587,6 +707,17 @@ export const abc_title2listdata = ABConvert.factory({
   detail: "标题到listdata",
   process: (el, header, content: string): List_ListItem=>{
     return ListProcess.title2data(content) as List_ListItem
+  }
+})
+
+export const abc_mdit2listdata = ABConvert.factory({
+  id: "mdit2listdata",
+  name: "mdit到listdata",
+  process_param: ABConvert_IOEnum.text,
+  process_return: ABConvert_IOEnum.list_stream,
+  detail: "mdit到listdata",
+  process: (el, header, content: string): List_ListItem=>{
+    return ListProcess.mdit2data(content) as List_ListItem
   }
 })
 

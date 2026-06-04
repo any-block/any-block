@@ -53,6 +53,7 @@ const _abc_region2indent = ABConvert.factory({
   }
 })
 
+/// 这个处理器本来是想要用来解决mdit语法 `:::` 嵌套渲染的问题的
 const _abc_mdit2code = ABConvert.factory({
   id: "mdit2code",
   name: "mdit转代码块",
