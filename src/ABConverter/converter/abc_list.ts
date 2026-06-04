@@ -277,6 +277,10 @@ export class ListProcess{
    * 3. 列表等级,  = `(.*)-`个数+1,  取值[0]
    * 
    * (比较旧版是正文+10，列表+11，后来允许标题等级为负数。这样方便很多)
+   * 
+   * @fine_mode 精细拆分模式
+   * - true:  会将列表拆分成多个节点
+   * - false: 会将列表合并成一个节点
    */
   static title2data(text: string, fine_mode: boolean = true): List_ListItem {
     let list_itemInfo:List_ListItem = []
@@ -285,19 +289,20 @@ export class ListProcess{
     let mul_mode:"heading"|"para"|"list"|"" = ""                // 多行模式，标题/正文/列表/空
     let codeBlockFlag = ''                                      // 代码块标志，避免在代码块内识别结束符号
     for (let line of list_text) {
+
       // heading和mdit类型都需要跳过代码块内的结束标志
       if (codeBlockFlag == '') {
         const match = line.match(ABReg.reg_code)
         if (match && match[3]) {
           codeBlockFlag = match[1]+match[3]
-          if (mul_mode === "heading" || mul_mode === "") {      // 进入正文层级
+          if (mul_mode === "heading" || mul_mode === "") {      // 1. 进入正文层级
             removeTailBlank(); list_itemInfo.push({
               content: line,
               level: 0
             })
             mul_mode = "para"
           }
-          else {                                                // 维持当前层级
+          else {                                                // 2. 维持当前层级 (一般是正文层级)
             list_itemInfo[list_itemInfo.length-1].content += "\n" + line;
           }
           continue
@@ -308,7 +313,7 @@ export class ListProcess{
         list_itemInfo[list_itemInfo.length-1].content += "\n" + line; continue
       }
 
-      //
+      // 非代码块内环境
       const match_heading = line.match(ABReg.reg_heading_noprefix)
       const match_list = line.match(ABReg.reg_list_noprefix)
       if (match_heading && !match_heading[1]){                  // 1. 标题层级（只识别根处）
@@ -318,7 +323,7 @@ export class ListProcess{
         })
         mul_mode = "heading"
       }
-      else if (fine_mode && match_list){                       // 2. 列表层级的带 `-` 行
+      else if (fine_mode && match_list){                        // 2. 列表层级的带 `-` 行
         removeTailBlank(); list_itemInfo.push({
           content: match_list[4],
           level: match_list[1].length + 1
@@ -361,13 +366,24 @@ export class ListProcess{
    * @detail
    * 与 title2data 的逻辑基本相同
    * 
+   * 有很多写法变型和语法糖，所以逻辑比较复杂。
    * 具体设计详见 "docs/docs/dev docs/其他层级表示法.md"
+   * 
+   * 支持:
+   * 
+   * - 单行标题模式
+   * - 多行标题模式
+   * - 缺少分割标题模式
+   * 
+   * @fine_mode 精细拆分模式
+   * - true:  会将列表拆分成多个节点
+   * - false: 会将列表合并成一个节点
    */
   static mdit2data(text: string, fine_mode: boolean = true): List_ListItem {
     let list_itemInfo: List_ListItem = []
 
     const list_text = text.split("\n")
-    let mul_mode: "mdit" | "para" | "list" | "" = ""            // 多行模式，mdit/正文/列表/空
+    let mul_mode: "mdit" | "mdit_null" | "para" | "list" | "" = ""  // 多行模式，mdit/特殊mdit(空标题)/正文/列表/空
     let codeBlockFlag = ''                                      // 代码块标志，避免在代码块内识别结束符号
     for (let line of list_text) {
       const match_mdit_mulline = line.match(/^\s\s(.*)$/)       // 表示一定是追加到mdit，而非创建新项 (主要用于多行分割标题)
@@ -378,17 +394,20 @@ export class ListProcess{
         const match = line.match(ABReg.reg_code)
         if (match && match[3]) {
           codeBlockFlag = match[1] + match[3]
-          if (mul_mode === "mdit" && match_mdit_mulline) {      // 维持当前Mdit@层级
+          if (mul_mode === "mdit_null") {                       // 1. 维持特殊mdit_null层级
+            list_itemInfo[list_itemInfo.length - 1].content += "\n" + line
+          }
+          else if (mul_mode === "mdit" && match_mdit_mulline) { // 2. 维持Mdit@层级
             list_itemInfo[list_itemInfo.length-1].content += "\n" + match_mdit_mulline[1]
           }
-          else if (mul_mode === "mdit" || mul_mode === "") {    // 进入正文层级
+          else if (mul_mode === "mdit" || mul_mode === "") {    // 3. 进入正文层级
             removeTailBlank(); list_itemInfo.push({
               content: line,
               level: 0
             })
             mul_mode = "para"
           }
-          else {                                                // 维持当前层级
+          else {                                                // 4. 维持当前层级 (一般是正文层级)
             list_itemInfo[list_itemInfo.length-1].content += "\n" + line
           }
           continue
@@ -403,27 +422,38 @@ export class ListProcess{
         continue
       }
 
-      //
+      // 非代码块内环境
       const match_mdit = line.match(/^(\s*)@(\d+)\s+(.*)$/)
+      const match_mdit_null: boolean = (match_mdit != null) && (match_mdit[3].trim() == "")
       const match_list = line.match(ABReg.reg_list_noprefix)
-      if (match_mdit && !match_mdit[1]) {                       // 1. Mdit@层级（只识别根处）
+      if (match_mdit && match_mdit_null) {                      // 1. 进入特殊Mdit@层级
+        removeTailBlank(); list_itemInfo.push({
+          content: "",
+          level: Number(match_mdit[2]) - 100
+        })
+        mul_mode = "mdit_null"
+      }
+      else if (mul_mode === "mdit_null" && !match_mdit) {       // 1. 维持特殊Mdit@层级
+        list_itemInfo[list_itemInfo.length - 1].content += "\n" + line
+      }
+      else if (match_mdit && !match_mdit[1]) {                  // 2. 进入Mdit@层级
         removeTailBlank(); list_itemInfo.push({
           content: match_mdit[3],
           level: Number(match_mdit[2]) - 100
         })
         mul_mode = "mdit"
       }
-      else if (mul_mode === "mdit" && match_mdit_mulline) {     // 维持当前Mdit@层级
+      else if (mul_mode === "mdit" && match_mdit_mulline) {     // 2. 维持Mdit@层级
         list_itemInfo[list_itemInfo.length - 1].content += "\n" + match_mdit_mulline[1]
       }
-      else if (fine_mode && match_list) {                       // 2. 列表层级的带 `-` 行
+      else if (fine_mode && match_list) {                       // 3. 列表层级的带 `-` 行
         removeTailBlank(); list_itemInfo.push({
           content: match_list[4],
           level: match_list[1].length + 1
         })
         mul_mode = "list"
       }
-      else if (fine_mode && mul_mode == "list" && /^\s/.test(line)) { // 2. 列表层级的不带 `-` 行
+      else if (fine_mode && mul_mode == "list" && /^\s/.test(line)) { // 3. 列表层级的不带 `-` 行
         list_itemInfo[list_itemInfo.length-1].content += "\n" + line.trimStart()
       }
       else {
