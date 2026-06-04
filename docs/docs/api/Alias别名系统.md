@@ -23,8 +23,6 @@ const ABAlias_json_withSub: ABAlias_json_item[] = [
 
 // mdit块
 const ABAlias_json_mdit: ABAlias_json_item[] = [
-  {regex: "|mdit2list|", replacement: "|mdit2listdata|listdata2strict|listdata2list|"},
-
   {regex: /\|::: 140lne\|(2?tabs?|标签页?)\|/, replacement: "|mditTabs|"},
   {regex: "|::: 140lne|demo|", replacement: "|mditDemo|"},
   {regex: "|::: 140lne|abDemo|", replacement: "|mditABDemo|"},
@@ -33,20 +31,23 @@ const ABAlias_json_mdit: ABAlias_json_item[] = [
   {regex: /\|:::_140lne\|(2?chat|聊天)\|/, replacement: "|mditChat|code(chat)|"},
 
   // list  - 多叉多层树
-  {regex: /\|:::_140lne\|2?(mermaid|flow|流程图)\|/, replacement: "|mdit2list" + "|list2mermaid|"},
-  {regex: /\|:::_140lne\|2?(mehrmaid|mdmermaid)\|/, replacement: "|mdit2list" + "|list2mehrmaidText|code(mehrmaid)|"},
-  {regex: /\|:::_140lne\|2?(puml)?(plantuml|mindmap|脑图|思维导图)\|/, replacement: "|mdit2list" + "|list2pumlMindmap|"},
-  {regex: /\|:::_140lne\|2?(markmap|mdMindmap|md脑图|md思维导图)\|/, replacement: "|mdit2list" + "|list2markmap|"},
-  {regex: /\|:::_140lne\|2?(wbs|(工作)?分解(图|结构))\|/, replacement: "|mdit2list" + "|list2pumlWBS|"},
-  {regex: /\|:::_140lne\|2?(table|multiWayTable|multiCrossTable|表格?|多叉表格?|跨行表格?)\|/, replacement: "|mdit2list" + "|list2table|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(mermaid|flow|流程图)\|/, replacement: "|mdit2list" + "|list2mermaid|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(mehrmaid|mdmermaid)\|/, replacement: "|mdit2list" + "|list2mehrmaidText|code(mehrmaid)|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(puml)?(plantuml|mindmap|脑图|思维导图)\|/, replacement: "|mdit2list" + "|list2pumlMindmap|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(markmap|mdMindmap|md脑图|md思维导图)\|/, replacement: "|mdit2list" + "|list2markmap|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(wbs|(工作)?分解(图|结构))\|/, replacement: "|mdit2list" + "|list2pumlWBS|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(table|multiWayTable|multiCrossTable|表格?|多叉表格?|跨行表格?)\|/, replacement: "|mdit2list" + "|list2table|"},
 
   // list - lt树 (属于多层一叉树)
-  {regex: /\|:::_140lne\|2?(lt|listTable|treeTable|listGrid|treeGrid|列表格|树形表格?)\|/, replacement: "|mdit2list" + "|list2lt|"},
-  {regex: /\|:::_140lne\|2?(list|列表)\|/, replacement: "|mdit2list" + "|list2lt|addClass(ab-listtable-likelist)|"},
-  {regex: /\|:::_140lne\|2?(dir|dirTree|目录树?|目录结构)\|/, replacement: "|mdit2list" + "|list2dt|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(lt|listTable|treeTable|listGrid|treeGrid|列表格|树形表格?)\|/, replacement: "|mdit2list" + "|list2lt|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(list|列表)\|/, replacement: "|mdit2list" + "|list2lt|addClass(ab-listtable-likelist)|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(dir|dirTree|目录树?|目录结构)\|/, replacement: "|mdit2list" + "|list2dt|"},
 
   // list - 二层树
   {regex: /\|:::_140lne\|(fakeList|仿列表)\|/, replacement: "|mdit2list" + "|list2table|addClass(ab-table-fc)|addClass(ab-table-likelist)|"},
+
+  // 至后
+  {regex: "|title2list|", replacement: "|title2listdata|listdata2strict|listdata2list|"},
 ]
 
 // 标题块

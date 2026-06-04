@@ -2,6 +2,46 @@
 
 Display in reverse chronological order
 
+## 3.4.11 (2026-06-04)
+
+- feat
+  - Added the `mdit2list` processor  
+    (Similar to `title2list`; from now on, anything list selectors can do, the mdit processor can do as well.)
+  - Added some `mdit`-related aliases
+- fix
+  - In the `title2data` processor, when the content immediately following a heading is a code block, the heading item would incorrectly attach to that code block
+- enhance
+  - code: Optimized TypeScript aliases
+  - code: Removed some leftover dependencies
+  - docs: Some updates
+
+## 3.4.9 (2026-05-16)
+
+- enhance
+  - Further simplified the min build and reduced its size
+  - Optimized Obsidian review score
+- fix
+  - Fixed the issue where Live Preview mode in Obsidian could not render properly (`eedf847ce263adc32eaad51b80c7ad132a69b2cb` cause)
+
+## 3.4.8 (2026-05-16)
+
+- chore
+  - Optimized Obsidian review score
+  - Fixed the issue where automated review could not find core module types after the core module was extracted
+
+## 3.4.5 (2026-05-14)
+
+- fix
+  - Fixed an issue where the mdit selector would fail on the first line of a document
+- docs
+  - Some documentation corrections
+  - Testing now uses obsidian-web to provide an online Obsidian instance, making it easier to read and view the documentation  
+    Try it here: http://obsidian.night07.com/ (Due to the size limitations of free Cloudflare hosting, images are not supported there)
+- refactor
+  - Refactored the alias system to support Pro edition aliases
+  - Refactored the mdit module to strictly separate Node.js-specific resources
+  - Moved the i18n module from Obsidian to the core module
+
 ## 3.4.3 (2026-02-09)
 
 (Does not include beta version changelogs between the previous official release and this version. For more update details, please check independently.)

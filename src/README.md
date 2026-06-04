@@ -58,6 +58,25 @@ pnpm up -i --latest # 强制列出最新版的包并可选自动升级
 
 ## 更新/发布时需做
 
+### 发布 总结
+
+我封装了一下，现在使用 `pnpm run bump 1.0.1` 这个命令即可 (目标版本号自行修改)
+
+---
+
+min版本问题:
+
+由于还有使用 npm 版本 core 模块的情况，更新版本时 core 可能也得 publish 一下
+
+`npm login`, `npm publish ./src/ABConverter --access public`
+
+Mdit 与 Remark 版本同理
+
+`npm login`, `npm publish ./src/MarkdownIt --access public`
+`npm login`, `npm publish ./src/Remark --access public`
+
+然后检查和同步一下 Obsidian/min 中的依赖项 (否则会说 pnpm-lock 不一致)
+
 ### 发布到 Obsidian
 
 (1) 同步更新版本号
@@ -67,16 +86,6 @@ pnpm -r exec pnpm version 1.0.1
 (2) 修改 manifest.json, dist-min/manifest.json, dist-pro/manifest.json 中的 version
 
 ---
-
-后来我封装了一下，现在使用 `pnpm run bump 1.0.1` 这个命令即可 (目标版本号自行修改)
-
----
-
-min版本问题:
-
-由于还有使用 npm 版本 core 模块的情况，更新版本时 core 可能也得 publish 一下
-
-然后检查和同步一下 Obsidian/min 中的依赖项 (否则会说 pnpm-lock 不一致)
 
 ### 发布到 npm
 
