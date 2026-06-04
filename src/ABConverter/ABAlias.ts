@@ -147,7 +147,7 @@ const ABAlias_json_mdit: ABAlias_json[] = [
 
   // list - lt树 (属于多层一叉树)
   {regex: /\|:::_140lne\|(?:mdit2|2)?(lt|listTable|treeTable|listGrid|treeGrid|列表格|树形表格?)\|/, replacement: "|mdit2list" + "|list2lt|"},
-  {regex: /\|:::_140lne\|(?:mdit2|2)?(list|列表)\|/, replacement: "|mdit2list" + "|list2lt|addClass(ab-listtable-likelist)|"},
+  {regex: /\|:::_140lne\|2?(list|列表)\|/, replacement: "|mdit2list" + "|list2lt|addClass(ab-listtable-likelist)|"},
   {regex: /\|:::_140lne\|(?:mdit2|2)?(dir|dirTree|目录树?|目录结构)\|/, replacement: "|mdit2list" + "|list2dt|"},
 
   // list - 二层树
