@@ -278,7 +278,7 @@ export class ListProcess{
    * 
    * (比较旧版是正文+10，列表+11，后来允许标题等级为负数。这样方便很多)
    */
-  static title2data(text: string): List_ListItem {
+  static title2data(text: string, fine_mode: boolean = true): List_ListItem {
     let list_itemInfo:List_ListItem = []
 
     const list_text = text.split("\n")
@@ -318,14 +318,14 @@ export class ListProcess{
         })
         mul_mode = "heading"
       }
-      else if (match_list){                                     // 2. 列表层级的带 `-` 行
+      else if (fine_mode && match_list){                       // 2. 列表层级的带 `-` 行
         removeTailBlank(); list_itemInfo.push({
           content: match_list[4],
           level: match_list[1].length + 1
         })
         mul_mode = "list"
       }
-      else if (/^\s/.test(line) && mul_mode=="list"){           // 2. 列表层级的不带 `-` 行
+      else if (fine_mode && mul_mode=="list" && /^\s/.test(line)){  // 2. 列表层级的不带 `-` 行
         list_itemInfo[list_itemInfo.length-1].content += "\n" + line.trimStart()
       }
       else {
@@ -361,92 +361,9 @@ export class ListProcess{
    * @detail
    * 与 title2data 的逻辑基本相同
    * 
-   * 这里要将Mdit标识 (@xxx)、正文、列表 的等级合为一块，所以存在偏移值：
-   * 
-   * 1. Mdit等级,  = `@<数字>`-100,
-   * 2. 正文等级,  = 0,              取值[+1,+Infi]
-   * 3. 列表等级,  = `(.*)-`个数+1,  取值[0]
-   * 
-   * ## 例子
-   * 
-   * :::
-   * 
-   * @1 AAA
-   * 
-   * aaa
-   * 
-   * @2 BBB
-   * 
-   * @2 B22
-   * 
-   * ccc
-   * ddd
-   * 
-   * @1 A22
-   * 
-   * :::
-   * 
-   * 会被转化为
-   * 
-   * - AAA
-   *   - BBB
-   *   - B22
-   *     - ccc
-   *       ddd
-   * - A22
-   * 
-   * ## 规则补充 - 多行分割标题
-   * 
-   * 和 title2list 不同
-   * 
-   * - title 中的 title 项一定是单行内容
-   * - list 的所有 list 项都可以是多行内容
-   * - markdownIt 语法中的 `@` 项一般来说也只能是单行内容
-   * 
-   * 但这里希望扩展这种定义，mdit2list 过程中，也希望每个节点都能够是多行内容。
-   * 为此我们需要定义一种语法来表示 `多行分隔标题`
-   * 
-   * 即 `@<分割标识> <分割标题>` 这里，使 "分割标题" 可以为多行。最后采用的设计如下:
-   * 
-   * 类似于列表项中，列表项一个项可以是多行那样。
-   * 
-   * 如果存在不使用 `<br>` 声明的多级标题，应该会长这样:
-   * 
-   * ```markdown
-   * ## 标题一
-   *    标题一的第二行
-   * 
-   * 正文
-   * 
-   * ### 标题二
-   *     标题二的第二行
-   * 
-   * ^ 注意这里仅对齐示意，不建议缩进太多行。会被认为是缩进代码块。一般前面统一两空格就好
-   * 
-   * 正文
-   * ```
-   * 
-   * 然后mdit也同理
-   * 
-   * ```markdown
-   * :::mdit2list
-   * 
-   * @1 标题一
-   *    标题一的第二行
-   * 
-   * 正文
-   * 
-   * @1 标题二
-   *    标题二的第二行
-   * 
-   * 正文
-   * 
-   * :::
-   * ```
-   * 
-   * 我们这里使用后者的多行 mdit 分割标识的设计，多行标题的设计我感觉还是太前卫了，不采用。
+   * 具体设计详见 "docs/docs/dev docs/其他层级表示法.md"
    */
-  static mdit2data(text: string): List_ListItem {
+  static mdit2data(text: string, fine_mode: boolean = true): List_ListItem {
     let list_itemInfo: List_ListItem = []
 
     const list_text = text.split("\n")
@@ -499,18 +416,18 @@ export class ListProcess{
       else if (mul_mode === "mdit" && match_mdit_mulline) {     // 维持当前Mdit@层级
         list_itemInfo[list_itemInfo.length - 1].content += "\n" + match_mdit_mulline[1]
       }
-      else if (match_list) {                                    // 2. 列表层级的带 `-` 行
+      else if (fine_mode && match_list) {                       // 2. 列表层级的带 `-` 行
         removeTailBlank(); list_itemInfo.push({
           content: match_list[4],
           level: match_list[1].length + 1
         })
         mul_mode = "list"
       }
-      else if (/^\s/.test(line) && mul_mode == "list") {        // 2. 列表层级的不带 `-` 行
+      else if (fine_mode && mul_mode == "list" && /^\s/.test(line)) { // 2. 列表层级的不带 `-` 行
         list_itemInfo[list_itemInfo.length-1].content += "\n" + line.trimStart()
       }
       else {
-        if (mul_mode == "para") {                          // 维持正文层级
+        if (mul_mode == "para") {                               // 维持正文层级
           list_itemInfo[list_itemInfo.length-1].content += "\n" + line
         }
         else if (/^\s*$/.test(line)) {                          // 跳过非正文空行
@@ -757,7 +674,7 @@ export const abc_list2listdata = ABConvert.factory({
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.list_stream,
   detail: "列表到listdata",
-  process: (el, header, content: string): List_ListItem=>{
+  process: (_el, _header, content: string): List_ListItem=>{
     return ListProcess.list2data(content) as List_ListItem
   }
 })
@@ -767,9 +684,20 @@ export const abc_title2listdata = ABConvert.factory({
   name: "标题到listdata",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.list_stream,
-  detail: "标题到listdata",
-  process: (el, header, content: string): List_ListItem=>{
-    return ListProcess.title2data(content) as List_ListItem
+  detail: "标题到listdata。细粒度版本，列表会拆分成多个节点",
+  process: (_el, _header, content: string): List_ListItem=>{
+    return ListProcess.title2data(content, true) as List_ListItem
+  }
+})
+
+export const abc_title2Listdata = ABConvert.factory({
+  id: "title2Listdata",
+  name: "标题到Listdata",
+  process_param: ABConvert_IOEnum.text,
+  process_return: ABConvert_IOEnum.list_stream,
+  detail: "标题到Listdata。粗粒度版本，列表为一个节点，不会拆分",
+  process: (_el, _header, content: string): List_ListItem=>{
+    return ListProcess.title2data(content, false) as List_ListItem
   }
 })
 
@@ -778,9 +706,20 @@ export const abc_mdit2listdata = ABConvert.factory({
   name: "mdit到listdata",
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.list_stream,
-  detail: "mdit到listdata",
-  process: (el, header, content: string): List_ListItem=>{
-    return ListProcess.mdit2data(content) as List_ListItem
+  detail: "mdit到listdata。细粒度版本，列表会拆分成多个节点",
+  process: (_el, _header, content: string): List_ListItem=>{
+    return ListProcess.mdit2data(content, true) as List_ListItem
+  }
+})
+
+export const abc_mdit2Listdata = ABConvert.factory({
+  id: "mdit2Listdata",
+  name: "mdit到Listdata",
+  process_param: ABConvert_IOEnum.text,
+  process_return: ABConvert_IOEnum.list_stream,
+  detail: "mdit到Listdata。粗粒度版本，列表为一个节点，不会拆分",
+  process: (_el, _header, content: string): List_ListItem=>{
+    return ListProcess.mdit2data(content, false) as List_ListItem
   }
 })
 
@@ -790,7 +729,7 @@ const _abc_listdata2list = ABConvert.factory({
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.text,
   detail: "listdata到列表",
-  process: (el, header, content: List_ListItem): string=>{
+  process: (_el, _header, content: List_ListItem): string=>{
     return ListProcess.data2list(content) as string
   }
 })
@@ -801,7 +740,7 @@ const _abc_listdata2nodes = ABConvert.factory({
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.el,
   detail: "listdata到节点图",
-  process: (el, header, content: List_ListItem): HTMLElement=>{
+  process: (el, _header, content: List_ListItem): HTMLElement=>{
     return ListProcess.data2nodes(content, el) as HTMLElement
   }
 })
@@ -812,7 +751,7 @@ const _abc_listdata2strict = ABConvert.factory({
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.list_stream,
   detail: "将列表数据转化为更规范的列表数据。统一缩进符(2空格 4空格 tab混用)为level 1、禁止跳等级(h1直接就到h3)",
-  process: (el, header, content: List_ListItem): List_ListItem=>{
+  process: (_el, _header, content: List_ListItem): List_ListItem=>{
     return ListProcess.data2strict(content)
   }
 })
@@ -823,7 +762,7 @@ const _abc_listdata2task = ABConvert.factory({
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.list_stream,
   detail: "当列表中存在任务列表项时，令此列表项支持任务项",
-  process: (el, header, content: List_ListItem): List_ListItem=>{
+  process: (_el, _header, content: List_ListItem): List_ListItem=>{
     return ListProcess.data2taskData(content)
   }
 })
@@ -834,7 +773,7 @@ export const abc_list2listnode = ABConvert.factory({
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.json,
   detail: "列表到listnode",
-  process: (el, header, content: string): string=>{
+  process: (_el, _header, content: string): string=>{
     const data: listNodes[] = ListProcess.list2listnode(content)
     return JSON.stringify(data, null, 2) // TMP
   }
@@ -846,7 +785,7 @@ export const abc_list2json = ABConvert.factory({
   process_param: ABConvert_IOEnum.text,
   process_return: ABConvert_IOEnum.json,
   detail: "列表到json",
-  process: (el, header, content: string): string=>{
+  process: (_el, _header, content: string): string=>{
     const data: object = ListProcess.list2json(content)
     return JSON.stringify(data, null, 2) // TMP
   }
