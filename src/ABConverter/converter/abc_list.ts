@@ -283,20 +283,21 @@ export class ListProcess{
 
     const list_text = text.split("\n")
     let mul_mode:"heading"|"para"|"list"|"" = ""                // 多行模式，标题/正文/列表/空
-    let codeBlockFlag = '' // 代码块标志，避免在代码块内识别结束符号
+    let codeBlockFlag = ''                                      // 代码块标志，避免在代码块内识别结束符号
     for (let line of list_text) {
       // heading和mdit类型都需要跳过代码块内的结束标志
       if (codeBlockFlag == '') {
         const match = line.match(ABReg.reg_code)
-        if (match && match[3]) { // 进入代码块。则将内容添加添加到最后的列表项 (不能是标题列表项)
-          if (mul_mode === "heading" || mul_mode === "") {
-            list_itemInfo.push({
+        if (match && match[3]) {
+          codeBlockFlag = match[1]+match[3]
+          if (mul_mode === "heading" || mul_mode === "") {      // 进入正文层级
+            removeTailBlank(); list_itemInfo.push({
               content: line,
               level: 0
             })
             mul_mode = "para"
-          } else {
-            codeBlockFlag = match[1]+match[3]
+          }
+          else {                                                // 维持当前层级
             list_itemInfo[list_itemInfo.length-1].content += "\n" + line;
           }
           continue
@@ -310,34 +311,32 @@ export class ListProcess{
       //
       const match_heading = line.match(ABReg.reg_heading_noprefix)
       const match_list = line.match(ABReg.reg_list_noprefix)
-      if (match_heading && !match_heading[1]){                // 1. 标题层级（只识别根处）
-        removeTailBlank()
-        list_itemInfo.push({
+      if (match_heading && !match_heading[1]){                  // 1. 标题层级（只识别根处）
+        removeTailBlank(); list_itemInfo.push({
           content: match_heading[4],
           level: (match_heading[3].length-1) - 10
         })
         mul_mode = "heading"
       }
-      else if (match_list){                                   // 2. 列表层级 ~~（只识别根处）~~
-        removeTailBlank()
-        list_itemInfo.push({
+      else if (match_list){                                     // 2. 列表层级的带 `-` 行
+        removeTailBlank(); list_itemInfo.push({
           content: match_list[4],
           level: match_list[1].length + 1
         })
         mul_mode = "list"
       }
-      else if (/^\S/.test(line) && mul_mode=="list"){         // 3. 带缩进且在列表层级中
-        list_itemInfo[list_itemInfo.length-1].content += "\n" + line
+      else if (/^\s/.test(line) && mul_mode=="list"){           // 2. 列表层级的不带 `-` 行
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line.trimStart()
       }
-      else {                                                  // 4. 正文层级
-        if (mul_mode=="para") {
+      else {
+        if (mul_mode=="para") {                                 // 维持正文层级
           list_itemInfo[list_itemInfo.length-1].content += "\n" + line
         }
-        else if(/^\s*$/.test(line)){ // 非正文内的空行
+        else if(/^\s*$/.test(line)){                            // 跳过非正文内的空行
           continue
         }
-        else{
-          list_itemInfo.push({
+        else {                                                  // 进入正文层级
+          removeTailBlank(); list_itemInfo.push({
             content: line,
             level: 0
           })
@@ -348,6 +347,7 @@ export class ListProcess{
     removeTailBlank()
     return list_itemInfo
 
+    /// 清除最后一个节点的尾部空白
     function removeTailBlank(){
       if (mul_mode=="para"||mul_mode=="list"){
         list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content.replace(/\s*$/, "")
@@ -451,20 +451,27 @@ export class ListProcess{
 
     const list_text = text.split("\n")
     let mul_mode: "mdit" | "para" | "list" | "" = ""            // 多行模式，mdit/正文/列表/空
-    let codeBlockFlag = '' // 代码块标志，避免在代码块内识别结束符号
+    let codeBlockFlag = ''                                      // 代码块标志，避免在代码块内识别结束符号
     for (let line of list_text) {
+      const match_mdit_mulline = line.match(/^\s\s(.*)$/)       // 表示一定是追加到mdit，而非创建新项 (主要用于多行分割标题)
+        // 前面有两个空格且追加时。注意: 只有追加到 mdit 不保留前两个空格，其他情况都要保留
+
       // heading和mdit类型都需要跳过代码块内的结束标志
       if (codeBlockFlag == '') {
         const match = line.match(ABReg.reg_code)
-        if (match && match[3]) { // 进入代码块。则将内容添加到最后的列表项 (不能是mdit列表项)
-          if (mul_mode === "mdit" || mul_mode === "") {
-            list_itemInfo.push({
+        if (match && match[3]) {
+          codeBlockFlag = match[1] + match[3]
+          if (mul_mode === "mdit" && match_mdit_mulline) {      // 维持当前Mdit@层级
+            list_itemInfo[list_itemInfo.length-1].content += "\n" + match_mdit_mulline[1]
+          }
+          else if (mul_mode === "mdit" || mul_mode === "") {    // 进入正文层级
+            removeTailBlank(); list_itemInfo.push({
               content: line,
               level: 0
             })
             mul_mode = "para"
-          } else {
-            codeBlockFlag = match[1] + match[3]
+          }
+          else {                                                // 维持当前层级
             list_itemInfo[list_itemInfo.length-1].content += "\n" + line
           }
           continue
@@ -472,48 +479,45 @@ export class ListProcess{
       }
       else { // 在代码块内，找代码块的结束标志
         if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = ''
-        list_itemInfo[list_itemInfo.length-1].content += "\n" + line
+        if (mul_mode === "mdit" && match_mdit_mulline) {        // 维持当前Mdit@层级
+          list_itemInfo[list_itemInfo.length-1].content += "\n" + match_mdit_mulline[1]
+        }
+        else list_itemInfo[list_itemInfo.length-1].content += "\n" + line
         continue
       }
 
       //
       const match_mdit = line.match(/^(\s*)@(\d+)\s+(.*)$/)
-      const match_mdit_multiline = line.match(/^(  |\t)(.*)$/) // 多行分割标题
       const match_list = line.match(ABReg.reg_list_noprefix)
-      if (match_mdit && !match_mdit[1]) {                       // 1. Mdit层级（只识别根处）
-        removeTailBlank()
-        list_itemInfo.push({
+      if (match_mdit && !match_mdit[1]) {                       // 1. Mdit@层级（只识别根处）
+        removeTailBlank(); list_itemInfo.push({
           content: match_mdit[3],
           level: Number(match_mdit[2]) - 100
         })
         mul_mode = "mdit"
       }
-      else if (mul_mode === "mdit" && match_mdit_multiline) {   // 1.1. Mdit层级的多行分割标题
-        list_itemInfo[list_itemInfo.length - 1].content += "\n" + match_mdit_multiline[2]
+      else if (mul_mode === "mdit" && match_mdit_mulline) {     // 维持当前Mdit@层级
+        list_itemInfo[list_itemInfo.length - 1].content += "\n" + match_mdit_mulline[1]
       }
-      else if (mul_mode === "mdit" && /^\s*$/.test(line)) {     // 1.1. Mdit层级的多行分割标题-空行
-        list_itemInfo[list_itemInfo.length - 1].content += "\n"
-      }
-      else if (match_list) {                                    // 2. 列表层级 ~~（只识别根处）~~
-        removeTailBlank()
-        list_itemInfo.push({
+      else if (match_list) {                                    // 2. 列表层级的带 `-` 行
+        removeTailBlank(); list_itemInfo.push({
           content: match_list[4],
           level: match_list[1].length + 1
         })
         mul_mode = "list"
       }
-      else if (/^\S/.test(line) && mul_mode == "list") {        // 3. 带缩进且在列表层级中
-        list_itemInfo[list_itemInfo.length-1].content += "\n" + line
+      else if (/^\s/.test(line) && mul_mode == "list") {        // 2. 列表层级的不带 `-` 行
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line.trimStart()
       }
-      else {                                                    // 4. 正文层级
-        if (mul_mode == "para") {
+      else {
+        if (mul_mode == "para") {                          // 维持正文层级
           list_itemInfo[list_itemInfo.length-1].content += "\n" + line
         }
-        else if (/^\s*$/.test(line)) { // 非正文空行
+        else if (/^\s*$/.test(line)) {                          // 跳过非正文空行
           continue
         }
-        else {
-          list_itemInfo.push({
+        else {                                                  // 进入正文层级
+          removeTailBlank(); list_itemInfo.push({
             content: line,
             level: 0
           })
@@ -525,6 +529,7 @@ export class ListProcess{
     removeTailBlank()
     return list_itemInfo
 
+    /// 清除最后一个节点的尾部空白
     function removeTailBlank(){
       if (mul_mode == "para" || mul_mode == "list") {
         list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content.replace(/\s*$/, "")
