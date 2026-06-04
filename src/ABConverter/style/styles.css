@@ -79,7 +79,7 @@ html[data-theme=dark] #app {
 }
 
 .ab-hide {
-  display: none;
+  display: none !important;
 }
 
 /**

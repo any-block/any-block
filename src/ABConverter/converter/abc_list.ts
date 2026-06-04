@@ -282,17 +282,26 @@ export class ListProcess{
 
     const list_text = text.split("\n")
     let mul_mode:"heading"|"para"|"list"|"" = ""                // 多行模式，标题/正文/列表/空
-    let codeBlockFlag = ''
+    let codeBlockFlag = '' // 代码块标志，避免在代码块内识别结束符号
     for (let line of list_text) {
       // heading和mdit类型 需要跳过代码块内的结束标志
       if (codeBlockFlag == '') {
         const match = line.match(ABReg.reg_code)
-        if (match && match[3]) {
-          codeBlockFlag = match[1]+match[3]
-          list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content+"\n"+line; continue
+        if (match && match[3]) { // 进入代码块。则将内容添加添加到最后的列表项 (不能是标题列表项)
+          if (mul_mode === "heading" || mul_mode === "") {
+            list_itemInfo.push({
+              content: line,
+              level: 0
+            })
+            mul_mode = "para"
+          } else {
+            codeBlockFlag = match[1]+match[3]
+            list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content+"\n"+line;
+          }
+          continue
         }
       }
-      else {
+      else { // 在代码块内，找代码块的结束标志
         if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = ''
         list_itemInfo[list_itemInfo.length-1].content = list_itemInfo[list_itemInfo.length-1].content+"\n"+line; continue
       }
