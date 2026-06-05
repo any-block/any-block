@@ -421,7 +421,7 @@ export class ListProcess{
       }
 
       // 非代码块内环境
-      const match_mdit = line.match(/^(\s*)@(\d+)\s?(.*)$/)
+      const match_mdit = line.match(/^(\s*)@(\d+)(?:\s+(.*))?$/)
       const match_list = line.match(ABReg.reg_list_noprefix)
       if (match_mdit && !match_mdit[1]) {                       // 1. 进入Mdit@层级
         removeTailBlank(); list_itemInfo.push({
