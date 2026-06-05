@@ -177,7 +177,7 @@ const ABAlias_json_title: ABAlias_json[] = [
   {regex: /\|heading_140lne\|2?(puml)?(plantuml|mindmap|脑图|思维导图)\|/, replacement: "|title2list" + "|list2pumlMindmap|"},
   {regex: /\|heading_140lne\|2?(markmap|mdMindmap|md脑图|md思维导图)\|/, replacement: "|title2list" + "|list2markmap|"},
   {regex: /\|heading_140lne\|2?(wbs|(工作)?分解(图|结构))\|/, replacement: "|title2list" + "|list2pumlWBS|"},
-  {regex: /\|heading_140lne\|2?(table|multiWayTable|multiCrossTable|表格?|多叉表格?|跨行表格?)\|/, replacement: "|title2list" + "|list2table|"},
+  {regex: /\|heading_140lne\|2?(table|multiWayTable|multiCrossTable|表格?|多叉表格?|跨行表格?)\|/, replacement: "|title2Listdata|listdata2strict|listdata2table|"},
 
   // list - lt树 (属于多层一叉树)
   {regex: /\|heading_140lne\|2?(lt|listTable|treeTable|listGrid|treeGrid|列表格|树形表格?)\|/, replacement: "|title2list" + "|list2lt|"},

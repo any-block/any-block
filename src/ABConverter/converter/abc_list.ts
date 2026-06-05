@@ -295,10 +295,10 @@ export class ListProcess{
         const match = line.match(ABReg.reg_code)
         if (match && match[3]) {
           codeBlockFlag = match[1]+match[3]
-          if (fine_mode && list_itemInfo.length > 0) {          // 1. 维持当前层级 (标题层级)
+          if (!fine_mode && list_itemInfo.length > 0) {         // 1. 维持当前层级 (标题层级)
             list_itemInfo[list_itemInfo.length - 1].content += "\n" + line
           }
-          if (mul_mode === "heading" || mul_mode === "") {      // 2. 进入正文层级 (从标题层级进入)
+          else if (mul_mode === "heading" || mul_mode === "") { // 2. 进入正文层级 (从标题层级进入)
             removeTailBlank(); list_itemInfo.push({
               content: line,
               level: 0
@@ -321,7 +321,7 @@ export class ListProcess{
       const match_list = line.match(ABReg.reg_list_noprefix)
       if (match_heading && !match_heading[1]){                  // 1. 进入标题层级
         removeTailBlank(); list_itemInfo.push({
-          content: match_heading[4],
+          content: fine_mode ? match_heading[4] : line, // 可选是否把标题标志也放进去
           level: (match_heading[3].length-1) - 10
         })
         mul_mode = "heading"
