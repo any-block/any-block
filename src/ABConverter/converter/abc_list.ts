@@ -425,7 +425,7 @@ export class ListProcess{
       const match_list = line.match(ABReg.reg_list_noprefix)
       if (match_mdit && !match_mdit[1]) {                       // 1. 进入Mdit@层级
         removeTailBlank(); list_itemInfo.push({
-          content: match_mdit[3],
+          content: match_mdit[3] ?? "",
           level: Number(match_mdit[2]) - 100
         })
         mul_mode = "mdit"
