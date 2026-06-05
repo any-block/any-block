@@ -279,8 +279,8 @@ export class ListProcess{
    * (比较旧版是正文+10，列表+11，后来允许标题等级为负数。这样方便很多)
    * 
    * @fine_mode 精细拆分模式
-   * - true:  会将列表拆分成多个节点
-   * - false: 会将列表合并成一个节点
+   * - true:  会将正文和列表拆分成多个节点
+   * - false: 会将标题+正文+列表合并成一个节点
    */
   static title2data(text: string, fine_mode: boolean = true): List_ListItem {
     let list_itemInfo:List_ListItem = []
@@ -295,47 +295,53 @@ export class ListProcess{
         const match = line.match(ABReg.reg_code)
         if (match && match[3]) {
           codeBlockFlag = match[1]+match[3]
-          if (mul_mode === "heading" || mul_mode === "") {      // 1. 进入正文层级
+          if (fine_mode && list_itemInfo.length > 0) {          // 1. 维持当前层级 (标题层级)
+            list_itemInfo[list_itemInfo.length - 1].content += "\n" + line
+          }
+          if (mul_mode === "heading" || mul_mode === "") {      // 2. 进入正文层级 (从标题层级进入)
             removeTailBlank(); list_itemInfo.push({
               content: line,
               level: 0
             })
             mul_mode = "para"
           }
-          else {                                                // 2. 维持当前层级 (一般是正文层级)
+          else {                                                // 3. 维持当前层级 (一般是正文/列表层级)
             list_itemInfo[list_itemInfo.length-1].content += "\n" + line;
           }
           continue
         }
       }
-      else { // 在代码块内，找代码块的结束标志
+      else { // 在代码块内，找代码块的结束标志                    // 4. 维持当前层级 (Mdit/正文层级)
         if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = ''
-        list_itemInfo[list_itemInfo.length-1].content += "\n" + line; continue
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line; continue;
       }
 
       // 非代码块内环境
       const match_heading = line.match(ABReg.reg_heading_noprefix)
       const match_list = line.match(ABReg.reg_list_noprefix)
-      if (match_heading && !match_heading[1]){                  // 1. 标题层级（只识别根处）
+      if (match_heading && !match_heading[1]){                  // 1. 进入标题层级
         removeTailBlank(); list_itemInfo.push({
           content: match_heading[4],
           level: (match_heading[3].length-1) - 10
         })
         mul_mode = "heading"
       }
-      else if (fine_mode && match_list){                        // 2. 列表层级的带 `-` 行
+      else if (!fine_mode && list_itemInfo.length > 0) {        // 2. 维持当前层级 (标题层级)
+        list_itemInfo[list_itemInfo.length - 1].content += "\n" + line; continue;
+      }
+      else if (match_list){                                     // 3. 进入列表层级 (列表层级的带 `-` 行)
         removeTailBlank(); list_itemInfo.push({
           content: match_list[4],
           level: match_list[1].length + 1
         })
         mul_mode = "list"
       }
-      else if (fine_mode && mul_mode=="list" && /^\s/.test(line)){  // 2. 列表层级的不带 `-` 行
-        list_itemInfo[list_itemInfo.length-1].content += "\n" + line.trimStart()
+      else if (mul_mode=="list" && /^\s/.test(line)){           // 4. 维持列表层级 (列表层级的不带 `-` 行)
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line.trimStart(); continue;
       }
       else {
         if (mul_mode=="para") {                                 // 维持正文层级
-          list_itemInfo[list_itemInfo.length-1].content += "\n" + line
+          list_itemInfo[list_itemInfo.length-1].content += "\n" + line; continue;
         }
         else if(/^\s*$/.test(line)){                            // 跳过非正文内的空行
           continue
@@ -346,6 +352,7 @@ export class ListProcess{
             level: 0
           })
           mul_mode = "para"
+          continue
         }
       }
     }
@@ -376,89 +383,69 @@ export class ListProcess{
    * - 缺少分割标题模式
    * 
    * @fine_mode 精细拆分模式
-   * - true:  会将列表拆分成多个节点
-   * - false: 会将列表合并成一个节点
+   * - true:  会将正文和列表拆分成多个节点
+   * - false: 会将标题+正文+列表合并成一个节点
    */
   static mdit2data(text: string, fine_mode: boolean = true): List_ListItem {
     let list_itemInfo: List_ListItem = []
 
     const list_text = text.split("\n")
-    let mul_mode: "mdit" | "mdit_null" | "para" | "list" | "" = ""  // 多行模式，mdit/特殊mdit(空标题)/正文/列表/空
+    let mul_mode: "mdit" | "para" | "list" | "" = ""            // 多行模式，mdit/正文/列表/空
     let codeBlockFlag = ''                                      // 代码块标志，避免在代码块内识别结束符号
     for (let line of list_text) {
-      const match_mdit_mulline = line.match(/^\s\s(.*)$/)       // 表示一定是追加到mdit，而非创建新项 (主要用于多行分割标题)
-        // 前面有两个空格且追加时。注意: 只有追加到 mdit 不保留前两个空格，其他情况都要保留
 
       // heading和mdit类型都需要跳过代码块内的结束标志
       if (codeBlockFlag == '') {
         const match = line.match(ABReg.reg_code)
         if (match && match[3]) {
           codeBlockFlag = match[1] + match[3]
-          if (mul_mode === "mdit_null") {                       // 1. 维持特殊mdit_null层级
+          if (!fine_mode && list_itemInfo.length > 0) {         // 1. 维持当前层级 (Mdit层级)
             list_itemInfo[list_itemInfo.length - 1].content += "\n" + line
           }
-          else if (mul_mode === "mdit" && match_mdit_mulline) { // 2. 维持Mdit@层级
-            list_itemInfo[list_itemInfo.length-1].content += "\n" + match_mdit_mulline[1]
-          }
-          else if (mul_mode === "mdit" || mul_mode === "") {    // 3. 进入正文层级
+          else if (mul_mode === "mdit" || mul_mode === "") {    // 2. 进入正文层级 (从Mdit层级进入)
             removeTailBlank(); list_itemInfo.push({
               content: line,
               level: 0
             })
             mul_mode = "para"
           }
-          else {                                                // 4. 维持当前层级 (一般是正文层级)
+          else {                                                // 3. 维持当前层级 (一般是正文/列表层级)
             list_itemInfo[list_itemInfo.length-1].content += "\n" + line
           }
           continue
         }
       }
-      else { // 在代码块内，找代码块的结束标志
+      else { // 在代码块内，找代码块的结束标志                    // 4. 维持当前层级 (Mdit/正文层级)
         if (line.indexOf(codeBlockFlag) == 0) codeBlockFlag = ''
-        if (mul_mode === "mdit" && match_mdit_mulline) {        // 维持当前Mdit@层级
-          list_itemInfo[list_itemInfo.length-1].content += "\n" + match_mdit_mulline[1]
-        }
-        else list_itemInfo[list_itemInfo.length-1].content += "\n" + line
-        continue
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line; continue;
       }
 
       // 非代码块内环境
       const match_mdit = line.match(/^(\s*)@(\d+)\s+(.*)$/)
-      const match_mdit_null: boolean = (match_mdit != null) && (match_mdit[3].trim() == "")
       const match_list = line.match(ABReg.reg_list_noprefix)
-      if (match_mdit && match_mdit_null) {                      // 1. 进入特殊Mdit@层级
-        removeTailBlank(); list_itemInfo.push({
-          content: "",
-          level: Number(match_mdit[2]) - 100
-        })
-        mul_mode = "mdit_null"
-      }
-      else if (mul_mode === "mdit_null" && !match_mdit) {       // 1. 维持特殊Mdit@层级
-        list_itemInfo[list_itemInfo.length - 1].content += "\n" + line
-      }
-      else if (match_mdit && !match_mdit[1]) {                  // 2. 进入Mdit@层级
+      if (match_mdit && !match_mdit[1]) {                       // 1. 进入Mdit@层级
         removeTailBlank(); list_itemInfo.push({
           content: match_mdit[3],
           level: Number(match_mdit[2]) - 100
         })
         mul_mode = "mdit"
       }
-      else if (mul_mode === "mdit" && match_mdit_mulline) {     // 2. 维持Mdit@层级
-        list_itemInfo[list_itemInfo.length - 1].content += "\n" + match_mdit_mulline[1]
+      else if (!fine_mode && list_itemInfo.length > 0) {        // 2. 维持当前层级 (Mdit层级)
+        list_itemInfo[list_itemInfo.length - 1].content += "\n" + line; continue;
       }
-      else if (fine_mode && match_list) {                       // 3. 列表层级的带 `-` 行
+      else if (match_list) {                                    // 3. 进入列表层级 (列表层级的带 `-` 行)
         removeTailBlank(); list_itemInfo.push({
           content: match_list[4],
           level: match_list[1].length + 1
         })
         mul_mode = "list"
       }
-      else if (fine_mode && mul_mode == "list" && /^\s/.test(line)) { // 3. 列表层级的不带 `-` 行
-        list_itemInfo[list_itemInfo.length-1].content += "\n" + line.trimStart()
+      else if (mul_mode == "list" && /^\s/.test(line)) {        // 4. 维持列表层级 (列表层级的不带 `-` 行)
+        list_itemInfo[list_itemInfo.length-1].content += "\n" + line.trimStart(); continue;
       }
       else {
         if (mul_mode == "para") {                               // 维持正文层级
-          list_itemInfo[list_itemInfo.length-1].content += "\n" + line
+          list_itemInfo[list_itemInfo.length-1].content += "\n" + line; continue;
         }
         else if (/^\s*$/.test(line)) {                          // 跳过非正文空行
           continue
@@ -469,6 +456,7 @@ export class ListProcess{
             level: 0
           })
           mul_mode = "para"
+          continue
         }
       }
     }
@@ -778,6 +766,7 @@ const _abc_listdata2nodes = ABConvert.factory({
 const _abc_listdata2strict = ABConvert.factory({
   id: "listdata2strict",
   name: "listdata严格化",
+  match: /listdata2strict|listdata2lint/,
   process_param: ABConvert_IOEnum.list_stream,
   process_return: ABConvert_IOEnum.list_stream,
   detail: "将列表数据转化为更规范的列表数据。统一缩进符(2空格 4空格 tab混用)为level 1、禁止跳等级(h1直接就到h3)",

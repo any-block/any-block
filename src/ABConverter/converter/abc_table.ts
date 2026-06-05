@@ -169,6 +169,7 @@ const _abc_title2table = ABConvert.factory({
 
 // 纯组合，后续用别名模块替代
 // 不过目前用得比较频繁，而且还有参数，先放着
+// 不过尽量不直接用
 const _abc_list2table = ABConvert.factory({
   id: "list2table",
   name: "列表转表格",

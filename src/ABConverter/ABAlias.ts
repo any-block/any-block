@@ -143,7 +143,7 @@ const ABAlias_json_mdit: ABAlias_json[] = [
   {regex: /\|:::_140lne\|(?:mdit2|2)?(puml)?(plantuml|mindmap|脑图|思维导图)\|/, replacement: "|mdit2list" + "|list2pumlMindmap|"},
   {regex: /\|:::_140lne\|(?:mdit2|2)?(markmap|mdMindmap|md脑图|md思维导图)\|/, replacement: "|mdit2list" + "|list2markmap|"},
   {regex: /\|:::_140lne\|(?:mdit2|2)?(wbs|(工作)?分解(图|结构))\|/, replacement: "|mdit2list" + "|list2pumlWBS|"},
-  {regex: /\|:::_140lne\|(?:mdit2|2)?(table|multiWayTable|multiCrossTable|表格?|多叉表格?|跨行表格?)\|/, replacement: "|mdit2list" + "|list2table|"},
+  {regex: /\|:::_140lne\|(?:mdit2|2)?(table|multiWayTable|multiCrossTable|表格?|多叉表格?|跨行表格?)\|/, replacement: "|mdit2Listdata|listdata2strict|listdata2table|"},
 
   // list - lt树 (属于多层一叉树)
   {regex: /\|:::_140lne\|(?:mdit2|2)?(lt|listTable|treeTable|listGrid|treeGrid|列表格|树形表格?)\|/, replacement: "|mdit2list" + "|list2lt|"},
@@ -155,6 +155,7 @@ const ABAlias_json_mdit: ABAlias_json[] = [
 
   // 至后
   {regex: "|mdit2list|", replacement: "|mdit2listdata|listdata2strict|listdata2list|"},
+  {regex: "|mdit2List|", replacement: "|mdit2Listdata|listdata2strict|listdata2list|"},
 ]
 
 // 标题块
