@@ -204,9 +204,9 @@ jobs:                         # 工作流
           # 'tag' 默认就是 github.ref_name (即你推送的 tag)，所以不用写
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
           body: |
-            (en) For the update log, please visit https://lincdocs.github.io/AnyBlock/docs/en/CHANGELOG
+            (en) For the update log, please visit https://github.com/any-block/any-block/blob/main/docs/docs/en/CHANGELOG.md
 
-            (zh) 更新日志详见: https://lincdocs.github.io/AnyBlock/docs/zh/CHANGELOG
+            (zh) 更新日志详见: https://github.com/any-block/any-block/blob/main/docs/docs/zh/CHANGELOG.md
           artifacts: |
             ./dist/obsidian-any-block/*
           generateReleaseNotes: false # 自动根据 commits 生成 release notes。此外，这里应该导向一个更新日志页
@@ -225,9 +225,9 @@ jobs:                         # 工作流
           tag: ${{ github.ref_name }} # 使用相同的 tag 名
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
           body: |
-            (en) For the update log, please visit https://lincdocs.github.io/AnyBlock/docs/en/CHANGELOG
+            (en) For the update log, please visit https://github.com/any-block/any-block/blob/main/docs/docs/en/CHANGELOG.md
 
-            (zh) 更新日志详见: https://lincdocs.github.io/AnyBlock/docs/zh/CHANGELOG
+            (zh) 更新日志详见: https://github.com/any-block/any-block/blob/main/docs/docs/zh/CHANGELOG.md
           artifacts: |
             ./dist/obsidian-any-block-min/*
           generateReleaseNotes: false # 非本仓库则可能没有相同的 commit 历史，建议关闭
@@ -246,9 +246,9 @@ jobs:                         # 工作流
           tag: ${{ github.ref_name }} # 使用相同的 tag 名
           name: 'Release ${{ github.ref_name }}' # Release 标题使用 tag 名
           body: |
-            (en) For the update log, please visit https://lincdocs.github.io/AnyBlock/docs/en/CHANGELOG
+            (en) For the update log, please visit https://github.com/any-block/any-block/blob/main/docs/docs/en/CHANGELOG.md
 
-            (zh) 更新日志详见: https://lincdocs.github.io/AnyBlock/docs/zh/CHANGELOG
+            (zh) 更新日志详见: https://github.com/any-block/any-block/blob/main/docs/docs/zh/CHANGELOG.md
           artifacts: |
             ./dist/obsidian-any-block-pro/*
           generateReleaseNotes: false # 非本仓库则可能没有相同的 commit 历史，建议关闭

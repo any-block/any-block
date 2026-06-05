@@ -2,6 +2,18 @@
 
 按时间倒序展示
 
+## 3.4.12 (2026-06-05)
+
+- BREAKECHANGE
+  - 针对 3.4.11, mdit2xxx (list 除外) 默认将使用非 fine 模式
+- feat
+  - 新增别名: `h2xxx` 和 `heading2xxx` 表示 `title2xxx`
+  - `title2listdata` 和 `mdit2listdata` 将分别支持 fine 模式和 非 fine 模式
+    见: `../dev%20docs/其他层级表示法.md`
+    非 fine 模式使用 `title2Listdata` 和 `mdit2Listdata` 表示
+- docs
+  - github release 页的 CHANGELOG 地址改为 github 仓库中的文件，更新会更及时
+
 ## 3.4.11 (2026-06-04)
 
 - feat
