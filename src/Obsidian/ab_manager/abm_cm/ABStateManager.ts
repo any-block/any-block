@@ -125,11 +125,11 @@ export class ABStateManager {
 
   constructor(plugin_this: AnyBlockPlugin) {
     managerMap.set(this.editorView, this)
-    if (this.plugin_this.settings.is_debug) console.log(">>> ABStateManager, initialFileName:", this.initialFileName, "initRet:", ret)
 
     this.plugin_this = plugin_this
     // 因为打开文档会触发，所以后台打开的文档会return false，聚焦到一个非文件的新标签页也会return false
     let ret = this.constructor_init()
+    if (this.plugin_this.settings.is_debug) console.log(">>> ABStateManager, initialFileName:", this.initialFileName, "initRet:", ret)
     if (!ret) return
   
     this.setStateEffects()
