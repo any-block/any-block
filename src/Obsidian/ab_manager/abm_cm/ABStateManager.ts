@@ -37,7 +37,50 @@ enum Editor_mode{
   PREVIEW,      // 阅读模式
 }
 
-export let global_timer: number|null = null // 定时器，单例
+/** 定时器，单例 (如果是多页面，只有当前页面会持续进行刷新事件) */
+export let global_timer: number|null = null
+
+/**
+ * 确保一个 EditorView 只会被该插件绑定一次 StateField
+ * 
+ * ## 为什么需要
+ * 
+ * 先引: `StateField` 一旦安装到 `EditorView` 上，就会绑定在该视图的状态中，直到视图被销毁才会消失。且无法中途单独拆掉。
+ * 
+ * 然后我们需要一个 StateField 只绑定到一个 EditorView，不能重复绑定。
+ * 否则会出现 bug: https://github.com/any-block/any-block/issues/215
+ * 
+ * 无法中途拆掉:
+ * 
+ * > 在 CodeMirror 6 的架构里，
+ * > 已经通过 StateEffect.appendConfig 添加到编辑器配置中的 StateField 是无法单独移除的。
+ * > 它和整个 EditorState 生命周期绑定，只有状态本身被销毁时才会消失
+ * 
+ * ## 其他
+ * 
+ * 当然另一个做法是销毁时将 onUpdate 行为改为空，但不根治
+ * 
+ * 如果把 decorationField 比作装饰画笔，
+ * 原来的行为是创建多个笔，上面的方案二是对旧笔贴上停止工作的牌；
+ * 然后这里是同一个笔去写多个白板。
+ * 且 cm 会判定引用相同问题，不会往同一块白板绑定两次相同笔，从而导致一块白板的更新触发同一只笔的两次更新行为
+ */
+const managerMap = new Map<EditorView, ABStateManager>();
+const decorationField = StateField.define<DecorationSet>({
+  create: (_editorState: EditorState) => { return Decoration.none },
+  // create好像不用管，update无论如何都能触发的
+  // 函数的根本作用，是为了修改decorationSet的范围，间接修改StateField的管理范围
+  update: (decorationSet: DecorationSet, tr: Transaction) => {
+    // 获取 tr 对应的 ABStateManager 实例，并触发其更新函数
+    for (const [v, abStateManager] of managerMap) {
+      if (v.state === tr.startState) {
+        return abStateManager.onUpdate(decorationSet, tr);
+      }
+    }
+    return decorationSet;
+  },
+  provide: (f: StateField<DecorationSet>) => EditorView.decorations.from(f)
+});
 
 /**
  * 状态管理器
@@ -80,14 +123,16 @@ export class ABStateManager {
 
   /** --------------------------------- 特殊函数 -------------------------- */
 
-  constructor(plugin_this: AnyBlockPlugin){
-    this.plugin_this=plugin_this
-    // 因为打开文档会触发，所以后台打开的文档会return false，聚焦到一个非文件的新标签页也会return false
-    let ret = this.constructor_init()
-
+  constructor(plugin_this: AnyBlockPlugin) {
+    managerMap.set(this.editorView, this)
     if (this.plugin_this.settings.is_debug) console.log(">>> ABStateManager, initialFileName:", this.initialFileName, "initRet:", ret)
 
-    if (ret) this.setStateEffects()
+    this.plugin_this = plugin_this
+    // 因为打开文档会触发，所以后台打开的文档会return false，聚焦到一个非文件的新标签页也会return false
+    let ret = this.constructor_init()
+    if (!ret) return
+  
+    this.setStateEffects()
 
     // 后处理钩子 (在页面加载后被触发/定时触发)
     {
@@ -133,54 +178,58 @@ export class ABStateManager {
   }
 
   destructor() {
-    if (this.plugin_this.settings.is_debug) console.log("<<< ABStateManager, initialFileName:", this.initialFileName)
     if (global_timer !== null) { window.clearInterval(global_timer); global_timer = null; }
+
+    if (this.plugin_this.settings.is_debug) console.log("<<< ABStateManager, initialFileName:", this.initialFileName)
+    managerMap.delete(this.editorView)
   }
 
   /** --------------------------------- CM 函数 -------------------------- */
 
-  // 设置初始状态字段并派发。核心
+  // 设置初始状态字段并派发。核心。once
   private setStateEffects() {
-    let stateEffects: StateEffect<unknown>[] = []
-  
     /**
      * 修改StateEffect1 - 加入StateField、css样式
      * 当EditorState没有(下划线)StateField时，则将该(下划线)状态字段 添加进 EditorEffect中
      *    （函数末尾再将EditorEffect派发到EditorView中）。
      * 就是说只会在第一次时执行，才会触发
      */
-    if (!this.editorState.field(this.decorationField, false)) {
-      stateEffects.push(StateEffect.appendConfig.of(
-        [this.decorationField] 
-      ))
-      // if (!once_flag) {
-      //   once_flag = true
-      //   stateEffects.push(StateEffect.appendConfig.of(
-      //     [ABDecorationManager.decoration_theme()]
-      //   ))
-      // }
-    }
+    if (this.editorState.field(decorationField, false)) return
+
+    let stateEffects: StateEffect<unknown>[] = []
+    stateEffects.push(StateEffect.appendConfig.of(
+      [decorationField] 
+    ))
+    // if (!once_flag) {
+    //   once_flag = true
+    //   stateEffects.push(StateEffect.appendConfig.of(
+    //     [ABDecorationManager.decoration_theme()]
+    //   ))
+    // }
   
     // 派发
     this.editorView.dispatch({effects: stateEffects})
     return true
   }
 
-  /** 一个类成员。StateField，该状态管理Decoration */
-  private decorationField = StateField.define<DecorationSet>({
-    create: (editorState:EditorState) => {return Decoration.none},
-    // create好像不用管，update无论如何都能触发的
-    // 函数的根本作用，是为了修改decorationSet的范围，间接修改StateField的管理范围
-    update: (decorationSet:DecorationSet, tr:Transaction)=>{
-      return this.onUpdate(decorationSet, tr)
-    },
-    provide: (f: StateField<DecorationSet>) => EditorView.decorations.from(f)
-  })
+  // /**
+  //  * @deprecated 改为模块单例级了，避免重复添加 (cm6 好像不让独立去除)
+  //  * StateField (实例级)，一个类成员，该状态管理Decoration
+  //  */
+  // private decorationField2 = StateField.define<DecorationSet>({
+  //   create: (_editorState: EditorState) => { return Decoration.none },
+  //   // create好像不用管，update无论如何都能触发的
+  //   // 函数的根本作用，是为了修改decorationSet的范围，间接修改StateField的管理范围
+  //   update: (decorationSet: DecorationSet, tr: Transaction)=>{
+  //     return this.onUpdate(decorationSet, tr)
+  //   },
+  //   provide: (f: StateField<DecorationSet>) => EditorView.decorations.from(f)
+  // })
 
   /** --------------------------------- on更新事件 ------------------------- */
 
   // on update, to updateStateField
-  private onUpdate (decorationSet:DecorationSet, tr:Transaction): DecorationSet {    
+  onUpdate (decorationSet:DecorationSet, tr:Transaction): DecorationSet {
     // 如果没有修改就不管了（点击编辑块的按钮除外）
     // if(tr.changes.empty) return decorationSet
 
