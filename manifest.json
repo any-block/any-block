@@ -1,7 +1,7 @@
 {
   "id": "any-block",
   "name": "AnyBlock",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "minAppVersion": "1.8.7",
   "description": "You can flexibility to create a 'Block' by some means. It also provides some useful features, like `list to table`. ",
   "author": "LincZero",
