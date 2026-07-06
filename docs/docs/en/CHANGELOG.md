@@ -2,6 +2,118 @@
 
 Display in reverse chronological order
 
+## 3.5.1 (2026-07-07)
+
+- fix
+  - excessive creation of decorationField #215
+
+## 3.5.0 (2026-06-05)
+
+> [!WARNING]
+> BREAKING CHANGE
+> When converting mdit and title to table, non-fine mode will be used by default (previously fine mode).
+
+- feat
+  - Added aliases: `h2xxx` and `heading2xxx` representing `title2xxx`
+  - `title2listdata` and `mdit2listdata` will respectively support fine mode and non-fine mode.
+    See: `../dev%20docs/其他层级表示法.md`
+    Non-fine mode is represented by `title2Listdata` and `mdit2Listdata`
+- docs
+  - The CHANGELOG link on the GitHub release page has been changed to the file in the GitHub repository, enabling more timely updates.
+
+Test demo: (For viewing and experiencing new features only)
+
+````markdown
+# 0
+
+:::table
+
+@1
+> [!tip] Tip in cue
+> d
+> dd
+  
+多行
+```js
+const a = 'd' // dd
+```
+
+@2
+> [!warning]+ Warning callout
+> Here is a bomb! 💣
+
+Inline math: $E = mc^{2}$
+
+$$\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}$$
+
+@1 > 单行
+
+@2 
+```mermaid
+graph LR
+A --> B --> C
+```
+
+dd
+
+- 1
+  - 2
+  - 4
+- 5
+
+:::
+
+# 0
+
+[markmap]
+
+## 第一章
+
+第一章简介
+
+## 第二章
+
+### 第一节
+
+第二章第一节内容
+
+### 第二节
+
+第二章第二节内容
+
+- list1
+  - list1.1
+  - list1.2
+- list2
+
+第二章第二节内容2
+
+# 0
+
+[table]
+
+## 第一章
+
+第一章简介
+
+## 第二章
+
+### 第一节
+
+第二章第一节内容
+
+### 第二节
+
+第二章第二节内容
+
+- list1
+  - list1.1
+  - list1.2
+- list2
+
+第二章第二节内容2
+````
+
 ## 3.4.11 (2026-06-04)
 
 - feat
