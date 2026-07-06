@@ -1,7 +1,5 @@
 import type {MarkdownPostProcessorContext} from "obsidian"
 import{
-  MarkdownRenderChild,
-  MarkdownRenderer,
   sanitizeHTMLToDom,
 } from "obsidian";
 import { ABConvertManager } from "@/ABConverter/ABConvertManager";

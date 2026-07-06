@@ -56,7 +56,7 @@ export class ABStateManager {
   editor: Editor            // Ob Editor
   editorView: EditorView    // CM View
   editorState: EditorState  // CM State
-  initialFileName: String | undefined // 固定为构造时的名字
+  initialFileName: string | undefined // 固定为构造时的名字
 
   // 用于防止频繁刷新
   // 若 true->true/false->false，不大刷新，仅局部刷新
@@ -388,11 +388,11 @@ export class ABStateManager {
     // #region 用 "新生成的装饰集" 去调整 "新的旧装饰集"
     // 注意DecorationSet是比较特殊的容器，无法直接更新，要通过给定的update > (filter/add) api来更新
     // 注意尽可能保证装饰集变动少，虽然大部分情况这样做没性能问题，但如果存在渲染慢的ab块 (mermaid等)，会存在卡顿
-    // 装饰集变化: debug_count1 - debug_count2(非不变项) + debug_count3(变化项1) + debug_count4(变化项2)
+    // 装饰集变化: `debug_count1(原装饰数量) - debug_count2(非不变项) + debug_count3(变化项1) + debug_count4(变化项2)`
     let debug_count1 = 0, debug_count2 = 0, debug_count3 = 0, debug_count4 = 0
     // (1) 删除变化项
     decorationSet = decorationSet.update({
-      filter(from, to, value) { // 全部删掉，和不变集相同的则保留
+      filter(from, to, _value) { // 全部删掉，和不变集相同的则保留
         for (let i = 0; i < list_decoration_nochange.length; i++) {
           const item = list_decoration_nochange[i]
           if (item.from == from && item.to == to) {
