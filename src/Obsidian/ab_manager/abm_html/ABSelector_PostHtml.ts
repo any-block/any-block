@@ -2,7 +2,6 @@ import html2md from 'html-to-md'
 import {
   MarkdownView,
   type MarkdownPostProcessorContext,
-  type View,
 } from "obsidian"
 
 import { ConfDecoration } from "../../config/ABSettingTab"

@@ -1,4 +1,4 @@
-import { type MarkdownPostProcessorContext, Platform, sanitizeHTMLToDom, type Editor, type EditorPosition, Notice } from 'obsidian';
+import { Platform, sanitizeHTMLToDom, type Editor, type EditorPosition, Notice } from 'obsidian';
 import {
   EditorView,
   WidgetType  // 装饰器部件
@@ -64,7 +64,7 @@ export class ABReplacer_Widget extends WidgetType {
 
       try {
         fromPos = view.posAtDOM(this.div, 0)
-      } catch (e) {
+      } catch (_) {
         // 似乎是脱离eb块后 (并多次触发?) 会存在这种情况，有表格会加重这种情况
         console.warn('get cursor pos failed:', this.div)
         return null

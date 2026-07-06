@@ -2,8 +2,7 @@
  * 该文件已废弃
  */
 
-import {EditorView, Decoration} from "@codemirror/view"
-import type {Extension} from "@codemirror/state"
+import {Decoration} from "@codemirror/view"
 
 import type { ABStateManager } from './ABStateManager';
 import type { MdSelectorRangeSpec } from "../../../CodeMirror2/ABSelector_Md"
