@@ -23,7 +23,7 @@
     // 若后续升级 TypeScript 5.0+ 的话
     // 由于已经废弃了 "importsNotUsedAsValues" 和 "preserveValueImports"。
     // 需改用该选项:
-    // 只要我写了 import，你就必须原封不动给我保留打包进去；除非我明确写了 import type，你才可以把它当类型删掉
+    // // 只要我写了 import，你就必须原封不动给我保留打包进去；除非我明确写了 import type，你才可以把它当类型删掉
     // "verbatimModuleSyntax": true,
 
     "types": ["node"],
