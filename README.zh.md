@@ -168,4 +168,4 @@ Here are some of the more common processors:
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=any-block/any-block&type=Date)](https://www.star-history.com/#any-block/any-block&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=any-block/any-block&type=Date)](https://star-history.dera.page/#any-block/any-block&Date)
