@@ -2,6 +2,8 @@
 
 Display in reverse chronological order
 
+(It might be a little later than the update of the Chinese version.)
+
 ## 3.5.1 (2026-07-07)
 
 - fix
