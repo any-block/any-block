@@ -22,19 +22,17 @@ import DOMPurify from "dompurify"
 import { ABConvert_IOEnum, ABConvert } from "./ABConvert"
 import { ABCSetting } from "../ABSetting"
 
-/**
- * 生成一个随机id
- * 
- * @detail 因为mermaid渲染块时需要一个id，不然多个mermaid块会发生冲突
- */
-function getID(length=16){
-	return Number(Math.random().toString().substr(3,length) + Date.now()).toString(36);
-}
+// /**
+//  * 生成一个随机id
+//  * 
+//  * @detail 因为mermaid渲染块时需要一个id，不然多个mermaid块会发生冲突
+//  */
+// function getID(length=16){
+// 	return Number(Math.random().toString().substr(3,length) + Date.now()).toString(36);
+// }
 
 // markmap about
-import { Transformer, builtInPlugins } from 'markmap-lib'
-import type { C2ListItem } from "./abc_c2list";
-import { abc_title2listdata } from "./abc_list";
+import { Transformer } from 'markmap-lib'
 const transformer = new Transformer();
 //import { Markmap, loadCSS, loadJS } from 'markmap-view'
 
