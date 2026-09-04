@@ -40,23 +40,33 @@ export class ABSelector_PostHtml{
     if (this.settings.decoration_render==ConfDecoration.none) return // 若设置里不启用，直接退出
     const mdSrc: HTMLSelectorRangeSpec | null = getSourceMarkdown(el, ctx) // 获取el对应的源md
     
-    // b1. RenderMarkdown引起的调用（需要嵌套寻找）
+    // b1. RenderMarkdown引起的调用（需要嵌套寻找 ab 块）
     if (!mdSrc) {
       if (false && this.settings.is_debug) console.log(" -- ABPosthtmlManager.processor, called by 'ReRender'");
-      if (!el.classList.contains("markdown-rendered") // anyblock / 一些插件 / callout 都会触发 (但callout的阅读模式不触发)
-        && !el.parentElement?.parentElement?.classList?.contains("block-language-dataviewjs") // 这个是dvjs的情况，再父亲才有rendered标识
-        && !el.parentElement?.parentElement?.classList?.contains("block-language-dataview")
-      ) return
+      // 将检查当前的重渲染是由谁引起的
 
-      // callout的情况下要简化el
+      // 1. 由 dataview 引起的，寻找 ab 块
+      if (el.parentElement?.parentElement?.classList?.contains("block-language-dataviewjs")
+        || el.parentElement?.parentElement?.classList?.contains("block-language-dataview")) {
+        findABBlock_recurve(el); return
+      }
+
+      // 2. 不可控情况，不寻找 ab 块了
+      if (!el.classList.contains("markdown-rendered")) {
+        return
+      }
+
+      // 3. 由 callout 引起时，可简化 el，再寻找 ab 块 (callout的阅读模式不触发)
+      // `:scope.markdown-rendered>div>div.callout-content` 应该更好
       const calloutEl = el.querySelector(":scope>div>div.callout-content")
       if (calloutEl) {
         el = calloutEl as HTMLElement
         el.classList.add("ab-note")
+        findABBlock_recurve(el); return
       }
 
-      findABBlock_recurve(el)
-      return
+      // 4. 其他插件或 AnyBlock 插件自己触发的，寻找 ab 块
+      findABBlock_recurve(el); return
     }
 
     // b2. html渲染模式的逐个切割块调用（需要跨切割块寻找）
@@ -499,7 +509,7 @@ function getSourceMarkdown(
     text,       // 全文文档
     lineStart,  // div部分的开始行
     lineEnd     // div部分的结束行（结束行是包含的，+1才是不包含）
-  } = info; 
+  } = info;
   const list_text = text.split("\n")                            // div部分的内容
   const list_content = list_text.slice(lineStart, lineEnd + 1)  // div部分的内容
 
