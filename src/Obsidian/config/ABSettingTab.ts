@@ -503,11 +503,10 @@ export class ABSettingTab extends PluginSettingTab {
 /** 设置子面板 - 自定义处理器 (旧) */
 class ABProcessorModal extends Modal {
   args: ABConvert_SpecUser
-  onSubmit: (args: ABConvert_SpecUser)=>void
 
   constructor(
     app: App, 
-    onSubmit: (args: ABConvert_SpecUser)=>void
+    public onSubmit: (args: ABConvert_SpecUser)=>Promise<void>
   ) {
     super(app);
     this.args = {
@@ -516,7 +515,6 @@ class ABProcessorModal extends Modal {
       match: "",
       process_alias: ""
     }
-    this.onSubmit = onSubmit
   }
 
   onOpen() {  // onOpen() 方法在对话框打开时被调用，它负责创建对话框中的内容。想要获取更多信息，可以查阅 HTML elements。
@@ -567,7 +565,7 @@ class ABProcessorModal extends Modal {
         .onClick(() => {
           if(this.args.id && this.args.name && this.args.match && this.args.process_alias){
             this.close();
-            this.onSubmit(this.args);
+            void this.onSubmit(this.args);
           }
         })
       })
@@ -582,18 +580,16 @@ class ABProcessorModal extends Modal {
 /** 设置子面板 - 别名 */
 class ABModal_alias extends Modal {
   args: {regex: string,replacement: string}
-  onSubmit: (args: {regex: string,replacement: string})=>void
 
   constructor(
     app: App, 
-    onSubmit: (args: {regex: string,replacement: string})=>void
+    public onSubmit: (args: {regex: string,replacement: string})=>Promise<void>
   ) {
     super(app);
     this.args = {
       regex: "",
       replacement: ""
     }
-    this.onSubmit = onSubmit
   }
 
   onOpen() {  // onOpen() 方法在对话框打开时被调用，它负责创建对话框中的内容。想要获取更多信息，可以查阅 HTML elements。
@@ -626,7 +622,7 @@ class ABModal_alias extends Modal {
         .onClick(() => {
           if(this.args.regex && this.args.replacement){
             this.close();
-            this.onSubmit(this.args);
+            void this.onSubmit(this.args);
           }
         })
       })
