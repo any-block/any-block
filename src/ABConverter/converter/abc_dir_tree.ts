@@ -126,12 +126,14 @@ export class DirProcess{
   /** 列表格数据转列表格
    * 注意传入的列表数据应该符合：
    * 第一列等级为0、没有分叉
+   * 
+   * @param is_folder 是否渲染为文件夹/文件形式 (有图标 + 避免违法文件名)
    */
   static dtdata2dt(
     list_tableInfo: List_LTableItem, 
     div: HTMLDivElement,
     modeT: boolean,
-    is_folder=false
+    is_folder = false
   ){
     // 避免根div直接包含两个dom
     const div2 = document.createElement("div"); div.appendChild(div2); div2.classList.add("ab-list-table-parent")
@@ -188,7 +190,7 @@ export class DirProcess{
 
         // 创建表格单元格 (md版)
         const td = document.createElement(is_head?"th":"td"); tr!.appendChild(td); td.setAttribute("rowspan", cell_item.tableRowSpan.toString());        
-        if (cell_item.tableColumn==0 && is_folder) { // 首列，处理文件夹
+        if (cell_item.tableColumn == 0 && is_folder) { // 首列，处理文件夹/文件图标
           const td_svg = document.createElement("div"); td.appendChild(td_svg); td_svg.classList.add("ab-list-table-svg")
           // 文件夹/文件图标 // https://www.w3schools.com/css/css_icons.asp, https://fontawesome.com/
           if (!is_head) {
@@ -201,8 +203,10 @@ export class DirProcess{
           }
         }
         const td_cell = document.createElement("div"); td.appendChild(td_cell); td_cell.classList.add("ab-list-table-witharrow");
-        if (cell_item.tableColumn==0 && is_folder) { // 首列，文件/文件夹部分不使用md渲染 (否则 `01. name` 这种文件名会被误渲染)
-          td_cell.innerHTML = cell_item.content
+        if (cell_item.tableColumn == 0 && is_folder) { // 首列，文件/文件夹部分不使用md渲染 (否则 `01. name` 这种文件名会被误渲染成有序列表)
+          let content = cell_item.content.trimEnd()
+          if (content.startsWith("`") && content.endsWith("`")) content = content.slice(1, -1) // `__init__.py` 这种需要用户用反引号包裹，否则会渲染成加粗。然后这里自动去除掉反引号
+          td_cell.innerHTML = content
         }
         else {
           ABConvertManager.getInstance().m_renderMarkdownFn(cell_item.content, td_cell)

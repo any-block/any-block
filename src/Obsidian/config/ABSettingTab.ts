@@ -4,7 +4,7 @@
  * TODO：设备Debug日志开关
  */
 
-import {App, PluginSettingTab, Setting, Modal, sanitizeHTMLToDom} from "obsidian"
+import { App, PluginSettingTab, Setting, Modal, sanitizeHTMLToDom } from "obsidian"
 import type AnyBlockPlugin from "../main"
 import {ABConvertManager} from "@/ABConverter/ABConvertManager"
 import {ABConvert, type ABConvert_SpecUser} from "@/ABConverter/converter/ABConvert"
