@@ -118,6 +118,15 @@ export default class AnyBlockPlugin extends Plugin {
           abm = new ABStateManager(this)
         })
       )
+      // 切换活动标签页触发。
+      // 修复 #219: 同一文件在两个标签页中打开时，file-open (活动文件没变) 和 layout-change (布局结构没变) 都不触发，
+      // 非活动标签页因此永远拿不到状态管理器，表现为不渲染 / 无法进入编辑 / 源码模式显示错乱
+      this.registerEvent(
+        this.app.workspace.on('active-leaf-change', () => {
+          abm?.destructor();
+          abm = new ABStateManager(this)
+        })
+      )
     }
 
     // 钩子组3 - 渲染模式 后处理器
