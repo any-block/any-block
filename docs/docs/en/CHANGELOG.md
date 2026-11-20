@@ -4,10 +4,32 @@ Display in reverse chronological order
 
 (It might be a little later than the update of the Chinese version.)
 
-## 3.5.1 (2026-07-07)
+## 3.5.4 (2026-11-20)
 
 - fix
-  - excessive creation of decorationField #215
+  - AnyBlock misbehaves when the same page is open in multiple tabs #219
+    One tab works, while the other either does not render (shows the block source) or renders but can no longer be edited
+    - Cause: `file-open` only fires when the active file changes, and `layout-change` only fires when the workspace layout changes.
+      Switching between two tabs of the same file fires neither, so the inactive tab's state manager could never be created
+    - Fix: listen to `active-leaf-change` and rebuild the state manager for the currently active view when switching tabs
+    - Alternative considered: give every `EditorView` its own state manager so that no event is needed.
+      Rejected because the unfocused tab would then keep refreshing, and the focus change when switching away would make it re-render
+      (e.g. a cursor resting inside an ab block showing its source would revert to the rendered form).
+      Keeping the unfocused tab frozen and rebuilding on switch matches the intended behaviour and is a smaller change
+  - Submit the exception for editing the custom processor of the settings panel
+
+## 3.5.3 (2026-08-28)
+
+- Document fixes for star-history
+- Review of Obsidian for optimization improvements
+
+## 3.5.2 (2026-07-07)
+
+- fix
+  - When switching labels, it will redundantly create the decorationField #215.
+  (This may affect performance if the label page is not closed and the decorationField is not reset frequently.) 
+
+(3.5.1 has a bug and has been withdrawn from release.)
 
 ## 3.5.0 (2026-06-05)
 
